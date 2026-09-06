@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FTMO: challenge rules, drawdown, profit split and prices</title>
+  <meta name="description" content="FTMO evaluation rules (1-step and 2-step), drawdown limits, minimum days, profit split, prices by account size and Trustpilot rating — plus a link to the withdrawal guide." />
+  <link rel="canonical" href="/en/prop-firms/ftmo/" />
+  <link rel="alternate" hreflang="ru" href="/prop-firms/ftmo/" />
+  <link rel="alternate" hreflang="en" href="/en/prop-firms/ftmo/" />
+  <link rel="alternate" hreflang="x-default" href="/prop-firms/ftmo/" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/en/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/en/prop-firms/">🏢 Compare prop firms</a>
+        <a href="/en/#firms">💸 Withdrawals by firm</a>
+        <a href="/en/crypto-payout-guide/">💱 Crypto Payout Guide</a>
+        <a href="/en/disclosure/">📄 Disclosure</a>
+        <a class="lang-switch" href="/prop-firms/ftmo/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>FTMO: challenge rules</h1>
+        <p>One of the oldest prop firms (since 2015), claiming $500M+ in payouts. Owns the regulated broker OANDA.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Key facts</h2>
+        <div id="pf-summary"></div>
+        <div class="verify-box">
+          FTMO data was gathered during research (September 2026) and may be inaccurate or out of date. Confirm current prices, rules and profit split on the <a href="https://ftmo.com" target="_blank" rel="noopener">official FTMO site</a> before deciding.
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Evaluation rules and payout schedule</h2>
+        <div id="pf-rules"></div>
+        <div id="pf-prices"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>How to withdraw from FTMO</h2>
+        <p>Once a payout is approved, see the withdrawal methods, fees and a calculator for converting it to your local currency.</p>
+        <p><a href="/en/payout/ftmo/">Open the FTMO withdrawal guide →</a></p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Other prop firms</h2>
+        <div class="firm-grid" id="pf-other"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. This is not financial advice — confirm terms directly with the firms.</span>
+      <span><a href="/en/disclosure/">Affiliate monetisation disclosure</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.en.js"></script>
+  <script src="/assets/js/prop-firms.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderPropFirmSummary("ftmo", "pf-summary");
+    renderPropFirmRules("ftmo", "pf-rules");
+    renderPropFirmPrices("ftmo", "pf-prices");
+    renderOtherPropFirms("ftmo", "pf-other");
+  </script>
+</body>
+</html>

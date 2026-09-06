@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сравнение пропфирм: тип оценки, профит-сплит, просадка, Trustpilot</title>
+  <meta name="description" content="Сравните проверенные пропфирмы по типу оценки, стоимости входа, профит-сплиту, просадке, максимальному размеру аккаунта, методу выплат и рейтингу Trustpilot в одной сортируемой таблице." />
+  <link rel="canonical" href="/prop-firms/" />
+  <link rel="alternate" hreflang="ru" href="/prop-firms/" />
+  <link rel="alternate" hreflang="en" href="/en/prop-firms/" />
+  <link rel="alternate" hreflang="x-default" href="/prop-firms/" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/#firms">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a class="lang-switch" href="/en/prop-firms/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Сравнение пропфирм</h1>
+        <p>Тип оценки, стоимость входа, профит-сплит, просадка, максимальный размер аккаунта, метод выплат и рейтинг доверия — по проверенным фирмам, в одной таблице.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="disclaimer-box">
+        <strong>Индустрия пропфирм не регулируется государством.</strong> Мы включаем в сравнение только фирмы с публично подтверждённой историей выплат и рейтингом доверия. Это не является финансовой лицензией или государственной аккредитацией.
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <div id="prop-firms-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Как мы отбираем фирмы</h2>
+        <p>Юридической «лицензии на пропфирму» не существует в большинстве стран, поэтому вместо критерия «лицензированные» мы смотрим на признаки надёжности:</p>
+        <ul>
+          <li>подтверждённая многолетняя история выплат — не только заявления самой фирмы;</li>
+          <li>рейтинг Trustpilot от 4.3+ при большом числе отзывов;</li>
+          <li>отсутствие ретроактивных изменений правил для уже профинансированных трейдеров;</li>
+          <li>в идеале — поддержка регулируемого брокера (например, FTMO ↔ OANDA, Blueberry Funded ↔ Blueberry Markets).</li>
+        </ul>
+        <p>Часть фирм в таблице не проходит все критерии полностью (например, у Topstep ниже рейтинг Trustpilot, у BrightFunded и Blueberry Funded меньше отзывов). Такие фирмы включены с пометкой «Почему в списке» на их странице — читайте её и оценивайте риск сами.</p>
+        <p>Когда деньги уже одобрены, смотрите, как их забрать с минимальными потерями: <a href="/#firms">инструкции по выводу для каждой фирмы</a> и <a href="/crypto-payout-guide/">гид по крипто-выводу</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у фирм.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/prop-firms.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initPropFirmsTable("prop-firms-root");
+  </script>
+</body>
+</html>

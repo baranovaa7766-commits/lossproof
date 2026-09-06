@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topstep: правила Trading Combine, просадка, профит-сплит и цены</title>
+  <meta name="description" content="Правила фьючерсной оценки Topstep (Trading Combine), трейлинг-лимит потерь, дневной лимит, профит-сплит 90/10, цены-подписки по размерам аккаунта и рейтинг Trustpilot." />
+  <link rel="canonical" href="/prop-firms/topstep/" />
+  <link rel="alternate" hreflang="ru" href="/prop-firms/topstep/" />
+  <link rel="alternate" hreflang="en" href="/en/prop-firms/topstep/" />
+  <link rel="alternate" hreflang="x-default" href="/prop-firms/topstep/" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/#firms">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a class="lang-switch" href="/en/prop-firms/topstep/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Topstep: условия Trading Combine</h1>
+        <p>Одна из старейших фьючерсных пропфирм (с 2012). Оценка через Trading Combine по месячной подписке.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Ключевые факты</h2>
+        <div id="pf-summary"></div>
+        <div class="verify-box">
+          Данные по Topstep собраны в ходе исследования (сентябрь 2026) и могут быть неточными или устаревшими. Сверьте актуальные цены, правила и условия профит-сплита на <a href="https://www.topstep.com" target="_blank" rel="noopener">официальном сайте Topstep</a> перед решением.
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Правила оценки и график выплат</h2>
+        <div id="pf-rules"></div>
+        <div id="pf-prices"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Как вывести выплату</h2>
+        <p>У Topstep пока нет отдельной инструкции по выводу на LossProof. Общий разбор способов и комиссий — в гиде по крипто-выводу для трейдеров из РФ и СНГ.</p>
+        <p><a href="/crypto-payout-guide/">Открыть гид по крипто-выводу →</a></p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Другие пропфирмы</h2>
+        <div class="firm-grid" id="pf-other"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у фирм.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/prop-firms.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderPropFirmSummary("topstep", "pf-summary");
+    renderPropFirmRules("topstep", "pf-rules");
+    renderPropFirmPrices("topstep", "pf-prices");
+    renderOtherPropFirms("topstep", "pf-other");
+  </script>
+</body>
+</html>

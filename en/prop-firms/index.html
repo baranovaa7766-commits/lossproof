@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare prop firms: evaluation type, profit split, drawdown, Trustpilot</title>
+  <meta name="description" content="Compare vetted prop firms by evaluation type, entry cost, profit split, drawdown, max account size, payout method and Trustpilot rating in one sortable table." />
+  <link rel="canonical" href="/en/prop-firms/" />
+  <link rel="alternate" hreflang="ru" href="/prop-firms/" />
+  <link rel="alternate" hreflang="en" href="/en/prop-firms/" />
+  <link rel="alternate" hreflang="x-default" href="/prop-firms/" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/en/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/en/prop-firms/">🏢 Compare prop firms</a>
+        <a href="/en/#firms">💸 Withdrawals by firm</a>
+        <a href="/en/crypto-payout-guide/">💱 Crypto Payout Guide</a>
+        <a href="/en/disclosure/">📄 Disclosure</a>
+        <a class="lang-switch" href="/prop-firms/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Compare prop firms</h1>
+        <p>Evaluation type, entry cost, profit split, drawdown, max account size, payout method and trust rating — across vetted firms, in one table.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="disclaimer-box">
+        <strong>The prop-firm industry is not government-regulated.</strong> We only include firms with a publicly confirmed payout history and a trust rating. This is not a financial licence or government accreditation.
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <div id="prop-firms-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>How we pick firms</h2>
+        <p>There is no legal "prop-firm licence" in most countries, so instead of "licensed" we look at signals of reliability:</p>
+        <ul>
+          <li>a confirmed multi-year payout history — not just the firm's own claims;</li>
+          <li>a Trustpilot rating of 4.3+ with a large number of reviews;</li>
+          <li>no retroactive rule changes for already-funded traders;</li>
+          <li>ideally, backing by a regulated broker (e.g. FTMO ↔ OANDA, Blueberry Funded ↔ Blueberry Markets).</li>
+        </ul>
+        <p>Some firms in the table do not clear every criterion (for example, Topstep's Trustpilot score is lower; BrightFunded and Blueberry Funded have fewer reviews). Those firms are listed with a "Why it's listed" note on their page — read it and judge the risk yourself.</p>
+        <p>Once a payout is approved, see how to take it out with minimal loss: <a href="/en/#firms">withdrawal guides for each firm</a> and the <a href="/en/crypto-payout-guide/">crypto payout guide</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. This is not financial advice — confirm terms directly with the firms.</span>
+      <span><a href="/en/disclosure/">Affiliate monetisation disclosure</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.en.js"></script>
+  <script src="/assets/js/prop-firms.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initPropFirmsTable("prop-firms-root");
+  </script>
+</body>
+</html>

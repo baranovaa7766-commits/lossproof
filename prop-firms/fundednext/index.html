@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FundedNext: условия челленджа, просадка, профит-сплит и цены</title>
+  <meta name="description" content="Правила оценки FundedNext (Stellar 1-step и 2-step), лимиты просадки, минимальные дни, профит-сплит, цены по размерам аккаунта и рейтинг Trustpilot — плюс ссылка на инструкцию по выводу." />
+  <link rel="canonical" href="/prop-firms/fundednext/" />
+  <link rel="alternate" hreflang="ru" href="/prop-firms/fundednext/" />
+  <link rel="alternate" hreflang="en" href="/en/prop-firms/fundednext/" />
+  <link rel="alternate" hreflang="x-default" href="/prop-firms/fundednext/" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/#firms">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a class="lang-switch" href="/en/prop-firms/fundednext/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>FundedNext: условия челленджа</h1>
+        <p>Быстрорастущая пропфирм (с 2022) с моделями Stellar 1-step и 2-step и быстрыми выплатами.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Ключевые факты</h2>
+        <div id="pf-summary"></div>
+        <div class="verify-box">
+          Данные по FundedNext собраны в ходе исследования (сентябрь 2026) и могут быть неточными или устаревшими. Сверьте актуальные цены, правила и профит-сплит на <a href="https://fundednext.com" target="_blank" rel="noopener">официальном сайте FundedNext</a> перед решением.
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Правила оценки и график выплат</h2>
+        <div id="pf-rules"></div>
+        <div id="pf-prices"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Как вывести деньги с FundedNext</h2>
+        <p>Когда выплата одобрена, посмотрите способы вывода, комиссии и калькулятор конвертации в рубли или локальную валюту.</p>
+        <p><a href="/payout/fundednext/">Открыть инструкцию по выводу с FundedNext →</a></p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Другие пропфирмы</h2>
+        <div class="firm-grid" id="pf-other"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у фирм.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/prop-firms.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderPropFirmSummary("fundednext", "pf-summary");
+    renderPropFirmRules("fundednext", "pf-rules");
+    renderPropFirmPrices("fundednext", "pf-prices");
+    renderOtherPropFirms("fundednext", "pf-other");
+  </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The 5%ers: challenge rules, drawdown, profit split and prices</title>
+  <meta name="description" content="The 5%ers evaluation rules (1-step and 2-step), drawdown limits, minimum days, profit split up to 100%, prices by account size and Trustpilot rating — plus a link to the withdrawal guide." />
+  <link rel="canonical" href="/en/prop-firms/the5ers/" />
+  <link rel="alternate" hreflang="ru" href="/prop-firms/the5ers/" />
+  <link rel="alternate" hreflang="en" href="/en/prop-firms/the5ers/" />
+  <link rel="alternate" hreflang="x-default" href="/prop-firms/the5ers/" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/en/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/en/prop-firms/">🏢 Compare prop firms</a>
+        <a href="/en/#firms">💸 Withdrawals by firm</a>
+        <a href="/en/crypto-payout-guide/">💱 Crypto Payout Guide</a>
+        <a href="/en/disclosure/">📄 Disclosure</a>
+        <a class="lang-switch" href="/prop-firms/the5ers/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>The 5%ers: challenge rules</h1>
+        <p>Programs (since 2016) with a profit split that grows to 100% and account scaling to $4M.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Key facts</h2>
+        <div id="pf-summary"></div>
+        <div class="verify-box">
+          The 5%ers data was gathered during research (September 2026) and may be inaccurate or out of date. Confirm current prices, rules and profit split on the <a href="https://the5ers.com" target="_blank" rel="noopener">official The 5%ers site</a> before deciding.
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Evaluation rules and payout schedule</h2>
+        <div id="pf-rules"></div>
+        <div id="pf-prices"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>How to withdraw from The 5%ers</h2>
+        <p>Once a payout is approved, see the withdrawal methods, fees and a calculator for converting it to your local currency.</p>
+        <p><a href="/en/payout/the5ers/">Open the The 5%ers withdrawal guide →</a></p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Other prop firms</h2>
+        <div class="firm-grid" id="pf-other"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. This is not financial advice — confirm terms directly with the firms.</span>
+      <span><a href="/en/disclosure/">Affiliate monetisation disclosure</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.en.js"></script>
+  <script src="/assets/js/prop-firms.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderPropFirmSummary("the5ers", "pf-summary");
+    renderPropFirmRules("the5ers", "pf-rules");
+    renderPropFirmPrices("the5ers", "pf-prices");
+    renderOtherPropFirms("the5ers", "pf-other");
+  </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrightFunded: challenge rules, drawdown, profit split and prices</title>
+  <meta name="description" content="BrightFunded 2-step evaluation rules, static drawdown, minimum days, profit split up to 100%, prices by account size and Trustpilot rating status." />
+  <link rel="canonical" href="/en/prop-firms/brightfunded/" />
+  <link rel="alternate" hreflang="ru" href="/prop-firms/brightfunded/" />
+  <link rel="alternate" hreflang="en" href="/en/prop-firms/brightfunded/" />
+  <link rel="alternate" hreflang="x-default" href="/prop-firms/brightfunded/" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/en/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/en/prop-firms/">🏢 Compare prop firms</a>
+        <a href="/en/#firms">💸 Withdrawals by firm</a>
+        <a href="/en/crypto-payout-guide/">💱 Crypto Payout Guide</a>
+        <a href="/en/disclosure/">📄 Disclosure</a>
+        <a class="lang-switch" href="/prop-firms/brightfunded/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>BrightFunded: challenge rules</h1>
+        <p>A 2-step evaluation (firm founded 2023, Netherlands/Dubai) with static drawdown and a profit split up to 100% via scaling.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Key facts</h2>
+        <div id="pf-summary"></div>
+        <div class="verify-box">
+          BrightFunded data was gathered during research (September 2026) and may be inaccurate or out of date. This is a young firm — be sure to confirm current prices, rules and profit split on the <a href="https://brightfunded.com" target="_blank" rel="noopener">official BrightFunded site</a> before deciding.
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Evaluation rules and payout schedule</h2>
+        <div id="pf-rules"></div>
+        <div id="pf-prices"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>How to withdraw your payout</h2>
+        <p>BrightFunded doesn't have its own withdrawal guide on LossProof yet. For a general breakdown of methods and fees, see the crypto payout guide for traders in Russia and the CIS.</p>
+        <p><a href="/en/crypto-payout-guide/">Open the crypto payout guide →</a></p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Other prop firms</h2>
+        <div class="firm-grid" id="pf-other"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. This is not financial advice — confirm terms directly with the firms.</span>
+      <span><a href="/en/disclosure/">Affiliate monetisation disclosure</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.en.js"></script>
+  <script src="/assets/js/prop-firms.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderPropFirmSummary("brightfunded", "pf-summary");
+    renderPropFirmRules("brightfunded", "pf-rules");
+    renderPropFirmPrices("brightfunded", "pf-prices");
+    renderOtherPropFirms("brightfunded", "pf-other");
+  </script>
+</body>
+</html>

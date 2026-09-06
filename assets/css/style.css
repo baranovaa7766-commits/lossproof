@@ -481,16 +481,191 @@ a {
   gap: 12px;
 }
 
+/* Prop-firms comparison section (/prop-firms/) */
+.disclaimer-box {
+  background: #eef4ff;
+  border: 1px solid #c6dbff;
+  border-left: 4px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 0.95rem;
+}
+
+.disclaimer-box strong {
+  color: var(--color-primary-dark);
+}
+
+.pf-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.pf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: none;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.pf-field > label,
+.pf-field > legend {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 0;
+}
+
+.pf-field select {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--color-bg);
+}
+
+.pf-field--checks label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--color-text);
+  padding: 3px 0;
+}
+
+.pf-sort-hint {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin: 0 0 8px;
+}
+
+.compare-table th.sortable {
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.compare-table th.sortable::after {
+  content: "\2195";
+  margin-left: 4px;
+  opacity: 0.4;
+  font-size: 0.85em;
+}
+
+.compare-table th.sortable[aria-sort="ascending"]::after {
+  content: "\2191";
+  opacity: 1;
+}
+
+.compare-table th.sortable[aria-sort="descending"]::after {
+  content: "\2193";
+  opacity: 1;
+}
+
+.compare-table td {
+  vertical-align: top;
+}
+
+.pf-name {
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pf-cross,
+a.pf-cross {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pf-cross:hover {
+  color: var(--color-primary);
+}
+
+.pf-muted {
+  color: var(--color-text-muted);
+  font-size: 0.9em;
+}
+
+.pf-empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 24px 10px;
+}
+
+.price-matrix {
+  margin: 16px 0 0;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.price-matrix > summary {
+  cursor: pointer;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  list-style: none;
+}
+
+.price-matrix > summary::-webkit-details-marker {
+  display: none;
+}
+
+.price-matrix > summary::before {
+  content: "\25B8";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.15s ease;
+}
+
+.price-matrix[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.price-matrix > summary:hover {
+  background: #eaf1fd;
+}
+
+.price-matrix .calc-table-wrap,
+.price-matrix .calc-disclaimer {
+  padding: 0 16px;
+}
+
+.price-matrix .calc-disclaimer {
+  padding-bottom: 14px;
+}
+
 @media (max-width: 640px) {
-  .calc-table thead {
+  .compare-table,
+  .compare-table tbody {
+    display: block;
+    width: 100%;
+  }
+  .calc-table thead,
+  .compare-table thead {
     display: none;
   }
-  .calc-table tr {
+  .calc-table tr,
+  .compare-table tr {
     display: block;
+    width: 100%;
     border-bottom: 2px solid var(--color-border);
     padding: 10px 0;
   }
-  .calc-table td {
+  .calc-table td,
+  .compare-table td {
     display: flex;
     justify-content: space-between;
     gap: 12px;
@@ -498,9 +673,31 @@ a {
     white-space: normal;
     padding: 6px 0;
   }
-  .calc-table td::before {
+  .calc-table td::before,
+  .compare-table td::before {
     content: attr(data-label);
     font-weight: 600;
     color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+  /* .compare-table also carries the .calc-table class, so the desktop
+     nth-child nowrap rules would apply here and clip long cells — undo them. */
+  .compare-table td:nth-child(2),
+  .compare-table td:nth-child(5) {
+    white-space: normal;
+  }
+  /* 11 fields with long labels read better stacked than side-by-side.
+     Use block (not column-flex) so multi-node cells keep inline flow. */
+  .compare-table td {
+    display: block;
+  }
+  .compare-table td::before {
+    display: block;
+    font-size: 0.82rem;
+    margin-bottom: 2px;
+  }
+  .compare-table td .pf-name,
+  .compare-table td .pf-cross {
+    white-space: normal;
   }
 }
