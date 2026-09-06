@@ -73,7 +73,6 @@ a {
 .site-logo {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
   font-weight: 800;
   font-size: 1.3rem;
   letter-spacing: -0.02em;
@@ -83,16 +82,6 @@ a {
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-}
-
-.site-logo::before {
-  content: "";
-  width: 26px;
-  height: 26px;
-  flex-shrink: 0;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='rgb(31,111,235)' stroke-width='2'/%3E%3Cpath d='M12 7v10M9 9.6c0-1.1 1.2-1.6 3-1.6s3 .8 3 1.9-1.2 1.6-3 1.6-3 .7-3 1.8 1.2 1.9 3 1.9 3-.5 3-1.6' fill='none' stroke='rgb(31,111,235)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .site-nav {
