@@ -170,18 +170,6 @@
     <changefreq>monthly</changefreq><priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/feedback/</loc>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/feedback/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/feedback/" />
-    <changefreq>yearly</changefreq><priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://example.com/en/feedback/</loc>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/feedback/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/feedback/" />
-    <changefreq>yearly</changefreq><priority>0.3</priority>
-  </url>
-  <url>
     <loc>https://example.com/exchanges/</loc>
     <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/" />
