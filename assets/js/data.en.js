@@ -91,7 +91,7 @@ const EXCHANGES_COMPARE = [
     hq: "Dubai, UAE (incorporated in the British Virgin Islands)",
     licenses: "MiCA CASP (EU, Bybit EU GmbH, May 2025) · Virtual Asset Platform Operator License from the SCA (UAE, October 2025) · VASP FSA (Seychelles)",
     ruAccessTier: "grey",
-    ruAccessText: "Russia is formally listed as an excluded jurisdiction in the Service Agreement (updated May 2026), alongside Sevastopol and Russian-controlled regions of Ukraine. That said, numerous accounts report Russian residents still registering and verifying with a Russian passport via the P2P section. A separate technical wrinkle: bybit.com isn't on Russia's Ministry of Digital Development whitelist, so the site and app get blocked when \"safe internet\" mode is enabled on mobile networks — Wi-Fi or a different DNS usually works around it.",
+    ruAccessText: "Russia is formally listed as an excluded jurisdiction in the Service Agreement (updated May 2026), alongside Sevastopol and Russian-controlled regions of Ukraine. That said, numerous accounts report Russian residents still registering and verifying with a Russian passport via the P2P section. A separate technical wrinkle: bybit.com isn't on Russia's Ministry of Digital Development whitelist, so access to the site and app can be restricted on mobile networks with \"safe internet\" mode enabled.",
     takerFeeValue: 0.1,
     takerFeeText: "0.1% (base tier, no volume discount)",
     makerFeeText: "0.1%",
