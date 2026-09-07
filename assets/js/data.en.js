@@ -18,7 +18,15 @@ const CURRENCIES = ["USD", "EUR", "GBP", "AUD", "CAD", "CHF", "JPY", "PLN", "CZK
 const DATA_LAST_VERIFIED = "2026-09-03";
 
 // Crypto exchanges — stage 1 (buying/receiving USDT). Affiliate programs
-// are confirmed for all four.
+// are confirmed for all three.
+//
+// WhiteBIT is deliberately excluded (was here until 2026-09-07): it has
+// blocked all users from Russia and Belarus since early 2022, and in
+// January 2026 Russia's Prosecutor General designated WhiteBIT and parent
+// company W Group an "undesirable organization" — using, promoting, or
+// assisting the service now carries criminal liability for Russian
+// citizens. Not something to recommend to this site's audience. Don't
+// re-add without re-checking.
 const EXCHANGES = [
   {
     id: "bybit",
@@ -27,7 +35,7 @@ const EXCHANGES = [
     fixedFee: 1,
     speed: "minutes",
     affiliateConfirmed: true,
-    notes: "Affiliate program confirmed (affiliates.bybit.com); no mandatory ID verification just to join the affiliate program.",
+    notes: "Affiliate program confirmed (affiliates.bybit.com); no mandatory ID verification just to join the affiliate program. Russia is formally listed as an excluded jurisdiction (Service Agreement), but many users reportedly still verify with a Russian passport via P2P — details on /en/exchanges/bybit/.",
   },
   {
     id: "bitget",
@@ -36,7 +44,7 @@ const EXCHANGES = [
     fixedFee: 1,
     speed: "minutes",
     affiliateConfirmed: true,
-    notes: "Relatively low barrier to join the affiliate program.",
+    notes: "Relatively low barrier to join the affiliate program. No explicit restriction found for Russian residents.",
   },
   {
     id: "kucoin",
@@ -45,16 +53,138 @@ const EXCHANGES = [
     fixedFee: 1,
     speed: "minutes",
     affiliateConfirmed: true,
-    notes: "Open affiliate program, 30-50% of trading fees for life.",
+    notes: "Open affiliate program, 30-50% of trading fees for life. Russia isn't separately listed as restricted — access is governed by sanctions screening.",
+  },
+];
+
+// "Compare exchanges" section (/exchanges/). Separate from EXCHANGES above —
+// EXCHANGES drives the calculator's math (only exchanges with a confirmed
+// affiliate program), while EXCHANGES_COMPARE is a broader informational
+// overview of vetted, licensed exchanges for a sortable/filterable table and
+// per-exchange pages, including ones without a confirmed affiliate program
+// yet.
+//
+// Inclusion bar: only platforms with a publicly checkable license/VASP
+// registration — no fully unregulated exchanges. WhiteBIT and HTX (Huobi)
+// are deliberately NOT included here — see "How we pick exchanges" on the
+// /exchanges/ page itself and the WhiteBIT comment above EXCHANGES.
+//
+// ruAccessTier drives the "Russia access" filter:
+//   "open" — Russia isn't separately listed as restricted, normal access
+//   "grey" — the ToS/user agreement formally excludes Russia, but available
+//            evidence suggests residents still verify and use the exchange
+//            in practice (e.g. via P2P)
+// See ruAccessText on each exchange's page for the details.
+//
+// Figures were gathered via web search as of EXCHANGES_COMPARE_RESEARCHED
+// and have NOT been checked directly against official fee pages (unlike
+// Whitebird/Cifra Markets in OFFRAMPS above) — dataVerified: false for all,
+// with a red "verify" box shown on each exchange's page. Keep the numbers in
+// sync with data.js.
+const EXCHANGES_COMPARE_RESEARCHED = "2026-09-07";
+
+const EXCHANGES_COMPARE = [
+  {
+    slug: "bybit",
+    name: "Bybit",
+    founded: 2018,
+    hq: "Dubai, UAE (incorporated in the British Virgin Islands)",
+    licenses: "MiCA CASP (EU, Bybit EU GmbH, May 2025) · Virtual Asset Platform Operator License from the SCA (UAE, October 2025) · VASP FSA (Seychelles)",
+    ruAccessTier: "grey",
+    ruAccessText: "Russia is formally listed as an excluded jurisdiction in the Service Agreement (updated May 2026), alongside Sevastopol and Russian-controlled regions of Ukraine. That said, numerous accounts report Russian residents still registering and verifying with a Russian passport via the P2P section. A separate technical wrinkle: bybit.com isn't on Russia's Ministry of Digital Development whitelist, so the site and app get blocked when \"safe internet\" mode is enabled on mobile networks — Wi-Fi or a different DNS usually works around it.",
+    takerFeeValue: 0.1,
+    takerFeeText: "0.1% (base tier, no volume discount)",
+    makerFeeText: "0.1%",
+    depositMethods: ["P2P (including rubles)", "crypto deposit", "bank card (not in every region)"],
+    withdrawalFeeText: "~1 USDT on the TRC20 network (ERC20 is notably pricier)",
+    affiliateConfirmed: true,
+    officialUrl: "https://www.bybit.com",
+    dataVerified: false,
   },
   {
-    id: "whitebit",
-    name: "WhiteBIT",
-    spreadPercent: 0.4,
-    fixedFee: 1,
-    speed: "minutes",
+    slug: "bitget",
+    name: "Bitget",
+    founded: 2018,
+    hq: "Registered in Seychelles, Singapore office, Vienna compliance hub",
+    licenses: "VASP FSA (Seychelles, under the 2024 Act) · a financial services license in New Zealand",
+    ruAccessTier: "open",
+    ruAccessText: "No explicit restriction for Russian residents found in public sources — registration, verification, and the ruble P2P section work normally.",
+    takerFeeValue: 0.1,
+    takerFeeText: "0.1%",
+    makerFeeText: "0.1%",
+    depositMethods: ["P2P (including rubles)", "crypto deposit", "bank card"],
+    withdrawalFeeText: "~1 USDT on the TRC20 network",
     affiliateConfirmed: true,
-    notes: "Affiliate program confirmed (whitebit.com/referral).",
+    officialUrl: "https://www.bitget.com",
+    dataVerified: false,
+  },
+  {
+    slug: "kucoin",
+    name: "KuCoin",
+    founded: 2017,
+    hq: "Seychelles",
+    licenses: "VASP FSA (Seychelles) — among the first exchanges approved under the 2024 law",
+    ruAccessTier: "open",
+    ruAccessText: "Russia isn't separately listed among KuCoin's restrictions — access is governed by sanctions screening rather than citizenship or country. Available evidence suggests it retains broad access for CIS-region users. (UAE regulator VARA ordered a halt to Dubai operations in March 2026, and KuCoin is permanently barred in the US per a CFTC order — neither is related to access for Russian residents.)",
+    takerFeeValue: 0.1,
+    takerFeeText: "0.1%",
+    makerFeeText: "0.1%",
+    depositMethods: ["P2P (including rubles)", "crypto deposit"],
+    withdrawalFeeText: "~1 USDT on the TRC20 network",
+    affiliateConfirmed: true,
+    officialUrl: "https://www.kucoin.com",
+    dataVerified: false,
+  },
+  {
+    slug: "okx",
+    name: "OKX",
+    founded: 2017,
+    hq: "Historically Seychelles-based; licenses obtained per region",
+    licenses: "VASP FSA (Seychelles) · local authorizations in several EU countries",
+    ruAccessTier: "grey",
+    ruAccessText: "Russian residents currently retain trading access, though some fiat services are restricted. Pending Russian legislation (not expected before summer 2026) could block access to platforms without a Russian license, including OKX and Bybit — the status may change, so re-check before relying on it.",
+    takerFeeValue: 0.1,
+    takerFeeText: "0.1%",
+    makerFeeText: "0.08%",
+    depositMethods: ["P2P (including rubles)", "crypto deposit"],
+    withdrawalFeeText: "~1 USDT on the TRC20 network",
+    affiliateConfirmed: false,
+    officialUrl: "https://www.okx.com",
+    dataVerified: false,
+  },
+  {
+    slug: "mexc",
+    name: "MEXC",
+    founded: 2018,
+    hq: "Seychelles",
+    licenses: "VASP registration (Seychelles) — less publicly documented additional regional licensing than the other exchanges on this list",
+    ruAccessTier: "open",
+    ruAccessText: "Russia isn't on MEXC's list of restricted jurisdictions — registration, deposits, and trading work normally for Russian residents (only Russian-controlled regions of Ukraine are restricted).",
+    takerFeeValue: 0.075,
+    takerFeeText: "~0.05-0.1% (often lower via promotions on specific pairs)",
+    makerFeeText: "0%",
+    depositMethods: ["P2P (including rubles)", "crypto deposit", "bank card"],
+    withdrawalFeeText: "~1 USDT on the TRC20 network",
+    affiliateConfirmed: false,
+    officialUrl: "https://www.mexc.com",
+    dataVerified: false,
+  },
+  {
+    slug: "gate",
+    name: "Gate",
+    founded: 2013,
+    hq: "Cayman Islands",
+    licenses: "MiCA CASP from Malta's MFSA (October 2025), passported across the EEA · a PSD2 payment institution license (February 2026)",
+    ruAccessTier: "grey",
+    ruAccessText: "Russia is named as a restricted jurisdiction in the user agreement (clause 2.5), but available evidence suggests Russian residents still trade and fund accounts in rubles via P2P.",
+    takerFeeValue: 0.2,
+    takerFeeText: "0.2% (base tier, reduced with the GT token)",
+    makerFeeText: "0.2%",
+    depositMethods: ["P2P (including rubles)", "crypto deposit", "bank transfer (in select regions)"],
+    withdrawalFeeText: "~1 USDT on the TRC20 network",
+    affiliateConfirmed: false,
+    officialUrl: "https://www.gate.io",
+    dataVerified: false,
   },
 ];
 
@@ -103,7 +233,6 @@ const OFFRAMPS = [
     speed: "1 business day (withdrawals only process on bank business days)",
     dataVerified: true,
     notes: "Brokerage platform for CIS-based traders. 1.5% conversion + a 500 RUB withdrawal fee (0 if withdrawing into a Cifra Bank account), cifra.by/rates.",
-    notes: "A brokerage platform for CIS-based traders.",
   },
 ];
 
@@ -148,7 +277,6 @@ const AFFILIATE_LINKS = {
   bybit: { url: null, label: "Sign up with Bybit" },
   bitget: { url: null, label: "Sign up with Bitget" },
   kucoin: { url: null, label: "Sign up with KuCoin" },
-  whitebit: { url: null, label: "Sign up with WhiteBIT" },
 };
 
 // Prop-firm specific payout data, collected via web research.

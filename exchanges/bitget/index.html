@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bitget: лицензии, доступ для РФ, комиссии — обзор биржи</title>
+  <meta name="description" content="Bitget: лицензия VASP на Сейшелах и в Новой Зеландии, комиссии спот-торговли, способы пополнения — без явных ограничений для резидентов России." />
+  <link rel="canonical" href="/exchanges/bitget/" />
+  <link rel="alternate" hreflang="ru" href="/exchanges/bitget/" />
+  <link rel="alternate" hreflang="en" href="/en/exchanges/bitget/" />
+  <link rel="alternate" hreflang="x-default" href="/exchanges/bitget/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/#firms">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/exchanges/">🔁 Сравнение бирж</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a href="/feedback/">💬 Обратная связь</a>
+        <a class="lang-switch" href="/en/exchanges/bitget/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Bitget: обзор биржи</h1>
+        <p>Биржа с 2018 года, зарегистрирована на Сейшелах по местному закону о VASP, с комплаенс-офисом в Вене. Явных ограничений для резидентов России в открытых источниках не найдено.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Ключевые факты</h2>
+        <div id="ex-summary"></div>
+        <div class="verify-box">
+          Данные по Bitget собраны в ходе исследования (сентябрь 2026) и могут быть неточными или устаревшими. Сверьте актуальные условия на <a href="https://www.bitget.com" target="_blank" rel="noopener">официальном сайте Bitget</a> перед регистрацией.
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Что дальше</h2>
+        <p>Купили USDT на Bitget — посчитайте, сколько получите на руки после конвертации в рубли, в <a href="/">калькуляторе на главной странице</a> (он сравнивает off-ramp сервисы для этого этапа). Общая логика двухэтапного вывода — в <a href="/crypto-payout-guide/">гиде по крипто-выводу</a>.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Другие биржи</h2>
+        <div class="firm-grid" id="ex-other"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у бирж.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+      <span><a href="/feedback/">Обратная связь</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/exchanges.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderExchangeSummary("bitget", "ex-summary");
+    renderOtherExchanges("bitget", "ex-other");
+  </script>
+</body>
+</html>

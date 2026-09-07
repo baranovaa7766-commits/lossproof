@@ -676,6 +676,27 @@ a.pf-cross {
   padding: 24px 10px;
 }
 
+/* Exchange comparison badges (Russia access / affiliate status) */
+.ex-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ex-badge--open {
+  background: var(--color-best);
+  color: #1d6b34;
+}
+
+.ex-badge--grey {
+  background: #fbf6e7;
+  color: #8a6d1d;
+  border: 1px solid #eddf9f;
+}
+
 .price-matrix {
   margin: 16px 0 0;
   border: 1px solid var(--color-border);

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сравнение криптобирж: лицензии, доступ для РФ, комиссии</title>
+  <meta name="description" content="Сравните проверенные лицензированные криптобиржи для покупки USDT: лицензии и регулирование, доступ для резидентов России, комиссии спот-торговли и способы пополнения — в одной сортируемой таблице." />
+  <link rel="canonical" href="/exchanges/" />
+  <link rel="alternate" hreflang="ru" href="/exchanges/" />
+  <link rel="alternate" hreflang="en" href="/en/exchanges/" />
+  <link rel="alternate" hreflang="x-default" href="/exchanges/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/#firms">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/exchanges/">🔁 Сравнение бирж</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a href="/feedback/">💬 Обратная связь</a>
+        <a class="lang-switch" href="/en/exchanges/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Сравнение криптобирж</h1>
+        <p>Лицензии и регулирование, доступ для резидентов России, комиссии спот-торговли и способы пополнения — по проверенным биржам, в одной таблице.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="disclaimer-box">
+        <strong>«Проверенная» здесь означает: есть публично проверяемая лицензия или регистрация VASP.</strong> Это не гарантия безопасности и не финансовая консультация — регулирование крипто-бирж значительно слабее регулирования банков, а статус доступа для резидентов РФ у многих площадок нестабилен и может измениться без предупреждения.
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <div id="exchanges-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Как мы отбираем биржи</h2>
+        <p>В сравнение попадают только площадки с публично проверяемой лицензией или регистрацией VASP (Virtual Asset Service Provider) в каком-либо регуляторе — никаких полностью нерегулируемых бирж.</p>
+        <p>Отдельно проверяем доступ для резидентов России, потому что часть лицензированных бирж эту аудиторию не обслуживает вовсе, а часть — обслуживает вопреки формальным ограничениям в пользовательском соглашении. Помечаем это статусом «без ограничений» либо «серая зона» — подробности смотрите на странице каждой биржи.</p>
+        <div class="verify-box">
+          <strong>WhiteBIT в это сравнение не включена.</strong> Биржа блокирует пользователей из России с 2022 года, а в январе 2026 российская Генпрокуратура официально признала WhiteBIT и материнскую компанию W Group «нежелательной организацией» — использование, продвижение или содействие сервису грозит гражданам РФ уголовной ответственностью.
+        </div>
+        <p><strong>HTX (Huobi)</strong> тоже не включена: у биржи нет публично раскрытых лицензий в крупных юрисдикциях (кроме локального разрешения в Пакистане), а в августе 2026 ЕС включил HTX в санкционный список против России за содействие обходу ограничений — это ослабляет доверие к площадке даже при формальном сохранении доступа для резидентов РФ.</p>
+        <p>Когда решите, через какую биржу покупать USDT, посчитайте итоговую сумму на руки в <a href="/">калькуляторе на главной странице</a> — он уже учитывает и биржу, и off-ramp сервис для вывода в рубли.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у бирж.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+      <span><a href="/feedback/">Обратная связь</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/exchanges.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initExchangesTable("exchanges-root");
+  </script>
+</body>
+</html>

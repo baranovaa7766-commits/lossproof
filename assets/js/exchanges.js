@@ -1,0 +1,288 @@
+// Reusable widgets for the "Compare exchanges" section (/exchanges/):
+//   - initExchangesTable(rootId)        → sortable/filterable comparison table
+//   - renderExchangeSummary(slug, rootId) → key-facts table on an exchange page
+//   - renderOtherExchanges(slug, rootId)  → grid linking the other exchanges
+//
+// Data comes from the global EXCHANGES_COMPARE (assets/js/data.js / data.en.js)
+// and, for the affiliate link, AFFILIATE_LINKS. Language is taken from
+// <html lang="ru|en">, same as calculator.js / prop-firms.js.
+
+const EXCHANGES_STRINGS = {
+  ru: {
+    filtersTitle: "Фильтры",
+    ruAccessLabel: "Доступ для РФ",
+    ruAccessOpenOption: "без ограничений",
+    ruAccessGreyOption: "серая зона (ToS ограничивает, но работает)",
+    affiliateOnlyLabel: "Только с подтверждённой партнёркой",
+    colExchange: "Биржа",
+    colLicenses: "Лицензии",
+    colRuAccess: "Доступ для РФ",
+    colFee: "Комиссия (тейкер)",
+    colDeposit: "Способы пополнения",
+    colAffiliate: "Партнёрка",
+    colFounded: "Год",
+    ruAccessOpen: "Без ограничений",
+    ruAccessGrey: "Серая зона",
+    affiliateYes: "Подтверждена",
+    affiliateNo: "Не подтверждена",
+    getStarted: "Оформить",
+    dash: "—",
+    empty: "Под выбранные фильтры не подошла ни одна биржа.",
+    sortHint: "Нажмите на подчёркнутый заголовок, чтобы отсортировать.",
+    researched: (d) =>
+      `Данные собраны ${d} через веб-поиск и не сверялись построчно с официальными сайтами бирж. Лицензии, комиссии и доступ для резидентов РФ меняются — проверяйте ключевые пункты на сайте биржи перед регистрацией.`,
+    summaryFounded: "Год основания",
+    summaryHq: "Штаб-квартира / регистрация",
+    summaryLicenses: "Лицензии / регулирование",
+    summaryRuAccess: "Доступ для резидентов РФ",
+    summaryTakerFee: "Комиссия тейкера (спот)",
+    summaryMakerFee: "Комиссия мейкера (спот)",
+    summaryDeposit: "Способы пополнения",
+    summaryWithdrawal: "Комиссия за вывод USDT",
+    summaryAffiliate: "Партнёрка LossProof",
+    otherHeading: "Другие биржи",
+    locale: "ru-RU",
+  },
+  en: {
+    filtersTitle: "Filters",
+    ruAccessLabel: "Russia access",
+    ruAccessOpenOption: "no restrictions",
+    ruAccessGreyOption: "grey zone (ToS excludes it, works in practice)",
+    affiliateOnlyLabel: "Only with a confirmed affiliate program",
+    colExchange: "Exchange",
+    colLicenses: "Licenses",
+    colRuAccess: "Russia access",
+    colFee: "Fee (taker)",
+    colDeposit: "Deposit methods",
+    colAffiliate: "Affiliate",
+    colFounded: "Founded",
+    ruAccessOpen: "No restrictions",
+    ruAccessGrey: "Grey zone",
+    affiliateYes: "Confirmed",
+    affiliateNo: "Not confirmed",
+    getStarted: "Get started",
+    dash: "—",
+    empty: "No exchange matches the selected filters.",
+    sortHint: "Click an underlined column heading to sort.",
+    researched: (d) =>
+      `Data gathered ${d} via web search and not checked line by line against official exchange sites. Licenses, fees, and Russia-access status change — verify the key points on the exchange's own site before registering.`,
+    summaryFounded: "Founded",
+    summaryHq: "Headquarters / registration",
+    summaryLicenses: "Licenses / regulation",
+    summaryRuAccess: "Access for Russian residents",
+    summaryTakerFee: "Taker fee (spot)",
+    summaryMakerFee: "Maker fee (spot)",
+    summaryDeposit: "Deposit methods",
+    summaryWithdrawal: "USDT withdrawal fee",
+    summaryAffiliate: "LossProof affiliate",
+    otherHeading: "Other exchanges",
+    locale: "en-US",
+  },
+};
+
+function getExLang() {
+  return document.documentElement.lang === "en" ? "en" : "ru";
+}
+
+function exchangesBase() {
+  return getExLang() === "en" ? "/en/exchanges/" : "/exchanges/";
+}
+
+function escapeEx(str) {
+  const div = document.createElement("div");
+  div.textContent = str == null ? "" : String(str);
+  return div.innerHTML;
+}
+
+function getExchangeCompare(slug) {
+  return typeof EXCHANGES_COMPARE !== "undefined" ? EXCHANGES_COMPARE.find((e) => e.slug === slug) : null;
+}
+
+function ruAccessBadgeHTML(ex, t) {
+  const label = ex.ruAccessTier === "open" ? t.ruAccessOpen : t.ruAccessGrey;
+  const cls = ex.ruAccessTier === "open" ? "ex-badge ex-badge--open" : "ex-badge ex-badge--grey";
+  return `<span class="${cls}">${label}</span>`;
+}
+
+function affiliateBadgeHTML(ex, t) {
+  return ex.affiliateConfirmed
+    ? `<span class="ex-badge ex-badge--open">${t.affiliateYes}</span>`
+    : `<span class="ex-badge ex-badge--grey">${t.affiliateNo}</span>`;
+}
+
+function exchangeLinkHTML(ex, t) {
+  const link = (typeof AFFILIATE_LINKS !== "undefined" && AFFILIATE_LINKS[ex.slug]) || {};
+  if (link.url) {
+    return `<a class="calc-link" href="${link.url}" target="_blank" rel="noopener sponsored">${t.getStarted}</a>`;
+  }
+  return "";
+}
+
+// --------------------------------------------------------------------------
+// Comparison table
+// --------------------------------------------------------------------------
+
+function initExchangesTable(rootId) {
+  const root = document.getElementById(rootId);
+  if (!root || typeof EXCHANGES_COMPARE === "undefined") return;
+  const t = EXCHANGES_STRINGS[getExLang()];
+
+  const state = { ruAccess: [], affiliateOnly: false, sortKey: null, sortDir: 1 };
+
+  root.innerHTML = `
+    <form class="pf-filters" aria-label="${t.filtersTitle}">
+      <fieldset class="pf-field pf-field--checks">
+        <legend>${t.ruAccessLabel}</legend>
+        <label><input type="checkbox" name="ruAccess" value="open" /> ${t.ruAccessOpenOption}</label>
+        <label><input type="checkbox" name="ruAccess" value="grey" /> ${t.ruAccessGreyOption}</label>
+      </fieldset>
+      <div class="pf-field">
+        <label><input type="checkbox" name="affiliateOnly" /> ${t.affiliateOnlyLabel}</label>
+      </div>
+    </form>
+    <p class="pf-sort-hint">${t.sortHint}</p>
+    <div class="calc-table-wrap">
+      <table class="calc-table compare-table">
+        <thead>
+          <tr>
+            <th data-sort="name" class="sortable">${t.colExchange}</th>
+            <th>${t.colLicenses}</th>
+            <th>${t.colRuAccess}</th>
+            <th data-sort="fee" class="sortable">${t.colFee}</th>
+            <th>${t.colDeposit}</th>
+            <th data-sort="affiliate" class="sortable">${t.colAffiliate}</th>
+            <th data-sort="founded" class="sortable">${t.colFounded}</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="calc-disclaimer">${t.researched(EXCHANGES_COMPARE_RESEARCHED)}</p>
+  `;
+
+  const tbody = root.querySelector("tbody");
+  const form = root.querySelector(".pf-filters");
+  const headers = root.querySelectorAll("th.sortable");
+
+  function sortValue(ex, key) {
+    switch (key) {
+      case "name": return ex.name.toLowerCase();
+      case "fee": return ex.takerFeeValue ?? Infinity;
+      case "affiliate": return ex.affiliateConfirmed ? 1 : 0;
+      case "founded": return ex.founded ?? Infinity;
+      default: return 0;
+    }
+  }
+
+  function currentRows() {
+    let rows = EXCHANGES_COMPARE.slice();
+    if (state.ruAccess.length) {
+      rows = rows.filter((e) => state.ruAccess.includes(e.ruAccessTier));
+    }
+    if (state.affiliateOnly) {
+      rows = rows.filter((e) => e.affiliateConfirmed);
+    }
+    if (state.sortKey) {
+      rows.sort((a, b) => {
+        const av = sortValue(a, state.sortKey);
+        const bv = sortValue(b, state.sortKey);
+        if (av < bv) return -1 * state.sortDir;
+        if (av > bv) return 1 * state.sortDir;
+        return 0;
+      });
+    }
+    return rows;
+  }
+
+  function render() {
+    const rows = currentRows();
+    if (!rows.length) {
+      tbody.innerHTML = `<tr><td colspan="7" class="pf-empty">${t.empty}</td></tr>`;
+      return;
+    }
+    const base = exchangesBase();
+    tbody.innerHTML = rows
+      .map(
+        (ex) => `
+        <tr>
+          <td data-label="${t.colExchange}"><a class="pf-name" href="${base}${ex.slug}/">${escapeEx(ex.name)}</a></td>
+          <td data-label="${t.colLicenses}">${escapeEx(ex.licenses)}</td>
+          <td data-label="${t.colRuAccess}">${ruAccessBadgeHTML(ex, t)}</td>
+          <td data-label="${t.colFee}">${escapeEx(ex.takerFeeText)}</td>
+          <td data-label="${t.colDeposit}">${ex.depositMethods.map(escapeEx).join(", ")}</td>
+          <td data-label="${t.colAffiliate}">${affiliateBadgeHTML(ex, t)}</td>
+          <td data-label="${t.colFounded}">${ex.founded ?? t.dash}</td>
+        </tr>`
+      )
+      .join("");
+  }
+
+  form.addEventListener("change", () => {
+    state.ruAccess = Array.from(form.querySelectorAll('input[name="ruAccess"]:checked')).map((c) => c.value);
+    state.affiliateOnly = form.querySelector('[name="affiliateOnly"]').checked;
+    render();
+  });
+
+  headers.forEach((th) => {
+    th.addEventListener("click", () => {
+      const key = th.dataset.sort;
+      if (state.sortKey === key) {
+        state.sortDir *= -1;
+      } else {
+        state.sortKey = key;
+        state.sortDir = key === "name" ? 1 : -1;
+      }
+      headers.forEach((h) => h.removeAttribute("aria-sort"));
+      th.setAttribute("aria-sort", state.sortDir === 1 ? "ascending" : "descending");
+      render();
+    });
+  });
+
+  render();
+}
+
+// --------------------------------------------------------------------------
+// Exchange-page helpers
+// --------------------------------------------------------------------------
+
+function renderExchangeSummary(slug, rootId) {
+  const root = document.getElementById(rootId);
+  const ex = getExchangeCompare(slug);
+  if (!root || !ex) return;
+  const t = EXCHANGES_STRINGS[getExLang()];
+
+  const rows = [
+    [t.summaryFounded, ex.founded],
+    [t.summaryHq, escapeEx(ex.hq)],
+    [t.summaryLicenses, escapeEx(ex.licenses)],
+    [t.summaryRuAccess, `${ruAccessBadgeHTML(ex, t)}<br>${escapeEx(ex.ruAccessText)}`],
+    [t.summaryTakerFee, escapeEx(ex.takerFeeText)],
+    [t.summaryMakerFee, escapeEx(ex.makerFeeText)],
+    [t.summaryDeposit, ex.depositMethods.map(escapeEx).join(", ")],
+    [t.summaryWithdrawal, escapeEx(ex.withdrawalFeeText)],
+    [t.summaryAffiliate, `${affiliateBadgeHTML(ex, t)} ${exchangeLinkHTML(ex, t)}`],
+  ];
+
+  root.innerHTML = `
+    <table class="data-table">
+      <tbody>
+        ${rows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+function renderOtherExchanges(slug, rootId) {
+  const root = document.getElementById(rootId);
+  if (!root || typeof EXCHANGES_COMPARE === "undefined") return;
+  const base = exchangesBase();
+  root.innerHTML = EXCHANGES_COMPARE.filter((e) => e.slug !== slug)
+    .map(
+      (e) => `
+      <a class="firm-card" href="${base}${e.slug}/">
+        <h3>${escapeEx(e.name)}</h3>
+        <p>${escapeEx(e.takerFeeText)} · ${e.founded ?? ""}</p>
+      </a>`
+    )
+    .join("");
+}

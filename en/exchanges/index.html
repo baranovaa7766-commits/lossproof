@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Crypto Exchanges: Licenses, Russia Access, Fees</title>
+  <meta name="description" content="Compare vetted, licensed crypto exchanges for buying USDT: licenses and regulation, access for Russian residents, spot trading fees, and deposit methods — in one sortable table." />
+  <link rel="canonical" href="/en/exchanges/" />
+  <link rel="alternate" hreflang="ru" href="/exchanges/" />
+  <link rel="alternate" hreflang="en" href="/en/exchanges/" />
+  <link rel="alternate" hreflang="x-default" href="/exchanges/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/en/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/en/prop-firms/">🏢 Compare prop firms</a>
+        <a href="/en/#firms">💸 Withdrawals by firm</a>
+        <a href="/en/crypto-payout-guide/">💱 Crypto Payout Guide</a>
+        <a href="/en/exchanges/">🔁 Compare exchanges</a>
+        <a href="/en/disclosure/">📄 Disclosure</a>
+        <a href="/en/feedback/">💬 Feedback</a>
+        <a class="lang-switch" href="/exchanges/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Compare Crypto Exchanges</h1>
+        <p>Licenses and regulation, access for Russian residents, spot trading fees, and deposit methods — for vetted exchanges, in one table.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="disclaimer-box">
+        <strong>"Vetted" here means a publicly checkable license or VASP registration exists.</strong> That's not a safety guarantee or financial advice — crypto exchange regulation is far weaker than bank regulation, and access status for Russian residents is unstable at many platforms and can change without notice.
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <div id="exchanges-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>How we pick exchanges</h2>
+        <p>Only platforms with a publicly checkable license or VASP (Virtual Asset Service Provider) registration from some regulator make this comparison — no fully unregulated exchanges.</p>
+        <p>We separately check access for Russian residents, because some licensed exchanges don't serve this audience at all, while others do so despite formal restrictions in their user agreement. We flag this as "no restrictions" or "grey zone" — see each exchange's page for the details.</p>
+        <div class="verify-box">
+          <strong>WhiteBIT is not included in this comparison.</strong> The exchange has blocked users from Russia since 2022, and in January 2026 Russia's Prosecutor General officially designated WhiteBIT and parent company W Group an "undesirable organization" — using, promoting, or assisting the service now carries criminal liability for Russian citizens.
+        </div>
+        <p><strong>HTX (Huobi)</strong> is also excluded: the exchange has no publicly disclosed licenses in major jurisdictions (aside from a local Pakistan authorization), and in August 2026 the EU added HTX to its Russia sanctions list for helping evade restrictions — that undermines trust in the platform even where access for Russian residents formally remains.</p>
+        <p>Once you've picked an exchange for buying USDT, run the actual amount through the <a href="/en/">calculator on the homepage</a> — it already accounts for both the exchange and the off-ramp service that converts to rubles.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Not financial advice — verify terms directly with the exchanges.</span>
+      <span><a href="/en/disclosure/">Affiliate disclosure</a></span>
+      <span><a href="/en/feedback/">Feedback</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.en.js"></script>
+  <script src="/assets/js/exchanges.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initExchangesTable("exchanges-root");
+  </script>
+</body>
+</html>

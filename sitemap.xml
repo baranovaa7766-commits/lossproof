@@ -181,4 +181,88 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/feedback/" />
     <changefreq>yearly</changefreq><priority>0.3</priority>
   </url>
+  <url>
+    <loc>https://example.com/exchanges/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/" />
+    <changefreq>weekly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/exchanges/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/" />
+    <changefreq>weekly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://example.com/exchanges/bybit/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/bybit/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/bybit/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/exchanges/bybit/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/bybit/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/bybit/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/exchanges/bitget/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/bitget/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/bitget/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/exchanges/bitget/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/bitget/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/bitget/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/exchanges/kucoin/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/kucoin/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/kucoin/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/exchanges/kucoin/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/kucoin/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/kucoin/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/exchanges/okx/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/okx/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/okx/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/exchanges/okx/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/okx/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/okx/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/exchanges/mexc/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/mexc/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/mexc/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/exchanges/mexc/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/mexc/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/mexc/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/exchanges/gate/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/gate/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/gate/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/exchanges/gate/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/gate/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/gate/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
 </urlset>
