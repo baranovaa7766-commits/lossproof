@@ -57,7 +57,8 @@ const EXCHANGES = [
 // EXCHANGES управляет расчётом в калькуляторе (только биржи с подтверждённой
 // партнёркой), а EXCHANGES_COMPARE — это более широкий информационный обзор
 // проверенных лицензированных бирж для сортируемой/фильтруемой таблицы и
-// страниц по каждой бирже, включая те, где партнёрка ещё не подтверждена.
+// страниц по каждой бирже. Раздел чисто информационный — партнёрский статус
+// намеренно не показывается и не участвует в фильтрах/сортировке.
 //
 // Критерий отбора: только площадки с публично проверяемой лицензией/
 // регистрацией VASP — никаких полностью нерегулируемых бирж. WhiteBIT и HTX
@@ -92,7 +93,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0,1%",
     depositMethods: ["P2P (включая рубли)", "крипто-депозит", "банковская карта (не во всех регионах)"],
     withdrawalFeeText: "~1 USDT в сети TRC20 (для ERC20 — заметно дороже)",
-    affiliateConfirmed: true,
     officialUrl: "https://www.bybit.com",
     dataVerified: false,
   },
@@ -109,7 +109,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0,1%",
     depositMethods: ["P2P (включая рубли)", "крипто-депозит", "банковская карта"],
     withdrawalFeeText: "~1 USDT в сети TRC20",
-    affiliateConfirmed: true,
     officialUrl: "https://www.bitget.com",
     dataVerified: false,
   },
@@ -126,7 +125,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0,1%",
     depositMethods: ["P2P (включая рубли)", "крипто-депозит"],
     withdrawalFeeText: "~1 USDT в сети TRC20",
-    affiliateConfirmed: true,
     officialUrl: "https://www.kucoin.com",
     dataVerified: false,
   },
@@ -143,7 +141,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0,08%",
     depositMethods: ["P2P (включая рубли)", "крипто-депозит"],
     withdrawalFeeText: "~1 USDT в сети TRC20",
-    affiliateConfirmed: false,
     officialUrl: "https://www.okx.com",
     dataVerified: false,
   },
@@ -160,7 +157,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0%",
     depositMethods: ["P2P (включая рубли)", "крипто-депозит", "банковская карта"],
     withdrawalFeeText: "~1 USDT в сети TRC20",
-    affiliateConfirmed: false,
     officialUrl: "https://www.mexc.com",
     dataVerified: false,
   },
@@ -177,7 +173,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0,2%",
     depositMethods: ["P2P (включая рубли)", "крипто-депозит", "банковский перевод (в отдельных регионах)"],
     withdrawalFeeText: "~1 USDT в сети TRC20",
-    affiliateConfirmed: false,
     officialUrl: "https://www.gate.io",
     dataVerified: false,
   },

@@ -61,8 +61,8 @@ const EXCHANGES = [
 // EXCHANGES drives the calculator's math (only exchanges with a confirmed
 // affiliate program), while EXCHANGES_COMPARE is a broader informational
 // overview of vetted, licensed exchanges for a sortable/filterable table and
-// per-exchange pages, including ones without a confirmed affiliate program
-// yet.
+// per-exchange pages. This section is purely informational — affiliate
+// status is deliberately not shown and doesn't drive any filter or sort.
 //
 // Inclusion bar: only platforms with a publicly checkable license/VASP
 // registration — no fully unregulated exchanges. WhiteBIT and HTX (Huobi)
@@ -97,7 +97,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0.1%",
     depositMethods: ["P2P (including rubles)", "crypto deposit", "bank card (not in every region)"],
     withdrawalFeeText: "~1 USDT on the TRC20 network (ERC20 is notably pricier)",
-    affiliateConfirmed: true,
     officialUrl: "https://www.bybit.com",
     dataVerified: false,
   },
@@ -114,7 +113,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0.1%",
     depositMethods: ["P2P (including rubles)", "crypto deposit", "bank card"],
     withdrawalFeeText: "~1 USDT on the TRC20 network",
-    affiliateConfirmed: true,
     officialUrl: "https://www.bitget.com",
     dataVerified: false,
   },
@@ -131,7 +129,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0.1%",
     depositMethods: ["P2P (including rubles)", "crypto deposit"],
     withdrawalFeeText: "~1 USDT on the TRC20 network",
-    affiliateConfirmed: true,
     officialUrl: "https://www.kucoin.com",
     dataVerified: false,
   },
@@ -148,7 +145,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0.08%",
     depositMethods: ["P2P (including rubles)", "crypto deposit"],
     withdrawalFeeText: "~1 USDT on the TRC20 network",
-    affiliateConfirmed: false,
     officialUrl: "https://www.okx.com",
     dataVerified: false,
   },
@@ -165,7 +161,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0%",
     depositMethods: ["P2P (including rubles)", "crypto deposit", "bank card"],
     withdrawalFeeText: "~1 USDT on the TRC20 network",
-    affiliateConfirmed: false,
     officialUrl: "https://www.mexc.com",
     dataVerified: false,
   },
@@ -182,7 +177,6 @@ const EXCHANGES_COMPARE = [
     makerFeeText: "0.2%",
     depositMethods: ["P2P (including rubles)", "crypto deposit", "bank transfer (in select regions)"],
     withdrawalFeeText: "~1 USDT on the TRC20 network",
-    affiliateConfirmed: false,
     officialUrl: "https://www.gate.io",
     dataVerified: false,
   },
