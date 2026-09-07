@@ -31,6 +31,17 @@ const PROPFIRMS_STRINGS = {
     colTrustpilot: "Trustpilot",
     colBroker: "Broker-backing",
     colFounded: "Год",
+    tipFirm: "Название пропфирмы — нажмите, чтобы открыть подробную страницу.",
+    tipEval: "Сколько этапов нужно пройти, чтобы получить финансируемый счёт.",
+    tipEntry: "Сколько стоит купить оценку на счёт минимального размера.",
+    tipSplit: "Какую долю прибыли трейдер оставляет себе.",
+    tipDrawdown: "Максимально допустимый убыток в день и за всё время — превышение обнуляет счёт.",
+    tipMinDays: "Минимальное число торговых дней перед тем, как можно вывести прибыль.",
+    tipMaxAccount: "До какого размера можно увеличить счёт при успешной торговле (скейлинг).",
+    tipPayout: "Какими способами фирма выплачивает прибыль трейдеру.",
+    tipTrustpilot: "Рейтинг и число отзывов на Trustpilot на момент проверки данных.",
+    tipBroker: "Стоит ли за фирмой лицензированный брокер — дополнительный признак надёжности.",
+    tipFounded: "В каком году фирма начала работать.",
     payoutLink: "вывод денег →",
     trustpilotHidden: "рейтинг скрыт",
     reviews: (n) => `${n} отзывов`,
@@ -93,6 +104,17 @@ const PROPFIRMS_STRINGS = {
     colTrustpilot: "Trustpilot",
     colBroker: "Broker-backing",
     colFounded: "Founded",
+    tipFirm: "The prop firm's name — click to open its detail page.",
+    tipEval: "How many stages you need to pass to get a funded account.",
+    tipEntry: "What it costs to buy an evaluation on the smallest account size.",
+    tipSplit: "The share of profit the trader keeps.",
+    tipDrawdown: "The maximum allowed loss per day and overall — breaching it resets the account.",
+    tipMinDays: "The minimum number of trading days before profit can be withdrawn.",
+    tipMaxAccount: "How large the account can grow with successful trading (scaling).",
+    tipPayout: "How the firm pays out profit to the trader.",
+    tipTrustpilot: "Rating and review count on Trustpilot as of the data check.",
+    tipBroker: "Whether a licensed broker stands behind the firm — an extra trust signal.",
+    tipFounded: "The year the firm started operating.",
     payoutLink: "how to withdraw →",
     trustpilotHidden: "rating hidden",
     reviews: (n) => `${n} reviews`,
@@ -230,17 +252,17 @@ function initPropFirmsTable(rootId) {
       <table class="calc-table compare-table">
         <thead>
           <tr>
-            <th data-sort="name" class="sortable">${t.colFirm}</th>
-            <th>${t.colEval}</th>
-            <th data-sort="entry" class="sortable">${t.colEntry}</th>
-            <th data-sort="split" class="sortable">${t.colSplit}</th>
-            <th>${t.colDrawdown}</th>
-            <th>${t.colMinDays}</th>
-            <th data-sort="account" class="sortable">${t.colMaxAccount}</th>
-            <th>${t.colPayout}</th>
-            <th data-sort="trustpilot" class="sortable">${t.colTrustpilot}</th>
-            <th>${t.colBroker}</th>
-            <th data-sort="founded" class="sortable">${t.colFounded}</th>
+            <th data-sort="name" class="sortable" title="${t.tipFirm}">${t.colFirm}</th>
+            <th title="${t.tipEval}">${t.colEval}</th>
+            <th data-sort="entry" class="sortable" title="${t.tipEntry}">${t.colEntry}</th>
+            <th data-sort="split" class="sortable" title="${t.tipSplit}">${t.colSplit}</th>
+            <th title="${t.tipDrawdown}">${t.colDrawdown}</th>
+            <th title="${t.tipMinDays}">${t.colMinDays}</th>
+            <th data-sort="account" class="sortable" title="${t.tipMaxAccount}">${t.colMaxAccount}</th>
+            <th title="${t.tipPayout}">${t.colPayout}</th>
+            <th data-sort="trustpilot" class="sortable" title="${t.tipTrustpilot}">${t.colTrustpilot}</th>
+            <th title="${t.tipBroker}">${t.colBroker}</th>
+            <th data-sort="founded" class="sortable" title="${t.tipFounded}">${t.colFounded}</th>
           </tr>
         </thead>
         <tbody></tbody>

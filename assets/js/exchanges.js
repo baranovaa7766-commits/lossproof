@@ -18,6 +18,12 @@ const EXCHANGES_STRINGS = {
     colFee: "Комиссия (тейкер)",
     colDeposit: "Способы пополнения",
     colFounded: "Год",
+    tipExchange: "Название биржи — нажмите, чтобы открыть подробный обзор.",
+    tipLicenses: "Какие лицензии или регистрации VASP есть у биржи и в какой юрисдикции.",
+    tipRuAccess: "Насколько свободно резиденты России могут пользоваться биржей — формально и на практике.",
+    tipFee: "Комиссия за исполнение ордера по рынку (тейкер) на споте, базовый уровень без скидок за объём.",
+    tipDeposit: "Какими способами можно завести деньги на биржу.",
+    tipFounded: "В каком году биржа начала работать.",
     ruAccessOpen: "Без ограничений",
     ruAccessGrey: "Серая зона",
     dash: "—",
@@ -47,6 +53,12 @@ const EXCHANGES_STRINGS = {
     colFee: "Fee (taker)",
     colDeposit: "Deposit methods",
     colFounded: "Founded",
+    tipExchange: "The exchange's name — click to open the full review.",
+    tipLicenses: "What licenses or VASP registrations the exchange holds, and in which jurisdiction.",
+    tipRuAccess: "How freely Russian residents can use the exchange — formally and in practice.",
+    tipFee: "The base spot taker fee (market order), before any volume discount.",
+    tipDeposit: "Ways to fund the exchange account.",
+    tipFounded: "The year the exchange started operating.",
     ruAccessOpen: "No restrictions",
     ruAccessGrey: "Grey zone",
     dash: "—",
@@ -115,12 +127,12 @@ function initExchangesTable(rootId) {
       <table class="calc-table compare-table">
         <thead>
           <tr>
-            <th data-sort="name" class="sortable">${t.colExchange}</th>
-            <th>${t.colLicenses}</th>
-            <th>${t.colRuAccess}</th>
-            <th data-sort="fee" class="sortable">${t.colFee}</th>
-            <th>${t.colDeposit}</th>
-            <th data-sort="founded" class="sortable">${t.colFounded}</th>
+            <th data-sort="name" class="sortable" title="${t.tipExchange}">${t.colExchange}</th>
+            <th title="${t.tipLicenses}">${t.colLicenses}</th>
+            <th title="${t.tipRuAccess}">${t.colRuAccess}</th>
+            <th data-sort="fee" class="sortable" title="${t.tipFee}">${t.colFee}</th>
+            <th title="${t.tipDeposit}">${t.colDeposit}</th>
+            <th data-sort="founded" class="sortable" title="${t.tipFounded}">${t.colFounded}</th>
           </tr>
         </thead>
         <tbody></tbody>

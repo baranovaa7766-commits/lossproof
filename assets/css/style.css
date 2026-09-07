@@ -661,6 +661,16 @@ a {
   margin: 0 0 8px;
 }
 
+.compare-table th[title] {
+  text-decoration: underline dotted;
+  text-decoration-color: var(--color-text-muted);
+  text-underline-offset: 3px;
+}
+
+.compare-table th[title]:not(.sortable) {
+  cursor: help;
+}
+
 .compare-table th.sortable {
   cursor: pointer;
   text-decoration: underline dotted;
