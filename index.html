@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LossProof — сравнение крипто-маршрутов вывода выплат трейдеров</title>
-  <meta name="description" content="Узнайте, сколько денег вы реально получите на руки при выводе выплаты пропфирмы через связку биржа + off-ramp сервис — сравните курс, комиссию и скорость в одном калькуляторе." />
+  <title>LossProof — путеводитель для трейдера: биржи, пропфирмы, вывод выплат</title>
+  <meta name="description" content="Сравнение проверенных бирж, пропфирм и маршрутов вывода выплат для трейдеров — по документированным источникам, без рекламных обещаний." />
   <link rel="canonical" href="/" />
   <link rel="alternate" hreflang="ru" href="/" />
   <link rel="alternate" hreflang="en" href="/en/" />
   <link rel="alternate" hreflang="x-default" href="/" />
-  <meta property="og:title" content="LossProof — сравнение крипто-маршрутов вывода выплат для трейдеров" />
-  <meta property="og:description" content="Сравните реальную сумму на руки при выводе выплаты через разные связки биржа + off-ramp, прежде чем выбрать маршрут." />
+  <meta property="og:title" content="LossProof — путеводитель для трейдера" />
+  <meta property="og:description" content="Сравнение проверенных бирж, пропфирм и маршрутов вывода выплат — по документированным источникам, без рекламных обещаний." />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
@@ -23,10 +23,6 @@
     <div class="container">
       <a class="site-logo" href="/">LossProof</a>
       <nav class="site-nav">
-        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
-        <a href="/#firms">💸 Вывод по фирмам</a>
-        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
-        <a href="/exchanges/">🔁 Сравнение бирж</a>
         <a href="/disclosure/">📄 Раскрытие информации</a>
         <a class="lang-switch" href="/en/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
       </nav>
@@ -36,55 +32,164 @@
   <main>
     <section class="hero hero--home">
       <div class="container">
-        <h1>Обменяйте USDT, USDC или доллары на рубли по лучшему курсу</h1>
-        <p>Сравните курс, комиссию и скорость разных маршрутов обмена в одном калькуляторе — и не переплачивайте при выводе денег в рубли.</p>
+        <h1>LossProof — твой путеводитель в мире трейдинга</h1>
+        <p>Сравниваем биржи, пропфирмы и маршруты вывода выплат по проверенным данным, без рекламных обещаний. Постепенно превращаем это в полноценный гид для трейдера — от выбора площадки до последнего рубля на счету.</p>
       </div>
     </section>
 
-    <section class="container container--wide">
-      <div class="calculator-card">
-        <div id="calculator-root"></div>
-      </div>
-    </section>
+    <section class="section container">
+      <div class="hub-grid">
+        <a class="hub-card" href="/calculator/">
+          <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs><linearGradient id="hg-calc" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+            <g fill="none" stroke="url(#hg-calc)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="10" y="6" width="28" height="36" rx="5"/>
+              <line x1="16" y1="15" x2="32" y2="15"/>
+              <line x1="16" y1="24" x2="16" y2="24.01"/>
+              <line x1="24" y1="24" x2="24" y2="24.01"/>
+              <line x1="32" y1="24" x2="32" y2="24.01"/>
+              <line x1="16" y1="32" x2="16" y2="32.01"/>
+              <line x1="24" y1="32" x2="24" y2="32.01"/>
+              <line x1="32" y1="32" x2="32" y2="32.01"/>
+            </g>
+          </svg>
+          <h3>Калькулятор выплат</h3>
+          <p>Сравните маршруты и узнайте сумму на руки</p>
+        </a>
 
-    <section class="section container" id="firms">
-      <h2>Инструкции по выводу для каждой пропфирмы</h2>
-      <p>Каждая фирма выводит деньги по-своему. Смотрите точные способы вывода, комиссии и минимальные суммы для вашей фирмы, плюс калькулятор, настроенный под её валюту выплаты.</p>
-      <div class="firm-grid" id="firm-grid"></div>
+        <a class="hub-card" href="/prop-firms/">
+          <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs><linearGradient id="hg-firm" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+            <g fill="none" stroke="url(#hg-firm)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="10" y="10" width="28" height="32" rx="3"/>
+              <line x1="17" y1="18" x2="17" y2="18.01"/>
+              <line x1="24" y1="18" x2="24" y2="18.01"/>
+              <line x1="31" y1="18" x2="31" y2="18.01"/>
+              <line x1="17" y1="26" x2="17" y2="26.01"/>
+              <line x1="24" y1="26" x2="24" y2="26.01"/>
+              <line x1="31" y1="26" x2="31" y2="26.01"/>
+              <path d="M20 42 V34 H28 V42"/>
+            </g>
+          </svg>
+          <h3>Сравнение пропфирм</h3>
+          <p>Условия, комиссии и надёжность — сравнение</p>
+        </a>
+
+        <a class="hub-card" href="/calculator/#firms">
+          <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs><linearGradient id="hg-withdraw" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+            <g fill="none" stroke="url(#hg-withdraw)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="16" width="30" height="22" rx="4"/>
+              <path d="M6 23 H36"/>
+              <circle cx="29" cy="29" r="2"/>
+              <path d="M32 6 L42 6 L42 16"/>
+              <path d="M42 6 L28 20"/>
+            </g>
+          </svg>
+          <h3>Вывод по фирмам</h3>
+          <p>Способы и минимальные суммы для вашей фирмы</p>
+        </a>
+
+        <a class="hub-card" href="/crypto-payout-guide/">
+          <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs><linearGradient id="hg-guide" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+            <g fill="none" stroke="url(#hg-guide)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="24" cy="24" r="17"/>
+              <polygon points="24,14 28,24 24,34 20,24"/>
+            </g>
+          </svg>
+          <h3>Гид по крипто-выводу</h3>
+          <p>Как вывести выплату через биржу и off-ramp</p>
+        </a>
+
+        <a class="hub-card" href="/exchanges/">
+          <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs><linearGradient id="hg-exchange" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+            <g fill="none" stroke="url(#hg-exchange)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 18 H34 M28 12 L34 18 L28 24"/>
+              <path d="M40 30 H14 M20 24 L14 30 L20 36"/>
+            </g>
+          </svg>
+          <h3>Сравнение бирж</h3>
+          <p>Лицензии, доступ для РФ и комиссии бирж</p>
+        </a>
+      </div>
     </section>
 
     <section class="section container">
       <div class="card">
-        <h2>Почему сумма, одобренная пропфирмой, — это не то, что окажется у вас на счету</h2>
-        <p>Ваша пропфирма отправляет выплату в USD (или EUR/GBP), обычно через банковский перевод, крипто или платёжного партнёра вроде RiseWorks. Для трейдеров из России и СНГ путь дальше обычно лежит через покупку USDT на бирже и последующую конвертацию в рубли или локальную валюту через off-ramp сервис — Wise и Revolut для этого недоступны. Итоговая сумма зависит от двух этапов сразу: <strong>спреда/курса</strong> на каждом шаге и <strong>комиссий</strong>, взимаемых и биржей, и off-ramp сервисом. Эти потери легко складываются в 3-5% — реальные деньги при пятизначной выплате. Этот сайт создан, чтобы сделать это сравнение прозрачным до того, как вы выберете маршрут.</p>
-        <p>Читайте подробный разбор: <a href="/crypto-payout-guide/">гид по крипто-выводу для трейдеров пропфирм</a>.</p>
+        <h2>Почему LossProof</h2>
+        <p>Мы сравниваем реальные условия, а не рекламные обещания — сводим биржи, пропфирмы и сервисы вывода в понятные таблицы, чтобы вы тратили время на трейдинг, а не на ручной пересчёт комиссий по десятку вкладок.</p>
+        <div class="advantages-grid">
+          <div class="advantage-item">
+            <svg class="advantage-check" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs><linearGradient id="hg-check1" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+              <circle cx="12" cy="12" r="10" fill="none" stroke="url(#hg-check1)" stroke-width="2"/>
+              <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <strong>Только проверенные и лицензированные компании</strong>
+              <p>Исключаем биржи и сервисы без публично проверяемой лицензии или с санкционными рисками — с объяснением причины прямо на сайте.</p>
+            </div>
+          </div>
+          <div class="advantage-item">
+            <svg class="advantage-check" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs><linearGradient id="hg-check2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+              <circle cx="12" cy="12" r="10" fill="none" stroke="url(#hg-check2)" stroke-width="2"/>
+              <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <strong>Честные источники данных</strong>
+              <p>У каждой цифры указано, откуда она взята и когда проверялась — если данные не сверены построчно, это прямо помечено.</p>
+            </div>
+          </div>
+          <div class="advantage-item">
+            <svg class="advantage-check" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs><linearGradient id="hg-check3" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+              <circle cx="12" cy="12" r="10" fill="none" stroke="url(#hg-check3)" stroke-width="2"/>
+              <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <strong>Открытая монетизация</strong>
+              <p>Если по ссылке есть партнёрская программа, это прямо написано — и это не влияет на порядок в сравнении.</p>
+            </div>
+          </div>
+          <div class="advantage-item">
+            <svg class="advantage-check" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs><linearGradient id="hg-check4" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+              <circle cx="12" cy="12" r="10" fill="none" stroke="url(#hg-check4)" stroke-width="2"/>
+              <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <strong>Учитываем реальность СНГ</strong>
+              <p>Пишем не только «что доступно официально», но и как это работает на практике для трейдеров из России и стран СНГ.</p>
+            </div>
+          </div>
+          <div class="advantage-item">
+            <svg class="advantage-check" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs><linearGradient id="hg-check5" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+              <circle cx="12" cy="12" r="10" fill="none" stroke="url(#hg-check5)" stroke-width="2"/>
+              <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <strong>Бесплатно, без регистрации</strong>
+              <p>Никаких аккаунтов, подписок или платных функций — все сравнения открыты сразу.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте курсы напрямую у провайдеров.</span>
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у провайдеров.</span>
       <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
     </div>
   </footer>
 
-  <script src="/assets/js/data.js"></script>
-  <script src="/assets/js/rates.js"></script>
-  <script src="/assets/js/calculator.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-    initCalculator("calculator-root", { fundingCurrency: "USD", localCurrency: "RUB", amount: 1000 });
-
-    const firmGrid = document.getElementById("firm-grid");
-    firmGrid.innerHTML = FIRMS.map(
-      (firm) => `
-        <a class="firm-card" href="/payout/${firm.slug}/">
-          <h3>${firm.name}</h3>
-          <p>${firm.methods.join(", ")}</p>
-        </a>
-      `
-    ).join("");
   </script>
 </body>
 </html>

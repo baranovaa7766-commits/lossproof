@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор вывода выплат — LossProof</title>
+  <meta name="description" content="Сравните курс, комиссию и скорость разных маршрутов вывода — от покупки USDT на бирже до конвертации в рубли через off-ramp сервис — и узнайте, сколько получите на руки." />
+  <link rel="canonical" href="/calculator/" />
+  <link rel="alternate" hreflang="ru" href="/calculator/" />
+  <link rel="alternate" hreflang="en" href="/en/calculator/" />
+  <link rel="alternate" hreflang="x-default" href="/calculator/" />
+  <meta property="og:title" content="Калькулятор вывода выплат — LossProof" />
+  <meta property="og:description" content="Сравните реальную сумму на руки при выводе выплаты через разные связки биржа + off-ramp, прежде чем выбрать маршрут." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/calculator/">🧮 Калькулятор</a>
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/calculator/#firms">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/exchanges/">🔁 Сравнение бирж</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a class="lang-switch" href="/en/calculator/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Калькулятор вывода выплат</h1>
+        <p>Сравните курс, комиссию и скорость разных маршрутов — от покупки USDT на бирже до конвертации в рубли или локальную валюту — и узнайте, сколько реально окажется на руках.</p>
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <div id="calculator-root"></div>
+      </div>
+    </section>
+
+    <section class="section container" id="firms">
+      <h2>Инструкции по выводу для каждой пропфирмы</h2>
+      <p>Каждая фирма выводит деньги по-своему. Смотрите точные способы вывода, комиссии и минимальные суммы для вашей фирмы, плюс калькулятор, настроенный под её валюту выплаты.</p>
+      <div class="firm-grid" id="firm-grid"></div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Почему сумма, одобренная пропфирмой, — это не то, что окажется у вас на счету</h2>
+        <p>Ваша пропфирма отправляет выплату в USD (или EUR/GBP), обычно через банковский перевод, крипто или платёжного партнёра вроде RiseWorks. Для трейдеров из России и СНГ путь дальше обычно лежит через покупку USDT на бирже и последующую конвертацию в рубли или локальную валюту через off-ramp сервис — Wise и Revolut для этого недоступны. Итоговая сумма зависит от двух этапов сразу: <strong>спреда/курса</strong> на каждом шаге и <strong>комиссий</strong>, взимаемых и биржей, и off-ramp сервисом. Эти потери легко складываются в 3-5% — реальные деньги при пятизначной выплате. Этот калькулятор существует, чтобы сделать это сравнение прозрачным до того, как вы выберете маршрут.</p>
+        <p>Читайте подробный разбор: <a href="/crypto-payout-guide/">гид по крипто-выводу для трейдеров пропфирм</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте курсы напрямую у провайдеров.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/rates.js"></script>
+  <script src="/assets/js/calculator.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initCalculator("calculator-root", { fundingCurrency: "USD", localCurrency: "RUB", amount: 1000 });
+
+    const firmGrid = document.getElementById("firm-grid");
+    firmGrid.innerHTML = FIRMS.map(
+      (firm) => `
+        <a class="firm-card" href="/payout/${firm.slug}/">
+          <h3>${firm.name}</h3>
+          <p>${firm.methods.join(", ")}</p>
+        </a>
+      `
+    ).join("");
+  </script>
+</body>
+</html>
