@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сравнение обменников: вывод USDT в рубли</title>
+  <meta name="description" content="Сравните проверенные обменники для вывода USDT в рубли: лицензия, комиссия, скорость и на карты каких стран можно выводить деньги." />
+  <link rel="canonical" href="/offramps/" />
+  <link rel="alternate" hreflang="ru" href="/offramps/" />
+  <link rel="alternate" hreflang="en" href="/en/offramps/" />
+  <link rel="alternate" hreflang="x-default" href="/offramps/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/calculator/">🧮 Калькулятор</a>
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/payouts/">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/exchanges/">🔁 Сравнение бирж</a>
+        <a href="/offramps/">🏧 Сравнение обменников</a>
+        <a href="/terms/">📖 Словарь терминов</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a class="lang-switch" href="/en/offramps/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Сравнение обменников</h1>
+        <p>Обменник (в англоязычных источниках его называют «off-ramp сервис») — это сервис, который меняет USDT или другую криптовалюту на рубли или другую обычную валюту и переводит их на карту. Это второй, обычно самый дорогой, этап вывода — сравните комиссию и условия перед тем как выбрать.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="disclaimer-box">
+        <strong>«Проверенный» здесь означает: у сервиса есть публично проверяемая лицензия или он прямо публикует свои тарифы на официальном сайте.</strong> Это не гарантия безопасности и не финансовая консультация — курс и комиссии меняются без предупреждения, у обменников нет публичного API для проверки тарифов в реальном времени.
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <div id="offramps-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Как мы отбираем обменники</h2>
+        <p>В сравнение попадают только сервисы, у которых есть либо публично проверяемая лицензия, либо открыто опубликованные на официальном сайте тарифы (не оценка «на глаз», а реальная страница с цифрами) — никаких безымянных обменников без официального сайта и с непрозрачным курсом.</p>
+        <div class="verify-box">
+          <strong>A7A5 в это сравнение намеренно не включён.</strong> Это не отдельный обменник, а рублёвый стейблкоин от A7/Old Vector LLC, торгуемый в основном на бирже Grinex — а Grinex и связанные с A7A5 структуры попали под санкции OFAC Минфина США в августе 2025 года как преемник санкционной биржи Garantex.
+        </div>
+        <p>Есть ещё один способ свериться с текущими курсами — агрегатор <a href="https://www.bestchange.ru/" target="_blank" rel="noopener">BestChange</a>. Это справочный ресурс, не партнёрский сервис.</p>
+        <p>Когда выберете обменник, посчитайте итоговую сумму на руки с учётом обеих ступеней (биржа + обменник) в <a href="/calculator/">калькуляторе</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у сервисов.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/offramps.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderOfframpsCompare("offramps-root");
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Cash-Out Services: USDT to Rubles</title>
+  <meta name="description" content="Compare vetted cash-out services for converting USDT to rubles: license, fee, speed, and which countries' bank cards they can pay out to." />
+  <link rel="canonical" href="/en/offramps/" />
+  <link rel="alternate" hreflang="ru" href="/offramps/" />
+  <link rel="alternate" hreflang="en" href="/en/offramps/" />
+  <link rel="alternate" hreflang="x-default" href="/offramps/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/en/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/en/calculator/">🧮 Calculator</a>
+        <a href="/en/prop-firms/">🏢 Compare prop firms</a>
+        <a href="/en/payouts/">💸 Withdrawals by firm</a>
+        <a href="/en/crypto-payout-guide/">💱 Crypto Payout Guide</a>
+        <a href="/en/exchanges/">🔁 Compare exchanges</a>
+        <a href="/en/offramps/">🏧 Compare cash-out services</a>
+        <a href="/en/terms/">📖 Glossary</a>
+        <a href="/en/disclosure/">📄 Disclosure</a>
+        <a class="lang-switch" href="/offramps/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Compare Cash-Out Services</h1>
+        <p>A cash-out service (also called an "off-ramp" in industry jargon) converts USDT or other crypto into rubles or another regular currency and sends it to your card. This is the second, usually the more expensive, stage of a withdrawal — compare the fee and terms before you pick one.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="disclaimer-box">
+        <strong>"Vetted" here means: the service has a publicly checkable license, or it plainly publishes its own rates on its official site.</strong> That's not a safety guarantee or financial advice — rates and fees change without notice, and cash-out services don't have a public API for checking rates live.
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <div id="offramps-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>How we pick these services</h2>
+        <p>Only services with either a publicly checkable license, or openly published rates on their own official site (not a rough estimate, an actual page with numbers) make this comparison — no anonymous exchangers without an official site and with an opaque rate.</p>
+        <div class="verify-box">
+          <strong>A7A5 is deliberately not included here.</strong> It's not a standalone cash-out service but a ruble-pegged stablecoin from A7/Old Vector LLC, traded mainly on the Grinex exchange — and Grinex and A7A5-linked structures were placed under US Treasury OFAC sanctions in August 2025 as the successor to the sanctioned Garantex exchange.
+        </div>
+        <p>There's also <a href="https://www.bestchange.ru/" target="_blank" rel="noopener">BestChange</a>, an exchanger aggregator you can cross-check current rates against. It's a reference resource, not an affiliate service.</p>
+        <p>Once you've picked a service, run the total amount you'd receive across both stages (exchange + cash-out) through the <a href="/en/calculator/">calculator</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Not financial advice — verify terms directly with providers.</span>
+      <span><a href="/en/disclosure/">Affiliate disclosure</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.en.js"></script>
+  <script src="/assets/js/offramps.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderOfframpsCompare("offramps-root");
+  </script>
+</body>
+</html>

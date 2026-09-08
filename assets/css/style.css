@@ -385,9 +385,9 @@ a {
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 760px) {
   .hub-grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -744,6 +744,25 @@ a {
 
 .cmp-field dd {
   margin: 0;
+}
+
+/* Plain term:definition list (/terms/) */
+.term-list {
+  margin: 0;
+}
+
+.term-list dt {
+  font-weight: 700;
+  margin-top: 18px;
+}
+
+.term-list dt:first-of-type {
+  margin-top: 0;
+}
+
+.term-list dd {
+  margin: 4px 0 0;
+  color: var(--color-text-muted);
 }
 
 .pf-name {

@@ -211,6 +211,10 @@ const OFFRAMPS = [
     fixedFee: 0,
     speed: "10-30 minutes",
     dataVerified: true,
+    license: "Licensed platform in Belarus",
+    crypto: ["USDT", "BTC", "ETH"],
+    currencies: ["RUB", "BYN"],
+    officialUrl: "https://whitebird.io",
     notes: "Licensed platform (Belarus): converts USDT/BTC/ETH to RUB/BYN onto a Mir card. 2.0% is the rate for withdrawing to a Russian bank card, whitebird.io/commission.",
   },
   {
@@ -226,6 +230,10 @@ const OFFRAMPS = [
     fixedFee: 6,
     speed: "1 business day (withdrawals only process on bank business days)",
     dataVerified: true,
+    license: "Brokerage platform for CIS-based traders (no public licensing info found)",
+    crypto: ["USDT"],
+    currencies: ["RUB"],
+    officialUrl: "https://cifra.by",
     notes: "Brokerage platform for CIS-based traders. 1.5% conversion + a 500 RUB withdrawal fee (0 if withdrawing into a Cifra Bank account), cifra.by/rates.",
   },
 ];

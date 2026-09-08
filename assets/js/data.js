@@ -207,6 +207,10 @@ const OFFRAMPS = [
     fixedFee: 0,
     speed: "10-30 минут",
     dataVerified: true,
+    license: "Лицензированная площадка в Беларуси",
+    crypto: ["USDT", "BTC", "ETH"],
+    currencies: ["RUB", "BYN"],
+    officialUrl: "https://whitebird.io",
     notes: "Лицензированная площадка (Беларусь): USDT/BTC/ETH → RUB/BYN на карту МИР. 2,0% — тариф для вывода на карту банка РФ, whitebird.io/commission.",
   },
   {
@@ -223,6 +227,10 @@ const OFFRAMPS = [
     fixedFee: 6,
     speed: "1 рабочий день (вывод только в рабочие дни банков)",
     dataVerified: true,
+    license: "Брокерская платформа для трейдеров СНГ (публичных данных о лицензии не найдено)",
+    crypto: ["USDT"],
+    currencies: ["RUB"],
+    officialUrl: "https://cifra.by",
     notes: "Брокерская платформа для трейдеров СНГ. 1,5% конвертация + 500 ₽ вывод (0, если выводить в Цифра банк), cifra.by/rates.",
   },
 ];
