@@ -25,7 +25,7 @@
       <nav class="site-nav">
         <a href="/calculator/">🧮 Калькулятор</a>
         <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
-        <a href="/calculator/#firms">💸 Вывод по фирмам</a>
+        <a href="/payouts/">💸 Вывод по фирмам</a>
         <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
         <a href="/exchanges/">🔁 Сравнение бирж</a>
         <a href="/disclosure/">📄 Раскрытие информации</a>
@@ -48,17 +48,12 @@
       </div>
     </section>
 
-    <section class="section container" id="firms">
-      <h2>Инструкции по выводу для каждой пропфирмы</h2>
-      <p>Каждая фирма выводит деньги по-своему. Смотрите точные способы вывода, комиссии и минимальные суммы для вашей фирмы, плюс калькулятор, настроенный под её валюту выплаты.</p>
-      <div class="firm-grid" id="firm-grid"></div>
-    </section>
-
     <section class="section container">
       <div class="card">
         <h2>Почему сумма, одобренная пропфирмой, — это не то, что окажется у вас на счету</h2>
         <p>Ваша пропфирма отправляет выплату в USD (или EUR/GBP), обычно через банковский перевод, крипто или платёжного партнёра вроде RiseWorks. Для трейдеров из России и СНГ путь дальше обычно лежит через покупку USDT на бирже и последующую конвертацию в рубли или локальную валюту через off-ramp сервис — Wise и Revolut для этого недоступны. Итоговая сумма зависит от двух этапов сразу: <strong>спреда/курса</strong> на каждом шаге и <strong>комиссий</strong>, взимаемых и биржей, и off-ramp сервисом. Эти потери легко складываются в 3-5% — реальные деньги при пятизначной выплате. Этот калькулятор существует, чтобы сделать это сравнение прозрачным до того, как вы выберете маршрут.</p>
         <p>Читайте подробный разбор: <a href="/crypto-payout-guide/">гид по крипто-выводу для трейдеров пропфирм</a>.</p>
+        <p>Точные способы вывода, комиссии и минимальные суммы для конкретной фирмы — на странице <a href="/payouts/">«Вывод по фирмам»</a>.</p>
       </div>
     </section>
   </main>
@@ -76,16 +71,6 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
     initCalculator("calculator-root", { fundingCurrency: "USD", localCurrency: "RUB", amount: 1000 });
-
-    const firmGrid = document.getElementById("firm-grid");
-    firmGrid.innerHTML = FIRMS.map(
-      (firm) => `
-        <a class="firm-card" href="/payout/${firm.slug}/">
-          <h3>${firm.name}</h3>
-          <p>${firm.methods.join(", ")}</p>
-        </a>
-      `
-    ).join("");
   </script>
 </body>
 </html>

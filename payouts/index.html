@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вывод по фирмам: способы, комиссии и минимальные суммы для каждой пропфирмы</title>
+  <meta name="description" content="Инструкции по выводу денег для всех пропфирм на LossProof: способы вывода, комиссии, минимальные суммы и скорость — плюс калькулятор конвертации в локальную валюту для каждой фирмы." />
+  <link rel="canonical" href="/payouts/" />
+  <link rel="alternate" hreflang="ru" href="/payouts/" />
+  <link rel="alternate" hreflang="en" href="/en/payouts/" />
+  <link rel="alternate" hreflang="x-default" href="/payouts/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/calculator/">🧮 Калькулятор</a>
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/payouts/">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/exchanges/">🔁 Сравнение бирж</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a class="lang-switch" href="/en/payouts/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Вывод по фирмам</h1>
+        <p>Каждая пропфирма выводит деньги по-своему. Выберите свою фирму — увидите точные способы вывода, комиссии, минимальные суммы и скорость, плюс калькулятор, уже настроенный под её валюту выплаты.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <div class="firm-grid" id="firm-grid"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Что дальше</h2>
+        <p>Ещё не выбрали фирму или хотите сравнить условия входа, просадку и профит-сплит? Загляните в <a href="/prop-firms/">сравнение пропфирм</a>. Деньги уже пришли и нужно перевести их в рубли или локальную валюту? Смотрите <a href="/crypto-payout-guide/">гид по крипто-выводу</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у фирм.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    document.getElementById("firm-grid").innerHTML = FIRMS.map(
+      (firm) => `
+        <a class="firm-card" href="/payout/${firm.slug}/">
+          <h3>${firm.name}</h3>
+          <p>${firm.methods.join(", ")}</p>
+        </a>
+      `
+    ).join("");
+  </script>
+</body>
+</html>

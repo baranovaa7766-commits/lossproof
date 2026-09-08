@@ -321,6 +321,48 @@ const FIRMS = [
     notes: "",
     payoutCurrency: "USD",
   },
+  {
+    // Источники (проверено 2026-09-08): help.topstep.com/en/articles/8284233
+    // и обзоры proptradingvibes.com/tradecovex.com за 2026 год.
+    slug: "topstep",
+    name: "Topstep",
+    methods: [
+      "Prop-to-Brokerage (только США)",
+      "Aeropay (только США)",
+      "Wise (международный)",
+      "ACH (США)",
+      "Wire/SWIFT (международный)",
+    ],
+    fee: "Wise, Prop-to-Brokerage и Aeropay — без комиссии от фирмы; ACH и Wire — $30",
+    minWithdrawal: "$125",
+    speed: "Одобрение 1-3 рабочих дня; Prop-to-Brokerage/Aeropay — в тот же день, ACH/Wise — 1-3 дня, Wire — 5-10 дней",
+    notes: "Prop-to-Brokerage и Aeropay доступны только трейдерам из США — для остальных реальный выбор это Wise (без комиссии) или Wire ($30).",
+    payoutCurrency: "USD",
+  },
+  {
+    // Источники (проверено 2026-09-08): therocktrading.com/reviews/brightfunded,
+    // proptradingvibes.com/blog/brightfunded-payout-structure.
+    slug: "brightfunded",
+    name: "BrightFunded",
+    methods: ["USDC (сеть ERC-20)", "Банковский перевод (EUR)"],
+    fee: "Комиссии от фирмы нет; сторонние расходы ~$5-50 в зависимости от способа",
+    minWithdrawal: "Официального минимума не заявлено (по данным обзоров — от $0,01)",
+    speed: "В среднем ~17 часов, гарантированно до 24 часов — плюс время подтверждения сети или банка",
+    notes: "Первая выплата доступна через 30 дней после первой сделки на финансируемом счету, далее раз в две недели (быстрее — платный апгрейд).",
+    payoutCurrency: "USD",
+  },
+  {
+    // Источники (проверено 2026-09-08): quantvps.com/blog/blueberry-funded-payout-rules,
+    // propvator.com/blog/blueberry-funded-payout-methods.
+    slug: "blueberry-funded",
+    name: "Blueberry Funded",
+    methods: ["USDC / USDT-TRC20 (до $2 000 за заявку)", "RiseWorks (для более крупных сумм)"],
+    fee: "Комиссии от фирмы нет; у RiseWorks ~10% на крупные суммы, у крипто — сетевая комиссия",
+    minWithdrawal: "$100",
+    speed: "Обработка 1-2 рабочих дня, выплаты раз в 14 дней (быстрее — платные апгрейды: 7 дней / 3 дня / по требованию)",
+    notes: "Крипто-выплата (USDC/USDT-TRC20) ограничена суммой $2 000 за заявку — более крупные суммы идут через RiseWorks.",
+    payoutCurrency: "USD",
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -522,7 +564,7 @@ const PROP_FIRMS = [
     maxAccountValue: 150000,
     maxAccountText: "$50K / $100K / $150K (фьючерсы)",
     payoutMethods: ["Банк (ACH/Wire)", "Rise (междунар.)"],
-    payoutSlug: null,
+    payoutSlug: "topstep",
     trustpilotScore: 3.6,
     trustpilotReviews: 14500,
     trustpilotAsOf: "2026-09-06",
@@ -565,7 +607,7 @@ const PROP_FIRMS = [
     maxAccountValue: 400000,
     maxAccountText: "$5K–$200K, скейлинг до $400K",
     payoutMethods: ["Крипто", "Банк/Rise"],
-    payoutSlug: null,
+    payoutSlug: "brightfunded",
     trustpilotScore: null,
     trustpilotReviews: 530,
     trustpilotAsOf: "2026-09-06",
@@ -611,7 +653,7 @@ const PROP_FIRMS = [
     maxAccountValue: 2000000,
     maxAccountText: "$1 250–$200K, скейлинг до $2M",
     payoutMethods: ["Крипто", "Банк", "Rise"],
-    payoutSlug: null,
+    payoutSlug: "blueberry-funded",
     trustpilotScore: 4.3,
     trustpilotReviews: 1420,
     trustpilotAsOf: "2026-09-06",

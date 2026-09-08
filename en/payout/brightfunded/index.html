@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to Withdraw From The5ers: Payout Methods, Fees &amp; Best Conversion Rate</title>
-  <meta name="description" content="The5ers payout methods, fees, and minimum withdrawal explained, plus a calculator to compare the cheapest way to convert your payout into your local currency." />
-  <link rel="canonical" href="/en/payout/the5ers/" />
-  <link rel="alternate" hreflang="ru" href="/payout/the5ers/" />
-  <link rel="alternate" hreflang="en" href="/en/payout/the5ers/" />
-  <link rel="alternate" hreflang="x-default" href="/payout/the5ers/" />
+  <title>How to Withdraw From BrightFunded: Payout Methods, Fees &amp; Best Conversion Rate</title>
+  <meta name="description" content="BrightFunded payout methods (USDC, EUR bank transfer), fees, and minimum withdrawal explained, plus a calculator to compare the cheapest way to convert your payout into your local currency." />
+  <link rel="canonical" href="/en/payout/brightfunded/" />
+  <link rel="alternate" hreflang="ru" href="/payout/brightfunded/" />
+  <link rel="alternate" hreflang="en" href="/en/payout/brightfunded/" />
+  <link rel="alternate" hreflang="x-default" href="/payout/brightfunded/" />
   <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
@@ -26,7 +26,7 @@
         <a href="/en/crypto-payout-guide/">💱 Crypto Payout Guide</a>
         <a href="/en/exchanges/">🔁 Compare exchanges</a>
         <a href="/en/disclosure/">📄 Disclosure</a>
-        <a class="lang-switch" href="/payout/the5ers/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
+        <a class="lang-switch" href="/payout/brightfunded/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
       </nav>
     </div>
   </header>
@@ -34,40 +34,40 @@
   <main>
     <section class="hero">
       <div class="container">
-        <h1>How to Withdraw From The5ers</h1>
-        <p>The5ers payout methods, fees, and minimums — plus a calculator to see the cheapest way to turn your payout into your local currency.</p>
+        <h1>How to Withdraw From BrightFunded</h1>
+        <p>BrightFunded payout methods, fees, and minimums — plus a calculator to see the cheapest way to turn your payout into your local currency.</p>
       </div>
     </section>
 
     <section class="section container">
       <div class="card">
-        <h2>The5ers payout methods</h2>
+        <h2>BrightFunded payout methods</h2>
         <table class="data-table">
           <tbody>
-            <tr><th>Methods</th><td>RiseWorks, Crypto, Bank transfer, Hub Credits</td></tr>
-            <tr><th>Fee</th><td>Bank transfer 3%; crypto/RiseWorks 2% (some sources cite a flat 3.5%) — verify before relying on this</td></tr>
-            <tr><th>Minimum withdrawal</th><td>$150</td></tr>
-            <tr><th>Typical speed</th><td>~72 hours, on a biweekly payout cycle</td></tr>
+            <tr><th>Methods</th><td>USDC (ERC-20 network), bank transfer (EUR)</td></tr>
+            <tr><th>Firm-side fee</th><td>None — but third-party costs (network, bank) typically run $5-50 depending on method</td></tr>
+            <tr><th>Minimum withdrawal</th><td>No official minimum stated (reviews report as low as $0.01)</td></tr>
+            <tr><th>Typical speed</th><td>~17 hours on average, guaranteed within 24 hours — plus network/bank confirmation time</td></tr>
           </tbody>
         </table>
-        <div class="notes-box">Crypto withdrawals are capped at $1,500 per request — larger payouts may need multiple requests or a different method.</div>
-        <div class="verify-box">Fee figures conflict across sources during research. Always confirm current fees and limits on your <a href="https://the5ers.com" target="_blank" rel="noopener">The5ers dashboard</a> before withdrawing.</div>
+        <div class="notes-box">The first payout is available 30 days after the first trade on a funded account, then every two weeks by default (faster with a paid upgrade).</div>
+        <div class="verify-box">These figures were collected via research (September 2026) and may be out of date. Always confirm current fees and limits on your <a href="https://brightfunded.com" target="_blank" rel="noopener">BrightFunded dashboard</a> before withdrawing.</div>
       </div>
     </section>
 
     <section class="container container--wide">
       <div class="calculator-card">
         <h2 style="margin-top:0">Compare your conversion options</h2>
-        <p>The5ers pays out in USD. Once it lands, here's what you'd actually keep after converting to your local currency by method:</p>
+        <p>BrightFunded pays out in USDC or EUR. Once it lands, here's what you'd actually keep after converting to your local currency by method:</p>
         <div id="calculator-root"></div>
       </div>
     </section>
 
     <section class="section container">
       <div class="card">
-        <h2>Compare The5ers with other prop firms</h2>
-        <p>The 5%ers' challenge rules, drawdown limits, profit split and prices next to other vetted firms.</p>
-        <p><a href="/en/prop-firms/the5ers/">Open The 5%ers in the prop-firm comparison →</a></p>
+        <h2>Compare BrightFunded with other prop firms</h2>
+        <p>BrightFunded's evaluation rules, drawdown limits, profit split and prices next to other vetted firms.</p>
+        <p><a href="/en/prop-firms/brightfunded/">Open BrightFunded in the prop-firm comparison →</a></p>
       </div>
     </section>
 
@@ -93,7 +93,7 @@
     document.getElementById("year").textContent = new Date().getFullYear();
     initCalculator("calculator-root", { fundingCurrency: "USD", localCurrency: "RUB", amount: 1000 });
 
-    document.getElementById("firm-grid").innerHTML = FIRMS.filter((f) => f.slug !== "the5ers")
+    document.getElementById("firm-grid").innerHTML = FIRMS.filter((f) => f.slug !== "brightfunded")
       .map(
         (firm) => `
         <a class="firm-card" href="/en/payout/${firm.slug}/">

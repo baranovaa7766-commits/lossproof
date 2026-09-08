@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Withdrawals by Firm: Methods, Fees &amp; Minimums for Every Prop Firm</title>
+  <meta name="description" content="Withdrawal instructions for every prop firm on LossProof: payout methods, fees, minimum amounts, and speed — plus a local-currency conversion calculator for each firm." />
+  <link rel="canonical" href="/en/payouts/" />
+  <link rel="alternate" hreflang="ru" href="/payouts/" />
+  <link rel="alternate" hreflang="en" href="/en/payouts/" />
+  <link rel="alternate" hreflang="x-default" href="/payouts/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/en/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/en/calculator/">🧮 Calculator</a>
+        <a href="/en/prop-firms/">🏢 Compare prop firms</a>
+        <a href="/en/payouts/">💸 Withdrawals by firm</a>
+        <a href="/en/crypto-payout-guide/">💱 Crypto Payout Guide</a>
+        <a href="/en/exchanges/">🔁 Compare exchanges</a>
+        <a href="/en/disclosure/">📄 Disclosure</a>
+        <a class="lang-switch" href="/payouts/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Withdrawals by Firm</h1>
+        <p>Every prop firm pays out differently. Pick your firm to see the exact withdrawal methods, fees, minimum amounts, and speed — plus a calculator already set to its payout currency.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <div class="firm-grid" id="firm-grid"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>What's next</h2>
+        <p>Haven't picked a firm yet, or want to compare entry cost, drawdown, and profit split? Check the <a href="/en/prop-firms/">prop-firm comparison</a>. Money's already landed and you need to convert it to rubles or a local currency? See the <a href="/en/crypto-payout-guide/">crypto payout guide</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Not financial advice — verify terms directly with the firms.</span>
+      <span><a href="/en/disclosure/">Affiliate disclosure</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.en.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    document.getElementById("firm-grid").innerHTML = FIRMS.map(
+      (firm) => `
+        <a class="firm-card" href="/en/payout/${firm.slug}/">
+          <h3>${firm.name}</h3>
+          <p>${firm.methods.join(", ")}</p>
+        </a>
+      `
+    ).join("");
+  </script>
+</body>
+</html>

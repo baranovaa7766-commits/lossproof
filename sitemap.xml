@@ -50,6 +50,18 @@
     <changefreq>yearly</changefreq><priority>0.3</priority>
   </url>
   <url>
+    <loc>https://example.com/payouts/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/payouts/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/payouts/" />
+    <changefreq>monthly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/payouts/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/payouts/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/payouts/" />
+    <changefreq>monthly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://example.com/payout/ftmo/</loc>
     <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/payout/ftmo/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/payout/ftmo/" />
@@ -95,6 +107,42 @@
     <loc>https://example.com/en/payout/e8-markets/</loc>
     <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/payout/e8-markets/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/payout/e8-markets/" />
+    <changefreq>monthly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://example.com/payout/topstep/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/payout/topstep/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/payout/topstep/" />
+    <changefreq>monthly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/payout/topstep/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/payout/topstep/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/payout/topstep/" />
+    <changefreq>monthly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://example.com/payout/brightfunded/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/payout/brightfunded/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/payout/brightfunded/" />
+    <changefreq>monthly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/payout/brightfunded/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/payout/brightfunded/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/payout/brightfunded/" />
+    <changefreq>monthly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://example.com/payout/blueberry-funded/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/payout/blueberry-funded/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/payout/blueberry-funded/" />
+    <changefreq>monthly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/payout/blueberry-funded/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/payout/blueberry-funded/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/payout/blueberry-funded/" />
     <changefreq>monthly</changefreq><priority>0.9</priority>
   </url>
   <url>

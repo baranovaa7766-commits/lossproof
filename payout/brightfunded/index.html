@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Как вывести деньги с BrightFunded: способы вывода, комиссии и лучший курс конвертации</title>
+  <meta name="description" content="Способы вывода BrightFunded (USDC, банковский перевод в EUR), комиссии и минимальные суммы, плюс калькулятор, чтобы сравнить самый выгодный способ конвертировать выплату в локальную валюту." />
+  <link rel="canonical" href="/payout/brightfunded/" />
+  <link rel="alternate" hreflang="ru" href="/payout/brightfunded/" />
+  <link rel="alternate" hreflang="en" href="/en/payout/brightfunded/" />
+  <link rel="alternate" hreflang="x-default" href="/payout/brightfunded/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/calculator/">🧮 Калькулятор</a>
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/payouts/">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/exchanges/">🔁 Сравнение бирж</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a class="lang-switch" href="/en/payout/brightfunded/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Как вывести деньги с BrightFunded</h1>
+        <p>Способы вывода BrightFunded, комиссии и минимальные суммы — плюс калькулятор, чтобы увидеть самый дешёвый способ превратить выплату в вашу локальную валюту.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Способы вывода BrightFunded</h2>
+        <table class="data-table">
+          <tbody>
+            <tr><th>Способы</th><td>USDC (сеть ERC-20), банковский перевод (EUR)</td></tr>
+            <tr><th>Комиссия фирмы</th><td>Отсутствует — но сторонние расходы (сеть, банк) обычно $5-50 в зависимости от способа</td></tr>
+            <tr><th>Минимальная сумма вывода</th><td>Официального минимума не заявлено (по данным обзоров — от $0,01)</td></tr>
+            <tr><th>Типичная скорость</th><td>В среднем ~17 часов, гарантированно до 24 часов — плюс время подтверждения сети или банка</td></tr>
+          </tbody>
+        </table>
+        <div class="notes-box">Первая выплата доступна через 30 дней после первой сделки на финансируемом счету, далее по умолчанию раз в две недели (быстрее — за платный апгрейд).</div>
+        <div class="verify-box">Эти данные собраны в ходе исследования (сентябрь 2026) и могут быть устаревшими. Всегда сверяйте актуальные комиссии и лимиты в своём личном кабинете на <a href="https://brightfunded.com" target="_blank" rel="noopener">официальном сайте BrightFunded</a> перед выводом средств.</div>
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <h2 style="margin-top:0">Сравните варианты конвертации</h2>
+        <p>BrightFunded выплачивает в USDC или EUR. Как только деньги поступят, вот что вы реально получите после конвертации в локальную валюту по каждому способу:</p>
+        <div id="calculator-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Сравнить BrightFunded с другими пропфирмами</h2>
+        <p>Условия оценки, лимиты просадки, профит-сплит и цены BrightFunded рядом с другими проверенными фирмами.</p>
+        <p><a href="/prop-firms/brightfunded/">Открыть BrightFunded в сравнении пропфирм →</a></p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Другие инструкции по выводу</h2>
+        <div class="firm-grid" id="firm-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте курсы напрямую у провайдеров.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/rates.js"></script>
+  <script src="/assets/js/calculator.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initCalculator("calculator-root", { fundingCurrency: "USD", localCurrency: "RUB", amount: 1000 });
+
+    document.getElementById("firm-grid").innerHTML = FIRMS.filter((f) => f.slug !== "brightfunded")
+      .map(
+        (firm) => `
+        <a class="firm-card" href="/payout/${firm.slug}/">
+          <h3>${firm.name}</h3>
+          <p>${firm.methods.join(", ")}</p>
+        </a>
+      `
+      )
+      .join("");
+  </script>
+</body>
+</html>

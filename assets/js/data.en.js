@@ -322,6 +322,48 @@ const FIRMS = [
     notes: "",
     payoutCurrency: "USD",
   },
+  {
+    // Sources (checked 2026-09-08): help.topstep.com/en/articles/8284233 and
+    // 2026 reviews from proptradingvibes.com / tradecovex.com.
+    slug: "topstep",
+    name: "Topstep",
+    methods: [
+      "Prop-to-Brokerage (US only)",
+      "Aeropay (US only)",
+      "Wise (international)",
+      "ACH (US)",
+      "Wire/SWIFT (international)",
+    ],
+    fee: "Wise, Prop-to-Brokerage, and Aeropay carry no firm-side fee; ACH and Wire cost $30",
+    minWithdrawal: "$125",
+    speed: "Approval 1-3 business days; Prop-to-Brokerage/Aeropay same-day, ACH/Wise 1-3 days, Wire 5-10 days",
+    notes: "Prop-to-Brokerage and Aeropay are only available to US-based traders — everyone else's real choice is Wise (no fee) or Wire ($30).",
+    payoutCurrency: "USD",
+  },
+  {
+    // Sources (checked 2026-09-08): therocktrading.com/reviews/brightfunded,
+    // proptradingvibes.com/blog/brightfunded-payout-structure.
+    slug: "brightfunded",
+    name: "BrightFunded",
+    methods: ["USDC (ERC-20 network)", "Bank transfer (EUR)"],
+    fee: "No firm-side fee; third-party costs ~$5-50 depending on method",
+    minWithdrawal: "No official minimum stated (reviews report as low as $0.01)",
+    speed: "~17 hours on average, guaranteed within 24 hours — plus network/bank confirmation time",
+    notes: "The first payout is available 30 days after the first trade on a funded account, then every two weeks (faster with a paid upgrade).",
+    payoutCurrency: "USD",
+  },
+  {
+    // Sources (checked 2026-09-08): quantvps.com/blog/blueberry-funded-payout-rules,
+    // propvator.com/blog/blueberry-funded-payout-methods.
+    slug: "blueberry-funded",
+    name: "Blueberry Funded",
+    methods: ["USDC / USDT-TRC20 (up to $2,000 per request)", "RiseWorks (for larger amounts)"],
+    fee: "No firm-side fee; RiseWorks runs ~10% on larger amounts, crypto has a network fee",
+    minWithdrawal: "$100",
+    speed: "1-2 business days processing, payouts every 14 days (faster with paid upgrades: 7-day / 3-day / on-demand)",
+    notes: "Crypto payouts (USDC/USDT-TRC20) are capped at $2,000 per request — larger amounts route through RiseWorks.",
+    payoutCurrency: "USD",
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -523,7 +565,7 @@ const PROP_FIRMS = [
     maxAccountValue: 150000,
     maxAccountText: "$50K / $100K / $150K (futures)",
     payoutMethods: ["Bank (ACH/Wire)", "Rise (international)"],
-    payoutSlug: null,
+    payoutSlug: "topstep",
     trustpilotScore: 3.6,
     trustpilotReviews: 14500,
     trustpilotAsOf: "2026-09-06",
@@ -566,7 +608,7 @@ const PROP_FIRMS = [
     maxAccountValue: 400000,
     maxAccountText: "$5K–$200K, scaling to $400K",
     payoutMethods: ["Crypto", "Bank/Rise"],
-    payoutSlug: null,
+    payoutSlug: "brightfunded",
     trustpilotScore: null,
     trustpilotReviews: 530,
     trustpilotAsOf: "2026-09-06",
@@ -612,7 +654,7 @@ const PROP_FIRMS = [
     maxAccountValue: 2000000,
     maxAccountText: "$1,250–$200K, scaling to $2M",
     payoutMethods: ["Crypto", "Bank", "Rise"],
-    payoutSlug: null,
+    payoutSlug: "blueberry-funded",
     trustpilotScore: 4.3,
     trustpilotReviews: 1420,
     trustpilotAsOf: "2026-09-06",

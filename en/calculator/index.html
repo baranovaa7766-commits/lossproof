@@ -25,7 +25,7 @@
       <nav class="site-nav">
         <a href="/en/calculator/">🧮 Calculator</a>
         <a href="/en/prop-firms/">🏢 Compare prop firms</a>
-        <a href="/en/calculator/#firms">💸 Withdrawals by firm</a>
+        <a href="/en/payouts/">💸 Withdrawals by firm</a>
         <a href="/en/crypto-payout-guide/">💱 Crypto Payout Guide</a>
         <a href="/en/exchanges/">🔁 Compare exchanges</a>
         <a href="/en/disclosure/">📄 Disclosure</a>
@@ -48,17 +48,12 @@
       </div>
     </section>
 
-    <section class="section container" id="firms">
-      <h2>Payout guides by prop firm</h2>
-      <p>Each firm pays out differently. See the exact withdrawal methods, fees, and minimums for your firm, plus the calculator preset to your payout currency.</p>
-      <div class="firm-grid" id="firm-grid"></div>
-    </section>
-
     <section class="section container">
       <div class="card">
         <h2>Why the "amount" a prop firm approves isn't what lands in your account</h2>
         <p>Your prop firm sends your payout in USD (or EUR/GBP), usually via bank transfer, crypto, or a payout partner like RiseWorks. For traders in Russia and the CIS, the next step is usually buying USDT on an exchange and then converting it to rubles or a local currency through an off-ramp service — Wise and Revolut aren't an option. Your final amount depends on two stages at once: the <strong>spread/rate</strong> at each step, and the <strong>fees</strong> charged by both the exchange and the off-ramp. Those losses stack up fast, easily 3-5% — real money on a five-figure payout. This calculator exists to make that comparison transparent before you pick a route.</p>
         <p>Read the full breakdown: <a href="/en/crypto-payout-guide/">the crypto payout guide for prop traders</a>.</p>
+        <p>Exact withdrawal methods, fees, and minimums for a specific firm are on the <a href="/en/payouts/">"Withdrawals by firm"</a> page.</p>
       </div>
     </section>
   </main>
@@ -76,16 +71,6 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
     initCalculator("calculator-root", { fundingCurrency: "USD", localCurrency: "RUB", amount: 1000 });
-
-    const firmGrid = document.getElementById("firm-grid");
-    firmGrid.innerHTML = FIRMS.map(
-      (firm) => `
-        <a class="firm-card" href="/en/payout/${firm.slug}/">
-          <h3>${firm.name}</h3>
-          <p>${firm.methods.join(", ")}</p>
-        </a>
-      `
-    ).join("");
   </script>
 </body>
 </html>
