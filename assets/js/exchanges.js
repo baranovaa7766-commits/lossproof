@@ -28,7 +28,8 @@ const EXCHANGES_STRINGS = {
     ruAccessGrey: "Серая зона",
     dash: "—",
     empty: "Под выбранные фильтры не подошла ни одна биржа.",
-    sortHint: "Нажмите на подчёркнутый заголовок, чтобы отсортировать.",
+    sortByLabel: "Сортировка",
+    sortDirLabel: "Сменить направление сортировки",
     researched: (d) =>
       `Данные собраны ${d} через веб-поиск и не сверялись построчно с официальными сайтами бирж. Лицензии, комиссии и доступ для резидентов РФ меняются — проверяйте ключевые пункты на сайте биржи перед регистрацией.`,
     summaryFounded: "Год основания",
@@ -63,7 +64,8 @@ const EXCHANGES_STRINGS = {
     ruAccessGrey: "Grey zone",
     dash: "—",
     empty: "No exchange matches the selected filters.",
-    sortHint: "Click an underlined column heading to sort.",
+    sortByLabel: "Sort by",
+    sortDirLabel: "Toggle sort direction",
     researched: (d) =>
       `Data gathered ${d} via web search and not checked line by line against official exchange sites. Licenses, fees, and Russia-access status change — verify the key points on the exchange's own site before registering.`,
     summaryFounded: "Founded",
@@ -112,7 +114,17 @@ function initExchangesTable(rootId) {
   if (!root || typeof EXCHANGES_COMPARE === "undefined") return;
   const t = EXCHANGES_STRINGS[getExLang()];
 
-  const state = { ruAccess: [], sortKey: null, sortDir: 1 };
+  // Card layout (not a scrollable table) on purpose — see the same note in
+  // prop-firms.js: the license/deposit text is long enough that a real row
+  // table needs more width than the ~1080px container ever gives it, on
+  // any screen size. Sorting is driven by a select + direction toggle.
+  const state = { ruAccess: [], sortKey: "name", sortDir: 1 };
+
+  const sortOptions = [
+    ["name", t.colExchange],
+    ["fee", t.colFee],
+    ["founded", t.colFounded],
+  ];
 
   root.innerHTML = `
     <form class="pf-filters" aria-label="${t.filtersTitle}">
@@ -122,28 +134,21 @@ function initExchangesTable(rootId) {
         <label><input type="checkbox" name="ruAccess" value="grey" /> ${t.ruAccessGreyOption}</label>
       </fieldset>
     </form>
-    <p class="pf-sort-hint">${t.sortHint}</p>
-    <div class="calc-table-wrap">
-      <table class="calc-table compare-table">
-        <thead>
-          <tr>
-            <th data-sort="name" class="sortable" title="${t.tipExchange}">${t.colExchange}</th>
-            <th title="${t.tipLicenses}">${t.colLicenses}</th>
-            <th title="${t.tipRuAccess}">${t.colRuAccess}</th>
-            <th data-sort="fee" class="sortable" title="${t.tipFee}">${t.colFee}</th>
-            <th title="${t.tipDeposit}">${t.colDeposit}</th>
-            <th data-sort="founded" class="sortable" title="${t.tipFounded}">${t.colFounded}</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <div class="cmp-sort">
+      <label for="ex-sort-key">${t.sortByLabel}</label>
+      <select id="ex-sort-key">
+        ${sortOptions.map(([key, label]) => `<option value="${key}"${key === state.sortKey ? " selected" : ""}>${label}</option>`).join("")}
+      </select>
+      <button type="button" class="cmp-sort-dir" id="ex-sort-dir" aria-label="${t.sortDirLabel}" title="${t.sortDirLabel}">↓</button>
     </div>
+    <div class="cmp-cards" id="ex-cards"></div>
     <p class="calc-disclaimer">${t.researched(EXCHANGES_COMPARE_RESEARCHED)}</p>
   `;
 
-  const tbody = root.querySelector("tbody");
+  const cardsRoot = root.querySelector("#ex-cards");
   const form = root.querySelector(".pf-filters");
-  const headers = root.querySelectorAll("th.sortable");
+  const sortKeySelect = root.querySelector("#ex-sort-key");
+  const sortDirBtn = root.querySelector("#ex-sort-dir");
 
   function sortValue(ex, key) {
     switch (key) {
@@ -159,36 +164,40 @@ function initExchangesTable(rootId) {
     if (state.ruAccess.length) {
       rows = rows.filter((e) => state.ruAccess.includes(e.ruAccessTier));
     }
-    if (state.sortKey) {
-      rows.sort((a, b) => {
-        const av = sortValue(a, state.sortKey);
-        const bv = sortValue(b, state.sortKey);
-        if (av < bv) return -1 * state.sortDir;
-        if (av > bv) return 1 * state.sortDir;
-        return 0;
-      });
-    }
+    rows.sort((a, b) => {
+      const av = sortValue(a, state.sortKey);
+      const bv = sortValue(b, state.sortKey);
+      if (av < bv) return -1 * state.sortDir;
+      if (av > bv) return 1 * state.sortDir;
+      return 0;
+    });
     return rows;
+  }
+
+  function field(label, tip, valueHtml) {
+    return `<div class="cmp-field"><dt title="${tip}">${label}</dt><dd>${valueHtml}</dd></div>`;
   }
 
   function render() {
     const rows = currentRows();
     if (!rows.length) {
-      tbody.innerHTML = `<tr><td colspan="6" class="pf-empty">${t.empty}</td></tr>`;
+      cardsRoot.innerHTML = `<p class="pf-empty">${t.empty}</p>`;
       return;
     }
     const base = exchangesBase();
-    tbody.innerHTML = rows
+    cardsRoot.innerHTML = rows
       .map(
         (ex) => `
-        <tr>
-          <td data-label="${t.colExchange}"><a class="pf-name" href="${base}${ex.slug}/">${escapeEx(ex.name)}</a></td>
-          <td data-label="${t.colLicenses}">${escapeEx(ex.licenses)}</td>
-          <td data-label="${t.colRuAccess}">${ruAccessBadgeHTML(ex, t)}</td>
-          <td data-label="${t.colFee}">${escapeEx(ex.takerFeeText)}</td>
-          <td data-label="${t.colDeposit}">${ex.depositMethods.map(escapeEx).join(", ")}</td>
-          <td data-label="${t.colFounded}">${ex.founded ?? t.dash}</td>
-        </tr>`
+        <article class="cmp-card">
+          <h3 class="cmp-card-name"><a class="pf-name" href="${base}${ex.slug}/">${escapeEx(ex.name)}</a></h3>
+          <dl class="cmp-fields">
+            ${field(t.colLicenses, t.tipLicenses, escapeEx(ex.licenses))}
+            ${field(t.colRuAccess, t.tipRuAccess, ruAccessBadgeHTML(ex, t))}
+            ${field(t.colFee, t.tipFee, escapeEx(ex.takerFeeText))}
+            ${field(t.colDeposit, t.tipDeposit, ex.depositMethods.map(escapeEx).join(", "))}
+            ${field(t.colFounded, t.tipFounded, ex.founded ?? t.dash)}
+          </dl>
+        </article>`
       )
       .join("");
   }
@@ -198,19 +207,15 @@ function initExchangesTable(rootId) {
     render();
   });
 
-  headers.forEach((th) => {
-    th.addEventListener("click", () => {
-      const key = th.dataset.sort;
-      if (state.sortKey === key) {
-        state.sortDir *= -1;
-      } else {
-        state.sortKey = key;
-        state.sortDir = key === "name" ? 1 : -1;
-      }
-      headers.forEach((h) => h.removeAttribute("aria-sort"));
-      th.setAttribute("aria-sort", state.sortDir === 1 ? "ascending" : "descending");
-      render();
-    });
+  sortKeySelect.addEventListener("change", () => {
+    state.sortKey = sortKeySelect.value;
+    render();
+  });
+
+  sortDirBtn.addEventListener("click", () => {
+    state.sortDir *= -1;
+    sortDirBtn.textContent = state.sortDir === 1 ? "↓" : "↑";
+    render();
   });
 
   render();

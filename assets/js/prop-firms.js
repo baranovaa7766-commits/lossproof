@@ -50,7 +50,8 @@ const PROPFIRMS_STRINGS = {
     empty: "Под выбранные фильтры не подошла ни одна фирма.",
     researched: (d) =>
       `Данные собраны ${d} через веб-поиск и не сверялись построчно с официальными сайтами. Профит-сплит, просадки, цены и число отзывов Trustpilot меняются — проверяйте ключевые цифры на сайте фирмы перед решением.`,
-    sortHint: "Нажмите на подчёркнутый заголовок, чтобы отсортировать.",
+    sortByLabel: "Сортировка",
+    sortDirLabel: "Сменить направление сортировки",
     noteLabel: "Почему в списке:",
     summaryFounded: "Год основания",
     summaryEval: "Тип оценки",
@@ -123,7 +124,8 @@ const PROPFIRMS_STRINGS = {
     empty: "No firm matches the selected filters.",
     researched: (d) =>
       `Data gathered ${d} via web search and not checked line by line against official sites. Profit splits, drawdowns, prices and Trustpilot review counts change — verify the key figures on the firm's own site before deciding.`,
-    sortHint: "Click an underlined column heading to sort.",
+    sortByLabel: "Sort by",
+    sortDirLabel: "Toggle sort direction",
     noteLabel: "Why it's listed:",
     summaryFounded: "Founded",
     summaryEval: "Evaluation type",
@@ -219,10 +221,25 @@ function initPropFirmsTable(rootId) {
   if (!root || typeof PROP_FIRMS === "undefined") return;
   const t = PROPFIRMS_STRINGS[getPropLang()];
 
-  const state = { evalTypes: [], maxEntry: "any", minSplit: "any", sortKey: null, sortDir: 1 };
+  // Card layout (not a scrollable table) on purpose: this comparison has 11
+  // fields per firm, which never fits the site's ~1080px container without
+  // a horizontal scrollbar at any screen size — the container width is the
+  // real constraint, not the viewport. Sorting/filtering behave the same as
+  // before, just driven by a select + direction toggle instead of clickable
+  // <th> cells (which don't exist in a card layout).
+  const state = { evalTypes: [], maxEntry: "any", minSplit: "any", sortKey: "name", sortDir: 1 };
 
   const entryBuckets = [50, 100, 200];
   const splitBuckets = [80, 90, 100];
+
+  const sortOptions = [
+    ["name", t.colFirm],
+    ["entry", t.colEntry],
+    ["split", t.colSplit],
+    ["account", t.colMaxAccount],
+    ["trustpilot", t.colTrustpilot],
+    ["founded", t.colFounded],
+  ];
 
   root.innerHTML = `
     <form class="pf-filters" aria-label="${t.filtersTitle}">
@@ -247,33 +264,21 @@ function initPropFirmsTable(rootId) {
         </select>
       </div>
     </form>
-    <p class="pf-sort-hint">${t.sortHint}</p>
-    <div class="calc-table-wrap">
-      <table class="calc-table compare-table">
-        <thead>
-          <tr>
-            <th data-sort="name" class="sortable" title="${t.tipFirm}">${t.colFirm}</th>
-            <th title="${t.tipEval}">${t.colEval}</th>
-            <th data-sort="entry" class="sortable" title="${t.tipEntry}">${t.colEntry}</th>
-            <th data-sort="split" class="sortable" title="${t.tipSplit}">${t.colSplit}</th>
-            <th title="${t.tipDrawdown}">${t.colDrawdown}</th>
-            <th title="${t.tipMinDays}">${t.colMinDays}</th>
-            <th data-sort="account" class="sortable" title="${t.tipMaxAccount}">${t.colMaxAccount}</th>
-            <th title="${t.tipPayout}">${t.colPayout}</th>
-            <th data-sort="trustpilot" class="sortable" title="${t.tipTrustpilot}">${t.colTrustpilot}</th>
-            <th title="${t.tipBroker}">${t.colBroker}</th>
-            <th data-sort="founded" class="sortable" title="${t.tipFounded}">${t.colFounded}</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <div class="cmp-sort">
+      <label for="pf-sort-key">${t.sortByLabel}</label>
+      <select id="pf-sort-key">
+        ${sortOptions.map(([key, label]) => `<option value="${key}"${key === state.sortKey ? " selected" : ""}>${label}</option>`).join("")}
+      </select>
+      <button type="button" class="cmp-sort-dir" id="pf-sort-dir" aria-label="${t.sortDirLabel}" title="${t.sortDirLabel}">↓</button>
     </div>
+    <div class="cmp-cards" id="pf-cards"></div>
     <p class="calc-disclaimer">${t.researched(PROP_FIRMS_RESEARCHED)}</p>
   `;
 
-  const tbody = root.querySelector("tbody");
+  const cardsRoot = root.querySelector("#pf-cards");
   const form = root.querySelector(".pf-filters");
-  const headers = root.querySelectorAll("th.sortable");
+  const sortKeySelect = root.querySelector("#pf-sort-key");
+  const sortDirBtn = root.querySelector("#pf-sort-dir");
 
   function sortValue(firm, key) {
     switch (key) {
@@ -298,46 +303,49 @@ function initPropFirmsTable(rootId) {
     if (state.minSplit !== "any") {
       rows = rows.filter((f) => typeof f.profitSplitMax === "number" && f.profitSplitMax >= Number(state.minSplit));
     }
-    if (state.sortKey) {
-      rows.sort((a, b) => {
-        const av = sortValue(a, state.sortKey);
-        const bv = sortValue(b, state.sortKey);
-        if (av < bv) return -1 * state.sortDir;
-        if (av > bv) return 1 * state.sortDir;
-        return 0;
-      });
-    }
+    rows.sort((a, b) => {
+      const av = sortValue(a, state.sortKey);
+      const bv = sortValue(b, state.sortKey);
+      if (av < bv) return -1 * state.sortDir;
+      if (av > bv) return 1 * state.sortDir;
+      return 0;
+    });
     return rows;
+  }
+
+  function field(label, tip, valueHtml) {
+    return `<div class="cmp-field"><dt title="${tip}">${label}</dt><dd>${valueHtml}</dd></div>`;
   }
 
   function render() {
     const rows = currentRows();
     if (!rows.length) {
-      tbody.innerHTML = `<tr><td colspan="11" class="pf-empty">${t.empty}</td></tr>`;
+      cardsRoot.innerHTML = `<p class="pf-empty">${t.empty}</p>`;
       return;
     }
     const base = propFirmsBase();
-    tbody.innerHTML = rows
+    cardsRoot.innerHTML = rows
       .map((f) => {
         const payoutHref = f.payoutSlug
-          ? `<br><a class="pf-cross" href="${payoutBase()}${f.payoutSlug}/">${t.payoutLink}</a>`
+          ? `<p class="cmp-card-cross"><a class="pf-cross" href="${payoutBase()}${f.payoutSlug}/">${t.payoutLink}</a></p>`
           : "";
         return `
-        <tr>
-          <td data-label="${t.colFirm}">
-            <a class="pf-name" href="${base}${f.slug}/">${escapePF(f.name)}</a>${payoutHref}
-          </td>
-          <td data-label="${t.colEval}">${f.evaluationTypes.map((e) => evalLabel(e, t)).join(", ")}</td>
-          <td data-label="${t.colEntry}">${escapePF(f.entryText)}</td>
-          <td data-label="${t.colSplit}">${escapePF(f.profitSplitText)}</td>
-          <td data-label="${t.colDrawdown}">${escapePF(f.drawdownDaily)}<br><span class="pf-muted">${escapePF(f.drawdownTotal)}</span></td>
-          <td data-label="${t.colMinDays}">${escapePF(f.minTradingDays)}</td>
-          <td data-label="${t.colMaxAccount}">${escapePF(f.maxAccountText)}</td>
-          <td data-label="${t.colPayout}">${f.payoutMethods.map(escapePF).join(", ")}</td>
-          <td data-label="${t.colTrustpilot}">${trustpilotCellHTML(f, t)}</td>
-          <td data-label="${t.colBroker}">${f.brokerBacking ? escapePF(f.brokerBacking) : t.dash}</td>
-          <td data-label="${t.colFounded}">${f.founded ?? t.dash}</td>
-        </tr>`;
+        <article class="cmp-card">
+          <h3 class="cmp-card-name"><a class="pf-name" href="${base}${f.slug}/">${escapePF(f.name)}</a></h3>
+          ${payoutHref}
+          <dl class="cmp-fields">
+            ${field(t.colEval, t.tipEval, f.evaluationTypes.map((e) => evalLabel(e, t)).join(", "))}
+            ${field(t.colEntry, t.tipEntry, escapePF(f.entryText))}
+            ${field(t.colSplit, t.tipSplit, escapePF(f.profitSplitText))}
+            ${field(t.colDrawdown, t.tipDrawdown, `${escapePF(f.drawdownDaily)}<br><span class="pf-muted">${escapePF(f.drawdownTotal)}</span>`)}
+            ${field(t.colMinDays, t.tipMinDays, escapePF(f.minTradingDays))}
+            ${field(t.colMaxAccount, t.tipMaxAccount, escapePF(f.maxAccountText))}
+            ${field(t.colPayout, t.tipPayout, f.payoutMethods.map(escapePF).join(", "))}
+            ${field(t.colTrustpilot, t.tipTrustpilot, trustpilotCellHTML(f, t))}
+            ${field(t.colBroker, t.tipBroker, f.brokerBacking ? escapePF(f.brokerBacking) : t.dash)}
+            ${field(t.colFounded, t.tipFounded, f.founded ?? t.dash)}
+          </dl>
+        </article>`;
       })
       .join("");
   }
@@ -349,19 +357,15 @@ function initPropFirmsTable(rootId) {
     render();
   });
 
-  headers.forEach((th) => {
-    th.addEventListener("click", () => {
-      const key = th.dataset.sort;
-      if (state.sortKey === key) {
-        state.sortDir *= -1;
-      } else {
-        state.sortKey = key;
-        state.sortDir = key === "name" ? 1 : -1; // numbers: high → low first
-      }
-      headers.forEach((h) => h.removeAttribute("aria-sort"));
-      th.setAttribute("aria-sort", state.sortDir === 1 ? "ascending" : "descending");
-      render();
-    });
+  sortKeySelect.addEventListener("change", () => {
+    state.sortKey = sortKeySelect.value;
+    render();
+  });
+
+  sortDirBtn.addEventListener("click", () => {
+    state.sortDir *= -1;
+    sortDirBtn.textContent = state.sortDir === 1 ? "↓" : "↑";
+    render();
   });
 
   render();
@@ -454,7 +458,7 @@ function renderPropFirmPrices(slug, rootId) {
     <details class="price-matrix">
       <summary>${t.priceSummary}</summary>
       <div class="calc-table-wrap">
-        <table class="calc-table compare-table">
+        <table class="calc-table">
           <thead><tr>${head}</tr></thead>
           <tbody>${f.priceTable.map(bodyRow).join("")}</tbody>
         </table>

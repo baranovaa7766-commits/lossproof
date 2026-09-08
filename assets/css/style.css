@@ -655,49 +655,95 @@ a {
   padding: 3px 0;
 }
 
-.pf-sort-hint {
-  font-size: 0.82rem;
-  color: var(--color-text-muted);
-  margin: 0 0 8px;
+/* Comparison cards (/prop-firms/, /exchanges/) — a grid of per-item cards
+   instead of a wide table. With 6-11 fields of real content, a classic row
+   table never fits the site's ~1080px container without a horizontal
+   scrollbar (the container width is the constraint, not the viewport, so
+   no screen size fixes that) — cards guarantee no scrollbar at any width.
+   Sorting/filtering work the same as before, just via the .cmp-sort
+   controls above the cards instead of clickable column headers. */
+.cmp-sort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
 }
 
-.compare-table th[title] {
+.cmp-sort label {
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.cmp-sort select {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: var(--color-bg);
+}
+
+.cmp-sort-dir {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.cmp-sort-dir:hover {
+  background: #eaf1fd;
+  border-color: var(--color-primary);
+}
+
+.cmp-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.cmp-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.cmp-card-name {
+  margin: 0 0 4px;
+}
+
+.cmp-card-cross {
+  margin: 0 0 12px;
+}
+
+.cmp-fields {
+  margin: 12px 0 0;
+}
+
+.cmp-field {
+  padding: 8px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.cmp-field dt {
+  margin: 0 0 3px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
   text-decoration: underline dotted;
   text-decoration-color: var(--color-text-muted);
   text-underline-offset: 3px;
-}
-
-.compare-table th[title]:not(.sortable) {
   cursor: help;
+  display: inline-block;
 }
 
-.compare-table th.sortable {
-  cursor: pointer;
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-  white-space: nowrap;
-  user-select: none;
-}
-
-.compare-table th.sortable::after {
-  content: "\2195";
-  margin-left: 4px;
-  opacity: 0.4;
-  font-size: 0.85em;
-}
-
-.compare-table th.sortable[aria-sort="ascending"]::after {
-  content: "\2191";
-  opacity: 1;
-}
-
-.compare-table th.sortable[aria-sort="descending"]::after {
-  content: "\2193";
-  opacity: 1;
-}
-
-.compare-table td {
-  vertical-align: top;
+.cmp-field dd {
+  margin: 0;
 }
 
 .pf-name {
@@ -794,24 +840,21 @@ a.pf-cross {
 }
 
 @media (max-width: 640px) {
-  .compare-table,
-  .compare-table tbody {
+  .calc-table,
+  .calc-table tbody {
     display: block;
     width: 100%;
   }
-  .calc-table thead,
-  .compare-table thead {
+  .calc-table thead {
     display: none;
   }
-  .calc-table tr,
-  .compare-table tr {
+  .calc-table tr {
     display: block;
     width: 100%;
     border-bottom: 2px solid var(--color-border);
     padding: 10px 0;
   }
-  .calc-table td,
-  .compare-table td {
+  .calc-table td {
     display: flex;
     justify-content: space-between;
     gap: 12px;
@@ -819,31 +862,16 @@ a.pf-cross {
     white-space: normal;
     padding: 6px 0;
   }
-  .calc-table td::before,
-  .compare-table td::before {
+  .calc-table td::before {
     content: attr(data-label);
     font-weight: 600;
     color: var(--color-text-muted);
     flex-shrink: 0;
   }
-  /* .compare-table also carries the .calc-table class, so the desktop
-     nth-child nowrap rules would apply here and clip long cells — undo them. */
-  .compare-table td:nth-child(2),
-  .compare-table td:nth-child(5) {
-    white-space: normal;
-  }
-  /* 11 fields with long labels read better stacked than side-by-side.
-     Use block (not column-flex) so multi-node cells keep inline flow. */
-  .compare-table td {
-    display: block;
-  }
-  .compare-table td::before {
-    display: block;
-    font-size: 0.82rem;
-    margin-bottom: 2px;
-  }
-  .compare-table td .pf-name,
-  .compare-table td .pf-cross {
-    white-space: normal;
+}
+
+@media (max-width: 480px) {
+  .cmp-sort {
+    flex-wrap: wrap;
   }
 }
