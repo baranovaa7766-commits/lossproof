@@ -765,6 +765,26 @@ a {
   color: var(--color-text-muted);
 }
 
+/* Same term:definition list, styled as a warning checklist (/red-flags/) */
+.flag-list dt {
+  font-weight: 700;
+  margin-top: 18px;
+  color: #b3261e;
+}
+
+.flag-list dt:first-of-type {
+  margin-top: 0;
+}
+
+.flag-list dt::before {
+  content: "🚩 ";
+}
+
+.flag-list dd {
+  margin: 4px 0 0;
+  color: var(--color-text-muted);
+}
+
 .pf-name {
   font-weight: 700;
   text-decoration: none;
