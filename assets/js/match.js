@@ -1,7 +1,9 @@
-// Виджет «Подбор пропфирмы» (/match/): пользователь отвечает на несколько
-// вопросов о своих предпочтениях, виджет считает совпадение с каждой фирмой
-// из PROP_FIRMS (assets/js/data.js / data.en.js) и показывает 1-3 лучших
-// варианта с честной раскладкой, что именно совпало, а что нет.
+// Виджет «Подбор пропфирмы» (/match/): пошаговый квиз — вопросы появляются
+// по одному, каждый следующий открывается только после ответа на
+// предыдущий. Когда отвечено на все, становится доступна кнопка «Подобрать
+// пропфирму», которая считает совпадение с каждой фирмой из PROP_FIRMS
+// (assets/js/data.js / data.en.js) и показывает 1-3 лучших варианта с
+// честной раскладкой, что именно совпало, а что нет.
 //
 // Никаких внешних курсов/API — вся логика статична и детерминирована,
 // в отличие от калькулятора переводов. Рынок (форекс/фьючерсы) — единственный
@@ -12,7 +14,6 @@
 
 const MATCH_STRINGS = {
   ru: {
-    heading: "Ответьте на несколько вопросов",
     qMarket: "Какой рынок вы торгуете?",
     marketForex: "Форекс, индексы, металлы, крипто-CFD",
     marketFutures: "Фьючерсы",
@@ -30,6 +31,7 @@ const MATCH_STRINGS = {
     budget50: "До $50",
     budget100: "$50–100",
     budgetAny: "$100 и выше, бюджет не ограничен",
+    changeAnswer: "Изменить ответ",
     submitButton: "Подобрать пропфирму",
     resultsHeading: "Результат подбора",
     matchScore: (matched, total) => `${matched} из ${total} критериев совпало`,
@@ -56,7 +58,6 @@ const MATCH_STRINGS = {
     locale: "ru-RU",
   },
   en: {
-    heading: "Answer a few questions",
     qMarket: "Which market do you trade?",
     marketForex: "Forex, indices, metals, crypto CFDs",
     marketFutures: "Futures",
@@ -74,6 +75,7 @@ const MATCH_STRINGS = {
     budget50: "Under $50",
     budget100: "$50-100",
     budgetAny: "$100+, no hard budget limit",
+    changeAnswer: "Change answer",
     submitButton: "Find my prop firm",
     resultsHeading: "Your matches",
     matchScore: (matched, total) => `${matched} of ${total} criteria matched`,
@@ -131,78 +133,94 @@ function evalTypesLabel(firm, t) {
   return firm.evaluationTypes.join(", ");
 }
 
+function getMatchQuestions(t) {
+  return [
+    { id: "market", label: t.qMarket, options: [
+      { value: "forex", label: t.marketForex },
+      { value: "futures", label: t.marketFutures },
+    ] },
+    { id: "crypto", label: t.qCrypto, options: [
+      { value: "required", label: t.cryptoRequired },
+      { value: "any", label: t.cryptoAny },
+    ] },
+    { id: "evalType", label: t.qEval, options: [
+      { value: "1-step", label: t.eval1 },
+      { value: "2-step", label: t.eval2 },
+      { value: "any", label: t.evalAny },
+    ] },
+    { id: "trust", label: t.qTrust, options: [
+      { value: "proven", label: t.trustProven },
+      { value: "open", label: t.trustOpen },
+    ] },
+    { id: "budget", label: t.qBudget, options: [
+      { value: "50", label: t.budget50 },
+      { value: "100", label: t.budget100 },
+      { value: "999999", label: t.budgetAny },
+    ] },
+  ];
+}
+
 function initFirmMatch(rootId) {
   const root = document.getElementById(rootId);
   if (!root || typeof PROP_FIRMS === "undefined") return;
   const t = MATCH_STRINGS[getMatchLang()];
+  const questions = getMatchQuestions(t);
+  const answers = {};
 
   root.innerHTML = `
-    <form class="calc-form match-form">
-      <h2 class="match-heading">${t.heading}</h2>
-      <div class="calc-field">
-        <label for="match-market">${t.qMarket}</label>
-        <select id="match-market" name="market">
-          <option value="forex">${t.marketForex}</option>
-          <option value="futures">${t.marketFutures}</option>
-        </select>
-      </div>
-      <div class="calc-field">
-        <label for="match-crypto">${t.qCrypto}</label>
-        <select id="match-crypto" name="crypto">
-          <option value="any">${t.cryptoAny}</option>
-          <option value="required">${t.cryptoRequired}</option>
-        </select>
-      </div>
-      <div class="calc-field">
-        <label for="match-eval">${t.qEval}</label>
-        <select id="match-eval" name="evalType">
-          <option value="any">${t.evalAny}</option>
-          <option value="1-step">${t.eval1}</option>
-          <option value="2-step">${t.eval2}</option>
-        </select>
-      </div>
-      <div class="calc-field">
-        <label for="match-trust">${t.qTrust}</label>
-        <select id="match-trust" name="trust">
-          <option value="open">${t.trustOpen}</option>
-          <option value="proven">${t.trustProven}</option>
-        </select>
-      </div>
-      <div class="calc-field">
-        <label for="match-budget">${t.qBudget}</label>
-        <select id="match-budget" name="budget">
-          <option value="999999">${t.budgetAny}</option>
-          <option value="50">${t.budget50}</option>
-          <option value="100">${t.budget100}</option>
-        </select>
-      </div>
-      <button type="submit" class="calc-submit">${t.submitButton}</button>
-    </form>
+    <div class="match-steps"></div>
+    <button type="button" class="calc-submit match-submit" hidden>${t.submitButton}</button>
     <div class="calc-result match-result" aria-live="polite"></div>
   `;
 
-  const form = root.querySelector("form");
+  const stepsEl = root.querySelector(".match-steps");
+  const submitBtn = root.querySelector(".match-submit");
   const resultEl = root.querySelector(".match-result");
 
-  function readAnswers() {
-    const data = new FormData(form);
-    return {
-      market: data.get("market"),
-      crypto: data.get("crypto"),
-      evalType: data.get("evalType"),
-      trust: data.get("trust"),
-      budget: Number(data.get("budget")),
-    };
+  function answeredCount() {
+    return questions.filter((q) => answers[q.id] !== undefined).length;
   }
 
-  function scoreFirm(firm, answers) {
+  function renderSteps() {
+    const visibleCount = Math.min(answeredCount() + 1, questions.length);
+    stepsEl.innerHTML = questions
+      .slice(0, visibleCount)
+      .map((q, i) => {
+        const value = answers[q.id];
+        return `
+        <div class="match-step">
+          <p class="match-step-label">${i + 1}. ${q.label}</p>
+          <div class="match-options" role="group">
+            ${q.options
+              .map(
+                (opt) => `
+              <button type="button" class="match-option ${value === opt.value ? "match-option--selected" : ""}" data-question="${q.id}" data-value="${escapeMatch(opt.value)}">${opt.label}</button>`
+              )
+              .join("")}
+          </div>
+        </div>`;
+      })
+      .join("");
+
+    stepsEl.querySelectorAll(".match-option").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        answers[btn.dataset.question] = btn.dataset.value;
+        resultEl.innerHTML = "";
+        renderSteps();
+      });
+    });
+
+    submitBtn.hidden = answeredCount() < questions.length;
+  }
+
+  function scoreFirm(firm, ans) {
     let score = 0;
     let matched = 0;
     let total = 0;
     const rows = [];
 
     const hasCrypto = firmHasCrypto(firm);
-    if (answers.crypto === "required") {
+    if (ans.crypto === "required") {
       total += 1;
       if (hasCrypto) {
         score += 3;
@@ -216,22 +234,22 @@ function initFirmMatch(rootId) {
       rows.push({ ok: null, text: t.reasonCryptoNeutral(hasCrypto) });
     }
 
-    if (answers.evalType !== "any") {
+    if (ans.evalType !== "any") {
       total += 1;
-      if (firm.evaluationTypes.includes(answers.evalType)) {
+      if (firm.evaluationTypes.includes(ans.evalType)) {
         score += 2;
         matched += 1;
-        rows.push({ ok: true, text: t.reasonEvalYes(answers.evalType) });
+        rows.push({ ok: true, text: t.reasonEvalYes(ans.evalType) });
       } else {
         score -= 3;
-        rows.push({ ok: false, text: t.reasonEvalNo(answers.evalType) });
+        rows.push({ ok: false, text: t.reasonEvalNo(ans.evalType) });
       }
     } else {
       rows.push({ ok: null, text: t.reasonEvalNeutral(evalTypesLabel(firm, t)) });
     }
 
     const proven = firmIsProven(firm);
-    if (answers.trust === "proven") {
+    if (ans.trust === "proven") {
       total += 1;
       if (proven) {
         score += 2;
@@ -248,7 +266,7 @@ function initFirmMatch(rootId) {
     if (typeof firm.entryFrom === "number") {
       total += 1;
       const priceText = escapeMatch(firm.entryText);
-      if (firm.entryFrom <= answers.budget) {
+      if (firm.entryFrom <= Number(ans.budget)) {
         score += 2;
         matched += 1;
         rows.push({ ok: true, text: t.reasonBudgetYes(priceText) });
@@ -266,7 +284,7 @@ function initFirmMatch(rootId) {
     return `${firm.trustpilotScore.toFixed(1)} / 5 (${firm.trustpilotReviews} ${getMatchLang() === "en" ? "reviews" : "отзывов"})`;
   }
 
-  function render(answers) {
+  function renderResults() {
     const candidates = PROP_FIRMS.filter((f) => f.markets && f.markets.includes(answers.market));
     const scored = candidates.map((f) => scoreFirm(f, answers));
     scored.sort((a, b) => b.score - a.score);
@@ -313,14 +331,10 @@ function initFirmMatch(rootId) {
       <p class="calc-disclaimer">${t.disclaimer}</p>
       <p><a href="${base}">${t.seeAllLink}</a></p>
     `;
+    resultEl.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    render(readAnswers());
-  });
+  submitBtn.addEventListener("click", renderResults);
 
-  // Считаем сразу при загрузке с настройками по умолчанию, чтобы виджет не
-  // был пустым (тот же принцип, что у calculator.js).
-  render(readAnswers());
+  renderSteps();
 }
