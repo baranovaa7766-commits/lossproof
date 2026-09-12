@@ -17,9 +17,32 @@
 // спред, а результат переводится в валюту назначения (если это не USD и не
 // крипта/пропфирма). Язык берётся из <html lang="ru|en">.
 //
+// Диапазон вместо точного числа: у off-ramp сервисов (Whitebird, Cifra
+// Markets) нет публичного API тарифов — курс USDT↔fiat привязан к P2P-рынку
+// и колеблется, поэтому показывать одно точное число было бы ложной
+// точностью. Любой этап, где участвует обменник (OFFRAMPS) — как off-ramp,
+// так и как альтернатива бирже для покупки — считается ДИАПАЗОНОМ:
+// ±OFFRAMP_TOLERANCE_PERCENT вокруг подтверждённого spreadPercent (см.
+// calculator-full-rebuild-spec.md, раздел «Диапазон»). Банковский перевод
+// (контрастный вариант) считается тем же способом для единообразия. Этап
+// биржи (EXCHANGES) остаётся точным числом — колебания там минимальны.
+//
 // Usage: initCalculator('root-id', { amount, presetSource: 'cash:USD' |
 //   'firm:<slug>' | 'crypto' | 'crypto:<exchangeId>', presetDestination:
 //   'fiat:RUB' | 'crypto:all' | 'crypto:<exchangeId>' | 'firm:<slug>' })
+
+// ±0,4% — середина диапазона "±0,3-0,5%", который calculator-full-rebuild-spec.md
+// указывает как допуск на рыночные колебания P2P-курса у Whitebird; тот же
+// допуск применяется к Cifra Markets и к банковской строке для единообразия
+// (спецификация не даёт отдельных чисел для них).
+const OFFRAMP_TOLERANCE_PERCENT = 0.4;
+
+function spreadRange(spreadPercent) {
+  return {
+    min: Math.max(spreadPercent - OFFRAMP_TOLERANCE_PERCENT, 0),
+    max: spreadPercent + OFFRAMP_TOLERANCE_PERCENT,
+  };
+}
 
 const CALC_STRINGS = {
   ru: {
@@ -67,6 +90,9 @@ const CALC_STRINGS = {
     firmFeeUnknown: "комиссия фирмы за приём крипты не раскрыта",
     firmFeeKnown: (percent) => `+ ${percent}% комиссия фирмы за приём крипты`,
     viaOfframpSuffix: " (обменник)",
+    rangeFrom: (min) => `от ${min}`,
+    rangeTo: (max) => `до ${max}`,
+    rangeDisclaimer: (date) => `<strong>Это оценка, а не гарантированная сумма.</strong> У off-ramp сервисов (обменников) нет публичного API тарифов — реальный курс на момент вашего вывода может отличаться от диапазона выше, потому что он зависит от текущей ситуации на P2P-рынке. Диапазон рассчитан на основе комиссий, зафиксированных на ${date}, плюс запас на типичные колебания курса. Точный курс перед выводом крупной суммы уточняйте напрямую на сайте сервиса.`,
     challengeAcceptsLabel: "Принимает:",
     challengeFeeLabel: "Комиссия за оплату криптой:",
     challengePayLink: (name) => `Оплатить челлендж на сайте ${name} →`,
@@ -121,6 +147,9 @@ const CALC_STRINGS = {
     firmFeeUnknown: "the firm's crypto-processing fee isn't disclosed",
     firmFeeKnown: (percent) => `+ ${percent}% firm crypto-processing fee`,
     viaOfframpSuffix: " (exchanger)",
+    rangeFrom: (min) => `from ${min}`,
+    rangeTo: (max) => `to ${max}`,
+    rangeDisclaimer: (date) => `<strong>This is an estimate, not a guaranteed amount.</strong> Off-ramp services (exchangers) don't publish a fee API — the actual rate at the time you cash out can differ from the range above, since it tracks the current P2P market. The range is based on fees confirmed as of ${date}, plus a margin for typical rate swings. Check the exact rate directly on the provider's site before a large withdrawal.`,
     challengeAcceptsLabel: "Accepts:",
     challengeFeeLabel: "Crypto payment fee:",
     challengePayLink: (name) => `Pay for the challenge on ${name}'s site →`,
@@ -385,11 +414,11 @@ async function runCalculation(form, resultEl, opts, t) {
     // Покупка USDT на бирже или через обменник (обменники в OFFRAMPS обычно
     // работают в обе стороны, но их тариф на ПОКУПКУ отдельно не проверялся
     // — переиспользуется подтверждённый тариф на продажу, поэтому такие
-    // строки всегда помечаются unverified).
+    // строки всегда помечаются unverified и считаются диапазоном).
     const afterFeeUSD = Math.max(amountUSD - provider.fixedFee, 0);
     const finalAmount = afterFeeUSD * (1 - provider.spreadPercent / 100);
     const effectiveRate = rateToUSD * (1 - provider.spreadPercent / 100);
-    return {
+    const row = {
       name: isOfframp ? `${provider.name}${t.viaOfframpSuffix}` : provider.name,
       finalAmount,
       effectiveRate,
@@ -397,17 +426,28 @@ async function runCalculation(form, resultEl, opts, t) {
       speed: provider.speed,
       linkId: provider.id,
       unverified: isOfframp,
+      hasRange: isOfframp,
     };
+    if (isOfframp) {
+      const { min, max } = spreadRange(provider.spreadPercent);
+      row.finalAmountMax = afterFeeUSD * (1 - min / 100);
+      row.finalAmountMin = afterFeeUSD * (1 - max / 100);
+    }
+    return row;
   };
 
   const buildOfframpOnlyRow = (offramp) => {
-    // Уже в крипте — этапа покупки нет, сразу off-ramp в валюту.
+    // Уже в крипте — этапа покупки нет, сразу off-ramp в валюту (диапазон).
     const afterFeeUSD = Math.max(amountUSD - offramp.fixedFee, 0);
+    const { min, max } = spreadRange(offramp.spreadPercent);
     const finalAmount = afterFeeUSD * (1 - offramp.spreadPercent / 100) * rateFromUSD;
     const effectiveRate = rateFromUSD * (1 - offramp.spreadPercent / 100);
     return {
       name: offramp.name,
       finalAmount,
+      finalAmountMax: afterFeeUSD * (1 - min / 100) * rateFromUSD,
+      finalAmountMin: afterFeeUSD * (1 - max / 100) * rateFromUSD,
+      hasRange: true,
       effectiveRate,
       feeText: formatFee(offramp.spreadPercent, offramp.fixedFee, t),
       speed: offramp.speed,
@@ -417,16 +457,21 @@ async function runCalculation(form, resultEl, opts, t) {
   };
 
   const buildRoute = (ex, offramp) => {
-    // Полный маршрут: сначала биржа (fiat → USDT), потом off-ramp (USDT → fiat).
+    // Полный маршрут: сначала биржа (fiat → USDT, точное значение), потом
+    // off-ramp (USDT → fiat, диапазон — только этот этап колеблется).
     const afterFeeUSD1 = Math.max(amountUSD - ex.fixedFee, 0);
     const usdtAmount = afterFeeUSD1 * (1 - ex.spreadPercent / 100);
     const afterFeeUSD2 = Math.max(usdtAmount - offramp.fixedFee, 0);
+    const { min, max } = spreadRange(offramp.spreadPercent);
     const finalAmount = afterFeeUSD2 * (1 - offramp.spreadPercent / 100) * rateFromUSD;
     const combinedSpreadPercent = 100 * (1 - (1 - ex.spreadPercent / 100) * (1 - offramp.spreadPercent / 100));
     const effectiveRate = rateToUSD * rateFromUSD * (1 - combinedSpreadPercent / 100);
     return {
       name: `${ex.name} → ${offramp.name}`,
       finalAmount,
+      finalAmountMax: afterFeeUSD2 * (1 - min / 100) * rateFromUSD,
+      finalAmountMin: afterFeeUSD2 * (1 - max / 100) * rateFromUSD,
+      hasRange: true,
       effectiveRate,
       feeText: formatFee(combinedSpreadPercent, ex.fixedFee + offramp.fixedFee, t),
       speed: `${ex.speed} + ${offramp.speed}`,
@@ -436,12 +481,18 @@ async function runCalculation(form, resultEl, opts, t) {
   };
 
   const buildBankRow = () => {
+    // Контрастный вариант тоже считается диапазоном (spec: "указать примерный
+    // диапазон итоговых потерь для контраста, не точное число").
     const afterFeeUSD = Math.max(amountUSD - opts.bank.fixedFee, 0);
+    const { min, max } = spreadRange(opts.bank.markupPercent);
     const finalAmount = afterFeeUSD * (1 - opts.bank.markupPercent / 100) * rateFromUSD;
     const effectiveRate = rateToUSD * rateFromUSD * (1 - opts.bank.markupPercent / 100);
     return {
       name: opts.bank.name,
       finalAmount,
+      finalAmountMax: afterFeeUSD * (1 - min / 100) * rateFromUSD,
+      finalAmountMin: afterFeeUSD * (1 - max / 100) * rateFromUSD,
+      hasRange: true,
       effectiveRate,
       feeText: formatFee(opts.bank.markupPercent, opts.bank.fixedFee, t),
       speed: opts.bank.speed,
@@ -453,6 +504,7 @@ async function runCalculation(form, resultEl, opts, t) {
   const buildFirmPaymentRow = (provider, isOfframp) => {
     // Оплата пропфирмы криптой: биржа или обменник (fiat → USDT), затем
     // комиссия платёжного провайдера фирмы за приём крипты (если известна).
+    // Диапазон — только когда провайдер этапа покупки это обменник.
     const feePercent = destFirm.challengePayment.cryptoFeePercent;
     const afterFeeUSD = Math.max(amountUSD - (provider ? provider.fixedFee : 0), 0);
     const usdtAmount = provider ? afterFeeUSD * (1 - provider.spreadPercent / 100) : afterFeeUSD;
@@ -462,7 +514,7 @@ async function runCalculation(form, resultEl, opts, t) {
     if (provider) feeParts.push(formatFee(provider.spreadPercent, provider.fixedFee, t));
     feeParts.push(feePercent ? t.firmFeeKnown(feePercent) : t.firmFeeUnknown);
     const providerName = provider ? `${provider.name}${isOfframp ? t.viaOfframpSuffix : ""}` : null;
-    return {
+    const row = {
       name: providerName ? `${providerName} → ${destFirm.name}` : destFirm.name,
       finalAmount,
       effectiveRate,
@@ -471,7 +523,16 @@ async function runCalculation(form, resultEl, opts, t) {
       linkId: null,
       directLinkUrl: destFirm.challengePayment.officialUrl,
       unverified: !destFirm.challengePayment.dataVerified || feePercent == null || isOfframp,
+      hasRange: !!isOfframp,
     };
+    if (isOfframp && provider) {
+      const { min, max } = spreadRange(provider.spreadPercent);
+      const usdtMax = afterFeeUSD * (1 - min / 100);
+      const usdtMin = afterFeeUSD * (1 - max / 100);
+      row.finalAmountMax = feePercent ? usdtMax * (1 - feePercent / 100) : usdtMax;
+      row.finalAmountMin = feePercent ? usdtMin * (1 - feePercent / 100) : usdtMin;
+    }
+    return row;
   };
 
   let rows;
@@ -502,8 +563,15 @@ async function runCalculation(form, resultEl, opts, t) {
     if (opts.bank) rows.push(buildBankRow());
   }
 
-  rows.sort((a, b) => b.finalAmount - a.finalAmount);
+  // Сортировка по нижней границе диапазона (консервативная оценка сверху);
+  // для точных (не-диапазонных) строк нижняя граница — это само значение.
+  rows.sort((a, b) => (b.finalAmountMin ?? b.finalAmount) - (a.finalAmountMin ?? a.finalAmount));
   const best = rows[0];
+  const anyRangeRow = rows.some((row) => row.hasRange);
+  const verifiedDate =
+    typeof DATA_LAST_VERIFIED !== "undefined"
+      ? new Intl.DateTimeFormat(t.locale, { year: "numeric", month: "long", day: "numeric" }).format(new Date(DATA_LAST_VERIFIED))
+      : "";
 
   resultEl.innerHTML = `
     ${country ? `<p class="calc-country-note">${t.countryNote(escapeHTML(country))}</p>` : ""}
@@ -532,7 +600,11 @@ async function runCalculation(form, resultEl, opts, t) {
               <td data-label="${t.thRate}">1 ${displayFrom} = ${row.effectiveRate.toFixed(4)} ${displayTo}</td>
               <td data-label="${t.thFee}">${row.feeText}</td>
               <td data-label="${t.thSpeed}">${row.speed}</td>
-              <td data-label="${resultHeaderReceive}"><strong>${formatMoney(row.finalAmount, displayTo, t)}</strong></td>
+              <td data-label="${resultHeaderReceive}"><strong>${
+                row.hasRange
+                  ? `${t.rangeFrom(formatMoney(row.finalAmountMin, displayTo, t))} ${t.rangeTo(formatMoney(row.finalAmountMax, displayTo, t))}`
+                  : formatMoney(row.finalAmount, displayTo, t)
+              }</strong></td>
               <td data-label="">${row.directLinkUrl ? linkForUrl(row.directLinkUrl, t) : linkForId(row.linkId, t)}</td>
             </tr>
           `
@@ -542,6 +614,7 @@ async function runCalculation(form, resultEl, opts, t) {
       </table>
     </div>
     ${extraNote}
+    ${anyRangeRow ? `<div class="notes-box calc-range-disclaimer">${t.rangeDisclaimer(verifiedDate)}</div>` : ""}
     <p class="calc-disclaimer">${t.disclaimer} <a href="${t.disclosureHref}">${t.disclaimerLinkText}</a>.</p>
   `;
 }
