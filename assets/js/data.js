@@ -283,6 +283,12 @@ const AFFILIATE_LINKS = {
 // Данные по выплатам пропфирм собраны через веб-поиск.
 // ВАЖНО: перед публикацией каждой страницы проверяйте актуальные условия
 // напрямую на сайте фирмы — эти данные могут быть неточными или устаревшими.
+// challengePayment — можно ли купить у фирмы челлендж (оценку), оплатив
+// криптой, и на каких условиях. Собрано веб-поиском 2026-09-12 по
+// официальным FAQ/справочным центрам фирм (ссылки — в комментарии над
+// каждой записью ниже); dataVerified: false и cryptoFeePercent: null там,
+// где сама комиссия платёжного провайдера за приём крипты не публикуется —
+// не считайте эту часть подтверждённой без сверки на сайте фирмы.
 const FIRMS = [
   {
     slug: "ftmo",
@@ -298,6 +304,16 @@ const FIRMS = [
     speed: "1-2 дня",
     notes: "Банковский перевод недоступен трейдерам из Венесуэлы, Кубы, Судана и Украины.",
     payoutCurrency: "USD",
+    // Источник: ftmo.com/en/faq/what-payment-methods-are-available/ (проверено 2026-09-12).
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "BTC, ETH, LTC, USDT, USDC",
+      priceCurrency: "EUR",
+      cryptoFeePercent: 3,
+      notes: "Комиссия 3% указана официально — столько же берётся за оплату PayPal/Skrill.",
+      officialUrl: "https://ftmo.com",
+      dataVerified: true,
+    },
   },
   {
     slug: "fundednext",
@@ -308,6 +324,16 @@ const FIRMS = [
     speed: "24 часа (крипто/RiseWorks), до 5 дней (банк)",
     notes: "RiseWorks доступен только в отдельных регионах; трейдерам из Ирана доступен только TC Pay.",
     payoutCurrency: "USD",
+    // Источник: help.fundednext.com/en/articles/8342202 (проверено 2026-09-12).
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "BTC, ETH, LTC, DOGE, SOL, USDT (TRC20/ERC20), USDC (ERC20)",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "Комиссия платёжного провайдера за приём крипты не раскрыта — уточните на сайте перед оплатой. XRP, XLM, ADA и MATIC не принимаются.",
+      officialUrl: "https://fundednext.com",
+      dataVerified: false,
+    },
   },
   {
     slug: "the5ers",
@@ -318,6 +344,16 @@ const FIRMS = [
     speed: "~72 часа, выплаты раз в две недели",
     notes: "Вывод через крипто ограничен суммой $1 500 за одну заявку.",
     payoutCurrency: "USD",
+    // Источник: help.the5ers.com/what-payment-methods-are-available (проверено 2026-09-12).
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "USDT, USDC, TRX, USDG, ETH — через Confirmo, несколько сетей на выбор",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "Комиссия платёжного провайдера за приём крипты не раскрыта — уточните на сайте перед оплатой.",
+      officialUrl: "https://the5ers.com",
+      dataVerified: false,
+    },
   },
   {
     slug: "e8-markets",
@@ -328,6 +364,17 @@ const FIRMS = [
     speed: "Не указана — проверьте перед тем как полагаться на это",
     notes: "",
     payoutCurrency: "USD",
+    // Источник: общие обзоры e8markets.com/challenges (проверено 2026-09-12) —
+    // список принимаемых монет и комиссия за крипто-оплату не публикуются.
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "Принимается («Крипто» среди способов оплаты), список монет не публикуется",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "Комиссия платёжного провайдера за приём крипты не раскрыта — уточните на сайте перед оплатой.",
+      officialUrl: "https://e8markets.com",
+      dataVerified: false,
+    },
   },
   {
     // Источники (проверено 2026-09-08): help.topstep.com/en/articles/8284233
@@ -346,6 +393,19 @@ const FIRMS = [
     speed: "Одобрение 1-3 рабочих дня; Prop-to-Brokerage/Aeropay — в тот же день, ACH/Wise — 1-3 дня, Wire — 5-10 дней",
     notes: "Prop-to-Brokerage и Aeropay доступны только трейдерам из США — для остальных реальный выбор это Wise (без комиссии) или Wire ($30).",
     payoutCurrency: "USD",
+    // Источник: help.topstep.com/en/articles/14289835-topstep-pricing-and-payment-questions
+    // (проверено 2026-09-12) — «Topstep accepts Visa, Mastercard, American
+    // Express, and Discover. PayPal is not supported.» Крипта не упомянута
+    // нигде в официальной документации по оплате Trading Combine.
+    challengePayment: {
+      acceptsCrypto: false,
+      cryptoAssets: "",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "Оплата только банковской картой (Visa, Mastercard, American Express, Discover) — криптовалюта и PayPal не принимаются.",
+      officialUrl: "https://www.topstep.com",
+      dataVerified: true,
+    },
   },
   {
     // Источники (проверено 2026-09-08): therocktrading.com/reviews/brightfunded,
@@ -358,6 +418,17 @@ const FIRMS = [
     speed: "В среднем ~17 часов, гарантированно до 24 часов — плюс время подтверждения сети или банка",
     notes: "Первая выплата доступна через 30 дней после первой сделки на финансируемом счету, далее раз в две недели (быстрее — платный апгрейд).",
     payoutCurrency: "USD",
+    // Источник: help.brightfunded.com/en/articles/9286623-can-i-pay-for-my-challenge-with-crypto
+    // (проверено 2026-09-12) — карты и PayPal не принимаются вообще.
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "BTC (сеть Bitcoin и Lightning), ETH, LTC, TRX, SOL, USDT (TRC20), USDC (ERC20)",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "Банковские карты и PayPal не принимаются вообще — оплата только криптовалютой. Комиссия платёжного провайдера за приём крипты не раскрыта.",
+      officialUrl: "https://brightfunded.com",
+      dataVerified: false,
+    },
   },
   {
     // Источники (проверено 2026-09-08): quantvps.com/blog/blueberry-funded-payout-rules,
@@ -370,6 +441,17 @@ const FIRMS = [
     speed: "Обработка 1-2 рабочих дня, выплаты раз в 14 дней (быстрее — платные апгрейды: 7 дней / 3 дня / по требованию)",
     notes: "Крипто-выплата (USDC/USDT-TRC20) ограничена суммой $2 000 за заявку — более крупные суммы идут через RiseWorks.",
     payoutCurrency: "USD",
+    // Источник: help.blueberryfunded.com/en/articles/10527841-how-to-make-payment-using-crypto
+    // (проверено 2026-09-12).
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "USDT, USDC — через Boomfi/Confirmo",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "Комиссия платёжного провайдера за приём крипты не раскрыта — уточните на сайте перед оплатой. Из альтернатив — карта, UPI/IMPS, GCash, GrabPay (по региону).",
+      officialUrl: "https://blueberryfunded.com",
+      dataVerified: false,
+    },
   },
 ];
 

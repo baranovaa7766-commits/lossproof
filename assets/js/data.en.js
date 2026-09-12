@@ -284,6 +284,12 @@ const AFFILIATE_LINKS = {
 // Prop-firm specific payout data, collected via web research.
 // IMPORTANT: verify every figure directly on the firm's own site before
 // publishing that firm's page — these can be out of date or inaccurate.
+// challengePayment — whether a trader can buy the firm's challenge with
+// crypto, and on what terms. Gathered via web search 2026-09-12 from each
+// firm's official FAQ/help center (sources noted per entry below);
+// dataVerified: false and cryptoFeePercent: null wherever the payment
+// processor's own fee for accepting crypto isn't publicly disclosed — don't
+// treat that part as confirmed without checking the firm's site directly.
 const FIRMS = [
   {
     slug: "ftmo",
@@ -299,6 +305,16 @@ const FIRMS = [
     speed: "1-2 days",
     notes: "Bank transfer is unavailable for traders in Venezuela, Cuba, Sudan, and Ukraine.",
     payoutCurrency: "USD",
+    // Source: ftmo.com/en/faq/what-payment-methods-are-available/ (checked 2026-09-12).
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "BTC, ETH, LTC, USDT, USDC",
+      priceCurrency: "EUR",
+      cryptoFeePercent: 3,
+      notes: "The 3% fee is officially stated — the same rate applies to PayPal/Skrill.",
+      officialUrl: "https://ftmo.com",
+      dataVerified: true,
+    },
   },
   {
     slug: "fundednext",
@@ -309,6 +325,16 @@ const FIRMS = [
     speed: "24h (crypto/RiseWorks), up to 5 days (bank)",
     notes: "RiseWorks is only available in select regions; traders in Iran can only use TC Pay.",
     payoutCurrency: "USD",
+    // Source: help.fundednext.com/en/articles/8342202 (checked 2026-09-12).
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "BTC, ETH, LTC, DOGE, SOL, USDT (TRC20/ERC20), USDC (ERC20)",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "The payment processor's fee for accepting crypto isn't disclosed — check the site before paying. XRP, XLM, ADA, and MATIC aren't accepted.",
+      officialUrl: "https://fundednext.com",
+      dataVerified: false,
+    },
   },
   {
     slug: "the5ers",
@@ -319,6 +345,16 @@ const FIRMS = [
     speed: "~72 hours, on a biweekly payout cycle",
     notes: "Crypto withdrawals are capped at $1,500 per request.",
     payoutCurrency: "USD",
+    // Source: help.the5ers.com/what-payment-methods-are-available (checked 2026-09-12).
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "USDT, USDC, TRX, USDG, ETH — via Confirmo, pick from several networks",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "The payment processor's fee for accepting crypto isn't disclosed — check the site before paying.",
+      officialUrl: "https://the5ers.com",
+      dataVerified: false,
+    },
   },
   {
     slug: "e8-markets",
@@ -329,6 +365,17 @@ const FIRMS = [
     speed: "Not specified — verify before relying on this",
     notes: "",
     payoutCurrency: "USD",
+    // Source: general reviews of e8markets.com/challenges (checked 2026-09-12) —
+    // the accepted coin list and crypto-payment fee aren't publicly listed.
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "Accepted (\"Crypto\" is listed as a payment method), coin list not published",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "The payment processor's fee for accepting crypto isn't disclosed — check the site before paying.",
+      officialUrl: "https://e8markets.com",
+      dataVerified: false,
+    },
   },
   {
     // Sources (checked 2026-09-08): help.topstep.com/en/articles/8284233 and
@@ -347,6 +394,19 @@ const FIRMS = [
     speed: "Approval 1-3 business days; Prop-to-Brokerage/Aeropay same-day, ACH/Wise 1-3 days, Wire 5-10 days",
     notes: "Prop-to-Brokerage and Aeropay are only available to US-based traders — everyone else's real choice is Wise (no fee) or Wire ($30).",
     payoutCurrency: "USD",
+    // Source: help.topstep.com/en/articles/14289835-topstep-pricing-and-payment-questions
+    // (checked 2026-09-12) — "Topstep accepts Visa, Mastercard, American
+    // Express, and Discover. PayPal is not supported." Crypto is never
+    // mentioned anywhere in the official Trading Combine payment docs.
+    challengePayment: {
+      acceptsCrypto: false,
+      cryptoAssets: "",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "Card only (Visa, Mastercard, American Express, Discover) — crypto and PayPal aren't accepted.",
+      officialUrl: "https://www.topstep.com",
+      dataVerified: true,
+    },
   },
   {
     // Sources (checked 2026-09-08): therocktrading.com/reviews/brightfunded,
@@ -359,6 +419,17 @@ const FIRMS = [
     speed: "~17 hours on average, guaranteed within 24 hours — plus network/bank confirmation time",
     notes: "The first payout is available 30 days after the first trade on a funded account, then every two weeks (faster with a paid upgrade).",
     payoutCurrency: "USD",
+    // Source: help.brightfunded.com/en/articles/9286623-can-i-pay-for-my-challenge-with-crypto
+    // (checked 2026-09-12) — cards and PayPal aren't accepted at all.
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "BTC (Bitcoin and Lightning networks), ETH, LTC, TRX, SOL, USDT (TRC20), USDC (ERC20)",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "Cards and PayPal aren't accepted at all — crypto is the only payment method. The processor's fee for accepting crypto isn't disclosed.",
+      officialUrl: "https://brightfunded.com",
+      dataVerified: false,
+    },
   },
   {
     // Sources (checked 2026-09-08): quantvps.com/blog/blueberry-funded-payout-rules,
@@ -371,6 +442,17 @@ const FIRMS = [
     speed: "1-2 business days processing, payouts every 14 days (faster with paid upgrades: 7-day / 3-day / on-demand)",
     notes: "Crypto payouts (USDC/USDT-TRC20) are capped at $2,000 per request — larger amounts route through RiseWorks.",
     payoutCurrency: "USD",
+    // Source: help.blueberryfunded.com/en/articles/10527841-how-to-make-payment-using-crypto
+    // (checked 2026-09-12).
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "USDT, USDC — via Boomfi/Confirmo",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "The payment processor's fee for accepting crypto isn't disclosed — check the site before paying. Alternatives include card, UPI/IMPS, GCash, GrabPay (by region).",
+      officialUrl: "https://blueberryfunded.com",
+      dataVerified: false,
+    },
   },
 ];
 
