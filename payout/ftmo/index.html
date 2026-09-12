@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Как вывести деньги с FTMO: способы вывода, комиссии и лучший курс конвертации</title>
-  <meta name="description" content="Способы вывода FTMO, комиссии и минимальные суммы, плюс калькулятор, чтобы сравнить самый выгодный способ конвертировать выплату FTMO в локальную валюту." />
+  <meta name="description" content="Способы вывода FTMO, комиссии и минимальные суммы, плюс маршрут вывода, чтобы сравнить самый выгодный способ конвертировать выплату FTMO в локальную валюту." />
   <link rel="canonical" href="/payout/ftmo/" />
   <link rel="alternate" hreflang="ru" href="/payout/ftmo/" />
   <link rel="alternate" hreflang="en" href="/en/payout/ftmo/" />
@@ -20,7 +20,7 @@
     <div class="container">
       <a class="site-logo" href="/">LossProof</a>
       <nav class="site-nav">
-        <a href="/calculator/">🧮 Калькулятор</a>
+        <a href="/calculator/">🧭 Маршрут вывода</a>
         <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
         <a href="/payouts/">💸 Вывод по фирмам</a>
         <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
@@ -38,7 +38,7 @@
     <section class="hero">
       <div class="container">
         <h1>Как вывести деньги с FTMO</h1>
-        <p>Способы вывода FTMO, комиссии и минимальные суммы — плюс калькулятор, чтобы увидеть самый дешёвый способ превратить выплату в вашу локальную валюту.</p>
+        <p>Способы вывода FTMO, комиссии и минимальные суммы — плюс маршрут вывода, чтобы увидеть самый дешёвый способ превратить выплату в вашу локальную валюту.</p>
       </div>
     </section>
 
@@ -94,7 +94,7 @@
   <script src="/assets/js/calculator.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-    initCalculator("calculator-root", { fundingCurrency: "USD", localCurrency: "RUB", amount: 1000 });
+    initCalculator("calculator-root", { fundingCurrency: "USD", localCurrency: "RUB", amount: 1000, presetLocation: "firm", presetFirm: "ftmo" });
 
     document.getElementById("firm-grid").innerHTML = FIRMS.filter((f) => f.slug !== "ftmo")
       .map(
