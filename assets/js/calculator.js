@@ -1,43 +1,49 @@
-// Переиспользуемый виджет маршрута вывода: спрашивает, где сейчас находятся
-// деньги (у пропфирмы / на карте / уже в крипте) и куда их нужно перевести
-// (в валюту или оставить в USDT), затем показывает все применимые маршруты
-// — покупка USDT на бирже, off-ramp конвертация в локальную валюту, банк как
-// контрастный baseline — пропуская этапы, которые уже пройдены. Язык
-// берётся из <html lang="ru|en">.
-// Usage: initCalculator('root-id', { fundingCurrency, localCurrency, amount,
-//   presetLocation: 'cash'|'firm'|'crypto', presetFirm: '<slug>' })
+// Переиспользуемый виджет маршрута вывода: пользователь свободно выбирает,
+// ГДЕ сейчас находятся деньги (у пропфирмы / на карте в любой валюте / уже
+// в крипте) и КУДА их нужно перевести (на конкретную биржу, "любая биржа" —
+// сравнить все, или в конкретную валюту через off-ramp), после чего виджет
+// считает только применимые этапы маршрута между этими двумя точками.
+//
+// Комиссии `fixedFee` у всех провайдеров (EXCHANGES/OFFRAMPS/BANK_BASELINE в
+// data.js) заданы в долларах — поэтому расчёт всегда идёт через доллар как
+// опорную валюту: сумма сначала переводится в USD-эквивалент (если исходная
+// валюта не USD и не крипта), с неё вычитаются комиссии и применяется
+// спред, а результат переводится в валюту назначения (если это не USD и не
+// крипта). Язык берётся из <html lang="ru|en">.
+//
+// Usage: initCalculator('root-id', { amount, presetSource: 'cash:USD' |
+//   'firm:<slug>' | 'crypto', presetDestination: 'fiat:RUB' | 'crypto:all' |
+//   'crypto:<exchangeId>' })
 
 const CALC_STRINGS = {
   ru: {
-    locationLabel: "Где сейчас находятся деньги",
-    locationCash: "На карте / счету (доллары, евро и т.д.)",
-    locationFirm: "У пропфирмы — ещё не выплачено",
-    locationCrypto: "Уже в крипте (USDT/USDC)",
-    firmLabel: "Пропфирма",
-    firmPlaceholder: "— выберите фирму —",
+    sourceLabel: "Где сейчас находятся деньги",
+    sourceGroupFirm: "У пропфирмы — ещё не выплачено",
+    sourceGroupCash: "На карте / счету",
+    sourceGroupCrypto: "Уже в крипте",
+    sourceCryptoOption: "USDT / USDC",
     firmInfoMethods: "Способы вывода:",
     firmInfoFee: "Комиссия фирмы:",
     firmInfoMin: "Мин. сумма вывода:",
     firmInfoSpeed: "Скорость:",
     firmInfoMore: "Подробнее о выводе →",
-    amountLabel: "Сумма выплаты",
-    fromLabel: "Валюта, в которой сейчас деньги",
-    toLabel: "Куда вывести",
-    toCryptoOption: "Оставить в USDT (без вывода в валюту)",
-    exchangeLabel: "Биржа для покупки USDT",
-    allExchangesOption: "Все биржи (полная картина)",
+    amountLabel: "Сумма",
+    destLabel: "Куда нужно перевести",
+    destGroupCrypto: "Купить крипту (USDT)",
+    destAllExchanges: "Сравнить все биржи",
+    destGroupFiat: "Вывести в валюту",
     liveRate: "Курс — в реальном времени",
     tariffsVerified: (date) => `Тарифы сервисов проверены: ${date}`,
     countryLabel: "Страна проживания",
     countryOptional: "(необязательно)",
     countryPlaceholder: "например, Казахстан",
     submitButton: "Найти маршрут",
-    errorAmount: "Введите сумму выплаты больше 0.",
-    errorFirm: "Выберите пропфирму из списка.",
+    errorAmount: "Введите сумму больше 0.",
     loading: "Загружаем актуальный курс обмена…",
     errorRates: "Не удалось загрузить актуальный курс. Попробуйте ещё раз через минуту.",
     countryNote: (country) => `Здесь показано общее сравнение маршрутов. Доступность конкретных сервисов может отличаться для резидентов страны «<strong>${country}</strong>» — уточните это у сервиса перед выбором.`,
-    alreadyThereMessage: "Деньги уже в криптовалюте — переводить дальше некуда. Чтобы посчитать вывод в валюту, выберите её в поле «Куда вывести».",
+    alreadyThereMessage: "Деньги уже в крипте, а перевести нужно тоже в крипту — переводить дальше некуда. Чтобы посчитать вывод в валюту, выберите её в поле «Куда нужно перевести».",
+    alreadySameMessage: "Деньги уже в той валюте, куда вы хотите их перевести, — конвертация не нужна.",
     thMethod: "Маршрут",
     thRate: "Курс",
     thFee: "Комиссия",
@@ -55,35 +61,33 @@ const CALC_STRINGS = {
     locale: "ru-RU",
   },
   en: {
-    locationLabel: "Where is the money right now",
-    locationCash: "On a card / account (USD, EUR, etc.)",
-    locationFirm: "With a prop firm — not paid out yet",
-    locationCrypto: "Already in crypto (USDT/USDC)",
-    firmLabel: "Prop firm",
-    firmPlaceholder: "— choose a firm —",
+    sourceLabel: "Where is the money right now",
+    sourceGroupFirm: "With a prop firm — not paid out yet",
+    sourceGroupCash: "On a card / account",
+    sourceGroupCrypto: "Already in crypto",
+    sourceCryptoOption: "USDT / USDC",
     firmInfoMethods: "Payout methods:",
     firmInfoFee: "Firm-side fee:",
     firmInfoMin: "Minimum withdrawal:",
     firmInfoSpeed: "Speed:",
     firmInfoMore: "More on this firm's payout →",
-    amountLabel: "Payout amount",
-    fromLabel: "Currency the money is in now",
-    toLabel: "Where to convert it to",
-    toCryptoOption: "Keep it in USDT (no currency conversion)",
-    exchangeLabel: "Exchange to buy USDT",
-    allExchangesOption: "All exchanges (full picture)",
+    amountLabel: "Amount",
+    destLabel: "Where does it need to go",
+    destGroupCrypto: "Buy crypto (USDT)",
+    destAllExchanges: "Compare all exchanges",
+    destGroupFiat: "Convert to a currency",
     liveRate: "Live exchange rate",
     tariffsVerified: (date) => `Provider fees verified: ${date}`,
     countryLabel: "Country of residence",
     countryOptional: "(optional)",
     countryPlaceholder: "e.g. Kazakhstan",
     submitButton: "Find a route",
-    errorAmount: "Enter a payout amount greater than 0.",
-    errorFirm: "Choose a prop firm from the list.",
+    errorAmount: "Enter an amount greater than 0.",
     loading: "Fetching live exchange rates…",
     errorRates: "Couldn't fetch live rates right now. Please try again in a moment.",
     countryNote: (country) => `Showing a generic comparison of routes. Availability of specific services can vary for residents of <strong>${country}</strong> — confirm with the provider before choosing.`,
-    alreadyThereMessage: "The money is already in crypto — there's nothing further to convert. To price a currency conversion, pick one in the \"Where to convert it to\" field.",
+    alreadyThereMessage: "The money is already in crypto, and the destination is crypto too — there's nothing to convert. To price a currency conversion, pick one in the \"Where does it need to go\" field.",
+    alreadySameMessage: "The money is already in the currency you want to convert it to — no conversion needed.",
     thMethod: "Route",
     thRate: "Rate",
     thFee: "Fee",
@@ -116,11 +120,9 @@ function initCalculator(rootId, options) {
 
   const opts = Object.assign(
     {
-      fundingCurrency: "USD",
-      localCurrency: "RUB",
+      presetSource: "cash:USD",
+      presetDestination: "fiat:RUB",
       amount: 1000,
-      presetLocation: "cash",
-      presetFirm: "",
       exchanges: typeof EXCHANGES !== "undefined" ? EXCHANGES : [],
       offramps: typeof OFFRAMPS !== "undefined" ? OFFRAMPS : [],
       firms: typeof FIRMS !== "undefined" ? FIRMS : [],
@@ -135,44 +137,23 @@ function initCalculator(rootId, options) {
 
   const form = root.querySelector("form");
   const resultEl = root.querySelector(".calc-result");
-  const locationSelect = form.querySelector('[name="location"]');
-  const firmSelect = form.querySelector('[name="firm"]');
-  const firmField = root.querySelector(".calc-firm-field");
+  const sourceSelect = form.querySelector('[name="source"]');
   const firmInfo = root.querySelector(".calc-firm-info");
-  const exchangeField = root.querySelector(".calc-exchange-field");
-  const fromSelect = form.querySelector('[name="from"]');
 
   function updateFirmInfo() {
-    const firm = opts.firms.find((f) => f.slug === firmSelect.value);
+    const value = sourceSelect.value;
+    const firm = value.startsWith("firm:") ? opts.firms.find((f) => f.slug === value.slice(5)) : null;
     if (firm) {
       firmInfo.innerHTML = renderFirmInfo(firm, t);
       firmInfo.hidden = false;
-      fromSelect.value = firm.payoutCurrency;
     } else {
       firmInfo.innerHTML = "";
       firmInfo.hidden = true;
     }
   }
 
-  function updateVisibility() {
-    const location = locationSelect.value;
-    firmField.hidden = location !== "firm";
-    firmInfo.hidden = location !== "firm" || !firmSelect.value;
-    exchangeField.hidden = location === "crypto";
-    if (location === "crypto") {
-      if (fromSelect.value !== "USDT" && fromSelect.value !== "USDC") {
-        fromSelect.value = "USDT";
-      }
-    } else if (location === "firm") {
-      updateFirmInfo();
-    } else if (fromSelect.value === "USDT" || fromSelect.value === "USDC") {
-      fromSelect.value = opts.fundingCurrency === "USDT" || opts.fundingCurrency === "USDC" ? "USD" : opts.fundingCurrency;
-    }
-  }
-
-  locationSelect.addEventListener("change", updateVisibility);
-  firmSelect.addEventListener("change", updateFirmInfo);
-  updateVisibility();
+  sourceSelect.addEventListener("change", updateFirmInfo);
+  updateFirmInfo();
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -210,61 +191,44 @@ function buildTrustBarHTML(t) {
 }
 
 function buildFormHTML(opts, t) {
-  const currencyOptions = (list, selected) =>
-    list
-      .map((c) => `<option value="${c}" ${c === selected ? "selected" : ""}>${c}</option>`)
-      .join("");
+  const sourceFirmOptions = opts.firms
+    .map((f) => `<option value="firm:${f.slug}" ${`firm:${f.slug}` === opts.presetSource ? "selected" : ""}>${f.name}</option>`)
+    .join("");
+  const sourceCashOptions = CURRENCIES
+    .map((c) => `<option value="cash:${c}" ${`cash:${c}` === opts.presetSource ? "selected" : ""}>${c}</option>`)
+    .join("");
+  const sourceCryptoSelected = opts.presetSource === "crypto" ? "selected" : "";
 
-  // USDT/USDC can be a funding currency (e.g. a firm pays out in crypto
-  // directly, or the money's already sitting on an exchange) but don't make
-  // sense as the target "local currency", so they're only added to the
-  // "from" list, right after USD.
-  const fundingCurrencies = [CURRENCIES[0], "USDT", "USDC", ...CURRENCIES.slice(1)];
-
-  const exchangeOptions =
+  const destExchangeOptions =
+    `<option value="crypto:all" ${opts.presetDestination === "crypto:all" ? "selected" : ""}>${t.destAllExchanges}</option>` +
     opts.exchanges
-      .map((e, i) => `<option value="${e.id}" ${i === 0 ? "selected" : ""}>${e.name}</option>`)
-      .join("") + `<option value="all">${t.allExchangesOption}</option>`;
-
-  const firmOptions =
-    `<option value="">${t.firmPlaceholder}</option>` +
-    opts.firms
-      .map((f) => `<option value="${f.slug}" ${f.slug === opts.presetFirm ? "selected" : ""}>${f.name}</option>`)
+      .map((e) => `<option value="crypto:${e.id}" ${`crypto:${e.id}` === opts.presetDestination ? "selected" : ""}>${e.name}</option>`)
       .join("");
-
-  const toOptions =
-    `<option value="crypto">${t.toCryptoOption}</option>` + currencyOptions(CURRENCIES, opts.localCurrency);
+  const destFiatOptions = CURRENCIES
+    .map((c) => `<option value="fiat:${c}" ${`fiat:${c}` === opts.presetDestination ? "selected" : ""}>${c}</option>`)
+    .join("");
 
   return `
     ${buildTrustBarHTML(t)}
     <form class="calc-form">
       <div class="calc-field">
-        <label for="calc-location">${t.locationLabel}</label>
-        <select id="calc-location" name="location">
-          <option value="cash" ${opts.presetLocation === "cash" ? "selected" : ""}>${t.locationCash}</option>
-          <option value="firm" ${opts.presetLocation === "firm" ? "selected" : ""}>${t.locationFirm}</option>
-          <option value="crypto" ${opts.presetLocation === "crypto" ? "selected" : ""}>${t.locationCrypto}</option>
+        <label for="calc-source">${t.sourceLabel}</label>
+        <select id="calc-source" name="source">
+          <optgroup label="${t.sourceGroupFirm}">${sourceFirmOptions}</optgroup>
+          <optgroup label="${t.sourceGroupCash}">${sourceCashOptions}</optgroup>
+          <optgroup label="${t.sourceGroupCrypto}"><option value="crypto" ${sourceCryptoSelected}>${t.sourceCryptoOption}</option></optgroup>
         </select>
       </div>
-      <div class="calc-field calc-firm-field">
-        <label for="calc-firm">${t.firmLabel}</label>
-        <select id="calc-firm" name="firm">${firmOptions}</select>
+      <div class="calc-field">
+        <label for="calc-destination">${t.destLabel}</label>
+        <select id="calc-destination" name="destination">
+          <optgroup label="${t.destGroupCrypto}">${destExchangeOptions}</optgroup>
+          <optgroup label="${t.destGroupFiat}">${destFiatOptions}</optgroup>
+        </select>
       </div>
       <div class="calc-field">
         <label for="calc-amount">${t.amountLabel}</label>
         <input id="calc-amount" name="amount" type="number" min="1" step="0.01" value="${opts.amount}" required />
-      </div>
-      <div class="calc-field">
-        <label for="calc-from">${t.fromLabel}</label>
-        <select id="calc-from" name="from">${currencyOptions(fundingCurrencies, opts.fundingCurrency)}</select>
-      </div>
-      <div class="calc-field">
-        <label for="calc-to">${t.toLabel}</label>
-        <select id="calc-to" name="to">${toOptions}</select>
-      </div>
-      <div class="calc-field calc-exchange-field">
-        <label for="calc-exchange">${t.exchangeLabel}</label>
-        <select id="calc-exchange" name="exchange">${exchangeOptions}</select>
       </div>
       <div class="calc-field">
         <label for="calc-country">${t.countryLabel} <span class="optional">${t.countryOptional}</span></label>
@@ -277,138 +241,149 @@ function buildFormHTML(opts, t) {
   `;
 }
 
+function parseSource(value) {
+  if (value.startsWith("firm:")) return { type: "firm", slug: value.slice(5) };
+  if (value.startsWith("cash:")) return { type: "cash", currency: value.slice(5) };
+  return { type: "crypto" };
+}
+
+function parseDestination(value) {
+  if (value.startsWith("crypto:")) return { type: "crypto", exchange: value.slice(7) };
+  return { type: "fiat", currency: value.slice(5) };
+}
+
 async function runCalculation(form, resultEl, opts, t) {
   const formData = new FormData(form);
   const amount = parseFloat(formData.get("amount"));
-  const location = formData.get("location");
-  const firmSlug = formData.get("firm");
-  const from = formData.get("from");
-  const to = formData.get("to");
   const country = (formData.get("country") || "").trim();
-  const exchangeId = formData.get("exchange");
-  const showAllExchanges = exchangeId === "all";
-  const exchange = opts.exchanges.find((e) => e.id === exchangeId) || opts.exchanges[0];
+  const source = parseSource(formData.get("source"));
+  const destination = parseDestination(formData.get("destination"));
 
   if (!amount || amount <= 0) {
     resultEl.innerHTML = `<p class="calc-error">${t.errorAmount}</p>`;
     return;
   }
-  if (location === "firm" && !firmSlug) {
-    resultEl.innerHTML = `<p class="calc-error">${t.errorFirm}</p>`;
+
+  const firm = source.type === "firm" ? opts.firms.find((f) => f.slug === source.slug) : null;
+  const isSourceCrypto = source.type === "crypto";
+  const isDestCrypto = destination.type === "crypto";
+  const fundingCurrency = source.type === "firm" ? (firm ? firm.payoutCurrency : "USD") : source.type === "cash" ? source.currency : null;
+
+  // Оба конца маршрута — крипта: переводить нечего.
+  if (isSourceCrypto && isDestCrypto) {
+    resultEl.innerHTML = `<div class="notes-box">${t.alreadyThereMessage}</div>`;
     return;
   }
-
-  // The two questions that actually decide which stages apply: is the money
-  // already crypto (no exchange leg needed), and does it need to leave
-  // crypto at all (no off-ramp leg if the answer is "keep it in USDT").
-  const skipExchange = location === "crypto";
-  const skipOfframp = to === "crypto";
-  const displayTo = skipOfframp ? "USDT" : to;
-
-  if (skipExchange && skipOfframp) {
-    resultEl.innerHTML = `<div class="notes-box">${t.alreadyThereMessage}</div>`;
+  // Валюта совпадает на обоих концах: конвертация не нужна.
+  if (!isSourceCrypto && !isDestCrypto && fundingCurrency === destination.currency) {
+    resultEl.innerHTML = `<div class="notes-box">${t.alreadySameMessage}</div>`;
     return;
   }
 
   resultEl.innerHTML = `<p class="calc-loading">${t.loading}</p>`;
 
-  // USDT/USDC aren't ISO currencies the rate API knows about — both trade
-  // ~1:1 with USD, so look up USD and use that as the mid-market rate.
-  // When staying in crypto there's no real fiat pair to fetch at all.
-  const apiFrom = from === "USDT" || from === "USDC" ? "USD" : from;
+  // Комиссии провайдеров заданы в долларах, поэтому считаем через доллар как
+  // опорную точку: rateToUSD переводит сумму в USD-эквивалент (если нужно),
+  // rateFromUSD — из USD в валюту назначения (если нужно).
+  const needToUSD = !isSourceCrypto && fundingCurrency !== "USD";
+  const needFromUSD = !isDestCrypto && destination.currency !== "USD";
 
-  let rate = 1;
-  if (!skipOfframp) {
-    try {
-      rate = await getMidMarketRate(apiFrom, displayTo);
-    } catch (err) {
-      resultEl.innerHTML = `<p class="calc-error">${t.errorRates}</p>`;
-      return;
-    }
+  let rateToUSD = 1;
+  let rateFromUSD = 1;
+  try {
+    const [a, b] = await Promise.all([
+      needToUSD ? getMidMarketRate(fundingCurrency, "USD") : Promise.resolve(1),
+      needFromUSD ? getMidMarketRate("USD", destination.currency) : Promise.resolve(1),
+    ]);
+    rateToUSD = a;
+    rateFromUSD = b;
+  } catch (err) {
+    resultEl.innerHTML = `<p class="calc-error">${t.errorRates}</p>`;
+    return;
   }
 
-  const buildOfframpOnlyRow = (offramp) => {
-    // Already holding USDT — there's no "buy USDT" leg, just the off-ramp.
-    const amountAfterFees = Math.max(amount - offramp.fixedFee, 0);
-    const effectiveRate = rate * (1 - offramp.spreadPercent / 100);
-    const finalAmount = amountAfterFees * effectiveRate;
-    return {
-      name: offramp.name,
-      finalAmount,
-      effectiveRate,
-      feeText: formatFee(offramp.spreadPercent, offramp.fixedFee, from, t),
-      speed: offramp.speed,
-      linkId: null,
-      unverified: !offramp.dataVerified,
-    };
-  };
+  const displayFrom = isSourceCrypto ? "USDT" : fundingCurrency;
+  const displayTo = isDestCrypto ? "USDT" : destination.currency;
+  const amountUSD = isSourceCrypto ? amount : amount * rateToUSD;
 
   const buildExchangeOnlyRow = (ex) => {
-    // Buying USDT but keeping it there — there's no off-ramp leg.
-    const amountAfterFees = Math.max(amount - ex.fixedFee, 0);
-    const effectiveRate = 1 - ex.spreadPercent / 100;
-    const finalAmount = amountAfterFees * effectiveRate;
+    // Покупка USDT на конкретной бирже — второго этапа (off-ramp) нет.
+    const afterFeeUSD = Math.max(amountUSD - ex.fixedFee, 0);
+    const finalAmount = afterFeeUSD * (1 - ex.spreadPercent / 100);
+    const effectiveRate = rateToUSD * (1 - ex.spreadPercent / 100);
     return {
       name: ex.name,
       finalAmount,
       effectiveRate,
-      feeText: formatFee(ex.spreadPercent, ex.fixedFee, from, t),
+      feeText: formatFee(ex.spreadPercent, ex.fixedFee, t),
       speed: ex.speed,
       linkId: ex.id,
       unverified: false,
     };
   };
 
+  const buildOfframpOnlyRow = (offramp) => {
+    // Уже в крипте — этапа покупки нет, сразу off-ramp в валюту.
+    const afterFeeUSD = Math.max(amountUSD - offramp.fixedFee, 0);
+    const finalAmount = afterFeeUSD * (1 - offramp.spreadPercent / 100) * rateFromUSD;
+    const effectiveRate = rateFromUSD * (1 - offramp.spreadPercent / 100);
+    return {
+      name: offramp.name,
+      finalAmount,
+      effectiveRate,
+      feeText: formatFee(offramp.spreadPercent, offramp.fixedFee, t),
+      speed: offramp.speed,
+      linkId: null,
+      unverified: !offramp.dataVerified,
+    };
+  };
+
   const buildRoute = (ex, offramp) => {
-    // Комиссии двух этапов вычитаются последовательно (эквивалентно вычитанию
-    // суммы), а спреды перемножаются: итоговый спред = 1 - (1-e)(1-o).
-    const amountAfterFees = Math.max(amount - ex.fixedFee - offramp.fixedFee, 0);
-    const combinedSpreadPercent =
-      100 * (1 - (1 - ex.spreadPercent / 100) * (1 - offramp.spreadPercent / 100));
-    const effectiveRate = rate * (1 - combinedSpreadPercent / 100);
-    const finalAmount = amountAfterFees * effectiveRate;
+    // Полный маршрут: сначала биржа (fiat → USDT), потом off-ramp (USDT → fiat).
+    const afterFeeUSD1 = Math.max(amountUSD - ex.fixedFee, 0);
+    const usdtAmount = afterFeeUSD1 * (1 - ex.spreadPercent / 100);
+    const afterFeeUSD2 = Math.max(usdtAmount - offramp.fixedFee, 0);
+    const finalAmount = afterFeeUSD2 * (1 - offramp.spreadPercent / 100) * rateFromUSD;
+    const combinedSpreadPercent = 100 * (1 - (1 - ex.spreadPercent / 100) * (1 - offramp.spreadPercent / 100));
+    const effectiveRate = rateToUSD * rateFromUSD * (1 - combinedSpreadPercent / 100);
     return {
       name: `${ex.name} → ${offramp.name}`,
       finalAmount,
       effectiveRate,
-      feeText: formatFee(combinedSpreadPercent, ex.fixedFee + offramp.fixedFee, from, t),
+      feeText: formatFee(combinedSpreadPercent, ex.fixedFee + offramp.fixedFee, t),
       speed: `${ex.speed} + ${offramp.speed}`,
       linkId: ex.id,
       unverified: !offramp.dataVerified,
     };
   };
 
-  let routeRows;
-  if (skipExchange) {
-    routeRows = opts.offramps.map(buildOfframpOnlyRow);
-  } else if (skipOfframp) {
-    routeRows = showAllExchanges ? opts.exchanges.map(buildExchangeOnlyRow) : [buildExchangeOnlyRow(exchange)];
-  } else if (showAllExchanges) {
-    // "Все биржи" — show every exchange × off-ramp combination so the user
-    // sees the full picture instead of just one exchange's routes.
-    routeRows = opts.exchanges.flatMap((ex) => opts.offramps.map((offramp) => buildRoute(ex, offramp)));
+  const buildBankRow = () => {
+    const afterFeeUSD = Math.max(amountUSD - opts.bank.fixedFee, 0);
+    const finalAmount = afterFeeUSD * (1 - opts.bank.markupPercent / 100) * rateFromUSD;
+    const effectiveRate = rateToUSD * rateFromUSD * (1 - opts.bank.markupPercent / 100);
+    return {
+      name: opts.bank.name,
+      finalAmount,
+      effectiveRate,
+      feeText: formatFee(opts.bank.markupPercent, opts.bank.fixedFee, t),
+      speed: opts.bank.speed,
+      linkId: null,
+      unverified: false,
+    };
+  };
+
+  let rows;
+  if (isDestCrypto) {
+    const exchangesToShow =
+      destination.exchange === "all" ? opts.exchanges : opts.exchanges.filter((e) => e.id === destination.exchange);
+    rows = exchangesToShow.map(buildExchangeOnlyRow);
+  } else if (isSourceCrypto) {
+    rows = opts.offramps.map(buildOfframpOnlyRow);
   } else {
-    routeRows = opts.offramps.map((offramp) => buildRoute(exchange, offramp));
+    rows = opts.exchanges.flatMap((ex) => opts.offramps.map((offramp) => buildRoute(ex, offramp)));
+    if (opts.bank) rows.push(buildBankRow());
   }
 
-  const bankRow = opts.bank && !skipExchange && !skipOfframp
-    ? (() => {
-        const amountAfterFee = Math.max(amount - opts.bank.fixedFee, 0);
-        const effectiveRate = rate * (1 - opts.bank.markupPercent / 100);
-        const finalAmount = amountAfterFee * effectiveRate;
-        return {
-          name: opts.bank.name,
-          finalAmount,
-          effectiveRate,
-          feeText: formatFee(opts.bank.markupPercent, opts.bank.fixedFee, from, t),
-          speed: opts.bank.speed,
-          linkId: null,
-          unverified: false,
-        };
-      })()
-    : null;
-
-  const rows = bankRow ? [...routeRows, bankRow] : routeRows;
   rows.sort((a, b) => b.finalAmount - a.finalAmount);
   const best = rows[0];
 
@@ -436,7 +411,7 @@ async function runCalculation(form, resultEl, opts, t) {
                 ${row === best ? `<span class="calc-badge">${t.bestBadge}</span>` : ""}
                 ${row.unverified ? `<span class="calc-unverified">${t.unverifiedBadge}</span>` : ""}
               </td>
-              <td data-label="${t.thRate}">1 ${from} = ${row.effectiveRate.toFixed(4)} ${displayTo}</td>
+              <td data-label="${t.thRate}">1 ${displayFrom} = ${row.effectiveRate.toFixed(4)} ${displayTo}</td>
               <td data-label="${t.thFee}">${row.feeText}</td>
               <td data-label="${t.thSpeed}">${row.speed}</td>
               <td data-label="${t.thReceive}"><strong>${formatMoney(row.finalAmount, displayTo, t)}</strong></td>
@@ -452,10 +427,10 @@ async function runCalculation(form, resultEl, opts, t) {
   `;
 }
 
-function formatFee(percent, fixedFee, currency, t) {
+function formatFee(percent, fixedFeeUSD, t) {
   const parts = [];
   if (percent) parts.push(t.feeMarkup(round1(percent)));
-  if (fixedFee) parts.push(t.feeFlat(formatMoney(fixedFee, currency, t)));
+  if (fixedFeeUSD) parts.push(t.feeFlat(formatMoney(fixedFeeUSD, "USD", t)));
   return parts.length ? parts.join(" + ") : t.feeNone;
 }
 

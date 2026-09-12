@@ -85,7 +85,7 @@
   <script src="/assets/js/calculator.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-    initCalculator("calculator-root", { fundingCurrency: "USD", localCurrency: "RUB", amount: 1000, presetLocation: "firm", presetFirm: "e8-markets" });
+    initCalculator("calculator-root", { presetSource: "firm:e8-markets", presetDestination: "fiat:RUB", amount: 1000 });
 
     document.getElementById("firm-grid").innerHTML = FIRMS.filter((f) => f.slug !== "e8-markets")
       .map(
