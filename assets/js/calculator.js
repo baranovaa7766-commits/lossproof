@@ -1,9 +1,14 @@
 // Переиспользуемый виджет «Калькулятор переводов»: пользователь свободно
 // выбирает, ОТКУДА сейчас деньги (у пропфирмы / на карте в любой валюте /
 // уже в крипте — в том числе на конкретной бирже) и КУДА их нужно перевести
-// (на конкретную биржу, "любая биржа" — сравнить все, в конкретную валюту
-// через off-ramp, или на оплату челленджа у пропфирмы), после чего виджет
-// считает только применимые этапы маршрута между этими двумя точками.
+// (на конкретную биржу, "все варианты" — сравнить сразу все биржи и
+// обменники, в конкретную валюту через off-ramp, или на оплату челленджа у
+// пропфирмы), после чего виджет считает только применимые этапы маршрута
+// между этими двумя точками. При сравнении "всех вариантов" (покупка крипты
+// или оплата фирме) в список провайдеров попадают не только биржи (EXCHANGES
+// в data.js), но и обменники (OFFRAMPS с `onRampSupported: true`) — они тоже
+// умеют продавать крипту за фиат, просто их тариф на покупку отдельно не
+// подтверждён, поэтому такие строки помечаются «не подтверждено».
 //
 // Комиссии `fixedFee` у всех провайдеров (EXCHANGES/OFFRAMPS/BANK_BASELINE в
 // data.js) заданы в долларах — поэтому расчёт всегда идёт через доллар как
@@ -31,7 +36,7 @@ const CALC_STRINGS = {
     amountLabel: "Сумма",
     destLabel: "Куда",
     destGroupCrypto: "Купить крипту (USDT)",
-    destAllExchanges: "Сравнить все биржи",
+    destAllExchanges: "Сравнить все варианты (биржи и обменники)",
     destGroupFirm: "Пропфирма — оплатить челлендж",
     destGroupFiat: "Вывести в валюту",
     liveRate: "Курс — в реальном времени",
@@ -61,6 +66,7 @@ const CALC_STRINGS = {
     feeNone: "Не раскрывается",
     firmFeeUnknown: "комиссия фирмы за приём крипты не раскрыта",
     firmFeeKnown: (percent) => `+ ${percent}% комиссия фирмы за приём крипты`,
+    viaOfframpSuffix: " (обменник)",
     challengeAcceptsLabel: "Принимает:",
     challengeFeeLabel: "Комиссия за оплату криптой:",
     challengePayLink: (name) => `Оплатить челлендж на сайте ${name} →`,
@@ -84,7 +90,7 @@ const CALC_STRINGS = {
     amountLabel: "Amount",
     destLabel: "To",
     destGroupCrypto: "Buy crypto (USDT)",
-    destAllExchanges: "Compare all exchanges",
+    destAllExchanges: "Compare everything (exchanges and exchangers)",
     destGroupFirm: "Prop firm — pay for a challenge",
     destGroupFiat: "Convert to a currency",
     liveRate: "Live exchange rate",
@@ -114,6 +120,7 @@ const CALC_STRINGS = {
     feeNone: "None disclosed",
     firmFeeUnknown: "the firm's crypto-processing fee isn't disclosed",
     firmFeeKnown: (percent) => `+ ${percent}% firm crypto-processing fee`,
+    viaOfframpSuffix: " (exchanger)",
     challengeAcceptsLabel: "Accepts:",
     challengeFeeLabel: "Crypto payment fee:",
     challengePayLink: (name) => `Pay for the challenge on ${name}'s site →`,
@@ -374,19 +381,22 @@ async function runCalculation(form, resultEl, opts, t) {
   const displayTo = isDestCryptoLike ? "USDT" : destination.currency;
   const amountUSD = isSourceCrypto ? amount : amount * rateToUSD;
 
-  const buildExchangeOnlyRow = (ex) => {
-    // Покупка USDT на конкретной бирже — второго этапа (off-ramp) нет.
-    const afterFeeUSD = Math.max(amountUSD - ex.fixedFee, 0);
-    const finalAmount = afterFeeUSD * (1 - ex.spreadPercent / 100);
-    const effectiveRate = rateToUSD * (1 - ex.spreadPercent / 100);
+  const buildBuyRow = (provider, isOfframp) => {
+    // Покупка USDT на бирже или через обменник (обменники в OFFRAMPS обычно
+    // работают в обе стороны, но их тариф на ПОКУПКУ отдельно не проверялся
+    // — переиспользуется подтверждённый тариф на продажу, поэтому такие
+    // строки всегда помечаются unverified).
+    const afterFeeUSD = Math.max(amountUSD - provider.fixedFee, 0);
+    const finalAmount = afterFeeUSD * (1 - provider.spreadPercent / 100);
+    const effectiveRate = rateToUSD * (1 - provider.spreadPercent / 100);
     return {
-      name: ex.name,
+      name: isOfframp ? `${provider.name}${t.viaOfframpSuffix}` : provider.name,
       finalAmount,
       effectiveRate,
-      feeText: formatFee(ex.spreadPercent, ex.fixedFee, t),
-      speed: ex.speed,
-      linkId: ex.id,
-      unverified: false,
+      feeText: formatFee(provider.spreadPercent, provider.fixedFee, t),
+      speed: provider.speed,
+      linkId: provider.id,
+      unverified: isOfframp,
     };
   };
 
@@ -440,26 +450,27 @@ async function runCalculation(form, resultEl, opts, t) {
     };
   };
 
-  const buildFirmPaymentRow = (ex) => {
-    // Оплата пропфирмы криптой: биржа (fiat → USDT), затем комиссия платёжного
-    // провайдера фирмы за приём крипты (если известна).
+  const buildFirmPaymentRow = (provider, isOfframp) => {
+    // Оплата пропфирмы криптой: биржа или обменник (fiat → USDT), затем
+    // комиссия платёжного провайдера фирмы за приём крипты (если известна).
     const feePercent = destFirm.challengePayment.cryptoFeePercent;
-    const afterFeeUSD = Math.max(amountUSD - (ex ? ex.fixedFee : 0), 0);
-    const usdtAmount = ex ? afterFeeUSD * (1 - ex.spreadPercent / 100) : afterFeeUSD;
+    const afterFeeUSD = Math.max(amountUSD - (provider ? provider.fixedFee : 0), 0);
+    const usdtAmount = provider ? afterFeeUSD * (1 - provider.spreadPercent / 100) : afterFeeUSD;
     const finalAmount = feePercent ? usdtAmount * (1 - feePercent / 100) : usdtAmount;
-    const effectiveRate = rateToUSD * (ex ? 1 - ex.spreadPercent / 100 : 1) * (feePercent ? 1 - feePercent / 100 : 1);
+    const effectiveRate = rateToUSD * (provider ? 1 - provider.spreadPercent / 100 : 1) * (feePercent ? 1 - feePercent / 100 : 1);
     const feeParts = [];
-    if (ex) feeParts.push(formatFee(ex.spreadPercent, ex.fixedFee, t));
+    if (provider) feeParts.push(formatFee(provider.spreadPercent, provider.fixedFee, t));
     feeParts.push(feePercent ? t.firmFeeKnown(feePercent) : t.firmFeeUnknown);
+    const providerName = provider ? `${provider.name}${isOfframp ? t.viaOfframpSuffix : ""}` : null;
     return {
-      name: ex ? `${ex.name} → ${destFirm.name}` : destFirm.name,
+      name: providerName ? `${providerName} → ${destFirm.name}` : destFirm.name,
       finalAmount,
       effectiveRate,
       feeText: feeParts.join(", "),
-      speed: ex ? ex.speed : "—",
+      speed: provider ? provider.speed : "—",
       linkId: null,
       directLinkUrl: destFirm.challengePayment.officialUrl,
-      unverified: !destFirm.challengePayment.dataVerified || feePercent == null,
+      unverified: !destFirm.challengePayment.dataVerified || feePercent == null || isOfframp,
     };
   };
 
@@ -468,12 +479,22 @@ async function runCalculation(form, resultEl, opts, t) {
   let extraNote = "";
   if (isDestFirm) {
     resultHeaderReceive = t.thArrives;
-    rows = isSourceCrypto ? [buildFirmPaymentRow(null)] : opts.exchanges.map((ex) => buildFirmPaymentRow(ex));
+    if (isSourceCrypto) {
+      rows = [buildFirmPaymentRow(null, false)];
+    } else {
+      rows = [
+        ...opts.exchanges.map((ex) => buildFirmPaymentRow(ex, false)),
+        ...opts.offramps.map((of) => buildFirmPaymentRow(of, true)),
+      ];
+    }
     extraNote = `<div class="notes-box">${renderChallengePaymentNote(destFirm, t)}</div>`;
   } else if (isDestCrypto) {
-    const exchangesToShow =
-      destination.exchange === "all" ? opts.exchanges : opts.exchanges.filter((e) => e.id === destination.exchange);
-    rows = exchangesToShow.map(buildExchangeOnlyRow);
+    if (destination.exchange === "all") {
+      rows = [...opts.exchanges.map((ex) => buildBuyRow(ex, false)), ...opts.offramps.map((of) => buildBuyRow(of, true))];
+    } else {
+      const ex = opts.exchanges.find((e) => e.id === destination.exchange);
+      rows = ex ? [buildBuyRow(ex, false)] : [];
+    }
   } else if (isSourceCrypto) {
     rows = opts.offramps.map(buildOfframpOnlyRow);
   } else {

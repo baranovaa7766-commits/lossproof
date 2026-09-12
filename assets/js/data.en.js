@@ -18,7 +18,14 @@ const CURRENCIES = ["USD", "EUR", "GBP", "AUD", "CAD", "CHF", "JPY", "PLN", "CZK
 const DATA_LAST_VERIFIED = "2026-09-03";
 
 // Crypto exchanges — stage 1 (buying/receiving USDT). Affiliate programs
-// are confirmed for all three.
+// are confirmed for bybit/bitget/kucoin; okx/mexc/gate were added to the
+// calculator's math 2026-09-12 at the site owner's request (they were
+// already in the informational EXCHANGES_COMPARE list below, just not in
+// the calculator itself) — their affiliate program is NOT confirmed
+// (affiliateConfirmed: false), so no "Get started" button shows for them
+// (no matching entry in AFFILIATE_LINKS below). The spread/fee for all six
+// is a shared estimate (0.3% / $1), not an individually verified tariff per
+// exchange — verify before a large amount.
 //
 // WhiteBIT is deliberately excluded (was here until 2026-09-07): it has
 // blocked all users from Russia and Belarus since early 2022, and in
@@ -54,6 +61,33 @@ const EXCHANGES = [
     speed: "minutes",
     affiliateConfirmed: true,
     notes: "Open affiliate program, 30-50% of trading fees for life. Russia isn't separately listed as restricted — access is governed by sanctions screening.",
+  },
+  {
+    id: "okx",
+    name: "OKX",
+    spreadPercent: 0.3,
+    fixedFee: 1,
+    speed: "minutes",
+    affiliateConfirmed: false,
+    notes: "Affiliate program not confirmed — no \"Get started\" button. Russian-resident access could change — details on /en/exchanges/okx/.",
+  },
+  {
+    id: "mexc",
+    name: "MEXC",
+    spreadPercent: 0.3,
+    fixedFee: 1,
+    speed: "minutes",
+    affiliateConfirmed: false,
+    notes: "Affiliate program not confirmed — no \"Get started\" button. Details on /en/exchanges/mexc/.",
+  },
+  {
+    id: "gate",
+    name: "Gate",
+    spreadPercent: 0.3,
+    fixedFee: 1,
+    speed: "minutes",
+    affiliateConfirmed: false,
+    notes: "Affiliate program not confirmed — no \"Get started\" button. Details on /en/exchanges/gate/.",
   },
 ];
 
@@ -192,6 +226,15 @@ const EXCHANGES_COMPARE = [
 // for the exchange rate in rates.js (which refetches on every calculation).
 // Re-check the linked pages every few months and update the numbers.
 //
+// onRampSupported: per publicly available reviews (checked 2026-09-12), both
+// services below work in both directions — not just selling USDT for
+// rubles, but buying USDT with rubles directly too. The calculator therefore
+// also offers them as an alternative to an exchange for buying crypto. The
+// BUY-side tariff specifically hasn't been checked for either service —
+// rows reuse the confirmed sell-side spreadPercent/fixedFee (sources below),
+// so those calculator rows are always flagged "unconfirmed" rather than
+// treated as equivalent to a verified exchange rate.
+//
 // A7A5 is deliberately excluded: it isn't a standalone off-ramp but a
 // ruble-backed stablecoin from A7/Old Vector LLC, traded mainly on the
 // Grinex exchange — and Grinex, along with entities tied to A7A5, was
@@ -211,11 +254,12 @@ const OFFRAMPS = [
     fixedFee: 0,
     speed: "10-30 minutes",
     dataVerified: true,
+    onRampSupported: true,
     license: "Licensed platform in Belarus",
     crypto: ["USDT", "BTC", "ETH"],
     currencies: ["RUB", "BYN"],
     officialUrl: "https://whitebird.io",
-    notes: "Licensed platform (Belarus): converts USDT/BTC/ETH to RUB/BYN onto a Mir card. 2.0% is the rate for withdrawing to a Russian bank card, whitebird.io/commission.",
+    notes: "Licensed platform (Belarus): converts USDT/BTC/ETH to RUB/BYN onto a Mir card, and the other way too — buying crypto with rubles/BYN. 2.0% is the rate for withdrawing to a Russian bank card, whitebird.io/commission (the buy-side rate hasn't been separately checked).",
   },
   {
     id: "cifra",
@@ -230,11 +274,12 @@ const OFFRAMPS = [
     fixedFee: 6,
     speed: "1 business day (withdrawals only process on bank business days)",
     dataVerified: true,
+    onRampSupported: true,
     license: "Brokerage platform for CIS-based traders (no public licensing info found)",
     crypto: ["USDT"],
     currencies: ["RUB"],
     officialUrl: "https://cifra.by",
-    notes: "Brokerage platform for CIS-based traders. 1.5% conversion + a 500 RUB withdrawal fee (0 if withdrawing into a Cifra Bank account), cifra.by/rates.",
+    notes: "Brokerage platform for CIS-based traders, works both ways (buys and sells USDT for rubles). 1.5% conversion + a 500 RUB withdrawal fee (0 if withdrawing into a Cifra Bank account), cifra.by/rates (the buy-side rate hasn't been separately checked).",
   },
 ];
 
