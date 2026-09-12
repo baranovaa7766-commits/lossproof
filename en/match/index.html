@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prop Firm Matcher: Which Firm Fits You — LossProof</title>
+  <meta name="description" content="Answer a few questions about your market, budget, and payout preference — find out which of LossProof's vetted prop firms fits you, and why." />
+  <link rel="canonical" href="/en/match/" />
+  <link rel="alternate" hreflang="ru" href="/match/" />
+  <link rel="alternate" hreflang="en" href="/en/match/" />
+  <link rel="alternate" hreflang="x-default" href="/match/" />
+  <meta property="og:title" content="Prop Firm Matcher — LossProof" />
+  <meta property="og:description" content="Answer a few questions — find out which of our vetted prop firms fits you, and why." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/en/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/en/calculator/">🧭 Transfer Calculator</a>
+        <a href="/en/prop-firms/">🏢 Compare prop firms</a>
+        <a href="/en/match/">🎯 Prop Firm Matcher</a>
+        <a href="/en/payouts/">💸 Withdrawals by firm</a>
+        <a href="/en/crypto-payout-guide/">💱 Crypto Payout Guide</a>
+        <a href="/en/exchanges/">🔁 Compare exchanges</a>
+        <a href="/en/offramps/">🏧 Compare cash-out services</a>
+        <a href="/en/red-flags/">🚩 Prop Firm Red Flags</a>
+        <a href="/en/terms/">📖 Glossary</a>
+        <a href="/en/disclosure/">📄 Disclosure</a>
+        <a class="lang-switch" href="/match/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Prop Firm Matcher</h1>
+        <p>There are dozens of prop firms out there, and most comparison sites just list all of them. We compare only 6 vetted firms (see our <a href="/en/red-flags/">selection criteria</a>) and help you figure out which one actually fits you — by market, budget, payout method, and how much the firm's track record matters to you.</p>
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <div id="match-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Why 6 firms, not 50</h2>
+        <p>The prop firm industry isn't government-regulated — there's no such thing as a "prop firm license." Instead, we only include firms with a publicly confirmed, multi-year payout track record and a trust rating of 4.3+ (see the <a href="/en/prop-firms/">"Compare prop firms"</a> page for details). The matcher looks for the best fit among these firms only, not the whole market — a deliberate trade-off: fewer options, but every one has already passed a check.</p>
+        <p>If nothing looks like a perfect fit, that's an honest result too. Check the <a href="/en/prop-firms/">full comparison</a> with filters for every field, or read <a href="/en/red-flags/">"Prop Firm Red Flags"</a> to evaluate a firm that isn't on our list yourself.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Not financial advice — verify terms directly with firms.</span>
+      <span><a href="/en/disclosure/">Affiliate disclosure</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.en.js"></script>
+  <script src="/assets/js/match.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initFirmMatch("match-root");
+  </script>
+</body>
+</html>

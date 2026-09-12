@@ -746,6 +746,55 @@ a {
   margin: 0;
 }
 
+/* "Подбор пропфирмы" (/match/) */
+.match-heading {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+}
+
+.match-score {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.cmp-card.match-best {
+  border-color: var(--color-best-border);
+  box-shadow: 0 0 0 1px var(--color-best-border);
+}
+
+.match-reasons .cmp-field {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.match-reasons dt.match-icon {
+  flex: 0 0 auto;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: default;
+}
+
+.match-icon--yes {
+  color: var(--color-best-border);
+}
+
+.match-icon--no {
+  color: #b3261e;
+}
+
+.match-icon--neutral {
+  color: var(--color-text-muted);
+}
+
+.match-reasons dd {
+  font-size: 0.9rem;
+}
+
 /* Plain term:definition list (/terms/) */
 .term-list {
   margin: 0;

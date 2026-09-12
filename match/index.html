@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Подбор пропфирмы: какая фирма вам подходит — LossProof</title>
+  <meta name="description" content="Ответьте на несколько вопросов о рынке, бюджете и способе вывода — узнайте, какая из проверенных пропфирм на LossProof подходит именно вам, и почему." />
+  <link rel="canonical" href="/match/" />
+  <link rel="alternate" hreflang="ru" href="/match/" />
+  <link rel="alternate" hreflang="en" href="/en/match/" />
+  <link rel="alternate" hreflang="x-default" href="/match/" />
+  <meta property="og:title" content="Подбор пропфирмы — LossProof" />
+  <meta property="og:description" content="Ответьте на несколько вопросов — узнайте, какая из проверенных пропфирм вам подходит, и почему." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/calculator/">🧭 Калькулятор переводов</a>
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/match/">🎯 Подбор пропфирмы</a>
+        <a href="/payouts/">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/exchanges/">🔁 Сравнение бирж</a>
+        <a href="/offramps/">🏧 Сравнение обменников</a>
+        <a href="/red-flags/">🚩 Красные флаги пропфирм</a>
+        <a href="/terms/">📖 Словарь терминов</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a class="lang-switch" href="/en/match/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Подбор пропфирмы</h1>
+        <p>На рынке десятки пропфирм, и большинство сайтов-сравнений просто выкладывают все подряд. Мы сравниваем только 6 проверенных фирм (подробнее — в <a href="/red-flags/">критериях отбора</a>) и помогаем понять, какая из них подходит именно вам — по рынку, бюджету, способу вывода и тому, насколько важна репутация.</p>
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <div id="match-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Почему всего 6 фирм, а не 50</h2>
+        <p>Индустрия пропфирм не регулируется государством — «лицензии на пропфирму» не существует. Вместо этого мы включаем в сравнение только фирмы с публично подтверждённой многолетней историей выплат и рейтингом доверия от 4.3+ (подробнее — на странице <a href="/prop-firms/">«Сравнение пропфирм»</a>). Подбор ищет лучший вариант именно среди них, а не среди всех фирм рынка — это осознанный компромисс: меньше вариантов, но каждый уже прошёл проверку.</p>
+        <p>Если ни один вариант не подошёл идеально — это тоже честный результат. Посмотрите <a href="/prop-firms/">полное сравнение</a> с фильтрами по всем параметрам или прочитайте <a href="/red-flags/">«Красные флаги пропфирмы»</a>, чтобы оценить фирму, которой нет в нашем списке, самостоятельно.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у фирм.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/match.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initFirmMatch("match-root");
+  </script>
+</body>
+</html>
