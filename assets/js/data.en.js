@@ -520,16 +520,6 @@ const FIRMS = [
 //    by a regulated broker. This is not a financial licence or government
 //    accreditation.
 //
-// Checked and NOT added 2026-09-14: Gerchik & Co -- the Bank of Russia
-// lists the company (and the tied entity J.B. FINANCE LLP) on its warning
-// list as an illegal securities-market participant (cbr.ru/eng/inside/
-// warning-list/detail/?id=7372, listed 2021-02-01, updated 2024-10-01) --
-// fails the hard criterion, not up for debate regardless of other metrics.
-// Also: only 11 Trustpilot reviews (at 3.8/5) -- not enough data to judge
-// reputation; offshore-only regulation (Vanuatu FSC, Mauritius FSC); the
-// prop program only launched in 2024. Don't re-add without the CBR listing
-// being lifted.
-//
 // The figures below were gathered via web search as of PROP_FIRMS_RESEARCHED
 // and have NOT been checked line by line against each firm's official site.
 // Profit splits, drawdowns, per-account-size prices and Trustpilot review
