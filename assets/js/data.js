@@ -498,6 +498,28 @@ const FIRMS = [
       dataVerified: false,
     },
   },
+  {
+    // Источники (проверено 2026-09-14): trustpilot.com/review/fundingpips.com
+    // (68 367 отзывов, 4.5/5), help.fundingpips.com/hc/en-us/articles/
+    // 34504564970385-Reward-Methods, forexpeacearmy.com/forex-reviews/21467.
+    slug: "fundingpips",
+    name: "FundingPips",
+    methods: ["Крипто (USDT/USDC)", "Rise", "Банковская карта", "Банковский перевод"],
+    fee: "Точный процент комиссии за вывод не публикуется — вычитается вместе с курсом и сетевой комиссией, зависит от способа",
+    minWithdrawal: "Явно не указан; для Rise упоминается порог $500",
+    speed: "Крипто — обычно минуты после одобрения запроса; карта/Rise/банк — 24-48 часов",
+    notes: "Независимый трекер Payout Junction подтверждает $200M+ выплат и 127 000+ транзакций — один из крупнейших верифицированных трек-рекордов в индустрии.",
+    payoutCurrency: "USD",
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "USDT (TRC20) и другие — принимаются напрямую на этапе оплаты",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "Подтверждение крипто-платежа занимает 10-30 минут; упоминается сетевая комиссия ~$1 (это комиссия сети, не самой фирмы — её процент отдельно не раскрыт).",
+      officialUrl: "https://fundingpips.com",
+      dataVerified: false,
+    },
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -852,5 +874,55 @@ const PROP_FIRMS = [
       },
     },
     payoutCadence: "Цикл выплат раз в 14 дней.",
+  },
+  {
+    // Источники (проверено 2026-09-14): trustpilot.com/review/fundingpips.com,
+    // fundingpips.com (главная и раздел цен), financemagnates.com — материалы
+    // про закрытие сестринского бренда FundingTicks (декабрь 2025 — 2026),
+    // forexpeacearmy.com/forex-reviews/21467-funding-pips-review.
+    slug: "fundingpips",
+    name: "FundingPips",
+    founded: 2022,
+    markets: ["forex"],
+    evaluationTypes: ["1-step", "2-step"],
+    entryFrom: 29,
+    entryModel: "one-time",
+    entryText: "от $29-32 (2-Step Pro, $5K)",
+    profitSplitMax: 100,
+    profitSplitText: "до 95% раз в две недели (заявлено «до 100%» на отдельных планах)",
+    drawdownDaily: "4% (статическая)",
+    drawdownTotal: "12% (статическая)",
+    minTradingDays: "от 1 дня, зависит от формата оценки",
+    maxAccountValue: 2000000,
+    maxAccountText: "$5K–$100K, скейлинг до $2M через программу PRIME",
+    payoutMethods: ["Крипто (USDT/USDC)", "Rise", "Карта", "Банк"],
+    payoutSlug: "fundingpips",
+    trustpilotScore: 4.5,
+    trustpilotReviews: 68367,
+    trustpilotAsOf: "2026-09-14",
+    brokerBacking: "Собственный брокер Tradin® — заявлено «несколько регуляторных лицензий», конкретные регуляторы не публикуются",
+    officialUrl: "https://fundingpips.com",
+    includeNote: "Молодая фирма (с 2022), но с одним из крупнейших верифицированных трек-рекордов в индустрии — независимый трекер Payout Junction подтверждает $200M+ выплат и 127 000+ транзакций. У той же команды/CEO есть сестринский фьючерсный бренд FundingTicks, который закрылся в конце 2025 — начале 2026 после скандала: правила поменяли задним числом, и уже заработанная прибыль трейдеров была урезана или обнулена. Отдельный разбор отзывов именно о FundingPips (не FundingTicks) таких признаков не выявил — но это стоит знать, оценивая надёжность команды. Юридическая регистрация мультиюрисдикционная (Comoros MISA, с июня 2026 — лицензия Investment Dealer от Mauritius FSC), без регулятора уровня FCA/ASIC/CySEC. Не ограничивает резидентов РФ (в отличие от большинства американских фьючерсных пропфирм на этом сайте) и принимает крипту как за оплату челленджа, так и за выплаты.",
+    dataVerified: false,
+    payoutHistory: "Заявлено $306M+ выплат более чем 3M трейдеров по всему миру (данные компании); независимо подтверждено трекером Payout Junction на $200M+ / 127 000+ транзакций",
+    priceModel: "single",
+    priceTable: [
+      { size: "$5K", price: "$32" },
+      { size: "$10K", price: "$59" },
+      { size: "$25K", price: "$159" },
+      { size: "$50K", price: "$269" },
+      { size: "$100K", price: "$499" },
+    ],
+    rules: {
+      "2-step": {
+        target: "10% (Фаза 1) → 6% (Фаза 2)",
+        daily: "4% (статическая)",
+        total: "12% (статическая)",
+        minDays: "1 день",
+        timeLimit: "без ограничения по времени",
+        split: "до 95%, раз в две недели",
+      },
+    },
+    payoutCadence: "Гибкие циклы — еженедельно, раз в две недели, ежемесячно или по запросу, в зависимости от выбранного плана.",
   },
 ];

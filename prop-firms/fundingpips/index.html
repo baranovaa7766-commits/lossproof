@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FundingPips: условия челленджа, просадка, профит-сплит и цены</title>
+  <meta name="description" content="Правила оценки FundingPips (1-step и 2-step), статическая просадка, профит-сплит до 95%, цены по размерам аккаунта, рейтинг Trustpilot и что нужно знать о сестринском бренде FundingTicks." />
+  <link rel="canonical" href="/prop-firms/fundingpips/" />
+  <link rel="alternate" hreflang="ru" href="/prop-firms/fundingpips/" />
+  <link rel="alternate" hreflang="en" href="/en/prop-firms/fundingpips/" />
+  <link rel="alternate" hreflang="x-default" href="/prop-firms/fundingpips/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/calculator/">🧭 Калькулятор переводов</a>
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/match/">🎯 Подбор пропфирмы</a>
+        <a href="/payouts/">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/exchanges/">🔁 Сравнение бирж</a>
+        <a href="/offramps/">🏧 Сравнение обменников</a>
+        <a href="/red-flags/">🚩 Красные флаги пропфирм</a>
+        <a href="/terms/">📖 Словарь терминов</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a class="lang-switch" href="/en/prop-firms/fundingpips/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>FundingPips: условия челленджа</h1>
+        <p>Форекс/CFD-пропфирма (с 2022) с одним из крупнейших верифицированных трек-рекордов выплат в индустрии — и не ограничивает резидентов РФ.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Ключевые факты</h2>
+        <div id="pf-summary"></div>
+        <div class="verify-box">
+          Данные по FundingPips собраны в ходе исследования (сентябрь 2026) и могут быть неточными или устаревшими. Сверьте актуальные цены, правила и профит-сплит на <a href="https://fundingpips.com" target="_blank" rel="noopener">официальном сайте FundingPips</a> перед решением.
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Правила оценки и график выплат</h2>
+        <div id="pf-rules"></div>
+        <div id="pf-prices"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Как вывести выплату</h2>
+        <p>Способы вывода, комиссии, минимальные суммы и калькулятор переводов в локальную валюту — на отдельной странице.</p>
+        <p><a href="/payout/fundingpips/">Открыть инструкцию по выводу для FundingPips →</a></p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Другие пропфирмы</h2>
+        <div class="firm-grid" id="pf-other"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у фирм.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/prop-firms.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderPropFirmSummary("fundingpips", "pf-summary");
+    renderPropFirmRules("fundingpips", "pf-rules");
+    renderPropFirmPrices("fundingpips", "pf-prices");
+    renderOtherPropFirms("fundingpips", "pf-other");
+  </script>
+</body>
+</html>

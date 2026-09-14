@@ -499,6 +499,28 @@ const FIRMS = [
       dataVerified: false,
     },
   },
+  {
+    // Sources (checked 2026-09-14): trustpilot.com/review/fundingpips.com
+    // (68,367 reviews, 4.5/5), help.fundingpips.com/hc/en-us/articles/
+    // 34504564970385-Reward-Methods, forexpeacearmy.com/forex-reviews/21467.
+    slug: "fundingpips",
+    name: "FundingPips",
+    methods: ["Crypto (USDT/USDC)", "Rise", "Bank card", "Bank transfer"],
+    fee: "Exact withdrawal fee percentage isn't published -- deducted together with the rate and network fee, depends on the method",
+    minWithdrawal: "Not explicitly stated; a $500 threshold is mentioned for Rise",
+    speed: "Crypto -- usually minutes after the request is approved; card/Rise/bank -- 24-48 hours",
+    notes: "Independent tracker Payout Junction confirms $200M+ paid and 127,000+ transactions -- one of the largest verified track records in the industry.",
+    payoutCurrency: "USD",
+    challengePayment: {
+      acceptsCrypto: true,
+      cryptoAssets: "USDT (TRC20) and others -- accepted directly at checkout",
+      priceCurrency: "USD",
+      cryptoFeePercent: null,
+      notes: "Crypto payment confirmation takes 10-30 minutes; a ~$1 network fee is mentioned (that's the network's fee, not the firm's -- its own percentage isn't separately disclosed).",
+      officialUrl: "https://fundingpips.com",
+      dataVerified: false,
+    },
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -853,5 +875,55 @@ const PROP_FIRMS = [
       },
     },
     payoutCadence: "14-day payout cycle.",
+  },
+  {
+    // Sources (checked 2026-09-14): trustpilot.com/review/fundingpips.com,
+    // fundingpips.com (homepage and pricing section), financemagnates.com --
+    // coverage of the sister brand FundingTicks shutting down (Dec 2025 --
+    // 2026), forexpeacearmy.com/forex-reviews/21467-funding-pips-review.
+    slug: "fundingpips",
+    name: "FundingPips",
+    founded: 2022,
+    markets: ["forex"],
+    evaluationTypes: ["1-step", "2-step"],
+    entryFrom: 29,
+    entryModel: "one-time",
+    entryText: "from $29-32 (2-Step Pro, $5K)",
+    profitSplitMax: 100,
+    profitSplitText: "up to 95% every two weeks (marketed as \"up to 100%\" on select plans)",
+    drawdownDaily: "4% (static)",
+    drawdownTotal: "12% (static)",
+    minTradingDays: "from 1 day, depends on the evaluation format",
+    maxAccountValue: 2000000,
+    maxAccountText: "$5K-$100K, scaling to $2M via the PRIME program",
+    payoutMethods: ["Crypto (USDT/USDC)", "Rise", "Card", "Bank"],
+    payoutSlug: "fundingpips",
+    trustpilotScore: 4.5,
+    trustpilotReviews: 68367,
+    trustpilotAsOf: "2026-09-14",
+    brokerBacking: "Its own broker, Tradin® -- claims \"multiple regulatory licenses,\" specific regulators not published",
+    officialUrl: "https://fundingpips.com",
+    includeNote: "A young firm (since 2022), but with one of the largest verified track records in the industry -- independent tracker Payout Junction confirms $200M+ paid and 127,000+ transactions. The same team/CEO runs a sister futures brand, FundingTicks, which shut down in late 2025/early 2026 after a scandal: rules were changed retroactively and already-earned trader profits were cut or zeroed out. A separate review analysis of FundingPips itself (not FundingTicks) found no such pattern -- but it's worth knowing when weighing the team's reliability. Legal registration is multi-jurisdictional (Comoros MISA, plus an Investment Dealer license from the Mauritius FSC as of June 2026), without an FCA/ASIC/CySEC-tier regulator. Doesn't restrict Russian residents (unlike most US futures prop firms on this site) and accepts crypto both for the challenge fee and for payouts.",
+    dataVerified: false,
+    payoutHistory: "Claims $306M+ paid to 3M+ traders worldwide (company data); independently confirmed by tracker Payout Junction at $200M+ / 127,000+ transactions",
+    priceModel: "single",
+    priceTable: [
+      { size: "$5K", price: "$32" },
+      { size: "$10K", price: "$59" },
+      { size: "$25K", price: "$159" },
+      { size: "$50K", price: "$269" },
+      { size: "$100K", price: "$499" },
+    ],
+    rules: {
+      "2-step": {
+        target: "10% (Phase 1) → 6% (Phase 2)",
+        daily: "4% (static)",
+        total: "12% (static)",
+        minDays: "1 day",
+        timeLimit: "no time limit",
+        split: "up to 95%, every two weeks",
+      },
+    },
+    payoutCadence: "Flexible cycles -- weekly, bi-weekly, monthly, or on-demand, depending on the plan chosen.",
   },
 ];
