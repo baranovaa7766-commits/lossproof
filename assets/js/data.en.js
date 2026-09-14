@@ -520,6 +520,17 @@ const FIRMS = [
 //    by a regulated broker. This is not a financial licence or government
 //    accreditation.
 //
+// Separate from safety -- a practical relevance check for this site's
+// audience: is the firm even available to RU/CIS residents at all. Most
+// US futures prop firms (Topstep, and nearly every competitor checked --
+// Apex Trader Funding, Earn2Trade, MyFundedFutures -- as of 2026-09-14)
+// comply with OFAC restrictions and explicitly exclude Russia from their
+// eligible jurisdictions -- signup and payouts are closed to Russian
+// residents regardless of how the firm scores otherwise. Not a safety
+// issue, an applicability one: such a firm can still stay in the
+// comparison (like Topstep, with an explicit warning in `includeNote` and
+// on the firm's page), just don't stay silent about the restriction.
+//
 // The figures below were gathered via web search as of PROP_FIRMS_RESEARCHED
 // and have NOT been checked line by line against each firm's official site.
 // Profit splits, drawdowns, per-account-size prices and Trustpilot review
@@ -720,7 +731,7 @@ const PROP_FIRMS = [
     trustpilotAsOf: "2026-09-06",
     brokerBacking: null,
     officialUrl: "https://www.topstep.com",
-    includeNote: "Its Trustpilot score is below our benchmarks, but it is one of the oldest futures prop firms (since 2012) with a long public payout history. Assess with care and read recent reviews.",
+    includeNote: "Russian residents effectively can't trade with Topstep -- like most US futures prop firms, it complies with OFAC restrictions and Russia is on its list of ineligible jurisdictions. Also, its Trustpilot score is below our benchmarks, but it is one of the oldest futures prop firms (since 2012) with a long public payout history. Assess with care and read recent reviews.",
     dataVerified: false,
     payoutHistory: "Public payout history since 2012, futures-focused",
     priceModel: "monthly",
