@@ -371,6 +371,22 @@ a {
 }
 
 /* Homepage section hub (rounded square nav cards) */
+.hub-category {
+  margin-bottom: 36px;
+}
+
+.hub-category:last-child {
+  margin-bottom: 0;
+}
+
+.hub-category-title {
+  font-size: 1.1rem;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .hub-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
