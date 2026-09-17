@@ -293,6 +293,27 @@ a {
   margin-top: 24px;
 }
 
+@keyframes calc-result-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.calc-result-enter {
+  animation: calc-result-in 0.45s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calc-result-enter {
+    animation: none;
+  }
+}
+
 .calc-loading,
 .calc-error {
   color: var(--color-text-muted);

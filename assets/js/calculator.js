@@ -341,6 +341,16 @@ function parseDestination(value) {
   return { type: "fiat", currency: value.slice(5) };
 }
 
+// Каждый вызов ставит новый HTML и заново запускает CSS-анимацию появления
+// (calc-result-enter), даже если предыдущий результат уже был виден — иначе
+// без явного reflow браузер не перезапускает анимацию на том же элементе.
+function renderResult(resultEl, html) {
+  resultEl.classList.remove("calc-result-enter");
+  void resultEl.offsetWidth;
+  resultEl.innerHTML = html;
+  resultEl.classList.add("calc-result-enter");
+}
+
 async function runCalculation(form, resultEl, opts, t) {
   const formData = new FormData(form);
   const amount = parseFloat(formData.get("amount"));
@@ -349,7 +359,7 @@ async function runCalculation(form, resultEl, opts, t) {
   const destination = parseDestination(formData.get("destination"));
 
   if (!amount || amount <= 0) {
-    resultEl.innerHTML = `<p class="calc-error">${t.errorAmount}</p>`;
+    renderResult(resultEl, `<p class="calc-error">${t.errorAmount}</p>`);
     return;
   }
 
@@ -365,26 +375,26 @@ async function runCalculation(form, resultEl, opts, t) {
 
   // Пропфирма не принимает оплату криптой — маршрута нет, показываем это сразу.
   if (isDestFirm && destFirm && !destFirm.challengePayment.acceptsCrypto) {
-    resultEl.innerHTML = `<div class="notes-box">${t.firmPaymentBlocked(destFirm.name, destFirm.challengePayment.notes)}</div>`;
+    renderResult(resultEl, `<div class="notes-box">${t.firmPaymentBlocked(destFirm.name, destFirm.challengePayment.notes)}</div>`);
     return;
   }
   // Оба конца маршрута — крипта: переводить нечего (кроме как между биржами).
   if (isSourceCrypto && isDestCrypto) {
     if (source.exchange && destination.exchange && destination.exchange !== "all" && source.exchange === destination.exchange) {
       const ex = opts.exchanges.find((e) => e.id === source.exchange);
-      resultEl.innerHTML = `<div class="notes-box">${t.alreadySameExchangeMessage(ex ? ex.name : source.exchange)}</div>`;
+      renderResult(resultEl, `<div class="notes-box">${t.alreadySameExchangeMessage(ex ? ex.name : source.exchange)}</div>`);
     } else {
-      resultEl.innerHTML = `<div class="notes-box">${t.alreadyThereMessage}</div>`;
+      renderResult(resultEl, `<div class="notes-box">${t.alreadyThereMessage}</div>`);
     }
     return;
   }
   // Валюта совпадает на обоих концах: конвертация не нужна.
   if (!isSourceCrypto && !isDestCryptoLike && fundingCurrency === destination.currency) {
-    resultEl.innerHTML = `<div class="notes-box">${t.alreadySameMessage}</div>`;
+    renderResult(resultEl, `<div class="notes-box">${t.alreadySameMessage}</div>`);
     return;
   }
 
-  resultEl.innerHTML = `<p class="calc-loading">${t.loading}</p>`;
+  renderResult(resultEl, `<p class="calc-loading">${t.loading}</p>`);
 
   // Комиссии провайдеров заданы в долларах, поэтому считаем через доллар как
   // опорную точку: rateToUSD переводит сумму в USD-эквивалент (если нужно),
@@ -402,13 +412,25 @@ async function runCalculation(form, resultEl, opts, t) {
     rateToUSD = a;
     rateFromUSD = b;
   } catch (err) {
-    resultEl.innerHTML = `<p class="calc-error">${t.errorRates}</p>`;
+    renderResult(resultEl, `<p class="calc-error">${t.errorRates}</p>`);
     return;
   }
 
   const displayFrom = isSourceCrypto ? "USDT" : fundingCurrency;
   const displayTo = isDestCryptoLike ? "USDT" : destination.currency;
   const amountUSD = isSourceCrypto ? amount : amount * rateToUSD;
+
+  // Полная цепочка маршрута для отображения (например «FundingPips → Bybit →
+  // Whitebird → RUB»), а не только средние этапы — иначе непонятно, откуда и
+  // куда вообще идут деньги, если сравнивать это только с формой выше.
+  const sourceLabel = source.type === "firm"
+    ? (sourceFirm ? sourceFirm.name : "")
+    : source.type === "cash"
+    ? source.currency
+    : source.exchange
+    ? (opts.exchanges.find((e) => e.id === source.exchange) || {}).name || source.exchange
+    : "USDT";
+  const destLabel = destination.type === "fiat" ? destination.currency : null;
 
   const buildBuyRow = (provider, isOfframp) => {
     // Покупка USDT на бирже или через обменник (обменники в OFFRAMPS обычно
@@ -419,7 +441,7 @@ async function runCalculation(form, resultEl, opts, t) {
     const finalAmount = afterFeeUSD * (1 - provider.spreadPercent / 100);
     const effectiveRate = rateToUSD * (1 - provider.spreadPercent / 100);
     const row = {
-      name: isOfframp ? `${provider.name}${t.viaOfframpSuffix}` : provider.name,
+      name: `${sourceLabel} → ${isOfframp ? `${provider.name}${t.viaOfframpSuffix}` : provider.name}`,
       finalAmount,
       effectiveRate,
       feeText: formatFee(provider.spreadPercent, provider.fixedFee, t),
@@ -443,7 +465,7 @@ async function runCalculation(form, resultEl, opts, t) {
     const finalAmount = afterFeeUSD * (1 - offramp.spreadPercent / 100) * rateFromUSD;
     const effectiveRate = rateFromUSD * (1 - offramp.spreadPercent / 100);
     return {
-      name: offramp.name,
+      name: `${sourceLabel} → ${offramp.name}${destLabel ? ` → ${destLabel}` : ""}`,
       finalAmount,
       finalAmountMax: afterFeeUSD * (1 - min / 100) * rateFromUSD,
       finalAmountMin: afterFeeUSD * (1 - max / 100) * rateFromUSD,
@@ -467,7 +489,7 @@ async function runCalculation(form, resultEl, opts, t) {
     const combinedSpreadPercent = 100 * (1 - (1 - ex.spreadPercent / 100) * (1 - offramp.spreadPercent / 100));
     const effectiveRate = rateToUSD * rateFromUSD * (1 - combinedSpreadPercent / 100);
     return {
-      name: `${ex.name} → ${offramp.name}`,
+      name: `${sourceLabel} → ${ex.name} → ${offramp.name} → ${destLabel}`,
       finalAmount,
       finalAmountMax: afterFeeUSD2 * (1 - min / 100) * rateFromUSD,
       finalAmountMin: afterFeeUSD2 * (1 - max / 100) * rateFromUSD,
@@ -488,7 +510,7 @@ async function runCalculation(form, resultEl, opts, t) {
     const finalAmount = afterFeeUSD * (1 - opts.bank.markupPercent / 100) * rateFromUSD;
     const effectiveRate = rateToUSD * rateFromUSD * (1 - opts.bank.markupPercent / 100);
     return {
-      name: opts.bank.name,
+      name: `${sourceLabel} → ${opts.bank.name} → ${destLabel}`,
       finalAmount,
       finalAmountMax: afterFeeUSD * (1 - min / 100) * rateFromUSD,
       finalAmountMin: afterFeeUSD * (1 - max / 100) * rateFromUSD,
@@ -515,7 +537,7 @@ async function runCalculation(form, resultEl, opts, t) {
     feeParts.push(feePercent ? t.firmFeeKnown(feePercent) : t.firmFeeUnknown);
     const providerName = provider ? `${provider.name}${isOfframp ? t.viaOfframpSuffix : ""}` : null;
     const row = {
-      name: providerName ? `${providerName} → ${destFirm.name}` : destFirm.name,
+      name: providerName ? `${sourceLabel} → ${providerName} → ${destFirm.name}` : `${sourceLabel} → ${destFirm.name}`,
       finalAmount,
       effectiveRate,
       feeText: feeParts.join(", "),
@@ -573,7 +595,7 @@ async function runCalculation(form, resultEl, opts, t) {
       ? new Intl.DateTimeFormat(t.locale, { year: "numeric", month: "long", day: "numeric" }).format(new Date(DATA_LAST_VERIFIED))
       : "";
 
-  resultEl.innerHTML = `
+  renderResult(resultEl, `
     ${country ? `<p class="calc-country-note">${t.countryNote(escapeHTML(country))}</p>` : ""}
     <div class="calc-table-wrap">
       <table class="calc-table">
@@ -616,7 +638,7 @@ async function runCalculation(form, resultEl, opts, t) {
     ${extraNote}
     ${anyRangeRow ? `<div class="notes-box calc-range-disclaimer">${t.rangeDisclaimer(verifiedDate)}</div>` : ""}
     <p class="calc-disclaimer">${t.disclaimer} <a href="${t.disclosureHref}">${t.disclaimerLinkText}</a>.</p>
-  `;
+  `);
 }
 
 function formatFee(percent, fixedFeeUSD, t) {
