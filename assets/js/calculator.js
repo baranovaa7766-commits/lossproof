@@ -96,6 +96,8 @@ const CALC_STRINGS = {
     challengeAcceptsLabel: "Принимает:",
     challengeFeeLabel: "Комиссия за оплату криптой:",
     challengePayLink: (name) => `Оплатить челлендж на сайте ${name} →`,
+    whyCryptoNote: "Почему через биржу, а не напрямую? Прямой банковский перевод или карта из большинства стран сейчас не доходят до российского банка — Visa/Mastercard и SWIFT не проводят такие платежи в Россию. Обменники вроде Whitebird и Cifra Markets тоже работают только с криптой на входе — они меняют USDT на рубли, а не доллары на рубли напрямую. Поэтому рабочий маршрут — сначала купить USDT на бирже, затем обменять его на рубли. Банковский перевод в таблице ниже показан только для сравнения, насколько хуже был бы курс, если бы прямой перевод вообще работал.",
+    baselineBadge: "гипотетически",
     disclaimer: 'Курс обновляется при каждом расчёте, спред и комиссии — по официально опубликованным тарифам провайдеров на момент проверки (могут измениться без предупреждения). Сверяйте перед крупным выводом. См.',
     disclaimerLinkText: "раскрытие информации о партнёрских ссылках",
     disclosureHref: "/disclosure/",
@@ -153,6 +155,8 @@ const CALC_STRINGS = {
     challengeAcceptsLabel: "Accepts:",
     challengeFeeLabel: "Crypto payment fee:",
     challengePayLink: (name) => `Pay for the challenge on ${name}'s site →`,
+    whyCryptoNote: "Why go through an exchange instead of direct? A direct bank transfer or card payment from most countries doesn't reach a Russian bank right now — Visa/Mastercard and SWIFT don't process payments into Russia. Exchangers like Whitebird and Cifra Markets also only work with crypto on the input side — they convert USDT to rubles, not dollars to rubles directly. So the route that actually works is: buy USDT on an exchange first, then convert it to rubles. The bank transfer row below is shown only for comparison, to show how much worse the rate would be if a direct transfer worked at all.",
+    baselineBadge: "hypothetical",
     disclaimer: "The rate refreshes on every calculation; spreads and fees come from providers' officially published tariffs as of the last check (subject to change without notice). Verify before a large withdrawal. See our",
     disclaimerLinkText: "disclosure",
     disclosureHref: "/en/disclosure/",
@@ -520,6 +524,7 @@ async function runCalculation(form, resultEl, opts, t) {
       speed: opts.bank.speed,
       linkId: null,
       unverified: false,
+      isBaseline: true,
     };
   };
 
@@ -560,6 +565,7 @@ async function runCalculation(form, resultEl, opts, t) {
   let rows;
   let resultHeaderReceive = t.thReceive;
   let extraNote = "";
+  let beforeNote = "";
   if (isDestFirm) {
     resultHeaderReceive = t.thArrives;
     if (isSourceCrypto) {
@@ -583,6 +589,7 @@ async function runCalculation(form, resultEl, opts, t) {
   } else {
     rows = opts.exchanges.flatMap((ex) => opts.offramps.map((offramp) => buildRoute(ex, offramp)));
     if (opts.bank) rows.push(buildBankRow());
+    beforeNote = `<div class="notes-box">${t.whyCryptoNote}</div>`;
   }
 
   // Сортировка по нижней границе диапазона (консервативная оценка сверху);
@@ -597,6 +604,7 @@ async function runCalculation(form, resultEl, opts, t) {
 
   renderResult(resultEl, `
     ${country ? `<p class="calc-country-note">${t.countryNote(escapeHTML(country))}</p>` : ""}
+    ${beforeNote}
     <div class="calc-table-wrap">
       <table class="calc-table">
         <thead>
@@ -618,6 +626,7 @@ async function runCalculation(form, resultEl, opts, t) {
                 ${row.name}
                 ${row === best ? `<span class="calc-badge">${t.bestBadge}</span>` : ""}
                 ${row.unverified ? `<span class="calc-unverified">${t.unverifiedBadge}</span>` : ""}
+                ${row.isBaseline ? `<span class="calc-unverified">${t.baselineBadge}</span>` : ""}
               </td>
               <td data-label="${t.thRate}">1 ${displayFrom} = ${row.effectiveRate.toFixed(4)} ${displayTo}</td>
               <td data-label="${t.thFee}">${row.feeText}</td>
