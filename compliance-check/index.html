@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Проверка условий пропфирмы: не нарушены ли лимиты — LossProof</title>
+  <meta name="description" content="Бесплатный калькулятор: впишите баланс, эквити и число торговых дней — узнайте, укладываетесь ли вы в дневной и общий лимит просадки, набран ли профит-таргет для вашей пропфирмы." />
+  <link rel="canonical" href="/compliance-check/" />
+  <link rel="alternate" hreflang="ru" href="/compliance-check/" />
+  <link rel="alternate" hreflang="en" href="/en/compliance-check/" />
+  <link rel="alternate" hreflang="x-default" href="/compliance-check/" />
+  <meta property="og:title" content="Проверка условий пропфирмы — LossProof" />
+  <meta property="og:description" content="Узнайте, не нарушены ли лимиты просадки и набран ли профит-таргет — по точным правилам вашей пропфирмы." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">LossProof</a>
+      <nav class="site-nav">
+        <a href="/calculator/">🧭 Калькулятор переводов</a>
+        <a href="/prop-firms/">🏢 Сравнение пропфирм</a>
+        <a href="/match/">🎯 Подбор пропфирмы</a>
+        <a href="/payouts/">💸 Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">💱 Гид по крипто-выводу</a>
+        <a href="/exchanges/">🔁 Сравнение бирж</a>
+        <a href="/offramps/">🏧 Сравнение обменников</a>
+        <a href="/red-flags/">🚩 Красные флаги пропфирм</a>
+        <a href="/compliance-check/">✅ Проверка условий</a>
+        <a href="/terms/">📖 Словарь терминов</a>
+        <a href="/disclosure/">📄 Раскрытие информации</a>
+        <a class="lang-switch" href="/en/compliance-check/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Проверка условий пропфирмы</h1>
+        <p>Впишите текущий баланс, эквити и число торговых дней — узнайте, не нарушен ли дневной или общий лимит просадки и набран ли профит-таргет, по точным правилам конкретной фирмы. Бесплатно, без регистрации и без сохранения ваших данных.</p>
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <div id="compliance-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Как это устроено и почему пока 6 фирм</h2>
+        <p>Правила взяты из тех же данных, что и в <a href="/prop-firms/">сравнении пропфирм</a>, — проценты просадки, тип расчёта (статическая или трейлинг) и профит-таргеты по фазам. Topstep пока не поддерживается: у него лимиты заданы в фиксированных долларах на каждый размер счёта, а не в процентах, — это отдельная модель расчёта, которую добавим позже, а не будем подгонять под общую логику неточно.</p>
+        <div class="notes-box">Это ранняя, полностью бесплатная версия инструмента — проверяем, насколько он вообще нужен, прежде чем вкладываться в более сложную версию с импортом сделок и историей. Если вам не хватает какой-то фирмы или функции — это ценная информация для нас.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у фирм.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/compliance.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initComplianceCheck("compliance-root");
+  </script>
+</body>
+</html>

@@ -249,6 +249,10 @@ a {
   gap: 6px;
 }
 
+.calc-field[hidden] {
+  display: none;
+}
+
 .calc-field label {
   font-size: 0.85rem;
   font-weight: 600;
@@ -296,6 +300,86 @@ a {
 
 .calc-error {
   color: #b3261e;
+}
+
+/* Проверка условий пропфирмы (/compliance-check/) */
+.cc-hint-field {
+  grid-column: 1 / -1;
+}
+
+.cc-hint {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.cc-result-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+
+.cc-result-card h3 {
+  margin-top: 0;
+}
+
+.cc-result-row {
+  padding: 12px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.cc-result-row:first-of-type {
+  border-top: none;
+  padding-top: 4px;
+}
+
+.cc-result-row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cc-result-label {
+  font-weight: 600;
+}
+
+.cc-result-sub {
+  margin-top: 4px;
+  font-size: 0.86rem;
+  color: var(--color-text-muted);
+}
+
+.cc-status {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.cc-status--ok {
+  background: var(--color-best);
+  color: var(--color-best-border);
+}
+
+.cc-status--bad {
+  background: #fdeceb;
+  color: #b3261e;
+}
+
+.cc-status--warn {
+  background: #fbf6e7;
+  color: #8a6d1a;
+}
+
+.cc-status--neutral {
+  background: var(--color-bg);
+  color: var(--color-text-muted);
 }
 
 .calc-country-note {
