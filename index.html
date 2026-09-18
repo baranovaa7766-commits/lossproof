@@ -16,6 +16,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <script>try{if(localStorage.getItem("lp-theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -24,6 +28,10 @@
       <a class="site-logo" href="/">LossProof</a>
       <nav class="site-nav">
         <a href="/disclosure/">📄 Раскрытие информации</a>
+        <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Переключить тему">
+          <svg class="theme-toggle-icon theme-toggle-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12h2.5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+          <svg class="theme-toggle-icon theme-toggle-icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        </button>
         <a class="lang-switch" href="/en/" aria-label="Switch to English"><span class="lang-switch-icon">🌐</span>EN</a>
       </nav>
     </div>
@@ -32,14 +40,7 @@
   <main>
     <section class="hero hero--home">
       <div class="container">
-        <svg class="hero-emblem" viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs><linearGradient id="hg-emblem" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
-          <g fill="none" stroke="url(#hg-emblem)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="51" cy="11" r="4"/>
-            <path d="M4,40 L18,16 L26,28 L34,8 L44,30 L60,14"/>
-          </g>
-        </svg>
-        <div class="hero-title-wrap"><h1>LossProof — твой путеводитель в мире трейдинга</h1></div>
+        <h1>LossProof — твой путеводитель в мире трейдинга</h1>
         <p>Сравниваем биржи, пропфирмы и считаем переводы по проверенным данным, без рекламных обещаний. Постепенно превращаем это в полноценный гид для трейдера — от выбора площадки до последнего рубля на счету.</p>
       </div>
     </section>
@@ -273,6 +274,7 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+  <script src="/assets/js/theme.js"></script>
   <script src="/assets/js/reveal.js"></script>
 </body>
 </html>
