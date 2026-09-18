@@ -1,34 +1,35 @@
-/* Светлая тема — не ярко-белая, а чуть более сдержанная/глубокая палитра
-   (тёмно-синий вместо ярко-голубого, графитовый текст), под серьёзный тон.
-   Тёмная тема переопределяет те же переменные ниже, под [data-theme="dark"]
-   — переключатель в шапке просто меняет атрибут на <html>, см. theme.js. */
+/* «Alpenglow» — утверждённое направление (см. память feedback про дизайн):
+   тёплая закатная палитра вместо холодной сине-серой. Тёплая бумага вместо
+   белого/светло-серого, янтарный акцент вместо синего, шапка сайта — всегда
+   тёмная (не зависит от переключателя темы, см. .site-header ниже) и
+   визуально продолжает горную сцену hero на любой странице. */
 :root {
-  --color-bg: #f0f2f5;
-  --color-surface: #ffffff;
-  --color-text: #161a22;
-  --color-text-muted: #5a6172;
-  --color-primary: #2c4c7c;
-  --color-primary-dark: #1c3357;
-  --color-border: #dde1e8;
-  --color-best: #e6efe9;
-  --color-best-border: #2f6b4f;
-  --color-hover-bg: #e7ecf3;
-  --radius: 10px;
+  --color-bg: #f2f0e8;
+  --color-surface: #f9f7f0;
+  --color-text: #1c1811;
+  --color-text-muted: #6b6558;
+  --color-primary: #9a6a2e;
+  --color-primary-dark: #7a5320;
+  --color-border: #ddd6c4;
+  --color-best: #e9ecdd;
+  --color-best-border: #5c7a3f;
+  --color-hover-bg: #ece6d5;
+  --radius: 4px;
   --max-width: 1080px;
   --max-width-wide: 1320px;
 }
 
 :root[data-theme="dark"] {
-  --color-bg: #10131a;
-  --color-surface: #181c25;
-  --color-text: #e7e9ee;
-  --color-text-muted: #9aa1b0;
-  --color-primary: #6f9bd6;
-  --color-primary-dark: #93b6e3;
-  --color-border: #2a2f3a;
-  --color-best: #16261e;
-  --color-best-border: #4ea57c;
-  --color-hover-bg: #1f2430;
+  --color-bg: #16130d;
+  --color-surface: #1e1a12;
+  --color-text: #f0ece0;
+  --color-text-muted: #a89e8a;
+  --color-primary: #e3a35b;
+  --color-primary-dark: #eab876;
+  --color-border: #362e1f;
+  --color-best: #202417;
+  --color-best-border: #8aa563;
+  --color-hover-bg: #262015;
 }
 
 * {
@@ -38,7 +39,7 @@
 body {
   margin: 0;
   position: relative;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.55;
@@ -59,10 +60,12 @@ a {
   max-width: var(--max-width-wide);
 }
 
-/* Header */
+/* Header — всегда тёмный, как верхний край горной сцены, независимо от
+   переключателя светлой/тёмной темы (иначе шапка «отваливалась» бы от
+   иллюстрации hero на главной каждый раз при переключении). */
 .site-header {
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  background: #0d1119;
+  border-bottom: 1px solid #262b38;
 }
 
 .site-header .container {
@@ -75,19 +78,25 @@ a {
   gap: 10px;
 }
 
-/* Название сайта — только типографика (без иконки/градиента): свой,
-   отличный от остального сайта гротеск (Space Grotesk) плотным начертанием
-   и небольшим отрицательным трекингом — так шапка выглядит как продуманный
-   знак, а не просто текстовая ссылка, но без цветных эффектов. */
+/* Название сайта — засечная гарнитура (Fraunces) плюс маленький знак
+   вершины с горизонтальной чертой (уровень цены на графике) слева —
+   единственная иконка на сайте, и то часть логотипа, а не декор. */
 .site-logo {
   display: inline-flex;
-  align-items: baseline;
-  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-weight: 700;
-  font-size: 1.35rem;
-  letter-spacing: -0.03em;
+  align-items: center;
+  gap: 9px;
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: 1.32rem;
+  letter-spacing: 0.005em;
   text-decoration: none;
-  color: var(--color-text);
+  color: #faf6ec;
+}
+
+.site-logo svg {
+  width: 22px;
+  height: 17px;
+  flex-shrink: 0;
 }
 
 .site-nav {
@@ -100,9 +109,9 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: var(--color-text);
+  color: #d8cdb8;
   text-decoration: none;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   padding: 8px 14px;
   border-radius: 999px;
@@ -110,8 +119,8 @@ a {
 }
 
 .site-nav a:hover {
-  color: var(--color-primary-dark);
-  background: var(--color-hover-bg);
+  color: #f7f0e3;
+  background: rgba(227, 163, 91, 0.14);
 }
 
 .lang-switch {
@@ -119,10 +128,10 @@ a {
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  border: 1px solid var(--color-border);
+  border: 1px solid #362e1f;
   border-radius: 999px;
-  background: var(--color-bg);
-  color: var(--color-text) !important;
+  background: #181c25;
+  color: #d8cdb8 !important;
   font-weight: 600;
   font-size: 0.85rem;
   text-decoration: none !important;
@@ -130,8 +139,8 @@ a {
 }
 
 .lang-switch:hover {
-  border-color: var(--color-primary);
-  background: var(--color-hover-bg);
+  border-color: #e3a35b;
+  background: rgba(227, 163, 91, 0.14);
 }
 
 /* Переключатель светлой/тёмной темы — кнопка рядом с языковым переключателем. */
@@ -142,18 +151,18 @@ a {
   width: 34px;
   height: 34px;
   padding: 0;
-  border: 1px solid var(--color-border);
+  border: 1px solid #362e1f;
   border-radius: 999px;
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: #181c25;
+  color: #d8cdb8;
   cursor: pointer;
   flex-shrink: 0;
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .theme-toggle:hover {
-  border-color: var(--color-primary);
-  background: var(--color-hover-bg);
+  border-color: #e3a35b;
+  background: rgba(227, 163, 91, 0.14);
 }
 
 .theme-toggle svg {
@@ -177,7 +186,9 @@ a {
   font-size: 1rem;
 }
 
-/* Hero */
+/* Hero (обычные страницы, не главная) — остаётся лёгким: тонкая горная
+   линия внизу, текст по центру. Главная страница переопределяет это почти
+   полностью ниже, под .hero--home — там уже полноценная canvas-сцена. */
 .hero {
   padding: 48px 0 24px;
   text-align: center;
@@ -226,16 +237,90 @@ a {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='150' viewBox='0 0 1440 150'%3E%3Cpath fill='rgba(154,161,176,0.08)' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92 L1440,150 L0,150 Z'/%3E%3Cpath fill='none' stroke='rgba(154,161,176,0.28)' stroke-width='1.5' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92'/%3E%3C/svg%3E");
 }
 
-/* Заголовок на главной — сплошной фирменный цвет, без градиентной заливки
-   текста (раньше был background-clip:text, что а) выглядело ярко/пёстро для
-   серьёзного тона и б) в паре с анимацией ломало отрисовку на мобильном). */
+/* Главная страница — полноценная сцена «Alpenglow»: закатное небо и горы
+   рисуются в реальном времени на <canvas> (assets/js/mountain.js), а не
+   хранятся как CSS-фон — так масштаб и пропорции всегда верные, при любой
+   ширине экрана (в отличие от прежней версии на background-image). Текст
+   заголовка сидит внизу слева поверх сцены, а не по центру — асимметрия
+   вместо шаблонного центрирования. Сцена не зависит от переключателя
+   светлой/тёмной темы: это сюжет hero, а не режим чтения. */
+.hero--home {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  height: min(78vh, 640px);
+  min-height: 460px;
+  color: #f0ece0;
+}
+
+.hero--home::after {
+  display: none;
+}
+
+.hero--home canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: -1;
+}
+
+.hero--home .container {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 56px;
+}
+
+.hero--home .hero-copy {
+  max-width: 620px;
+}
+
+.hero--home .hero-eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #e3a35b;
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero--home .hero-eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: #e3a35b;
+}
+
 .hero--home h1 {
-  color: var(--color-primary);
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 4.6vw, 3.2rem);
+  line-height: 1.06;
+  color: #faf6ec;
+  margin: 0 0 20px;
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+
+.hero--home h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: #eab876;
 }
 
 .hero--home p {
-  color: var(--color-text-muted);
-  font-size: 1.1rem;
+  font-family: "Archivo", sans-serif;
+  color: #d8d2c4;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 46ch;
 }
 
 /* Calculator widget */

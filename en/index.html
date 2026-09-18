@@ -16,14 +16,28 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <script>try{if(localStorage.getItem("lp-theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <a class="site-logo" href="/en/">LossProof</a>
+      <a class="site-logo" href="/en/">
+        <svg viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 18 L8 6 L11.5 11 L16 3 L25 18" stroke="#eab876" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 3 L20 3" stroke="#eab876" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        LossProof
+      </a>
       <nav class="site-nav">
         <a href="/en/disclosure/">📄 Disclosure</a>
+        <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle theme">
+          <svg class="theme-toggle-icon theme-toggle-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12h2.5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+          <svg class="theme-toggle-icon theme-toggle-icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        </button>
         <a class="lang-switch" href="/" aria-label="Переключить на русский"><span class="lang-switch-icon">🌐</span>RU</a>
       </nav>
     </div>
@@ -31,16 +45,13 @@
 
   <main>
     <section class="hero hero--home">
+      <canvas id="mtn-canvas" aria-hidden="true"></canvas>
       <div class="container">
-        <svg class="hero-emblem" viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs><linearGradient id="hg-emblem" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
-          <g fill="none" stroke="url(#hg-emblem)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="51" cy="11" r="4"/>
-            <path d="M4,40 L18,16 L26,28 L34,8 L44,30 L60,14"/>
-          </g>
-        </svg>
-        <div class="hero-title-wrap"><h1>LossProof — your guide to the world of trading</h1></div>
-        <p>We compare exchanges, prop firms, and calculate transfers using verified data, not marketing promises. Gradually growing this into a full trader's guide — from picking a platform to the last dollar in your account.</p>
+        <div class="hero-copy">
+          <p class="hero-eyebrow">Verified against primary sources</p>
+          <h1>Every payout route is <em>fully visible</em> before you pay for it</h1>
+          <p>We compare exchanges, prop firms, and calculate transfers using verified data, not marketing promises. Gradually growing this into a full trader's guide — from picking a platform to the last dollar in your account.</p>
+        </div>
       </div>
     </section>
 
@@ -273,6 +284,9 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+  <script src="/assets/js/theme.js"></script>
   <script src="/assets/js/reveal.js"></script>
+  <script src="/assets/js/mountain.js"></script>
+  <script>initMountainScene("mtn-canvas");</script>
 </body>
 </html>
