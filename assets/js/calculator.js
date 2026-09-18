@@ -327,7 +327,7 @@ function buildFormHTML(opts, t) {
       </div>
       <button type="submit" class="calc-submit">${t.submitButton}</button>
     </form>
-    <div class="notes-box calc-firm-info" hidden></div>
+    <div class="calc-info-note calc-firm-info" hidden></div>
     <div class="calc-result" aria-live="polite"></div>
   `;
 }
@@ -589,7 +589,7 @@ async function runCalculation(form, resultEl, opts, t) {
   } else {
     rows = opts.exchanges.flatMap((ex) => opts.offramps.map((offramp) => buildRoute(ex, offramp)));
     if (opts.bank) rows.push(buildBankRow());
-    beforeNote = `<div class="notes-box">${t.whyCryptoNote}</div>`;
+    beforeNote = `<div class="calc-info-note">${t.whyCryptoNote}</div>`;
   }
 
   // Сортировка по нижней границе диапазона (консервативная оценка сверху);
