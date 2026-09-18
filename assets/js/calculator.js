@@ -1,48 +1,25 @@
-// Переиспользуемый виджет «Калькулятор переводов»: пользователь свободно
-// выбирает, ОТКУДА сейчас деньги (у пропфирмы / на карте в любой валюте /
-// уже в крипте — в том числе на конкретной бирже) и КУДА их нужно перевести
-// (на конкретную биржу, "все варианты" — сравнить сразу все биржи и
-// обменники, в конкретную валюту через off-ramp, или на оплату челленджа у
-// пропфирмы), после чего виджет считает только применимые этапы маршрута
-// между этими двумя точками. При сравнении "всех вариантов" (покупка крипты
-// или оплата фирме) в список провайдеров попадают не только биржи (EXCHANGES
-// в data.js), но и обменники (OFFRAMPS с `onRampSupported: true`) — они тоже
-// умеют продавать крипту за фиат, просто их тариф на покупку отдельно не
-// подтверждён, поэтому такие строки помечаются «не подтверждено».
+// Переиспользуемый виджет «Калькулятор переводов»: пользователь выбирает, ОТКУДА
+// сейчас деньги (у пропфирмы / на карте в любой валюте / уже в крипте — в том
+// числе на конкретной бирже) и КУДА их нужно перевести (USDT на бирже или у
+// обменника, оплата челленджа пропфирме, валюта), после чего виджет строит ВСЕ
+// возможные маршруты между этими точками и считает их. Модель маршрута, виды
+// точности результата (диапазон / верхняя граница / точное) и правила — в
+// большом комментарии «Модель маршрута» ниже, над fiatToUsdtStates.
 //
-// Комиссии `fixedFee` у всех провайдеров (EXCHANGES/OFFRAMPS/BANK_BASELINE в
-// data.js) заданы в долларах — поэтому расчёт всегда идёт через доллар как
-// опорную валюту: сумма сначала переводится в USD-эквивалент (если исходная
-// валюта не USD и не крипта), с неё вычитаются комиссии и применяется
-// спред, а результат переводится в валюту назначения (если это не USD и не
-// крипта/пропфирма). Язык берётся из <html lang="ru|en">.
-//
-// Диапазон вместо точного числа: у off-ramp сервисов (Whitebird, Cifra
-// Markets) нет публичного API тарифов — курс USDT↔fiat привязан к P2P-рынку
-// и колеблется, поэтому показывать одно точное число было бы ложной
-// точностью. Любой этап, где участвует обменник (OFFRAMPS) — как off-ramp,
-// так и как альтернатива бирже для покупки — считается ДИАПАЗОНОМ:
-// ±OFFRAMP_TOLERANCE_PERCENT вокруг подтверждённого spreadPercent (см.
-// calculator-full-rebuild-spec.md, раздел «Диапазон»). Банковский перевод
-// (контрастный вариант) считается тем же способом для единообразия. Этап
-// биржи (EXCHANGES) остаётся точным числом — колебания там минимальны.
+// Расчёт идёт через доллар как опорную валюту (USDT ≈ 1 USD, `fixedFee`
+// провайдеров заданы в долларах): сумма переводится в USD-эквивалент, с неё
+// вычитаются комиссии по шагам, результат переводится в валюту назначения.
+// Язык берётся из <html lang="ru|en">.
 //
 // Usage: initCalculator('root-id', { amount, presetSource: 'cash:USD' |
 //   'firm:<slug>' | 'crypto' | 'crypto:<exchangeId>', presetDestination:
 //   'fiat:RUB' | 'crypto:all' | 'crypto:<exchangeId>' | 'firm:<slug>' })
 
-// ±0,4% — середина диапазона "±0,3-0,5%", который calculator-full-rebuild-spec.md
-// указывает как допуск на рыночные колебания P2P-курса у Whitebird; тот же
-// допуск применяется к Cifra Markets и к банковской строке для единообразия
-// (спецификация не даёт отдельных чисел для них).
+// ±0,4% — допуск на колебания курса вокруг оценочного спреда: середина
+// диапазона «±0,3-0,5%», который calculator-full-rebuild-spec.md указывает для
+// P2P-курса у Whitebird; применяется ко всем оценочным шагам (обменники, биржи,
+// банковская строка) для единообразия.
 const OFFRAMP_TOLERANCE_PERCENT = 0.4;
-
-function spreadRange(spreadPercent) {
-  return {
-    min: Math.max(spreadPercent - OFFRAMP_TOLERANCE_PERCENT, 0),
-    max: spreadPercent + OFFRAMP_TOLERANCE_PERCENT,
-  };
-}
 
 const CALC_STRINGS = {
   ru: {
@@ -76,7 +53,22 @@ const CALC_STRINGS = {
     alreadySameExchangeMessage: (exchange) => `Деньги уже на ${exchange} — переводить никуда не нужно.`,
     alreadySameMessage: "Деньги уже в той валюте, куда вы хотите их перевести, — конвертация не нужна.",
     firmPaymentBlocked: (firm, notes) => `${firm} не принимает оплату криптовалютой. ${notes}`,
-    noOfframpRoute: (currency, supported) => `Для вывода в ${currency} у нас нет подтверждённого маршрута: обменники в нашей базе выводят USDT только в ${supported}. Если вам нужна сама крипта (USDT — стейблкоин, привязанный к доллару), выберите в поле «Куда» пункт «${CALC_STRINGS.ru.destAllExchanges}» — там есть покупка USDT за рубли напрямую через обменник, без биржи.`,
+    noOfframpRoute: (currency, supported) => `Из USDT в ${currency} у нас нет подтверждённых маршрутов: обменники в нашей базе выводят USDT только в ${supported}.`,
+    p2pStep: "P2P",
+    p2pSuffix: " (P2P)",
+    firmCryptoStep: "USDT (выплата фирмы)",
+    depositStep: (name) => `${name} (крипто-депозит)`,
+    feeP2P: "цена P2P задаётся продавцом — наценку к среднему курсу мы не знаем",
+    feeBuyUnverified: (percent) => `~${percent}% спред (тариф на покупку не проверен)`,
+    feeNetwork: (amount) => `${amount} сетевая комиссия`,
+    ceilingBadge: "верхняя граница",
+    usdtNote: "Здесь «доллары» — это USDT: стейблкоин, 1 USDT ≈ 1 USD. Показаны все способы получить их за ваши деньги; вывод USDT дальше (в рубли, на карту) — отдельный шаг, в этот расчёт он не входит.",
+    usdtOtherNote: (currency) => `Маршруты доводят деньги до USDT. Последний шаг — вывод USDT в ${currency} — в нашей базе не покрыт (обменники выводят только в RUB/BYN), поэтому в расчёт он не входит.`,
+    fromRubNote: "Рубли можно обменять на USDT двумя способами: у обменника напрямую или через P2P на бирже (вы платите на карту продавца, цену задаёт он). У обменников тариф на покупку не проверен, а у P2P цену продавца мы заранее не знаем — поэтому суммы ниже — оценка, а P2P-строки показывают только верхнюю границу.",
+    excludedExchangesNote: (names, currency) => `Не показаны биржи: ${names} — в наших данных у них нет пополнения в ${currency} картой или банком. P2P за рубли мы учитываем, а P2P в других валютах не проверяли.`,
+    ceilingDisclaimer: "<strong>Строки «верхняя граница»</strong> — это максимум при цене продавца ровно по среднему курсу. Реально вы получите меньше: сколько именно, зависит от объявлений на момент сделки. Такие маршруты стоят ниже строк с нижней оценкой.",
+    usdcNote: "Эта фирма платит только в USDC (сеть ERC-20). Чтобы работать с USDT, USDC нужно обменять, а сетевая комиссия ERC-20 заметно выше, чем у TRC20 — ни то, ни другое в расчёт не входит.",
+    noRoutes: "Для этой пары у нас нет маршрутов. Попробуйте другую валюту или направление.",
     thMethod: "Маршрут",
     thRate: "Курс",
     thFee: "Комиссия",
@@ -136,7 +128,22 @@ const CALC_STRINGS = {
     alreadySameExchangeMessage: (exchange) => `The money is already on ${exchange} — nothing to transfer.`,
     alreadySameMessage: "The money is already in the currency you want to convert it to — no conversion needed.",
     firmPaymentBlocked: (firm, notes) => `${firm} doesn't accept crypto payment. ${notes}`,
-    noOfframpRoute: (currency, supported) => `We have no confirmed route for cashing out to ${currency}: the exchangers in our database only pay USDT out in ${supported}. If you just need the crypto itself (USDT, a dollar-pegged stablecoin), pick "${CALC_STRINGS.en.destAllExchanges}" in the "To" field — it includes buying USDT with rubles directly through an exchanger, no exchange needed.`,
+    noOfframpRoute: (currency, supported) => `We have no confirmed routes from USDT to ${currency}: the exchangers in our database only pay USDT out in ${supported}.`,
+    p2pStep: "P2P",
+    p2pSuffix: " (P2P)",
+    firmCryptoStep: "USDT (firm payout)",
+    depositStep: (name) => `${name} (crypto deposit)`,
+    feeP2P: "P2P price is set by the seller — we don't know the markup over the mid-market rate",
+    feeBuyUnverified: (percent) => `~${percent}% spread (buy-side tariff not verified)`,
+    feeNetwork: (amount) => `${amount} network fee`,
+    ceilingBadge: "upper bound",
+    usdtNote: "Here \"dollars\" means USDT: a stablecoin, 1 USDT ≈ 1 USD. All ways to get it for your money are shown; withdrawing USDT further (to rubles, to a card) is a separate step and isn't part of this calculation.",
+    usdtOtherNote: (currency) => `These routes bring your money to USDT. The last step — withdrawing USDT to ${currency} — isn't covered in our database (exchangers only pay out RUB/BYN), so it isn't included.`,
+    fromRubNote: "Rubles can be exchanged for USDT in two ways: directly at an exchanger, or via P2P on an exchange (you pay a seller's card, and the seller sets the price). We haven't verified exchangers' buy-side tariffs, and we can't know a P2P seller's price in advance — so the amounts below are estimates, and P2P rows show only an upper bound.",
+    excludedExchangesNote: (names, currency) => `Exchanges not shown: ${names} — our data shows no ${currency} deposits by card or bank for them. We count P2P for rubles, but haven't verified P2P in other currencies.`,
+    ceilingDisclaimer: "<strong>\"Upper bound\" rows</strong> are the maximum if the seller's price equals the mid-market rate exactly. You will actually get less — how much depends on the listings at the time of the trade. Such routes are ranked below rows with a lower estimate.",
+    usdcNote: "This firm pays out only in USDC (ERC-20 network). To work with USDT the USDC has to be swapped, and ERC-20 network fees are much higher than TRC20 — neither is included.",
+    noRoutes: "We have no routes for this pair. Try another currency or direction.",
     thMethod: "Route",
     thRate: "Rate",
     thFee: "Fee",
@@ -357,6 +364,267 @@ function renderResult(resultEl, html) {
   resultEl.classList.add("calc-result-enter");
 }
 
+// ---------------------------------------------------------------------------
+// Модель маршрута.
+//
+// Любой маршрут — цепочка шагов над «состоянием денег»:
+//   1) ПОЛУЧИТЬ USDT (доллары в крипте) из того, что у пользователя есть:
+//        · крипто-выплата пропфирмы / уже USDT      — шаг не нужен;
+//        · фиат → обменник напрямую (Whitebird, Cifra) — если он принимает валюту;
+//        · рубли → P2P на бирже                        — цена продавца неизвестна;
+//        · другой фиат → биржа картой/банком           — только где биржа это умеет.
+//   2) (если нужно) ПЕРЕВЕСТИ USDT с биржи на обменник — сетевая комиссия ≈ 1 USDT
+//      (`fixedFee` биржи в EXCHANGES — это именно она, а не плата за покупку).
+//   3) (если нужно) ПРОДАТЬ USDT за рубли/BYN — через обменник, поддерживающий
+//      эту валюту (`currencies` в OFFRAMPS), либо P2P на бирже (только RUB).
+//
+// «Доллары» как цель = USDT (шаг 1): дальнейший вывод USDT — отдельный шаг,
+// в такой расчёт он не входит. Для валют, куда обменники не выводят (EUR, KZT…),
+// показываем ту же часть маршрута до USDT и честно говорим, что дальше данных нет.
+//
+// Точность данных описывается тремя видами результата:
+//   · диапазон  [lo, hi] — оценка ± допуск (обменники, биржи);
+//   · верхняя граница (lo = null) — цену P2P задаёт продавец, известен лишь
+//     потолок (курс ровно по рынку); такие строки ставятся ниже остальных;
+//   · точное число — только если все данные шага подтверждены (например,
+//     процент комиссии пропфирмы за приём крипты, указанный официально).
+// Выдуманных цифр нет: чего не знаем — не показываем как точное.
+// ---------------------------------------------------------------------------
+
+function firmCryptoMethods(firm) {
+  return (firm.methods || []).filter((m) => /крипт|crypto|usdt|usdc/i.test(m));
+}
+
+function firmPaysCrypto(firm) {
+  return firmCryptoMethods(firm).length > 0;
+}
+
+function firmCryptoIsUsdcOnly(firm) {
+  const methods = firmCryptoMethods(firm);
+  return methods.length > 0 && methods.every((m) => /usdc/i.test(m) && !/usdt/i.test(m));
+}
+
+function newState(over) {
+  return Object.assign(
+    { steps: [], lo: 0, hi: 0, feeParts: [], speeds: [], location: { type: "free" }, unverified: false },
+    over
+  );
+}
+
+// lo === null — нижняя граница неизвестна (только потолок).
+function afterPercent(state, percent, tolerance) {
+  const best = Math.max(percent - tolerance, 0);
+  const worst = percent + tolerance;
+  return Object.assign({}, state, {
+    hi: state.hi * (1 - best / 100),
+    lo: state.lo == null ? null : state.lo * (1 - worst / 100),
+  });
+}
+
+function afterFixed(state, usd) {
+  return Object.assign({}, state, {
+    hi: Math.max(state.hi - usd, 0),
+    lo: state.lo == null ? null : Math.max(state.lo - usd, 0),
+  });
+}
+
+function withStep(state, extra) {
+  return Object.assign({}, state, {
+    steps: extra.step ? state.steps.concat([extra.step]) : state.steps,
+    feeParts: extra.fee ? state.feeParts.concat([extra.fee]) : state.feeParts,
+    speeds: extra.speed ? state.speeds.concat([extra.speed]) : state.speeds,
+    location: extra.location || state.location,
+    unverified: state.unverified || !!extra.unverified,
+  });
+}
+
+function findCompare(id) {
+  return typeof EXCHANGES_COMPARE !== "undefined" ? EXCHANGES_COMPARE.find((x) => x.slug === id) : null;
+}
+
+function exchangeDeposits(id) {
+  const meta = findCompare(id);
+  return meta && meta.depositMethods ? meta.depositMethods.join(" ") : "";
+}
+
+function stepName(step) {
+  return `${step.names.join(" / ")}${step.suffix || ""}`;
+}
+
+// ШАГ 1. Из фиата получить USDT: все реальные способы.
+function fiatToUsdtStates(srcFiat, amountUSD, opts, t, excluded) {
+  const states = [];
+  const tol = OFFRAMP_TOLERANCE_PERCENT;
+
+  opts.exchanges.forEach((ex) => {
+    const deposits = exchangeDeposits(ex.id);
+    const location = { type: "exchange", id: ex.id };
+    if (srcFiat === "RUB") {
+      if (/P2P/i.test(deposits)) {
+        // Цена P2P — у продавца: известен только потолок (курс ровно по рынку).
+        states.push(
+          newState({
+            lo: null,
+            hi: amountUSD,
+            location,
+            unverified: true,
+            steps: [{ names: [ex.name], suffix: t.p2pSuffix, group: "exchange", linkId: ex.id }],
+            feeParts: [t.feeP2P],
+            speeds: [ex.speed],
+          })
+        );
+      } else {
+        excluded.push(ex.name);
+      }
+    } else if (/карт|card|банк|bank/i.test(deposits)) {
+      const base = newState({
+        lo: amountUSD,
+        hi: amountUSD,
+        location,
+        unverified: true,
+        steps: [{ names: [ex.name], suffix: "", group: "exchange", linkId: ex.id }],
+        speeds: [ex.speed],
+      });
+      const s = afterPercent(base, ex.spreadPercent, tol);
+      s.feeParts = [t.feeMarkup(pct(ex.spreadPercent, t))];
+      states.push(s);
+    } else {
+      excluded.push(ex.name);
+    }
+  });
+
+  opts.offramps.forEach((of) => {
+    if (!of.onRampSupported || !(of.currencies || []).includes(srcFiat)) return;
+    // Тариф на ПОКУПКУ у обменников не проверялся — берём проверенный тариф
+    // на продажу как оценку и помечаем «не подтверждено». Фиксированная
+    // комиссия (у Cifra — за вывод рублей) к покупке не относится.
+    const base = newState({
+      lo: amountUSD,
+      hi: amountUSD,
+      location: { type: "exchanger", id: of.id },
+      unverified: true,
+      steps: [{ names: [of.name], suffix: t.viaOfframpSuffix, group: null, linkId: null }],
+      speeds: [of.speed],
+    });
+    const s = afterPercent(base, of.spreadPercent, tol);
+    s.feeParts = [t.feeBuyUnverified(pct(of.spreadPercent, t))];
+    states.push(s);
+  });
+
+  return states;
+}
+
+// ШАГИ 2–3. USDT → рубли/BYN: обменники и P2P.
+function usdtToFiatStates(states, destCurrency, opts, t) {
+  const out = [];
+  const tol = OFFRAMP_TOLERANCE_PERCENT;
+  const sellers = opts.offramps.filter((o) => (o.currencies || []).includes(destCurrency));
+
+  states.forEach((state) => {
+    sellers.forEach((of) => {
+      let cur = state;
+      if (state.location.type === "exchange") {
+        const ex = opts.exchanges.find((e) => e.id === state.location.id);
+        const fee = ex ? ex.fixedFee : 0;
+        cur = withStep(afterFixed(cur, fee), { fee: fee ? t.feeNetwork(formatMoney(fee, "USD", t)) : null });
+      } else if (state.location.type === "exchanger" && state.location.id !== of.id) {
+        return; // с другого обменника вывод USDT не моделируем — данных о комиссии нет
+      }
+      cur = afterFixed(cur, of.fixedFee || 0);
+      cur = afterPercent(cur, of.spreadPercent, tol);
+      out.push(
+        withStep(cur, {
+          step: { names: [of.name], suffix: t.viaOfframpSuffix, group: null, linkId: null },
+          fee: formatFee(of.spreadPercent, of.fixedFee, t),
+          speed: of.speed,
+          location: { type: "fiat" },
+          unverified: !of.dataVerified,
+        })
+      );
+    });
+
+    if (destCurrency === "RUB") {
+      // P2P-продажа USDT за рубли на бирже. Цена покупателя неизвестна — потолок.
+      if (state.location.type === "exchange") {
+        out.push(
+          withStep(Object.assign({}, state, { lo: null }), {
+            step: { names: [t.p2pStep], suffix: "", group: null, linkId: null },
+            fee: t.feeP2P,
+            speed: (opts.exchanges.find((e) => e.id === state.location.id) || {}).speed,
+            location: { type: "fiat" },
+            unverified: true,
+          })
+        );
+      } else if (state.location.type === "free") {
+        opts.exchanges.forEach((ex) => {
+          if (!/P2P/i.test(exchangeDeposits(ex.id))) return;
+          out.push(
+            withStep(Object.assign({}, state, { lo: null }), {
+              step: { names: [ex.name], suffix: t.p2pSuffix, group: "exchange", linkId: ex.id },
+              fee: t.feeP2P,
+              speed: ex.speed,
+              location: { type: "fiat" },
+              unverified: true,
+            })
+          );
+        });
+      }
+    }
+  });
+  return out;
+}
+
+// Платёж пропфирме криптой: вывод с биржи (сеть) + комиссия платёжного провайдера фирмы.
+function payFirmStates(states, destFirm, opts, t) {
+  const cp = destFirm.challengePayment;
+  return states.map((state) => {
+    let cur = state;
+    if (state.location.type === "exchange") {
+      const ex = opts.exchanges.find((e) => e.id === state.location.id);
+      const fee = ex ? ex.fixedFee : 0;
+      cur = withStep(afterFixed(cur, fee), { fee: fee ? t.feeNetwork(formatMoney(fee, "USD", t)) : null });
+    }
+    const known = cp.cryptoFeePercent != null;
+    if (known) cur = afterPercent(cur, cp.cryptoFeePercent, 0);
+    return withStep(cur, {
+      step: { names: [destFirm.name], suffix: "", group: null, linkId: null, directLinkUrl: cp.officialUrl },
+      fee: known ? t.firmFeeKnown(cp.cryptoFeePercent).replace(/^\+\s*/, "") : t.firmFeeUnknown,
+      location: { type: "firm" },
+      unverified: !cp.dataVerified || !known,
+    });
+  });
+}
+
+// Одинаковые по цифрам строки (например, шесть бирж с одним и тем же оценочным
+// тарифом) склеиваем в одну: «Bybit / Bitget / … → Whitebird → RUB».
+function mergeRows(rows) {
+  const map = new Map();
+  rows.forEach((row) => {
+    const key = [
+      row.steps.map((s) => (s.group === "exchange" ? "*" + (s.suffix || "") : s.names.join("/") + (s.suffix || ""))).join(">"),
+      row.lo == null ? "null" : row.lo.toFixed(2),
+      row.hi.toFixed(2),
+      row.feeText,
+      row.speed,
+      row.unverified,
+      !!row.isBaseline,
+    ].join("|");
+    if (!map.has(key)) {
+      map.set(key, Object.assign({}, row, { steps: row.steps.map((s) => Object.assign({}, s, { names: s.names.slice(), linkIds: s.linkId ? [s.linkId] : [] })) }));
+    } else {
+      const base = map.get(key);
+      row.steps.forEach((s, i) => {
+        if (s.group !== "exchange") return;
+        s.names.forEach((n) => {
+          if (!base.steps[i].names.includes(n)) base.steps[i].names.push(n);
+        });
+        if (s.linkId && !base.steps[i].linkIds.includes(s.linkId)) base.steps[i].linkIds.push(s.linkId);
+      });
+    }
+  });
+  return Array.from(map.values());
+}
+
 async function runCalculation(form, resultEl, opts, t) {
   const formData = new FormData(form);
   const amount = parseFloat(formData.get("amount"));
@@ -369,65 +637,54 @@ async function runCalculation(form, resultEl, opts, t) {
     return;
   }
 
+  const note = (html) => renderResult(resultEl, `<div class="notes-box">${html}</div>`);
+
   const sourceFirm = source.type === "firm" ? opts.firms.find((f) => f.slug === source.slug) : null;
   const destFirm = destination.type === "firm" ? opts.firms.find((f) => f.slug === destination.slug) : null;
   const isSourceCrypto = source.type === "crypto";
-  const isDestCrypto = destination.type === "crypto";
   const isDestFirm = destination.type === "firm";
-  // И "купить крипту", и "оплатить пропфирму крипто" заканчиваются тем, что
-  // деньги остаются в USDT — второго (off-ramp) этапа в обоих случаях нет.
-  const isDestCryptoLike = isDestCrypto || isDestFirm;
-  const fundingCurrency = source.type === "firm" ? (sourceFirm ? sourceFirm.payoutCurrency : "USD") : source.type === "cash" ? source.currency : null;
+  const isDestCrypto = destination.type === "crypto";
+  const destFiat = destination.type === "fiat" ? destination.currency : null;
+  const srcFiat = source.type === "firm" ? (sourceFirm ? sourceFirm.payoutCurrency : "USD") : source.type === "cash" ? source.currency : null;
 
-  // Пропфирма не принимает оплату криптой — маршрута нет, показываем это сразу.
+  // Куда именно приходят деньги: рубли/BYN (нужен шаг продажи) или USDT
+  // (доллары; сюда же — валюты, куда обменники не выводят).
+  const sellers = destFiat ? opts.offramps.filter((o) => (o.currencies || []).includes(destFiat)) : [];
+  const destViaSell = !!destFiat && sellers.length > 0;
+
   if (isDestFirm && destFirm && !destFirm.challengePayment.acceptsCrypto) {
-    renderResult(resultEl, `<div class="notes-box">${t.firmPaymentBlocked(destFirm.name, destFirm.challengePayment.notes)}</div>`);
+    note(t.firmPaymentBlocked(destFirm.name, destFirm.challengePayment.notes));
     return;
   }
-  // Оба конца маршрута — крипта: переводить нечего (кроме как между биржами).
   if (isSourceCrypto && isDestCrypto) {
     if (source.exchange && destination.exchange && destination.exchange !== "all" && source.exchange === destination.exchange) {
       const ex = opts.exchanges.find((e) => e.id === source.exchange);
-      renderResult(resultEl, `<div class="notes-box">${t.alreadySameExchangeMessage(ex ? ex.name : source.exchange)}</div>`);
+      note(t.alreadySameExchangeMessage(ex ? ex.name : source.exchange));
     } else {
-      renderResult(resultEl, `<div class="notes-box">${t.alreadyThereMessage}</div>`);
+      note(t.alreadyThereMessage);
     }
     return;
   }
-  // Валюта совпадает на обоих концах: конвертация не нужна.
-  if (!isSourceCrypto && !isDestCryptoLike && fundingCurrency === destination.currency) {
-    renderResult(resultEl, `<div class="notes-box">${t.alreadySameMessage}</div>`);
+  if (isSourceCrypto && destFiat && !destViaSell) {
+    if (destFiat === "USD") note(t.alreadyThereMessage);
+    else note(t.noOfframpRoute(destFiat, [...new Set(opts.offramps.flatMap((o) => o.currencies || []))].join(", ")));
     return;
   }
-
-  // Этап off-ramp (USDT → валюта) возможен только в те валюты, которые
-  // обменник реально выводит (`currencies` в OFFRAMPS) — иначе калькулятор
-  // рисовал бы маршрут, которого не существует (например, «→ USD» через
-  // Whitebird, хотя тот выводит только RUB/BYN).
-  const offrampsForDest =
-    destination.type === "fiat"
-      ? opts.offramps.filter((o) => !o.currencies || o.currencies.includes(destination.currency))
-      : opts.offramps;
-  if (destination.type === "fiat" && offrampsForDest.length === 0) {
-    const supported = [...new Set(opts.offramps.flatMap((o) => o.currencies || []))].join(", ");
-    renderResult(resultEl, `<div class="notes-box">${t.noOfframpRoute(destination.currency, supported)}</div>`);
+  if (srcFiat && destFiat && srcFiat === destFiat) {
+    note(t.alreadySameMessage);
     return;
   }
 
   renderResult(resultEl, `<p class="calc-loading">${t.loading}</p>`);
 
-  // Комиссии провайдеров заданы в долларах, поэтому считаем через доллар как
-  // опорную точку: rateToUSD переводит сумму в USD-эквивалент (если нужно),
-  // rateFromUSD — из USD в валюту назначения (если это вообще валюта).
-  const needToUSD = !isSourceCrypto && fundingCurrency !== "USD";
-  const needFromUSD = !isDestCryptoLike && destination.currency !== "USD";
-
+  // Расчёт идёт через доллар: USDT ≈ 1 USD, фиксированные комиссии заданы в USD.
+  const needToUSD = !!srcFiat && srcFiat !== "USD";
   let rateToUSD = 1;
   let rateFromUSD = 1;
   try {
     const [a, b] = await Promise.all([
-      needToUSD ? getMidMarketRate(fundingCurrency, "USD") : Promise.resolve(1),
-      needFromUSD ? getMidMarketRate("USD", destination.currency) : Promise.resolve(1),
+      needToUSD ? getMidMarketRate(srcFiat, "USD") : Promise.resolve(1),
+      destViaSell && destFiat !== "USD" ? getMidMarketRate("USD", destFiat) : Promise.resolve(1),
     ]);
     rateToUSD = a;
     rateFromUSD = b;
@@ -436,191 +693,139 @@ async function runCalculation(form, resultEl, opts, t) {
     return;
   }
 
-  const displayFrom = isSourceCrypto ? "USDT" : fundingCurrency;
-  const displayTo = isDestCryptoLike ? "USDT" : destination.currency;
   const amountUSD = isSourceCrypto ? amount : amount * rateToUSD;
+  const displayFrom = isSourceCrypto ? "USDT" : srcFiat;
+  const displayTo = destViaSell ? destFiat : "USDT";
 
-  // Полная цепочка маршрута для отображения (например «FundingPips → Bybit →
-  // Whitebird → RUB»), а не только средние этапы — иначе непонятно, откуда и
-  // куда вообще идут деньги, если сравнивать это только с формой выше.
-  const sourceLabel = source.type === "firm"
-    ? (sourceFirm ? sourceFirm.name : "")
-    : source.type === "cash"
-    ? source.currency
-    : source.exchange
-    ? (opts.exchanges.find((e) => e.id === source.exchange) || {}).name || source.exchange
-    : "USDT";
-  const destLabel = destination.type === "fiat" ? destination.currency : null;
+  const exchangeName = (id) => (opts.exchanges.find((e) => e.id === id) || {}).name || id;
+  const sourceLabel = sourceFirm ? sourceFirm.name : source.type === "cash" ? source.currency : source.exchange ? exchangeName(source.exchange) : "USDT";
 
-  const buildBuyRow = (provider, isOfframp) => {
-    // Покупка USDT на бирже или через обменник (обменники в OFFRAMPS обычно
-    // работают в обе стороны, но их тариф на ПОКУПКУ отдельно не проверялся
-    // — переиспользуется подтверждённый тариф на продажу, поэтому такие
-    // строки всегда помечаются unverified и считаются диапазоном).
-    const afterFeeUSD = Math.max(amountUSD - provider.fixedFee, 0);
-    const finalAmount = afterFeeUSD * (1 - provider.spreadPercent / 100);
-    const effectiveRate = rateToUSD * (1 - provider.spreadPercent / 100);
-    const row = {
-      name: `${sourceLabel} → ${isOfframp ? `${provider.name}${t.viaOfframpSuffix}` : provider.name}`,
-      finalAmount,
-      effectiveRate,
-      feeText: formatFee(provider.spreadPercent, provider.fixedFee, t),
-      speed: provider.speed,
-      linkId: provider.id,
-      unverified: isOfframp,
-      hasRange: isOfframp,
-    };
-    if (isOfframp) {
-      const { min, max } = spreadRange(provider.spreadPercent);
-      row.finalAmountMax = afterFeeUSD * (1 - min / 100);
-      row.finalAmountMin = afterFeeUSD * (1 - max / 100);
-    }
-    return row;
-  };
-
-  const buildOfframpOnlyRow = (offramp) => {
-    // Уже в крипте — этапа покупки нет, сразу off-ramp в валюту (диапазон).
-    const afterFeeUSD = Math.max(amountUSD - offramp.fixedFee, 0);
-    const { min, max } = spreadRange(offramp.spreadPercent);
-    const finalAmount = afterFeeUSD * (1 - offramp.spreadPercent / 100) * rateFromUSD;
-    const effectiveRate = rateFromUSD * (1 - offramp.spreadPercent / 100);
-    return {
-      name: `${sourceLabel} → ${offramp.name}${destLabel ? ` → ${destLabel}` : ""}`,
-      finalAmount,
-      finalAmountMax: afterFeeUSD * (1 - min / 100) * rateFromUSD,
-      finalAmountMin: afterFeeUSD * (1 - max / 100) * rateFromUSD,
-      hasRange: true,
-      effectiveRate,
-      feeText: formatFee(offramp.spreadPercent, offramp.fixedFee, t),
-      speed: offramp.speed,
-      linkId: null,
-      unverified: !offramp.dataVerified,
-    };
-  };
-
-  const buildRoute = (ex, offramp) => {
-    // Полный маршрут: сначала биржа (fiat → USDT, точное значение), потом
-    // off-ramp (USDT → fiat, диапазон — только этот этап колеблется).
-    const afterFeeUSD1 = Math.max(amountUSD - ex.fixedFee, 0);
-    const usdtAmount = afterFeeUSD1 * (1 - ex.spreadPercent / 100);
-    const afterFeeUSD2 = Math.max(usdtAmount - offramp.fixedFee, 0);
-    const { min, max } = spreadRange(offramp.spreadPercent);
-    const finalAmount = afterFeeUSD2 * (1 - offramp.spreadPercent / 100) * rateFromUSD;
-    const combinedSpreadPercent = 100 * (1 - (1 - ex.spreadPercent / 100) * (1 - offramp.spreadPercent / 100));
-    const effectiveRate = rateToUSD * rateFromUSD * (1 - combinedSpreadPercent / 100);
-    return {
-      name: `${sourceLabel} → ${ex.name} → ${offramp.name} → ${destLabel}`,
-      finalAmount,
-      finalAmountMax: afterFeeUSD2 * (1 - min / 100) * rateFromUSD,
-      finalAmountMin: afterFeeUSD2 * (1 - max / 100) * rateFromUSD,
-      hasRange: true,
-      effectiveRate,
-      feeText: formatFee(combinedSpreadPercent, ex.fixedFee + offramp.fixedFee, t),
-      speed: `${ex.speed} + ${offramp.speed}`,
-      linkId: ex.id,
-      unverified: !offramp.dataVerified,
-    };
-  };
-
-  const buildBankRow = () => {
-    // Контрастный вариант тоже считается диапазоном (spec: "указать примерный
-    // диапазон итоговых потерь для контраста, не точное число").
-    const afterFeeUSD = Math.max(amountUSD - opts.bank.fixedFee, 0);
-    const { min, max } = spreadRange(opts.bank.markupPercent);
-    const finalAmount = afterFeeUSD * (1 - opts.bank.markupPercent / 100) * rateFromUSD;
-    const effectiveRate = rateToUSD * rateFromUSD * (1 - opts.bank.markupPercent / 100);
-    return {
-      name: `${sourceLabel} → ${opts.bank.name} → ${destLabel}`,
-      finalAmount,
-      finalAmountMax: afterFeeUSD * (1 - min / 100) * rateFromUSD,
-      finalAmountMin: afterFeeUSD * (1 - max / 100) * rateFromUSD,
-      hasRange: true,
-      effectiveRate,
-      feeText: formatFee(opts.bank.markupPercent, opts.bank.fixedFee, t),
-      speed: opts.bank.speed,
-      linkId: null,
-      unverified: false,
-      isBaseline: true,
-    };
-  };
-
-  const buildFirmPaymentRow = (provider, isOfframp) => {
-    // Оплата пропфирмы криптой: биржа или обменник (fiat → USDT), затем
-    // комиссия платёжного провайдера фирмы за приём крипты (если известна).
-    // Диапазон — только когда провайдер этапа покупки это обменник.
-    const feePercent = destFirm.challengePayment.cryptoFeePercent;
-    const afterFeeUSD = Math.max(amountUSD - (provider ? provider.fixedFee : 0), 0);
-    const usdtAmount = provider ? afterFeeUSD * (1 - provider.spreadPercent / 100) : afterFeeUSD;
-    const finalAmount = feePercent ? usdtAmount * (1 - feePercent / 100) : usdtAmount;
-    const effectiveRate = rateToUSD * (provider ? 1 - provider.spreadPercent / 100 : 1) * (feePercent ? 1 - feePercent / 100 : 1);
-    const feeParts = [];
-    if (provider) feeParts.push(formatFee(provider.spreadPercent, provider.fixedFee, t));
-    feeParts.push(feePercent ? t.firmFeeKnown(feePercent) : t.firmFeeUnknown);
-    const providerName = provider ? `${provider.name}${isOfframp ? t.viaOfframpSuffix : ""}` : null;
-    const row = {
-      name: providerName ? `${sourceLabel} → ${providerName} → ${destFirm.name}` : `${sourceLabel} → ${destFirm.name}`,
-      finalAmount,
-      effectiveRate,
-      feeText: feeParts.join(", "),
-      speed: provider ? provider.speed : "—",
-      linkId: null,
-      directLinkUrl: destFirm.challengePayment.officialUrl,
-      unverified: !destFirm.challengePayment.dataVerified || feePercent == null || isOfframp,
-      hasRange: !!isOfframp,
-    };
-    if (isOfframp && provider) {
-      const { min, max } = spreadRange(provider.spreadPercent);
-      const usdtMax = afterFeeUSD * (1 - min / 100);
-      const usdtMin = afterFeeUSD * (1 - max / 100);
-      row.finalAmountMax = feePercent ? usdtMax * (1 - feePercent / 100) : usdtMax;
-      row.finalAmountMin = feePercent ? usdtMin * (1 - feePercent / 100) : usdtMin;
-    }
-    return row;
-  };
-
-  let rows;
-  let resultHeaderReceive = t.thReceive;
-  let extraNote = "";
-  let beforeNote = "";
-  if (isDestFirm) {
-    resultHeaderReceive = t.thArrives;
-    if (isSourceCrypto) {
-      rows = [buildFirmPaymentRow(null, false)];
-    } else {
-      rows = [
-        ...opts.exchanges.map((ex) => buildFirmPaymentRow(ex, false)),
-        ...opts.offramps.map((of) => buildFirmPaymentRow(of, true)),
-      ];
-    }
-    extraNote = `<div class="notes-box">${renderChallengePaymentNote(destFirm, t)}</div>`;
-  } else if (isDestCrypto) {
-    if (destination.exchange === "all") {
-      rows = [...opts.exchanges.map((ex) => buildBuyRow(ex, false)), ...opts.offramps.map((of) => buildBuyRow(of, true))];
-    } else {
-      const ex = opts.exchanges.find((e) => e.id === destination.exchange);
-      rows = ex ? [buildBuyRow(ex, false)] : [];
-    }
-  } else if (isSourceCrypto) {
-    rows = offrampsForDest.map(buildOfframpOnlyRow);
+  // --- ШАГ 1: получить USDT ---
+  const excluded = [];
+  let states = [];
+  if (isSourceCrypto) {
+    states.push(newState({ lo: amountUSD, hi: amountUSD, location: source.exchange ? { type: "exchange", id: source.exchange } : { type: "free" }, labelOverride: sourceLabel }));
   } else {
-    rows = opts.exchanges.flatMap((ex) => offrampsForDest.map((offramp) => buildRoute(ex, offramp)));
-    if (opts.bank) rows.push(buildBankRow());
-    beforeNote = `<div class="calc-info-note">${t.whyCryptoNote}</div>`;
+    if (sourceFirm && firmPaysCrypto(sourceFirm)) {
+      states.push(
+        newState({
+          lo: amountUSD,
+          hi: amountUSD,
+          unverified: firmCryptoIsUsdcOnly(sourceFirm),
+          steps: [{ names: [t.firmCryptoStep], suffix: "", group: null, linkId: null }],
+          labelOverride: sourceFirm.name,
+        })
+      );
+    }
+    const fiatLabel = sourceFirm ? `${sourceFirm.name} (${srcFiat})` : srcFiat;
+    fiatToUsdtStates(srcFiat, amountUSD, opts, t, excluded).forEach((s) => {
+      s.labelOverride = fiatLabel;
+      states.push(s);
+    });
   }
 
-  // Сортировка по нижней границе диапазона (консервативная оценка сверху);
-  // для точных (не-диапазонных) строк нижняя граница — это само значение.
-  rows.sort((a, b) => (b.finalAmountMin ?? b.finalAmount) - (a.finalAmountMin ?? a.finalAmount));
-  const best = rows[0];
-  const anyRangeRow = rows.some((row) => row.hasRange);
+  // Цель — конкретная биржа: оставляем то, что заканчивается на ней; USDT, уже
+  // лежащий «свободно» (выплата фирмы), добавляем депозитом на эту биржу.
+  if (isDestCrypto && destination.exchange !== "all") {
+    const target = destination.exchange;
+    states = states
+      .map((s) => {
+        if (s.location.type === "exchange") return s.location.id === target ? s : null;
+        if (s.location.type === "free") {
+          return withStep(s, { step: { names: [t.depositStep(exchangeName(target))], suffix: "", group: null, linkId: target }, location: { type: "exchange", id: target } });
+        }
+        return null;
+      })
+      .filter(Boolean);
+  }
+
+  // --- ШАГИ 2–3 ---
+  if (destViaSell) states = usdtToFiatStates(states, destFiat, opts, t);
+  else if (isDestFirm) states = payFirmStates(states, destFirm, opts, t);
+
+  // --- Строки таблицы ---
+  const toFinal = (v) => (v == null ? null : v * (destViaSell && destFiat !== "USD" ? rateFromUSD : 1));
+  let rows = states.map((s) => {
+    const lo = toFinal(s.lo);
+    const hi = toFinal(s.hi);
+    return {
+      steps: s.steps,
+      label: s.labelOverride,
+      lo,
+      hi,
+      unverified: s.unverified,
+      feeText: s.feeParts.length ? s.feeParts.join(" + ") : t.feeNone,
+      speed: Array.from(new Set(s.speeds)).join(" + ") || "—",
+      effectiveRate: (lo == null ? hi : (lo + hi) / 2) / amount,
+    };
+  });
+
+  // Контрастный вариант «банк напрямую» — только для «иностранная валюта → рубли».
+  if (opts.bank && destFiat === "RUB" && srcFiat && srcFiat !== "RUB") {
+    const after = afterPercent(afterFixed(newState({ lo: amountUSD, hi: amountUSD }), opts.bank.fixedFee), opts.bank.markupPercent, OFFRAMP_TOLERANCE_PERCENT);
+    const lo = toFinal(after.lo);
+    const hi = toFinal(after.hi);
+    rows.push({
+      steps: [{ names: [opts.bank.name], suffix: "", group: null, linkId: null }],
+      label: sourceFirm ? `${sourceFirm.name} (${srcFiat})` : srcFiat,
+      lo,
+      hi,
+      unverified: false,
+      isBaseline: true,
+      feeText: formatFee(opts.bank.markupPercent, opts.bank.fixedFee, t),
+      speed: opts.bank.speed,
+      effectiveRate: (lo + hi) / 2 / amount,
+    });
+  }
+
+  if (!rows.length) {
+    note(`${excluded.length ? t.excludedExchangesNote(excluded.join(", "), srcFiat) + " " : ""}${t.noRoutes}`);
+    return;
+  }
+
+  rows = mergeRows(rows);
+  // Сортировка по гарантированному минимуму; «только потолок» и «гипотетически» — в конец.
+  rows.sort((a, b) => {
+    if (!!a.isBaseline !== !!b.isBaseline) return a.isBaseline ? 1 : -1;
+    const al = a.lo == null ? -1 : a.lo;
+    const bl = b.lo == null ? -1 : b.lo;
+    return bl - al || b.hi - a.hi;
+  });
+  const best = rows.find((r) => !r.isBaseline && r.lo != null && r.lo > 0);
+  const anyCeiling = rows.some((r) => r.lo == null);
+  const anyRange = rows.some((r) => r.lo != null && Math.abs(r.hi - r.lo) > 0.005);
+
   const verifiedDate =
     typeof DATA_LAST_VERIFIED !== "undefined"
       ? new Intl.DateTimeFormat(t.locale, { year: "numeric", month: "long", day: "numeric" }).format(new Date(DATA_LAST_VERIFIED))
       : "";
 
+  const notesBefore = [];
+  if (destFiat === "RUB" && srcFiat && srcFiat !== "RUB") notesBefore.push(t.whyCryptoNote);
+  if (srcFiat === "RUB" && !destViaSell && !isDestFirm) notesBefore.push(t.fromRubNote);
+  if (destFiat === "USD") notesBefore.push(t.usdtNote);
+  else if (destFiat && !destViaSell) notesBefore.push(t.usdtOtherNote(destFiat));
+  if (excluded.length) notesBefore.push(t.excludedExchangesNote(excluded.join(", "), srcFiat));
+  if (sourceFirm && firmPaysCrypto(sourceFirm) && firmCryptoIsUsdcOnly(sourceFirm)) notesBefore.push(t.usdcNote);
+
+  const rowName = (row) => `${row.label ? row.label + " → " : ""}${row.steps.map(stepName).filter((n, i, arr) => n !== arr[i - 1]).join(" → ")}${destViaSell ? " → " + destFiat : ""}`;
+  const resultHeaderReceive = isDestFirm ? t.thArrives : t.thReceive;
+  const fmt = (v) => formatAmount(v, displayTo, t);
+  const receiveText = (row) =>
+    row.lo == null
+      ? t.rangeTo(fmt(row.hi))
+      : Math.abs(row.hi - row.lo) <= 0.005
+      ? fmt(row.hi)
+      : `${t.rangeFrom(fmt(row.lo))} ${t.rangeTo(fmt(row.hi))}`;
+  const linkCell = (row) => {
+    const step = row.steps.find((s) => s.directLinkUrl);
+    if (step) return linkForUrl(step.directLinkUrl, t);
+    return row.steps.flatMap((s) => s.linkIds || []).map((id) => linkForId(id, t)).join(" ");
+  };
+
   renderResult(resultEl, `
     ${country ? `<p class="calc-country-note">${t.countryNote(escapeHTML(country))}</p>` : ""}
-    ${beforeNote}
+    ${notesBefore.map((n) => `<div class="calc-info-note">${n}</div>`).join("")}
     <div class="calc-table-wrap">
       <table class="calc-table">
         <thead>
@@ -639,20 +844,17 @@ async function runCalculation(form, resultEl, opts, t) {
               (row) => `
             <tr class="${row === best ? "calc-best" : ""}">
               <td data-label="${t.thMethod}">
-                ${row.name}
+                ${rowName(row)}
                 ${row === best ? `<span class="calc-badge">${t.bestBadge}</span>` : ""}
+                ${row.lo == null ? `<span class="calc-unverified">${t.ceilingBadge}</span>` : ""}
                 ${row.unverified ? `<span class="calc-unverified">${t.unverifiedBadge}</span>` : ""}
                 ${row.isBaseline ? `<span class="calc-unverified">${t.baselineBadge}</span>` : ""}
               </td>
-              <td data-label="${t.thRate}">1 ${displayFrom} = ${row.effectiveRate.toFixed(4)} ${displayTo}</td>
+              <td data-label="${t.thRate}">1 ${displayFrom} ${row.lo == null ? "≤" : "≈"} ${formatRate(row.effectiveRate, t)} ${displayTo}</td>
               <td data-label="${t.thFee}">${row.feeText}</td>
               <td data-label="${t.thSpeed}">${row.speed}</td>
-              <td data-label="${resultHeaderReceive}"><strong>${
-                row.hasRange
-                  ? `${t.rangeFrom(formatMoney(row.finalAmountMin, displayTo, t))} ${t.rangeTo(formatMoney(row.finalAmountMax, displayTo, t))}`
-                  : formatMoney(row.finalAmount, displayTo, t)
-              }</strong></td>
-              <td data-label="">${row.directLinkUrl ? linkForUrl(row.directLinkUrl, t) : linkForId(row.linkId, t)}</td>
+              <td data-label="${resultHeaderReceive}"><strong>${receiveText(row)}</strong></td>
+              <td data-label="">${linkCell(row)}</td>
             </tr>
           `
             )
@@ -660,21 +862,34 @@ async function runCalculation(form, resultEl, opts, t) {
         </tbody>
       </table>
     </div>
-    ${extraNote}
-    ${anyRangeRow ? `<div class="notes-box calc-range-disclaimer">${t.rangeDisclaimer(verifiedDate)}</div>` : ""}
+    ${isDestFirm ? `<div class="notes-box">${renderChallengePaymentNote(destFirm, t)}</div>` : ""}
+    ${anyCeiling ? `<div class="notes-box calc-range-disclaimer">${t.ceilingDisclaimer}</div>` : ""}
+    ${anyRange ? `<div class="notes-box calc-range-disclaimer">${t.rangeDisclaimer(verifiedDate)}</div>` : ""}
     <p class="calc-disclaimer">${t.disclaimer} <a href="${t.disclosureHref}">${t.disclaimerLinkText}</a>.</p>
   `);
 }
 
+function formatAmount(value, currency, t) {
+  if (currency === "USDT") {
+    return `${new Intl.NumberFormat(t.locale, { maximumFractionDigits: 2 }).format(value)} USDT`;
+  }
+  return formatMoney(value, currency, t);
+}
+
+function formatRate(value, t) {
+  if (!isFinite(value)) return "—";
+  return new Intl.NumberFormat(t.locale, { maximumSignificantDigits: 4 }).format(value);
+}
+
 function formatFee(percent, fixedFeeUSD, t) {
   const parts = [];
-  if (percent) parts.push(t.feeMarkup(round1(percent)));
+  if (percent) parts.push(t.feeMarkup(pct(percent, t)));
   if (fixedFeeUSD) parts.push(t.feeFlat(formatMoney(fixedFeeUSD, "USD", t)));
   return parts.length ? parts.join(" + ") : t.feeNone;
 }
 
-function round1(value) {
-  return Math.round(value * 10) / 10;
+function pct(value, t) {
+  return new Intl.NumberFormat(t.locale, { maximumFractionDigits: 1 }).format(value);
 }
 
 function formatMoney(value, currency, t) {
