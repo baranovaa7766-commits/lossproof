@@ -76,6 +76,7 @@ const CALC_STRINGS = {
     alreadySameExchangeMessage: (exchange) => `Деньги уже на ${exchange} — переводить никуда не нужно.`,
     alreadySameMessage: "Деньги уже в той валюте, куда вы хотите их перевести, — конвертация не нужна.",
     firmPaymentBlocked: (firm, notes) => `${firm} не принимает оплату криптовалютой. ${notes}`,
+    noOfframpRoute: (currency, supported) => `Для вывода в ${currency} у нас нет подтверждённого маршрута: обменники в нашей базе выводят USDT только в ${supported}. Если вам нужна сама крипта (USDT — стейблкоин, привязанный к доллару), выберите в поле «Куда» пункт «${CALC_STRINGS.ru.destAllExchanges}» — там есть покупка USDT за рубли напрямую через обменник, без биржи.`,
     thMethod: "Маршрут",
     thRate: "Курс",
     thFee: "Комиссия",
@@ -135,6 +136,7 @@ const CALC_STRINGS = {
     alreadySameExchangeMessage: (exchange) => `The money is already on ${exchange} — nothing to transfer.`,
     alreadySameMessage: "The money is already in the currency you want to convert it to — no conversion needed.",
     firmPaymentBlocked: (firm, notes) => `${firm} doesn't accept crypto payment. ${notes}`,
+    noOfframpRoute: (currency, supported) => `We have no confirmed route for cashing out to ${currency}: the exchangers in our database only pay USDT out in ${supported}. If you just need the crypto itself (USDT, a dollar-pegged stablecoin), pick "${CALC_STRINGS.en.destAllExchanges}" in the "To" field — it includes buying USDT with rubles directly through an exchanger, no exchange needed.`,
     thMethod: "Route",
     thRate: "Rate",
     thFee: "Fee",
@@ -398,6 +400,20 @@ async function runCalculation(form, resultEl, opts, t) {
     return;
   }
 
+  // Этап off-ramp (USDT → валюта) возможен только в те валюты, которые
+  // обменник реально выводит (`currencies` в OFFRAMPS) — иначе калькулятор
+  // рисовал бы маршрут, которого не существует (например, «→ USD» через
+  // Whitebird, хотя тот выводит только RUB/BYN).
+  const offrampsForDest =
+    destination.type === "fiat"
+      ? opts.offramps.filter((o) => !o.currencies || o.currencies.includes(destination.currency))
+      : opts.offramps;
+  if (destination.type === "fiat" && offrampsForDest.length === 0) {
+    const supported = [...new Set(opts.offramps.flatMap((o) => o.currencies || []))].join(", ");
+    renderResult(resultEl, `<div class="notes-box">${t.noOfframpRoute(destination.currency, supported)}</div>`);
+    return;
+  }
+
   renderResult(resultEl, `<p class="calc-loading">${t.loading}</p>`);
 
   // Комиссии провайдеров заданы в долларах, поэтому считаем через доллар как
@@ -585,9 +601,9 @@ async function runCalculation(form, resultEl, opts, t) {
       rows = ex ? [buildBuyRow(ex, false)] : [];
     }
   } else if (isSourceCrypto) {
-    rows = opts.offramps.map(buildOfframpOnlyRow);
+    rows = offrampsForDest.map(buildOfframpOnlyRow);
   } else {
-    rows = opts.exchanges.flatMap((ex) => opts.offramps.map((offramp) => buildRoute(ex, offramp)));
+    rows = opts.exchanges.flatMap((ex) => offrampsForDest.map((offramp) => buildRoute(ex, offramp)));
     if (opts.bank) rows.push(buildBankRow());
     beforeNote = `<div class="calc-info-note">${t.whyCryptoNote}</div>`;
   }
