@@ -26,8 +26,11 @@ body {
   line-height: 1.55;
 }
 
-/* Faint site-wide money motif (coins/banknotes) — decorative, kept very low
-   opacity so it reads as texture, not clutter. Sits behind all content. */
+/* Тихий фирменный мотив на весь сайт: силуэт горного хребта, который
+   одновременно читается как линия свечного графика — та же ломаная форма,
+   что и цена на графике. Горы у нас работают на три смысла разом: график,
+   защита (капитала) и свобода — поэтому заменили прежний мотив с
+   монетами/купюрами. Очень низкая непрозрачность — это текстура, не рисунок. */
 body::before {
   content: "";
   position: fixed;
@@ -37,7 +40,7 @@ body::before {
   opacity: 0.05;
   background-repeat: repeat;
   background-size: 280px 280px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Cg fill='none' stroke='rgb(31,111,235)' stroke-width='3'%3E%3Ccircle cx='50' cy='55' r='28'/%3E%3Ccircle cx='50' cy='55' r='18'/%3E%3Cpath d='M50 42 L50 68 M42 55 L58 55' stroke-width='2'/%3E%3C/g%3E%3Cg fill='none' stroke='rgb(47,168,79)' stroke-width='3'%3E%3Crect x='158' y='36' width='92' height='54' rx='8'/%3E%3Ccircle cx='204' cy='63' r='13'/%3E%3Cpath d='M170 46 L170 80 M238 46 L238 80' stroke-width='2'/%3E%3C/g%3E%3Cg fill='none' stroke='rgb(31,111,235)' stroke-width='2.5'%3E%3Ccircle cx='212' cy='202' r='20'/%3E%3Ccircle cx='212' cy='202' r='12'/%3E%3C/g%3E%3Cg fill='none' stroke='rgb(47,168,79)' stroke-width='2.5'%3E%3Crect x='26' y='168' width='74' height='42' rx='7'/%3E%3Ccircle cx='63' cy='189' r='10'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Cg fill='none' stroke='rgb(31,111,235)' stroke-width='2'%3E%3Cpath d='M-10,170 L20,120 L45,145 L75,90 L100,135 L130,105 L155,140 L185,115 L210,150 L240,125 L280,155'/%3E%3C/g%3E%3Cg fill='none' stroke='rgb(47,168,79)' stroke-width='2.5'%3E%3Cpath d='M-10,230 L25,175 L50,205 L90,150 L120,195 L155,160 L180,210 L215,175 L245,215 L280,190'/%3E%3C/g%3E%3Cg fill='rgb(31,111,235)'%3E%3Ccircle cx='75' cy='90' r='3'/%3E%3C/g%3E%3Cg fill='rgb(47,168,79)'%3E%3Ccircle cx='90' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 a {
@@ -136,6 +139,8 @@ a {
 .hero {
   padding: 48px 0 24px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .hero h1 {
@@ -150,36 +155,35 @@ a {
   font-size: 1.05rem;
 }
 
-/* Homepage hero only — gradient headline + soft coin-glow accents. */
-.hero--home {
-  position: relative;
-  overflow: hidden;
-}
-
-.hero--home::before,
-.hero--home::after {
+/* Горный хребет — тот же фирменный силуэт, что и в фоновой текстуре, но
+   крупный, заметный и один на весь hero, а не текстурой. Сидит внизу блока,
+   как линия горизонта, и на любой странице сразу узнаётся как часть бренда. */
+.hero::after {
   content: "";
   position: absolute;
-  border-radius: 50%;
-  filter: blur(50px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 130px;
   z-index: -1;
   pointer-events: none;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: cover;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='300' viewBox='0 0 1440 300'%3E%3Cpath fill='rgba(31,111,235,0.10)' d='M0,180 L100,120 L180,150 L260,80 L340,140 L420,100 L500,155 L580,110 L660,160 L740,115 L820,165 L900,120 L980,158 L1060,105 L1140,150 L1220,118 L1300,155 L1380,125 L1440,150 L1440,300 L0,300 Z'/%3E%3Cpath fill='rgba(31,111,235,0.16)' d='M0,220 L90,170 L170,205 L250,140 L330,195 L410,155 L490,210 L570,165 L650,215 L730,170 L810,220 L890,175 L970,215 L1050,160 L1130,205 L1210,175 L1290,215 L1370,180 L1440,205 L1440,300 L0,300 Z'/%3E%3Cpath fill='rgba(47,168,79,0.20)' d='M0,260 L80,215 L160,250 L240,190 L320,245 L400,205 L480,255 L560,215 L640,260 L720,220 L800,262 L880,225 L960,258 L1040,210 L1120,250 L1200,222 L1280,258 L1360,230 L1440,255 L1440,300 L0,300 Z'/%3E%3Ccircle cx='240' cy='190' r='4' fill='rgba(47,168,79,0.35)'/%3E%3Ccircle cx='1040' cy='210' r='4' fill='rgba(47,168,79,0.35)'/%3E%3C/svg%3E");
 }
 
+/* Homepage hero only — gradient headline + soft glow accents (оба «блика»
+   на одном ::before, чтобы ::after остался за горным хребтом выше). */
 .hero--home::before {
-  width: 260px;
-  height: 260px;
-  top: -70px;
-  left: 6%;
-  background: radial-gradient(circle, rgba(31, 111, 235, 0.22), transparent 70%);
-}
-
-.hero--home::after {
-  width: 240px;
-  height: 240px;
-  bottom: -80px;
-  right: 8%;
-  background: radial-gradient(circle, rgba(47, 168, 79, 0.2), transparent 70%);
+  content: "";
+  position: absolute;
+  inset: -60px;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(50px);
+  background: radial-gradient(circle 130px at 12% 10%, rgba(31, 111, 235, 0.3), transparent 70%),
+    radial-gradient(circle 120px at 90% 90%, rgba(47, 168, 79, 0.28), transparent 70%);
 }
 
 .hero--home h1 {
@@ -283,10 +287,15 @@ a {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
 .calc-submit:hover {
   background: var(--color-primary-dark);
+}
+
+.calc-submit:active {
+  transform: scale(0.97);
 }
 
 .calc-result {
@@ -565,7 +574,8 @@ a {
 }
 
 .hub-card:hover .hub-icon {
-  transform: scale(1.12);
+  /* Лёгкий «подъём» иконки при наведении — в тон горной теме сайта. */
+  transform: scale(1.12) translateY(-3px);
 }
 
 .hub-card h3 {
@@ -1189,5 +1199,55 @@ a.pf-cross {
   .site-nav a {
     flex-shrink: 0;
     white-space: nowrap;
+  }
+}
+
+/* Эмблема-вершина и заголовок на главной странице — проявляются по очереди
+   при загрузке, а не появляются мгновенно. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-emblem {
+  margin: 0 auto 14px;
+  width: 72px;
+  height: 54px;
+  display: block;
+  animation: rise-in 0.7s cubic-bezier(0.22, 0.9, 0.3, 1) both;
+}
+
+/* Заголовок и подзаголовок сознательно не анимируем: у h1 градиентный текст
+   (background-clip:text), а CSS-анимация — хоть на самом элементе, хоть на
+   обёртке — в части браузеров ломает его прорисовку (текст пропадает
+   полностью, проверено на мобильном движке). Риск нечитаемого заголовка не
+   стоит анимационного эффекта — оставляем только эмблему выше, она без
+   градиентной заливки и анимируется без проблем. */
+
+/* Scroll-reveal (assets/js/reveal.js): элементы получают класс .reveal при
+   постановке в наблюдение и .reveal-in при пересечении области просмотра.
+   Оба класса снимаются сразу после завершения перехода (см. reveal.js), так
+   что дальше элемент живёт по своим обычным правилам (например, hover
+   .hub-card) без конфликта transition-свойств. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+
+.reveal-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-emblem {
+    animation: none;
   }
 }

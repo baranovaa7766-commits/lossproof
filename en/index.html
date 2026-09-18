@@ -32,7 +32,14 @@
   <main>
     <section class="hero hero--home">
       <div class="container">
-        <h1>LossProof — your guide to the world of trading</h1>
+        <svg class="hero-emblem" viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs><linearGradient id="hg-emblem" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#2fa84f"/></linearGradient></defs>
+          <g fill="none" stroke="url(#hg-emblem)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="51" cy="11" r="4"/>
+            <path d="M4,40 L18,16 L26,28 L34,8 L44,30 L60,14"/>
+          </g>
+        </svg>
+        <div class="hero-title-wrap"><h1>LossProof — your guide to the world of trading</h1></div>
         <p>We compare exchanges, prop firms, and calculate transfers using verified data, not marketing promises. Gradually growing this into a full trader's guide — from picking a platform to the last dollar in your account.</p>
       </div>
     </section>
@@ -266,5 +273,6 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+  <script src="/assets/js/reveal.js"></script>
 </body>
 </html>
