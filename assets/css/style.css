@@ -1,25 +1,10 @@
 /* «Alpenglow» — утверждённое направление (см. память feedback про дизайн):
-   тёплая закатная палитра вместо холодной сине-серой. Тёплая бумага вместо
-   белого/светло-серого, янтарный акцент вместо синего, шапка сайта — всегда
-   тёмная (не зависит от переключателя темы, см. .site-header ниже) и
-   визуально продолжает горную сцену hero на любой странице. */
+   тёплая закатная палитра, единая тёмная тема на весь сайт (без переключателя
+   — см. решение убрать светлый режим целиком). Шапка и hero остаются
+   отдельно захардкожены в тон самого тёмного края сцены (см. .site-header
+   и .hero ниже), а токены ниже — тон чуть светлее для остального контента
+   (карточки, таблицы, футер), чтобы всё это не сливалось в одно чёрное пятно. */
 :root {
-  --color-bg: #f2f0e8;
-  --color-surface: #f9f7f0;
-  --color-text: #1c1811;
-  --color-text-muted: #6b6558;
-  --color-primary: #9a6a2e;
-  --color-primary-dark: #7a5320;
-  --color-border: #ddd6c4;
-  --color-best: #e9ecdd;
-  --color-best-border: #5c7a3f;
-  --color-hover-bg: #ece6d5;
-  --radius: 4px;
-  --max-width: 1080px;
-  --max-width-wide: 1320px;
-}
-
-:root[data-theme="dark"] {
   --color-bg: #16130d;
   --color-surface: #1e1a12;
   --color-text: #f0ece0;
@@ -30,6 +15,18 @@
   --color-best: #202417;
   --color-best-border: #8aa563;
   --color-hover-bg: #262015;
+  --color-danger-bg: #2a1614;
+  --color-danger-border: #5c2b26;
+  --color-danger-text: #f0a29c;
+  --color-warn-bg: #2a2210;
+  --color-warn-border: #4a3c1f;
+  --color-warn-text: #e3b96b;
+  --color-info-bg: #131d2e;
+  --color-info-border: #2a3f5c;
+  --color-success-text: #9fc47a;
+  --radius: 4px;
+  --max-width: 1080px;
+  --max-width-wide: 1320px;
 }
 
 * {
@@ -143,81 +140,45 @@ a {
   background: rgba(227, 163, 91, 0.14);
 }
 
-/* Переключатель светлой/тёмной темы — кнопка рядом с языковым переключателем. */
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  border: 1px solid #362e1f;
-  border-radius: 999px;
-  background: #181c25;
-  color: #d8cdb8;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
-}
-
-.theme-toggle:hover {
-  border-color: #e3a35b;
-  background: rgba(227, 163, 91, 0.14);
-}
-
-.theme-toggle svg {
-  width: 17px;
-  height: 17px;
-}
-
-.theme-toggle-icon--moon {
-  display: none;
-}
-
-:root[data-theme="dark"] .theme-toggle-icon--sun {
-  display: none;
-}
-
-:root[data-theme="dark"] .theme-toggle-icon--moon {
-  display: block;
-}
-
 .lang-switch .lang-switch-icon {
   font-size: 1rem;
 }
 
-/* Hero (обычные страницы, не главная) — остаётся лёгким: тонкая горная
-   линия внизу, текст по центру. Главная страница переопределяет это почти
-   полностью ниже, под .hero--home — там уже полноценная canvas-сцена. */
+/* Hero (обычные страницы, не главная) — упрощённая версия сцены Alpenglow:
+   тот же тёмный закатный фон и тонкий силуэт хребта, что и на главной, но
+   без анимации/звёзд/зерна — статичный CSS-фон, лёгкий для 66 страниц.
+   Главная переопределяет это ниже под .hero--home полноценной canvas-сценой. */
 .hero {
-  padding: 48px 0 24px;
+  padding: 56px 0 40px;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(180deg, #0a1220 0%, #161f30 55%, #241d16 100%);
+  color: #f0ece0;
 }
 
 .hero h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
   font-size: clamp(1.7rem, 4vw, 2.6rem);
+  color: #faf6ec;
   margin: 0 0 12px;
+  letter-spacing: -0.01em;
 }
 
 .hero p {
-  color: var(--color-text-muted);
+  color: #d8d2c4;
   max-width: 640px;
   margin: 0 auto;
   font-size: 1.05rem;
 }
 
-/* Горный хребет — единственный декоративный элемент на странице (раньше
-   тут же был отдельный узор на body, теперь фон один и цельный). Одна
-   тонкая монохромная линия, а не залитые цветные слои — сдержаннее и
-   серьёзнее. Отдельная версия под тёмную тему ниже: цвет захардкожен внутри
-   data URI и не может ссылаться на CSS-переменные.
-
+/* Тонкий статичный силуэт хребта — тёплая янтарная линия вместо прежней
+   нейтрально-серой, чтобы визуально продолжать шапку/логотип сайта.
    background-size: auto 100% + repeat-x, а не cover — картинка выбрана под
    реальные пропорции узкой широкой полосы hero; cover при очень широком
-   экране (пропорции полосы сильно шире, чем у самой картинки) обрезал бы
-   как раз узнаваемые пики, оставляя только плоскую заливку снизу. */
+   экране обрезал бы как раз узнаваемые пики, оставляя только плоскую
+   заливку снизу (см. баг с прежней версией на главной странице). */
 .hero::after {
   content: "";
   position: absolute;
@@ -225,16 +186,17 @@ a {
   right: 0;
   bottom: 0;
   height: 110px;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   background-repeat: repeat-x;
   background-position: bottom center;
   background-size: auto 100%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='150' viewBox='0 0 1440 150'%3E%3Cpath fill='rgba(90,97,114,0.07)' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92 L1440,150 L0,150 Z'/%3E%3Cpath fill='none' stroke='rgba(90,97,114,0.22)' stroke-width='1.5' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='150' viewBox='0 0 1440 150'%3E%3Cpath fill='rgba(36,29,22,0.55)' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92 L1440,150 L0,150 Z'/%3E%3Cpath fill='none' stroke='rgba(227,163,91,0.4)' stroke-width='1.5' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92'/%3E%3C/svg%3E");
 }
 
-:root[data-theme="dark"] .hero::after {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='150' viewBox='0 0 1440 150'%3E%3Cpath fill='rgba(154,161,176,0.08)' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92 L1440,150 L0,150 Z'/%3E%3Cpath fill='none' stroke='rgba(154,161,176,0.28)' stroke-width='1.5' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92'/%3E%3C/svg%3E");
+.hero .container {
+  position: relative;
+  z-index: 1;
 }
 
 /* Главная страница — полноценная сцена «Alpenglow»: закатное небо и горы
@@ -242,8 +204,7 @@ a {
    хранятся как CSS-фон — так масштаб и пропорции всегда верные, при любой
    ширине экрана (в отличие от прежней версии на background-image). Текст
    заголовка сидит внизу слева поверх сцены, а не по центру — асимметрия
-   вместо шаблонного центрирования. Сцена не зависит от переключателя
-   светлой/тёмной темы: это сюжет hero, а не режим чтения. */
+   вместо шаблонного центрирования. */
 .hero--home {
   position: relative;
   overflow: hidden;
@@ -398,6 +359,7 @@ a {
   border-radius: 8px;
   font-size: 1rem;
   background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .calc-submit {
@@ -452,7 +414,7 @@ a {
 }
 
 .calc-error {
-  color: #b3261e;
+  color: var(--color-danger-text);
 }
 
 /* Проверка условий пропфирмы (/compliance-check/) */
@@ -521,13 +483,13 @@ a {
 }
 
 .cc-status--bad {
-  background: #fdeceb;
-  color: #b3261e;
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
 }
 
 .cc-status--warn {
-  background: #fbf6e7;
-  color: #8a6d1a;
+  background: var(--color-warn-bg);
+  color: var(--color-warn-text);
 }
 
 .cc-status--neutral {
@@ -538,8 +500,8 @@ a {
 .calc-country-note {
   font-size: 0.9rem;
   color: var(--color-text-muted);
-  background: #fbf6e7;
-  border: 1px solid #eddf9f;
+  background: var(--color-warn-bg);
+  border: 1px solid var(--color-warn-border);
   padding: 10px 14px;
   border-radius: 8px;
 }
@@ -589,9 +551,9 @@ a {
   padding: 2px 8px;
   font-size: 0.7rem;
   font-weight: 600;
-  background: #fbf6e7;
-  border: 1px solid #eddf9f;
-  color: #8a6d1d;
+  background: var(--color-warn-bg);
+  border: 1px solid var(--color-warn-border);
+  color: var(--color-warn-text);
   border-radius: 999px;
 }
 
@@ -814,8 +776,8 @@ a {
 }
 
 .notes-box {
-  background: #fbf6e7;
-  border: 1px solid #eddf9f;
+  background: var(--color-warn-bg);
+  border: 1px solid var(--color-warn-border);
   border-radius: 8px;
   padding: 14px 18px;
   font-size: 0.92rem;
@@ -840,8 +802,8 @@ a {
 }
 
 .verify-box {
-  background: #fdeceb;
-  border: 1px solid #f3b7b1;
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
   border-radius: 8px;
   padding: 14px 18px;
   font-size: 0.9rem;
@@ -870,8 +832,8 @@ a {
 
 /* Prop-firms comparison section (/prop-firms/) */
 .disclaimer-box {
-  background: #eef4ff;
-  border: 1px solid #c6dbff;
+  background: var(--color-info-bg);
+  border: 1px solid var(--color-info-border);
   border-left: 4px solid var(--color-primary);
   border-radius: 8px;
   padding: 16px 20px;
@@ -915,6 +877,7 @@ a {
   border-radius: 8px;
   font-size: 1rem;
   background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .pf-field--checks label {
@@ -953,6 +916,7 @@ a {
   border-radius: 8px;
   font-size: 0.95rem;
   background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .cmp-sort-dir {
@@ -968,7 +932,7 @@ a {
 }
 
 .cmp-sort-dir:hover {
-  background: #eaf1fd;
+  background: rgba(227, 163, 91, 0.14);
   border-color: var(--color-primary);
 }
 
@@ -1056,7 +1020,7 @@ a {
 }
 
 .match-icon--no {
-  color: #b3261e;
+  color: var(--color-danger-text);
 }
 
 .match-icon--neutral {
@@ -1153,7 +1117,7 @@ a {
 .flag-list dt {
   font-weight: 700;
   margin-top: 18px;
-  color: #b3261e;
+  color: var(--color-danger-text);
 }
 
 .flag-list dt:first-of-type {
@@ -1211,13 +1175,13 @@ a.pf-cross {
 
 .ex-badge--open {
   background: var(--color-best);
-  color: #1d6b34;
+  color: var(--color-success-text);
 }
 
 .ex-badge--grey {
-  background: #fbf6e7;
-  color: #8a6d1d;
-  border: 1px solid #eddf9f;
+  background: var(--color-warn-bg);
+  color: var(--color-warn-text);
+  border: 1px solid var(--color-warn-border);
 }
 
 .price-matrix {
@@ -1250,7 +1214,7 @@ a.pf-cross {
 }
 
 .price-matrix > summary:hover {
-  background: #eaf1fd;
+  background: rgba(227, 163, 91, 0.14);
 }
 
 .price-matrix .calc-table-wrap,
