@@ -1,0 +1,37 @@
+# Белый список внешних доменов сайта. Проверка scripts/check-links.sh падает,
+# если в HTML/JS/JSON появляется адрес с домена, которого здесь нет (сам домен
+# или его поддомен). Так подмена партнёрской ссылки или подключение чужого
+# скрипта не пройдёт незамеченной: чтобы добавить новый домен, его нужно
+# осознанно вписать сюда — и это изменение будет видно в истории.
+# Один домен на строку; всё после # — комментарий.
+
+# Шрифты и курсы валют (подключаются сайтом)
+fonts.googleapis.com
+fonts.gstatic.com
+open.er-api.com
+exchangerate-api.com
+
+# Биржи и обменники (обзоры, партнёрские ссылки, тарифы)
+bybit.com
+bitget.com
+kucoin.com
+okx.com
+mexc.com
+gate.io
+whitebird.io
+cifra.by
+bestchange.ru
+
+# Пропфирмы
+ftmo.com
+fundednext.com
+the5ers.com
+e8markets.com
+topstep.com
+brightfunded.com
+blueberryfunded.com
+fundingpips.com
+
+# Технические адреса (пространства имён, не ссылки на внешние сайты)
+w3.org
+sitemaps.org

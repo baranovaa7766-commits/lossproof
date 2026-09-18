@@ -1,0 +1,24 @@
+name: Check links
+
+# Защита от подмены партнёрских ссылок и подключения чужого кода: падает, если в
+# сайте появился адрес с домена вне scripts/allowed-domains.txt, ссылка не по
+# https, «маскировка» вида https://bybit.com@evil.com или eval() в коде.
+# Запускается на каждый push и pull request, а также раз в сутки.
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check links
+        run: bash scripts/check-links.sh
