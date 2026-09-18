@@ -1165,3 +1165,29 @@ a.pf-cross {
     flex-wrap: wrap;
   }
 }
+
+@media (max-width: 760px) {
+  /* На узких экранах 11 пунктов меню в столбик занимают чуть ли не весь
+     первый экран ещё до заголовка страницы — превращаем в горизонтальную
+     прокручиваемую полосу вместо переноса по одному пункту в строку. */
+  .site-header .container {
+    flex-wrap: nowrap;
+  }
+  .site-logo {
+    flex-shrink: 0;
+  }
+  .site-nav {
+    flex: 1 1 auto;
+    min-width: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    padding-bottom: 6px;
+    margin-bottom: -6px;
+  }
+  .site-nav a {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
