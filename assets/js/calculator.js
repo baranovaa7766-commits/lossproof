@@ -61,16 +61,15 @@ const CALC_STRINGS = {
     feeP2P: "цена P2P задаётся продавцом — наценку к среднему курсу мы не знаем",
     feeChannel: (mode, dir, p) => (mode === "account" ? (dir === "buy" ? `пополнение ${p} + конвертация 0%` : `конвертация 0% + вывод ${p}`) : `комиссия ${p}`),
     feeDepositUnchecked: "(комиссию за ввод рублей не проверяли)",
-    viaOfframp: (mode, methods) => ` (обменник${mode === "account" ? " · через счёт" : mode === "instant" ? " · мгновенный обмен" : ""}${methods.length ? ": " + methods.join(" / ") : ""})`,
+    viaOfframp: (mode, methods) => (mode === "pair" ? "" : ` (${mode === "account" ? "через счёт" : "мгновенный обмен"}${methods.length ? ": " + methods.join(" / ") : ""})`),
     methodName: (m) => ({ "Карты банков Российской Федерации": "карты РФ", "Карты банков Республики Беларусь": "карты банков РБ", "Карты Альфа Банка Беларусь": "Альфа-Банк (РБ)", "Карта Crypto Статус": "Crypto Статус", "Карта Crypto Альфа Банк Беларусь": "Crypto Альфа" })[m] || m.replace(/\s*\(РФ\)/, ""),
     errorTariffs: "Не удалось загрузить актуальные тарифы обменников — показаны сохранённые значения без подтверждения.",
     feeNetwork: (amount) => `${amount} сетевая комиссия`,
-    ceilingBadge: "верхняя граница",
     usdtNote: "Здесь «доллары» — это USDT: стейблкоин, 1 USDT ≈ 1 USD. Показаны все способы получить их за ваши деньги; вывод USDT дальше (в рубли, на карту) — отдельный шаг, в этот расчёт он не входит.",
     usdtOtherNote: (currency) => `Маршруты доводят деньги до USDT. Последний шаг — вывод USDT в ${currency} — в нашей базе не покрыт (обменники выводят только в RUB/BYN), поэтому в расчёт он не входит.`,
     fromRubNote: "Рубли можно обменять на USDT двумя способами: у обменника напрямую или через P2P на бирже (вы платите на карту продавца, цену задаёт он). Комиссии обменников (Whitebird, Cifra) взяты с их официальных страниц тарифов, а курс обмена они задают сами — поэтому итог показан диапазоном. У P2P цену продавца мы заранее не знаем — такие строки показывают только верхнюю границу.",
     excludedExchangesNote: (names, currency) => `Не показаны биржи: ${names} — в наших данных у них нет пополнения в ${currency} картой или банком. P2P за рубли мы учитываем, а P2P в других валютах не проверяли.`,
-    ceilingDisclaimer: "<strong>Строки «верхняя граница»</strong> — это максимум при цене продавца ровно по среднему курсу. Реально вы получите меньше: сколько именно, зависит от объявлений на момент сделки. Такие маршруты стоят ниже строк с нижней оценкой.",
+    ceilingDisclaimer: "<strong>P2P:</strong> цену задаёт продавец, поэтому показан максимум — при курсе ровно по рынку. Реально вы получите меньше, сколько именно — зависит от объявлений на момент сделки. Такие маршруты стоят в конце списка.",
     usdcNote: "Эта фирма платит только в USDC (сеть ERC-20). Чтобы работать с USDT, USDC нужно обменять, а сетевая комиссия ERC-20 заметно выше, чем у TRC20 — ни то, ни другое в расчёт не входит.",
     noRoutes: "Для этой пары у нас нет маршрутов. Попробуйте другую валюту или направление.",
     thMethod: "Маршрут",
@@ -80,7 +79,12 @@ const CALC_STRINGS = {
     thReceive: "Получите на руки",
     thArrives: "Дойдёт до фирмы",
     bestBadge: "Выгоднее всего",
-    unverifiedBadge: "не подтверждено",
+    detailsToggle: "Подробнее",
+    howSummary: "Как мы считаем",
+    lossLabel: (r) => `потеря ≈ ${r}`,
+    priceBySeller: "цену задаёт продавец",
+    unverifiedNote: "Данные по одному из шагов не подтверждены — сверьте на сайте сервиса.",
+    feeNetworkUnknown: "сетевая комиссия зависит от сети (не учтена)",
     feeMarkup: (percent) => `~${percent}% спред`,
     feeFlat: (amount) => `${amount} фикс.`,
     feeNone: "Не раскрывается",
@@ -88,13 +92,12 @@ const CALC_STRINGS = {
     firmFeeKnown: (percent) => `+ ${percent}% комиссия фирмы за приём крипты`,
     rangeFrom: (min) => `от ${min}`,
     rangeTo: (max) => `до ${max}`,
-    rangeDisclaimer: (date) => `<strong>Это оценка, а не гарантированная сумма.</strong> У off-ramp сервисов (обменников) нет публичного API тарифов — реальный курс на момент вашего вывода может отличаться от диапазона выше, потому что он зависит от текущей ситуации на P2P-рынке. Диапазон рассчитан на основе комиссий, зафиксированных на ${date}, плюс запас на типичные колебания курса. Точный курс перед выводом крупной суммы уточняйте напрямую на сайте сервиса.`,
     challengeAcceptsLabel: "Принимает:",
     challengeFeeLabel: "Комиссия за оплату криптой:",
     challengePayLink: (name) => `Оплатить челлендж на сайте ${name} →`,
     whyCryptoNote: "Почему через биржу, а не напрямую? Прямой банковский перевод или карта из большинства стран сейчас не доходят до российского банка — Visa/Mastercard и SWIFT не проводят такие платежи в Россию. Обменники вроде Whitebird и Cifra Markets тоже работают только с криптой на входе — они меняют USDT на рубли, а не доллары на рубли напрямую. Поэтому рабочий маршрут — сначала купить USDT на бирже, затем обменять его на рубли. Банковский перевод в таблице ниже показан только для сравнения, насколько хуже был бы курс, если бы прямой перевод вообще работал.",
     baselineBadge: "гипотетически",
-    disclaimer: 'Курс обновляется при каждом расчёте, спред и комиссии — по официально опубликованным тарифам провайдеров на момент проверки (могут измениться без предупреждения). Сверяйте перед крупным выводом. См.',
+    disclaimer: (date) => `Оценка по тарифам сервисов на ${date} и текущему курсу — реальные цифры могут отличаться. См.`,
     disclaimerLinkText: "раскрытие информации о партнёрских ссылках",
     disclosureHref: "/disclosure/",
     getStarted: "Оформить",
@@ -139,16 +142,15 @@ const CALC_STRINGS = {
     feeP2P: "P2P price is set by the seller — we don't know the markup over the mid-market rate",
     feeChannel: (mode, dir, p) => (mode === "account" ? (dir === "buy" ? `deposit ${p} + conversion 0%` : `conversion 0% + withdrawal ${p}`) : `fee ${p}`),
     feeDepositUnchecked: "(ruble deposit fee not checked)",
-    viaOfframp: (mode, methods) => ` (exchanger${mode === "account" ? " · via account" : mode === "instant" ? " · instant exchange" : ""}${methods.length ? ": " + methods.join(" / ") : ""})`,
+    viaOfframp: (mode, methods) => (mode === "pair" ? "" : ` (${mode === "account" ? "via account" : "instant exchange"}${methods.length ? ": " + methods.join(" / ") : ""})`),
     methodName: (m) => ({ "Карты банков Российской Федерации": "Russian bank cards", "Карты банков Республики Беларусь": "Belarusian bank cards", "Карты Альфа Банка Беларусь": "Alfa-Bank cards (BY)", "Карта Crypto Статус": "Crypto Status card", "Карта Crypto Альфа Банк Беларусь": "Crypto Alfa card", "СБП (РФ)": "SBP", "МТС Банк (РФ)": "MTS Bank", "Т-Банк (РФ)": "T-Bank", "ВТБ Pay (РФ)": "VTB Pay", "SberPay (РФ)": "SberPay" })[m] || m.replace(/\s*\(РФ\)/, ""),
     errorTariffs: "Couldn't load current exchanger tariffs — showing saved values, unverified.",
     feeNetwork: (amount) => `${amount} network fee`,
-    ceilingBadge: "upper bound",
     usdtNote: "Here \"dollars\" means USDT: a stablecoin, 1 USDT ≈ 1 USD. All ways to get it for your money are shown; withdrawing USDT further (to rubles, to a card) is a separate step and isn't part of this calculation.",
     usdtOtherNote: (currency) => `These routes bring your money to USDT. The last step — withdrawing USDT to ${currency} — isn't covered in our database (exchangers only pay out RUB/BYN), so it isn't included.`,
     fromRubNote: "Rubles can be exchanged for USDT in two ways: directly at an exchanger, or via P2P on an exchange (you pay a seller's card, and the seller sets the price). Exchanger fees (Whitebird, Cifra) come from their official tariff pages, but they set the exchange rate themselves — so the result is shown as a range. We can't know a P2P seller's price in advance — those rows show only an upper bound.",
     excludedExchangesNote: (names, currency) => `Exchanges not shown: ${names} — our data shows no ${currency} deposits by card or bank for them. We count P2P for rubles, but haven't verified P2P in other currencies.`,
-    ceilingDisclaimer: "<strong>\"Upper bound\" rows</strong> are the maximum if the seller's price equals the mid-market rate exactly. You will actually get less — how much depends on the listings at the time of the trade. Such routes are ranked below rows with a lower estimate.",
+    ceilingDisclaimer: "<strong>P2P:</strong> the seller sets the price, so the maximum is shown — at exactly the mid-market rate. You will actually get less; how much depends on the listings at the time of the trade. Such routes are ranked last.",
     usdcNote: "This firm pays out only in USDC (ERC-20 network). To work with USDT the USDC has to be swapped, and ERC-20 network fees are much higher than TRC20 — neither is included.",
     noRoutes: "We have no routes for this pair. Try another currency or direction.",
     thMethod: "Route",
@@ -158,7 +160,12 @@ const CALC_STRINGS = {
     thReceive: "You receive",
     thArrives: "Arrives at the firm",
     bestBadge: "Best value",
-    unverifiedBadge: "unconfirmed",
+    detailsToggle: "Details",
+    howSummary: "How we calculate",
+    lossLabel: (r) => `loss ≈ ${r}`,
+    priceBySeller: "price set by the seller",
+    unverifiedNote: "Data for one of the steps is unverified — check on the provider's site.",
+    feeNetworkUnknown: "network fee depends on the network (not included)",
     feeMarkup: (percent) => `~${percent}% spread`,
     feeFlat: (amount) => `${amount} flat`,
     feeNone: "None disclosed",
@@ -166,13 +173,12 @@ const CALC_STRINGS = {
     firmFeeKnown: (percent) => `+ ${percent}% firm crypto-processing fee`,
     rangeFrom: (min) => `from ${min}`,
     rangeTo: (max) => `to ${max}`,
-    rangeDisclaimer: (date) => `<strong>This is an estimate, not a guaranteed amount.</strong> Off-ramp services (exchangers) don't publish a fee API — the actual rate at the time you cash out can differ from the range above, since it tracks the current P2P market. The range is based on fees confirmed as of ${date}, plus a margin for typical rate swings. Check the exact rate directly on the provider's site before a large withdrawal.`,
     challengeAcceptsLabel: "Accepts:",
     challengeFeeLabel: "Crypto payment fee:",
     challengePayLink: (name) => `Pay for the challenge on ${name}'s site →`,
     whyCryptoNote: "Why go through an exchange instead of direct? A direct bank transfer or card payment from most countries doesn't reach a Russian bank right now — Visa/Mastercard and SWIFT don't process payments into Russia. Exchangers like Whitebird and Cifra Markets also only work with crypto on the input side — they convert USDT to rubles, not dollars to rubles directly. So the route that actually works is: buy USDT on an exchange first, then convert it to rubles. The bank transfer row below is shown only for comparison, to show how much worse the rate would be if a direct transfer worked at all.",
     baselineBadge: "hypothetical",
-    disclaimer: "The rate refreshes on every calculation; spreads and fees come from providers' officially published tariffs as of the last check (subject to change without notice). Verify before a large withdrawal. See our",
+    disclaimer: (date) => `An estimate based on providers' tariffs as of ${date} and the current rate — actual figures may differ. See our`,
     disclaimerLinkText: "disclosure",
     disclosureHref: "/en/disclosure/",
     getStarted: "Get started",
@@ -827,6 +833,10 @@ async function runCalculation(form, resultEl, opts, t) {
         if (s.location.type === "free") {
           return withStep(s, { step: { names: [t.depositStep(exchangeName(target))], suffix: "", group: null, linkId: target }, location: { type: "exchange", id: target } });
         }
+        if (s.location.type === "exchanger") {
+          // Обменник → перевод USDT на выбранную биржу; сетевую комиссию сервиса не знаем.
+          return withStep(s, { step: { names: [t.depositStep(exchangeName(target))], suffix: "", group: null, linkId: target }, fee: t.feeNetworkUnknown, location: { type: "exchange", id: target }, unverified: true });
+        }
         return null;
       })
       .filter(Boolean);
@@ -885,19 +895,18 @@ async function runCalculation(form, resultEl, opts, t) {
     return bl - al || b.hi - a.hi;
   });
   const best = rows.find((r) => !r.isBaseline && r.lo != null && r.lo > 0);
-  const anyCeiling = rows.some((r) => r.lo == null);
-  const anyRange = rows.some((r) => r.lo != null && Math.abs(r.hi - r.lo) > 0.005);
-
   const verifiedDate = opts.tariffs && opts.tariffs.updatedAt ? formatCalcDate(opts.tariffs.updatedAt, t) : typeof DATA_LAST_VERIFIED !== "undefined" ? formatCalcDate(DATA_LAST_VERIFIED, t) : "";
 
-  const notesBefore = [];
-  if (!opts.tariffs) notesBefore.push(t.errorTariffs);
-  if (destFiat === "RUB" && srcFiat && srcFiat !== "RUB") notesBefore.push(t.whyCryptoNote);
-  if (srcFiat === "RUB" && !destViaSell && !isDestFirm) notesBefore.push(t.fromRubNote);
-  if (destFiat === "USD") notesBefore.push(t.usdtNote);
-  else if (destFiat && !destViaSell) notesBefore.push(t.usdtOtherNote(destFiat));
-  if (excluded.length) notesBefore.push(t.excludedExchangesNote(excluded.join(", "), srcFiat));
-  if (sourceFirm && firmPaysCrypto(sourceFirm) && firmCryptoIsUsdcOnly(sourceFirm)) notesBefore.push(t.usdcNote);
+  // «Сколько теряете» относительно среднерыночного курса — одно понятное число
+  // вместо колонок курса/комиссии/скорости (они — в «Подробнее» каждой строки).
+  const midFinal = destViaSell ? amountUSD * rateFromUSD : amountUSD;
+  const lossText = (row) => {
+    if (row.lo == null) return t.priceBySeller;
+    const bestLoss = Math.max(0, (1 - row.hi / midFinal) * 100);
+    const worstLoss = Math.max(0, (1 - row.lo / midFinal) * 100);
+    const range = worstLoss - bestLoss < 0.05 ? `${pct1(bestLoss, t)}%` : `${pct1(bestLoss, t)}–${pct1(worstLoss, t)}%`;
+    return t.lossLabel(range);
+  };
 
   const rowName = (row) => `${row.label ? row.label + " → " : ""}${row.steps.map(stepName).filter((n, i, arr) => n !== arr[i - 1]).join(" → ")}${destViaSell ? " → " + destFiat : ""}`;
   const resultHeaderReceive = isDestFirm ? t.thArrives : t.thReceive;
@@ -907,24 +916,41 @@ async function runCalculation(form, resultEl, opts, t) {
       ? t.rangeTo(fmt(row.hi))
       : Math.abs(row.hi - row.lo) <= 0.005
       ? fmt(row.hi)
-      : `${t.rangeFrom(fmt(row.lo))} ${t.rangeTo(fmt(row.hi))}`;
+      : `${formatAmount(row.lo, displayTo, t).replace(/\s*USDT$/, "")}–${fmt(row.hi)}`;
   const linkCell = (row) => {
     const step = row.steps.find((s) => s.directLinkUrl);
     if (step) return linkForUrl(step.directLinkUrl, t);
     return row.steps.flatMap((s) => s.linkIds || []).map((id) => linkForId(id, t)).join(" ");
   };
+  const detailsHTML = (row) => `
+    <details class="calc-row-more">
+      <summary>${t.detailsToggle}</summary>
+      <dl>
+        <dt>${t.thFee}</dt><dd>${row.feeText}</dd>
+        <dt>${t.thSpeed}</dt><dd>${row.speed}</dd>
+        <dt>${t.thRate}</dt><dd>1 ${displayFrom} ${row.lo == null ? "≤" : "≈"} ${formatRate(row.effectiveRate, t)} ${displayTo}</dd>
+        ${row.unverified ? `<dt></dt><dd>${t.unverifiedNote}</dd>` : ""}
+      </dl>
+    </details>`;
+
+  // Все пояснения — в одном свёрнутом блоке, а не россыпью над таблицей.
+  const how = [];
+  if (country) how.push(t.countryNote(escapeHTML(country)));
+  if (!opts.tariffs) how.push(t.errorTariffs);
+  if (destFiat === "USD") how.push(t.usdtNote);
+  else if (destFiat && !destViaSell) how.push(t.usdtOtherNote(destFiat));
+  if (srcFiat === "RUB" && !destViaSell && !isDestFirm) how.push(t.fromRubNote);
+  if (destFiat === "RUB" && srcFiat && srcFiat !== "RUB") how.push(t.whyCryptoNote);
+  if (excluded.length) how.push(t.excludedExchangesNote(excluded.join(", "), srcFiat));
+  if (sourceFirm && firmPaysCrypto(sourceFirm) && firmCryptoIsUsdcOnly(sourceFirm)) how.push(t.usdcNote);
+  if (rows.some((r) => r.lo == null)) how.push(t.ceilingDisclaimer);
 
   renderResult(resultEl, `
-    ${country ? `<p class="calc-country-note">${t.countryNote(escapeHTML(country))}</p>` : ""}
-    ${notesBefore.map((n) => `<div class="calc-info-note">${n}</div>`).join("")}
     <div class="calc-table-wrap">
       <table class="calc-table">
         <thead>
           <tr>
             <th>${t.thMethod}</th>
-            <th>${t.thRate}</th>
-            <th>${t.thFee}</th>
-            <th>${t.thSpeed}</th>
             <th>${resultHeaderReceive}</th>
             <th></th>
           </tr>
@@ -934,16 +960,13 @@ async function runCalculation(form, resultEl, opts, t) {
             .map(
               (row) => `
             <tr class="${row === best ? "calc-best" : ""}">
-              <td data-label="${t.thMethod}">
-                ${rowName(row)}
-                ${row === best ? `<span class="calc-badge">${t.bestBadge}</span>` : ""}
-                ${row.lo == null ? `<span class="calc-unverified">${t.ceilingBadge}</span>` : ""}
-                ${row.unverified ? `<span class="calc-unverified">${t.unverifiedBadge}</span>` : ""}
-                ${row.isBaseline ? `<span class="calc-unverified">${t.baselineBadge}</span>` : ""}
+              <td data-label="">
+                <div class="calc-cell">
+                  <div class="calc-route">${rowName(row)}${row === best ? `<span class="calc-badge">${t.bestBadge}</span>` : ""}</div>
+                  <div class="calc-sub">${lossText(row)}${row.isBaseline ? ` · ${t.baselineBadge}` : ""}</div>
+                  ${detailsHTML(row)}
+                </div>
               </td>
-              <td data-label="${t.thRate}">1 ${displayFrom} ${row.lo == null ? "≤" : "≈"} ${formatRate(row.effectiveRate, t)} ${displayTo}</td>
-              <td data-label="${t.thFee}">${row.feeText}</td>
-              <td data-label="${t.thSpeed}">${row.speed}</td>
               <td data-label="${resultHeaderReceive}"><strong>${receiveText(row)}</strong></td>
               <td data-label="">${linkCell(row)}</td>
             </tr>
@@ -954,9 +977,8 @@ async function runCalculation(form, resultEl, opts, t) {
       </table>
     </div>
     ${isDestFirm ? `<div class="notes-box">${renderChallengePaymentNote(destFirm, t)}</div>` : ""}
-    ${anyCeiling ? `<div class="notes-box calc-range-disclaimer">${t.ceilingDisclaimer}</div>` : ""}
-    ${anyRange ? `<div class="notes-box calc-range-disclaimer">${t.rangeDisclaimer(verifiedDate)}</div>` : ""}
-    <p class="calc-disclaimer">${t.disclaimer} <a href="${t.disclosureHref}">${t.disclaimerLinkText}</a>.</p>
+    ${how.length ? `<details class="calc-how"><summary>${t.howSummary}</summary>${how.map((n) => `<p>${n}</p>`).join("")}</details>` : ""}
+    <p class="calc-disclaimer">${t.disclaimer(verifiedDate)} <a href="${t.disclosureHref}">${t.disclaimerLinkText}</a>.</p>
   `);
 }
 
@@ -981,6 +1003,10 @@ function formatFee(percent, fixedFeeUSD, t) {
   if (percent) parts.push(t.feeMarkup(pct(percent, t)));
   if (fixedFeeUSD) parts.push(t.feeFlat(formatMoney(fixedFeeUSD, "USD", t)));
   return parts.length ? parts.join(" + ") : t.feeNone;
+}
+
+function pct1(value, t) {
+  return new Intl.NumberFormat(t.locale, { maximumFractionDigits: 1 }).format(value);
 }
 
 function pct(value, t) {

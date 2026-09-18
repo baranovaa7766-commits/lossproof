@@ -1307,3 +1307,74 @@ a.pf-cross {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Результат калькулятора: маршрут + «потеря %» + сумма; всё остальное — в
+   раскрывающихся «Подробнее» и «Как мы считаем», а не россыпью колонок и сносок. */
+.calc-cell {
+  min-width: 0;
+}
+
+.calc-route {
+  font-weight: 600;
+}
+
+.calc-sub {
+  margin-top: 3px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.calc-row-more {
+  margin-top: 6px;
+  font-size: 0.85rem;
+}
+
+.calc-row-more > summary,
+.calc-how > summary {
+  cursor: pointer;
+  color: var(--color-primary);
+  width: fit-content;
+}
+
+.calc-row-more dl {
+  margin: 8px 0 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 14px;
+  color: var(--color-text-muted);
+}
+
+.calc-row-more dt {
+  font-weight: 600;
+}
+
+.calc-row-more dd {
+  margin: 0;
+}
+
+.calc-how {
+  margin-top: 16px;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.calc-how p {
+  margin: 10px 0 0;
+}
+
+.calc-table td:nth-child(2) {
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .calc-table td[data-label=""]::before {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .calc-table td:nth-child(2) {
+    white-space: normal;
+    text-align: right;
+  }
+}
