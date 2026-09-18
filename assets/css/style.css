@@ -201,7 +201,12 @@ a {
    тут же был отдельный узор на body, теперь фон один и цельный). Одна
    тонкая монохромная линия, а не залитые цветные слои — сдержаннее и
    серьёзнее. Отдельная версия под тёмную тему ниже: цвет захардкожен внутри
-   data URI и не может ссылаться на CSS-переменные. */
+   data URI и не может ссылаться на CSS-переменные.
+
+   background-size: auto 100% + repeat-x, а не cover — картинка выбрана под
+   реальные пропорции узкой широкой полосы hero; cover при очень широком
+   экране (пропорции полосы сильно шире, чем у самой картинки) обрезал бы
+   как раз узнаваемые пики, оставляя только плоскую заливку снизу. */
 .hero::after {
   content: "";
   position: absolute;
@@ -211,14 +216,14 @@ a {
   height: 110px;
   z-index: -1;
   pointer-events: none;
-  background-repeat: no-repeat;
+  background-repeat: repeat-x;
   background-position: bottom center;
-  background-size: cover;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='260' viewBox='0 0 1440 260'%3E%3Cpath fill='rgba(90,97,114,0.07)' d='M0,180 L90,130 L170,165 L250,100 L330,155 L410,115 L490,170 L570,125 L650,175 L730,130 L810,180 L890,135 L970,175 L1050,120 L1130,165 L1210,135 L1290,175 L1370,140 L1440,165 L1440,260 L0,260 Z'/%3E%3Cpath fill='none' stroke='rgba(90,97,114,0.22)' stroke-width='1.5' d='M0,180 L90,130 L170,165 L250,100 L330,155 L410,115 L490,170 L570,125 L650,175 L730,130 L810,180 L890,135 L970,175 L1050,120 L1130,165 L1210,135 L1290,175 L1370,140 L1440,165'/%3E%3C/svg%3E");
+  background-size: auto 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='150' viewBox='0 0 1440 150'%3E%3Cpath fill='rgba(90,97,114,0.07)' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92 L1440,150 L0,150 Z'/%3E%3Cpath fill='none' stroke='rgba(90,97,114,0.22)' stroke-width='1.5' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92'/%3E%3C/svg%3E");
 }
 
 :root[data-theme="dark"] .hero::after {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='260' viewBox='0 0 1440 260'%3E%3Cpath fill='rgba(154,161,176,0.08)' d='M0,180 L90,130 L170,165 L250,100 L330,155 L410,115 L490,170 L570,125 L650,175 L730,130 L810,180 L890,135 L970,175 L1050,120 L1130,165 L1210,135 L1290,175 L1370,140 L1440,165 L1440,260 L0,260 Z'/%3E%3Cpath fill='none' stroke='rgba(154,161,176,0.28)' stroke-width='1.5' d='M0,180 L90,130 L170,165 L250,100 L330,155 L410,115 L490,170 L570,125 L650,175 L730,130 L810,180 L890,135 L970,175 L1050,120 L1130,165 L1210,135 L1290,175 L1370,140 L1440,165'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='150' viewBox='0 0 1440 150'%3E%3Cpath fill='rgba(154,161,176,0.08)' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92 L1440,150 L0,150 Z'/%3E%3Cpath fill='none' stroke='rgba(154,161,176,0.28)' stroke-width='1.5' d='M0,100 L90,70 L170,90 L250,55 L330,85 L410,65 L490,95 L570,68 L650,98 L730,72 L810,100 L890,75 L970,98 L1050,66 L1130,92 L1210,75 L1290,98 L1370,78 L1440,92'/%3E%3C/svg%3E");
 }
 
 /* Заголовок на главной — сплошной фирменный цвет, без градиентной заливки
