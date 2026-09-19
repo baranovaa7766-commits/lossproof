@@ -1378,3 +1378,76 @@ a.pf-cross {
     text-align: right;
   }
 }
+
+/* Иконки верхнего меню — линейные, янтарные, в одном стиле с логотипом и
+   карточками главной. Картинка — mask, цвет — background (можно менять в CSS). */
+.site-nav a:not(.lang-switch)::before,
+.lang-switch .lang-switch-icon::before {
+  content: "";
+  display: block;
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  background: #e3a35b;
+  transition: background-color 0.15s ease;
+  -webkit-mask: var(--nav-icon, linear-gradient(#0000, #0000)) center / contain no-repeat;
+  mask: var(--nav-icon, linear-gradient(#0000, #0000)) center / contain no-repeat;
+}
+
+.site-nav a:hover::before,
+.lang-switch:hover .lang-switch-icon::before {
+  background: #eab876;
+}
+
+.lang-switch .lang-switch-icon {
+  display: inline-flex;
+}
+
+.site-nav a[href$="/calculator/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Cline x1='24' y1='5' x2='24' y2='9'/%3E%3Cline x1='24' y1='39' x2='24' y2='43'/%3E%3Cline x1='5' y1='24' x2='9' y2='24'/%3E%3Cline x1='39' y1='24' x2='43' y2='24'/%3E%3Cpolygon points='24,13 29,24 24,35 19,24' transform='rotate(25 24 24)'/%3E%3C/svg%3E");
+}
+
+.site-nav a[href$="/prop-firms/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='10' y='10' width='28' height='32' rx='3'/%3E%3Cline x1='17' y1='18' x2='17' y2='18.01'/%3E%3Cline x1='24' y1='18' x2='24' y2='18.01'/%3E%3Cline x1='31' y1='18' x2='31' y2='18.01'/%3E%3Cline x1='17' y1='26' x2='17' y2='26.01'/%3E%3Cline x1='24' y1='26' x2='24' y2='26.01'/%3E%3Cline x1='31' y1='26' x2='31' y2='26.01'/%3E%3Cpath d='M20 42 V34 H28 V42'/%3E%3C/svg%3E");
+}
+
+.site-nav a[href$="/match/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Ccircle cx='24' cy='24' r='9'/%3E%3Ccircle cx='24' cy='24' r='1.5'/%3E%3C/svg%3E");
+}
+
+.site-nav a[href$="/payouts/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='16' width='30' height='22' rx='4'/%3E%3Cpath d='M6 23 H36'/%3E%3Ccircle cx='29' cy='29' r='2'/%3E%3Cpath d='M32 6 L42 6 L42 16'/%3E%3Cpath d='M42 6 L28 20'/%3E%3C/svg%3E");
+}
+
+.site-nav a[href$="/crypto-payout-guide/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Cpolygon points='24,14 28,24 24,34 20,24'/%3E%3C/svg%3E");
+}
+
+.site-nav a[href$="/exchanges/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 18 H34 M28 12 L34 18 L28 24'/%3E%3Cpath d='M40 30 H14 M20 24 L14 30 L20 36'/%3E%3C/svg%3E");
+}
+
+.site-nav a[href$="/offramps/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='14' width='36' height='20' rx='4'/%3E%3Ccircle cx='24' cy='24' r='6'/%3E%3Cline x1='12' y1='19' x2='12' y2='19.01'/%3E%3Cline x1='36' y1='29' x2='36' y2='29.01'/%3E%3C/svg%3E");
+}
+
+.site-nav a[href$="/red-flags/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M24 8 L44 40 H4 Z'/%3E%3Cline x1='24' y1='20' x2='24' y2='28'/%3E%3Cline x1='24' y1='34' x2='24' y2='34.01'/%3E%3C/svg%3E");
+}
+
+.site-nav a[href$="/compliance-check/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Cpath d='M16 24 L21 29 L32 18'/%3E%3C/svg%3E");
+}
+
+.site-nav a[href$="/terms/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M24 13 C20 10 14 9 8 10 V37 C14 36 20 37 24 40 C28 37 34 36 40 37 V10 C34 9 28 10 24 13 Z'/%3E%3Cline x1='24' y1='13' x2='24' y2='40'/%3E%3C/svg%3E");
+}
+
+.site-nav a[href$="/disclosure/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 6 H29 L38 15 V42 H14 Z'/%3E%3Cpath d='M29 6 V15 H38'/%3E%3Cpath d='M20 24 H32'/%3E%3Cpath d='M20 31 H32'/%3E%3C/svg%3E");
+}
+
+.lang-switch .lang-switch-icon {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Cpath d='M7 24 H41'/%3E%3Cellipse cx='24' cy='24' rx='8' ry='17'/%3E%3C/svg%3E");
+}
+
