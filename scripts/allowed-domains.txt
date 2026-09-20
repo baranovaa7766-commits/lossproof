@@ -31,6 +31,9 @@ topstep.com
 brightfunded.com
 blueberryfunded.com
 fundingpips.com
+alphacapitalgroup.uk
+fxify.com
+fundedtradingplus.com
 
 # Технические адреса (пространства имён, не ссылки на внешние сайты)
 w3.org

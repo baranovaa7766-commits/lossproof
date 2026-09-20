@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Как вывести деньги с FXIFY: способы вывода, комиссии и лучший курс конвертации</title>
+  <meta name="description" content="Способы вывода FXIFY (Rise), минимальная сумма, сроки и ограничения по странам, плюс калькулятор переводов для конвертации выплаты в локальную валюту." />
+  <link rel="canonical" href="/payout/fxify/" />
+  <link rel="alternate" hreflang="ru" href="/payout/fxify/" />
+  <link rel="alternate" hreflang="en" href="/en/payout/fxify/" />
+  <link rel="alternate" hreflang="x-default" href="/payout/fxify/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">
+        <svg viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 18 L8 6 L11.5 11 L16 3 L25 18" stroke="#eab876" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 3 L20 3" stroke="#eab876" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        LossProof
+      </a>
+      <nav class="site-nav">
+        <a href="/calculator/">Калькулятор переводов</a>
+        <a href="/payouts/">Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">Гид по крипто-выводу</a>
+        <a href="/exchanges/">Сравнение бирж</a>
+        <a href="/offramps/">Сравнение обменников</a>
+        <a href="/red-flags/">Красные флаги пропфирм</a>
+        <a href="/terms/">Словарь терминов</a>
+        <a href="/disclosure/">Раскрытие информации</a>
+        <a class="lang-switch" href="/en/payout/fxify/" aria-label="Switch to English"><span class="lang-switch-icon" aria-hidden="true"></span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Как вывести деньги с FXIFY</h1>
+        <p>Способы вывода FXIFY, комиссии и минимальные суммы — плюс калькулятор переводов, чтобы увидеть самый дешёвый способ превратить выплату в вашу локальную валюту.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="verify-box">
+        <strong>Россия и Беларусь в списке недоступных стран.</strong> По <a href="https://fxify.com/faqs/all-faqs/what-countries-are-accepted/" target="_blank" rel="noopener">странице FXIFY о принимаемых странах</a>, счета резидентам России и Беларуси не открываются. Не указывайте недостоверную страну проживания: фирма предупреждает, что тогда может отказать в открытии боевого счёта и возврате оплаты. Список меняется — сверяйте его перед регистрацией.
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Способы вывода FXIFY</h2>
+        <table class="data-table">
+          <tbody>
+            <tr><th>Способы</th><td>Rise. Для трейдеров из Украины, где Rise недоступен, — крипто (USDC/USDT)</td></tr>
+            <tr><th>Комиссия фирмы</th><td>Не указана — проверьте перед тем как полагаться на это</td></tr>
+            <tr><th>Минимальная сумма вывода</th><td>$50 для всех типов счетов</td></tr>
+            <tr><th>Типичная скорость</th><td>Обычно до 3 рабочих дней после одобрения; нужна верификация аккаунта</td></tr>
+          </tbody>
+        </table>
+        <div class="notes-box">На время запроса счёт переходит в режим «только чтение» до одобрения; полный вывод на большинстве программ означает потерю статуса финансируемого счёта. Первая выплата и график зависят от программы (например, у Instant Funding — через 14 дней после первой сделки, затем раз в 14 дней).</div>
+        <div class="verify-box">Эти данные взяты из раздела FAQ фирмы (сентябрь 2026) и могут быть устаревшими. Всегда сверяйте актуальные комиссии и лимиты в личном кабинете на <a href="https://fxify.com" target="_blank" rel="noopener">сайте FXIFY</a> перед выводом средств.</div>
+      </div>
+    </section>
+
+    <section class="container container--wide">
+      <div class="calculator-card">
+        <h2 style="margin-top:0">Сравните варианты конвертации</h2>
+        <p>FXIFY выплачивает в USD. Как только деньги поступят, вот что вы реально получите после конвертации в локальную валюту по каждому способу:</p>
+        <div id="calculator-root"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Прежде чем регистрироваться</h2>
+        <p>LossProof не оценивает и не рекомендует пропфирмы и не связан партнёрскими отношениями ни с одной из них: здесь только справочные сведения о способах вывода. Перед покупкой челленджа убедитесь, что фирма принимает резидентов вашей страны, проверьте её в <a href="https://www.cbr.ru/inside/warning-list/" target="_blank" rel="noopener">списке Банка России об организациях с признаками нелегальной деятельности</a> и прочитайте наши <a href="/red-flags/">красные флаги</a>.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Другие инструкции по выводу</h2>
+        <div class="firm-grid" id="firm-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте курсы напрямую у провайдеров.</span>
+      <span><a href="/disclosure/">Раскрытие партнёрской монетизации</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.js"></script>
+  <script src="/assets/js/rates.js"></script>
+  <script src="/assets/js/calculator.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initCalculator("calculator-root", { presetSource: "firm:fxify", presetDestination: "fiat:RUB", amount: 1000 });
+
+    document.getElementById("firm-grid").innerHTML = FIRMS.filter((f) => f.slug !== "fxify")
+      .map(
+        (firm) => `
+        <a class="firm-card" href="/payout/${firm.slug}/">
+          <h3>${firm.name}</h3>
+          <p>${firm.methods.join(", ")}</p>
+        </a>
+      `
+      )
+      .join("");
+  </script>
+  <script src="/assets/js/reveal.js"></script>
+  <script src="/assets/js/metrika.js"></script>
+</body>
+</html>

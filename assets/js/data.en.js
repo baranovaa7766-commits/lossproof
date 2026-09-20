@@ -509,7 +509,7 @@ const FIRMS = [
     fee: "Exact withdrawal fee percentage isn't published -- deducted together with the rate and network fee, depends on the method",
     minWithdrawal: "Not explicitly stated; a $500 threshold is mentioned for Rise",
     speed: "Crypto -- usually minutes after the request is approved; card/Rise/bank -- 24-48 hours",
-    notes: "Independent tracker Payout Junction confirms $200M+ paid and 127,000+ transactions -- one of the largest verified track records in the industry.",
+    notes: "",
     payoutCurrency: "USD",
     challengePayment: {
       acceptsCrypto: true,
@@ -520,5 +520,47 @@ const FIRMS = [
       officialUrl: "https://fundingpips.com",
       dataVerified: false,
     },
+  },
+  {
+    // Источники (только официальные страницы фирмы): help.alphacapitalgroup.uk/en/articles/6933755 (способы и срок), alphacapitalgroup.uk/resources/alpha-capital-country-availability-2026 (страны) — проверено 2026-09-20.
+    // challengePayment: null — условия оплаты челленджа криптой не подтверждены,
+    // поэтому фирма не предлагается в калькуляторе как «Куда» (только как «Откуда»).
+    slug: "alpha-capital",
+    name: "Alpha Capital Group",
+    methods: ["Rise", "Wise", "Bank transfer (WIRE/ACH/SWIFT)"],
+    fee: "Not stated — verify before relying on this",
+    minWithdrawal: "Not stated — verify before relying on this",
+    speed: "Up to 2 business days after the request",
+    notes: "The firm does not pay crypto directly — only via Rise. Russia and Belarus are on the list of unavailable countries. The payout currency is not stated on the official pages: the calculation assumes USD — verify.",
+    payoutCurrency: "USD",
+    challengePayment: null,
+  },
+  {
+    // Источники (только официальные страницы фирмы): fxify.com/faqs/payouts/ и /faqs/all-faqs/how-do-i-withdraw-my-profits/ (способы, минимум, срок), /faqs/all-faqs/what-countries-are-accepted/ (страны) — проверено 2026-09-20.
+    // challengePayment: null — условия оплаты челленджа криптой не подтверждены,
+    // поэтому фирма не предлагается в калькуляторе как «Куда» (только как «Откуда»).
+    slug: "fxify",
+    name: "FXIFY",
+    methods: ["Rise"],
+    fee: "Not stated — verify before relying on this",
+    minWithdrawal: "$50",
+    speed: "Usually up to 3 business days after approval",
+    notes: "For traders in Ukraine, where Rise is unavailable, payouts in crypto (USDC/USDT) are possible. Russia and Belarus are on the list of unavailable countries. The payout currency is not stated on the official pages: the calculation assumes USD — verify.",
+    payoutCurrency: "USD",
+    challengePayment: null,
+  },
+  {
+    // Источники (только официальные страницы фирмы): help.fundedtradingplus.com/payout-methods-offered/ (способы), /prohibited-countries/ (страны) — проверено 2026-09-20.
+    // challengePayment: null — условия оплаты челленджа криптой не подтверждены,
+    // поэтому фирма не предлагается в калькуляторе как «Куда» (только как «Откуда»).
+    slug: "funded-trading-plus",
+    name: "Funded Trading Plus",
+    methods: ["Crypto", "Rise"],
+    fee: "Not stated — verify before relying on this",
+    minWithdrawal: "Not stated — verify before relying on this",
+    speed: "Not stated — verify before relying on this",
+    notes: "Russia and Belarus are on the list of prohibited countries. The payout currency is not stated on the official pages: the calculation assumes USD — verify.",
+    payoutCurrency: "USD",
+    challengePayment: null,
   },
 ];

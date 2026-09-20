@@ -325,7 +325,10 @@ function buildFormHTML(opts, t) {
     opts.exchanges
       .map((e) => `<option value="crypto:${e.id}" ${`crypto:${e.id}` === opts.presetDestination ? "selected" : ""}>${e.name}</option>`)
       .join("");
+  // Фирма без подтверждённых условий оплаты челленджа (challengePayment: null)
+  // предлагается только как «Откуда», но не как «Куда».
   const destFirmOptions = opts.firms
+    .filter((f) => f.challengePayment)
     .map((f) => `<option value="firm:${f.slug}" ${`firm:${f.slug}` === opts.presetDestination ? "selected" : ""}>${f.name}</option>`)
     .join("");
   const destFiatOptions = CURRENCIES
