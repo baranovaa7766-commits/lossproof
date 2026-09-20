@@ -147,7 +147,7 @@
     "brightfunded": 0,
     "blueberry-funded": 0,
     "fundingpips": 0,
-    "bybit": 1,
+    "bybit": 2,
     "bitget": 0,
     "kucoin": 0,
     "okx": 0,
@@ -155,7 +155,10 @@
     "gate": 0,
     "whitebird": 0,
     "cifra": 0,
-    "bestchange": 0
+    "bestchange": 0,
+    "alpha-capital": 0,
+    "fxify": 0,
+    "funded-trading-plus": 0
   },
   "_seen": {
     "Банк России|FTMO|в списке ЦБ: «FTMO, FTMO shop», сайт ftmo.com, trader.ftmo.com, community.ftmo.com, ftmopropfirm.com, признак: Признаки \"финансовой пирамиды\", дата #-#-#": "2026-09-20",
@@ -163,6 +166,33 @@
     "Банк России|The#ers|в списке ЦБ: «The#ers», сайт the#ers.com, признак: Признаки \"финансовой пирамиды\", дата #-#-#": "2026-09-20",
     "Банк России|Topstep|в списке ЦБ: «TOPSTEP», сайт www.topstep.com, признак: Признаки нелегального профессионального участника рынка ценных бумаг, дата #-#-#": "2026-09-20",
     "Банк России|BrightFunded|в списке ЦБ есть запись со схожим названием «BrightFunded»: «ExpressTopTrade, Coinexrise, Monexo, XpressOptionTrade, Chivotrade, MileStoneMarkets, Codesremedy, Profxgroup, #bridgesolution, Coinopentrade, Bullishtrendline, Apexfidet, Lunexfidget, NexusQuantCapital, BrightFunded, Quicktrading», сайт expresstoptrade.com, coinexrise.com, monexo.site, xpressoptiontrade.com, chivotrade.com, milestonemarkets.com, codesremedy.art, profxgroup.com, #bridgesolution.com, coinopentrade.com, bullishtrendline.com, apexfidet.com, lunexfidget.com, nexusquantcapital.com, brightfunded.live, quicktrading.live, признак: Признаки \"финансовой пирамиды\", Признаки нелегального профессионального участника рынка ценных бумаг — возможен клон или тёзка, проверьте": "2026-09-20",
-    "Банк России|Whitebird|в списке ЦБ есть запись со схожим названием «Whitebird»: «CAS Capitals Ltd, Whitebird Limited, Sigma Invest», сайт invest-sigma.net, invest-sigma.com, invest-sigma.cc, invest-sigma.biz, trading.invest-sigma.biz, vk.com/club#, признак: Признаки нелегального профессионального участника рынка ценных бумаг — возможен клон или тёзка, проверьте": "2026-09-20"
+    "Банк России|Whitebird|в списке ЦБ есть запись со схожим названием «Whitebird»: «CAS Capitals Ltd, Whitebird Limited, Sigma Invest», сайт invest-sigma.net, invest-sigma.com, invest-sigma.cc, invest-sigma.biz, trading.invest-sigma.biz, vk.com/club#, признак: Признаки нелегального профессионального участника рынка ценных бумаг — возможен клон или тёзка, проверьте": "2026-09-20",
+    "Доступность|Bybit|сайт https://www.bybit.com не открылся (The operation was aborted due to timeout) — уже # проверки подряд": "2026-09-20",
+    "Домен|The#ers|the#ers.com: регистрация истекает через # дн. (#-#-#)": "2026-09-20"
+  },
+  "alphacapitalgroup.uk": {
+    "registrar": "Fasthosts Internet Ltd",
+    "nameservers": [
+      "kolton.ns.cloudflare.com.",
+      "laylah.ns.cloudflare.com."
+    ],
+    "expires": "2026-11-16T13:11:50Z",
+    "status": [
+      "active"
+    ]
+  },
+  "fxify.com": {
+    "registrar": "GoDaddy.com, LLC",
+    "nameservers": [
+      "diva.ns.cloudflare.com",
+      "lars.ns.cloudflare.com"
+    ],
+    "expires": "2026-11-06T04:38:27Z",
+    "status": [
+      "client delete prohibited",
+      "client renew prohibited",
+      "client transfer prohibited",
+      "client update prohibited"
+    ]
   }
 }
