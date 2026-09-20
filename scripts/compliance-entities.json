@@ -1,0 +1,22 @@
+{
+  "_comment": "Компании, представленные на сайте. names — только отличительные названия (целые слова): общие вроде «Gate» или «White Bird» дали бы ложные совпадения. domains — их официальные домены.",
+  "entities": [
+    { "id": "ftmo", "name": "FTMO", "kind": "пропфирма", "url": "https://ftmo.com", "domains": ["ftmo.com"], "names": ["FTMO"] },
+    { "id": "fundednext", "name": "FundedNext", "kind": "пропфирма", "url": "https://fundednext.com", "domains": ["fundednext.com"], "names": ["FundedNext", "Funded Next"] },
+    { "id": "the5ers", "name": "The5ers", "kind": "пропфирма", "url": "https://the5ers.com", "domains": ["the5ers.com"], "names": ["The5ers", "The 5ers"] },
+    { "id": "e8-markets", "name": "E8 Markets", "kind": "пропфирма", "url": "https://e8markets.com", "domains": ["e8markets.com"], "names": ["E8 Markets", "E8Markets"] },
+    { "id": "topstep", "name": "Topstep", "kind": "пропфирма", "url": "https://www.topstep.com", "domains": ["topstep.com"], "names": ["Topstep", "TopstepTrader"] },
+    { "id": "brightfunded", "name": "BrightFunded", "kind": "пропфирма", "url": "https://brightfunded.com", "domains": ["brightfunded.com"], "names": ["BrightFunded", "Bright Funded"] },
+    { "id": "blueberry-funded", "name": "Blueberry Funded", "kind": "пропфирма", "url": "https://blueberryfunded.com", "domains": ["blueberryfunded.com"], "names": ["Blueberry Funded", "BlueberryFunded"] },
+    { "id": "fundingpips", "name": "FundingPips", "kind": "пропфирма", "url": "https://fundingpips.com", "domains": ["fundingpips.com"], "names": ["FundingPips", "Funding Pips"] },
+    { "id": "bybit", "name": "Bybit", "kind": "биржа", "url": "https://www.bybit.com", "domains": ["bybit.com"], "names": ["Bybit"] },
+    { "id": "bitget", "name": "Bitget", "kind": "биржа", "url": "https://www.bitget.com", "domains": ["bitget.com"], "names": ["Bitget"] },
+    { "id": "kucoin", "name": "KuCoin", "kind": "биржа", "url": "https://www.kucoin.com", "domains": ["kucoin.com"], "names": ["KuCoin"] },
+    { "id": "okx", "name": "OKX", "kind": "биржа", "url": "https://www.okx.com", "domains": ["okx.com"], "names": ["OKX", "OKEx"] },
+    { "id": "mexc", "name": "MEXC", "kind": "биржа", "url": "https://www.mexc.com", "domains": ["mexc.com"], "names": ["MEXC"] },
+    { "id": "gate", "name": "Gate", "kind": "биржа", "url": "https://www.gate.io", "domains": ["gate.io"], "names": ["Gate.io", "Gate Technology"] },
+    { "id": "whitebird", "name": "Whitebird", "kind": "обменник", "url": "https://whitebird.io", "domains": ["whitebird.io"], "names": ["Whitebird", "Уайт Бёрд"] },
+    { "id": "cifra", "name": "Cifra Markets", "kind": "обменник", "url": "https://cifra.by", "domains": ["cifra.by"], "names": ["Cifra Markets", "Cifra Broker", "Цифра брокер", "Цифра Маркетс"] },
+    { "id": "bestchange", "name": "BestChange", "kind": "агрегатор", "url": "https://www.bestchange.ru", "domains": ["bestchange.ru"], "names": ["BestChange"] }
+  ]
+}

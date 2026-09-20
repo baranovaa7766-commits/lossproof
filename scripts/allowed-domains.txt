@@ -38,3 +38,18 @@ sitemaps.org
 
 # Аналитика
 mc.yandex.ru
+
+# Проверка компаний (источники и наш сайт в User-Agent)
+treasury.gov
+treas.gov
+cbr.ru
+rdap.org
+minjust.gov.ru
+lossproof.vercel.app
+
+# Официальные ленты регуляторов (проверка компаний)
+sec.gov
+cftc.gov
+justice.gov
+fca.org.uk
+esma.europa.eu
