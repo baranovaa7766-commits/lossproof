@@ -20,6 +20,7 @@ const UA = "Mozilla/5.0 (compatible; LossProofBot/1.0; +https://lossproof.vercel
 const findings = []; // {level: "alert"|"review", check, entity, text}
 const notes = []; // информационные строки отчёта
 const stats = {};
+let state = {}; // хранится между запусками: снимки доменов, счётчики недоступности, уже сообщённые находки
 
 const alert = (check, entity, text) => findings.push({ level: "alert", check, entity, text });
 const review = (check, entity, text) => findings.push({ level: "review", check, entity, text });
@@ -142,6 +143,9 @@ async function checkCbr() {
 const registrable = (host) => host.split(".").slice(-2).join(".");
 
 async function checkAvailability() {
+  // Разовый таймаут с американского сервера GitHub — чаще геоблок или сбой сети,
+  // а не проблема компании: тревога только если сайт не открывается две недели подряд.
+  state._availability = state._availability || {};
   let ok = 0;
   for (const e of ENTITIES) {
     let res;
@@ -154,18 +158,26 @@ async function checkAvailability() {
         await new Promise((r) => setTimeout(r, 2000));
       }
     }
+    let problem = null;
     if (!res) {
-      alert("Доступность", e.name, `сайт ${e.url} не открылся дважды подряд (${err && err.message})`);
-      continue;
-    }
-    const finalHost = new URL(res.url).hostname.toLowerCase();
-    if (!e.domains.some((d) => hostBelongs(finalHost, d) || registrable(finalHost) === registrable(d))) {
-      alert("Доступность", e.name, `${e.url} перенаправляет на другой домен: ${res.url}`);
-    } else if (res.status >= 500) {
-      alert("Доступность", e.name, `${e.url} отвечает ошибкой сервера ${res.status}`);
+      problem = `сайт ${e.url} не открылся (${err && err.message})`;
     } else {
-      ok++;
+      const finalHost = new URL(res.url).hostname.toLowerCase();
+      if (!e.domains.some((d) => hostBelongs(finalHost, d) || registrable(finalHost) === registrable(d))) {
+        alert("Доступность", e.name, `${e.url} перенаправляет на другой домен: ${res.url}`);
+        continue;
+      }
+      if (res.status >= 500) problem = `${e.url} отвечает ошибкой сервера ${res.status}`;
       // 403/429 часто значит защиту от ботов, а не проблему компании — не считаем сбоем.
+    }
+    if (problem) {
+      const streak = (state._availability[e.id] || 0) + 1;
+      state._availability[e.id] = streak;
+      if (streak >= 2) alert("Доступность", e.name, `${problem} — уже ${streak} проверки подряд`);
+      else notes.push(`${e.name}: ${problem} (первый раз, в отчёт не попадает, пока не повторится)`);
+    } else {
+      state._availability[e.id] = 0;
+      ok++;
     }
   }
   stats.availability = `${ok} из ${ENTITIES.length} открылись без замечаний`;
@@ -187,13 +199,7 @@ async function rdapSnapshot(domain) {
 }
 
 async function checkDomains() {
-  let baseline = {};
-  let hadBaseline = false;
-  try {
-    baseline = JSON.parse(await readFile(BASELINE_FILE, "utf8"));
-    hadBaseline = true;
-  } catch { /* первый запуск */ }
-  const next = {};
+  const hadBaseline = Object.keys(state).some((k) => !k.startsWith("_"));
   let checked = 0;
   for (const e of ENTITIES) {
     for (const d of e.domains) {
@@ -203,8 +209,8 @@ async function checkDomains() {
       } catch { /* RDAP есть не у всех зон (например, .by) — это не сбой */ }
       if (!snap) { notes.push(`RDAP недоступен для ${d} — регистрационные данные не отслеживаются`); continue; }
       checked++;
-      next[d] = snap;
-      const old = baseline[d];
+      const old = state[d];
+      state[d] = snap;
       if (old) {
         if (JSON.stringify(old.nameservers) !== JSON.stringify(snap.nameservers)) alert("Домен", e.name, `${d}: изменились DNS-серверы (${(old.nameservers || []).join(", ") || "—"} → ${snap.nameservers.join(", ") || "—"})`);
         if ((old.registrar || null) !== (snap.registrar || null)) alert("Домен", e.name, `${d}: сменился регистратор (${old.registrar || "—"} → ${snap.registrar || "—"})`);
@@ -218,8 +224,6 @@ async function checkDomains() {
     }
   }
   stats.domains = `${checked} доменов проверено по RDAP${hadBaseline ? "" : " (первый запуск: сохранена базовая линия)"}`;
-  await mkdir(new URL("./data/", import.meta.url), { recursive: true });
-  await writeFile(BASELINE_FILE, JSON.stringify({ ...baseline, ...next }, null, 2) + "\n");
 }
 
 // ---------- 4. Официальные заявления регуляторов ----------
@@ -286,7 +290,16 @@ async function checkOfficialStatements() {
 }
 
 // ---------- отчёт ----------
+// Находка «известна», если её отпечаток уже попадал в отчёт: так постоянные записи
+// (например, компания в списке ЦБ) не превращаются в новую задачу каждую неделю.
+// Цифры в тексте (дни до истечения домена) в отпечаток не входят.
+const fingerprint = (f) => `${f.check}|${f.entity}|${f.text}`.replace(/\d+/g, "#");
+
 async function main() {
+  try {
+    state = JSON.parse(await readFile(BASELINE_FILE, "utf8"));
+  } catch { /* первый запуск */ }
+
   for (const step of [checkOfac, checkCbr, checkOfficialStatements, checkAvailability, checkDomains]) {
     try {
       await step();
@@ -295,13 +308,32 @@ async function main() {
     }
   }
 
-  const alerts = findings.filter((f) => f.level === "alert");
-  const reviews = findings.filter((f) => f.level === "review");
+  // Если журнала «уже сообщённого» ещё не было (первый запуск этой версии), всё
+  // найденное считаем уже показанным в предыдущей задаче — только запоминаем.
+  const firstWithLog = !state._seen;
+  state._seen = state._seen || {};
+  const today = new Date().toISOString().slice(0, 10);
+  const fresh = [];
+  const known = [];
+  for (const f of findings) {
+    const key = fingerprint(f);
+    if (state._seen[key]) known.push(f);
+    else {
+      if (!firstWithLog) fresh.push(f);
+      else known.push(f);
+      state._seen[key] = today;
+    }
+  }
+  await mkdir(new URL("./data/", import.meta.url), { recursive: true });
+  await writeFile(BASELINE_FILE, JSON.stringify(state, null, 2) + "\n");
+
+  const freshAlerts = fresh.filter((f) => f.level === "alert");
+  const freshReviews = fresh.filter((f) => f.level === "review");
   const date = new Date().toLocaleDateString("ru-RU", { timeZone: "Europe/Moscow" });
   const lines = [];
   lines.push(`# Проверка компаний сайта — ${date}`);
   lines.push("");
-  lines.push(`Проверено компаний: **${ENTITIES.length}**. Найдено замечаний: **${alerts.length}**, требуют проверки (возможные тёзки/клоны): **${reviews.length}**.`);
+  lines.push(`Проверено компаний: **${ENTITIES.length}**. **Новых** замечаний: **${freshAlerts.length}**, новых требующих проверки (возможные тёзки/клоны): **${freshReviews.length}**. Известных ранее: **${known.length}**.`);
   lines.push("");
   lines.push("**Это автоматическая проверка. Сайт она не меняет** — сначала откройте источник и убедитесь, что это именно та компания, а не тёзка или клон.");
   lines.push("");
@@ -312,8 +344,16 @@ async function main() {
     for (const f of list) lines.push(`- **${f.entity}** · ${f.check}: ${f.text}`);
     lines.push("");
   };
-  section("Замечания", alerts);
-  section("Требуют проверки", reviews);
+  section("Новые замечания", freshAlerts);
+  section("Новое: требует проверки", freshReviews);
+  if (known.length) {
+    lines.push(`<details><summary>Известные ранее (${known.length}) — уже сообщались, остаются в силе</summary>`);
+    lines.push("");
+    for (const f of known) lines.push(`- **${f.entity}** · ${f.check}: ${f.text}`);
+    lines.push("");
+    lines.push("</details>");
+    lines.push("");
+  }
   lines.push("## Что проверялось");
   lines.push("");
   lines.push(`- OFAC (санкции США): ${stats.ofac || "—"}`);
@@ -334,8 +374,8 @@ async function main() {
   await writeFile("compliance-report.md", report);
   console.log(report);
 
-  const hasFindings = alerts.length + reviews.length > 0;
-  if (process.env.GITHUB_OUTPUT) await appendFile(process.env.GITHUB_OUTPUT, `has_findings=${hasFindings}\ncount=${alerts.length + reviews.length}\n`);
+  const hasFindings = fresh.length > 0;
+  if (process.env.GITHUB_OUTPUT) await appendFile(process.env.GITHUB_OUTPUT, `has_findings=${hasFindings}\ncount=${fresh.length}\n`);
 }
 
 await main();
