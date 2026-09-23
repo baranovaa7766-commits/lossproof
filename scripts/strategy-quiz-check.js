@@ -118,8 +118,18 @@
     // плечо, решаю сам, графики, $1 000–10 000.
     pick(0); pick(3); pick(2); pick(1); pick(2); pick(3); pick(1); pick(0); pick(0); pick(2);
     const cards = root.querySelectorAll(".sq-strategy");
-    if (!cards.length) add("UI: нет карточек результата");
-    if (!root.querySelector(".disclaimer-box")) add("UI: нет плашки «не индивидуальная рекомендация»");
+    if (cards.length !== 1) add(`UI: карточек результата ${cards.length}, а должна быть одна (остальные — во вкладках)`);
+    if (!root.querySelector(".sq-disclaimer")) add("UI: нет плашки «не индивидуальная рекомендация»");
+    const tabs = root.querySelectorAll(".sq-tab");
+    if (tabs.length > 1) {
+      const before = root.querySelector(".sq-strategy h3").textContent;
+      tabs[1].click();
+      const after = root.querySelector(".sq-strategy h3").textContent;
+      if (after === before) add("UI: вкладка не переключила стратегию");
+      if (tabs[1].getAttribute("aria-selected") !== "true") add("UI: у выбранной вкладки нет aria-selected");
+      tabs[0].click();
+    }
+    if (!root.querySelector(".sq-more")) add("UI: подробности стратегии не свёрнуты в <details>");
     if (!root.querySelector(".sq-exchange")) add("UI: нет карточек бирж");
     if (root.querySelector('a[rel~="sponsored"]')) add("UI: в квизе есть партнёрская ссылка");
     if (/undefined|NaN|null/.test(root.innerText)) add("UI: мусор в тексте результата");

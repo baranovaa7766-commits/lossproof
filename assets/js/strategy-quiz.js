@@ -264,10 +264,10 @@ const EXCHANGE_FEATURES = {
 //   sort    — порядок сортировки (после доступа для РФ, если человек из РФ);
 //   show    — какие условия показать в карточке биржи.
 const STRATEGY_EXCHANGE_NEEDS = {
-  hodl: { require: {}, sort: ["proofOfReserves", "spotTaker"], show: ["spotFee", "withdrawFee", "proofOfReserves", "deposit"] },
-  dca: { require: { anyOf: ["autoInvest", "bots.dca"] }, sort: ["autoInvest", "spotTaker"], show: ["autoInvest", "bots.dca", "spotFee", "deposit"] },
-  spotSwing: { require: {}, sort: ["spotTaker"], show: ["spotFee", "deposit", "withdrawFee"] },
-  futuresSwing: { require: {}, sort: ["demo", "futuresTaker"], show: ["futuresFee", "demo", "spotFee"] },
+  hodl: { require: {}, sort: ["proofOfReserves", "spotTaker"], show: ["spotFee", "proofOfReserves"] },
+  dca: { require: { anyOf: ["autoInvest", "bots.dca"] }, sort: ["autoInvest", "spotTaker"], show: ["autoInvest", "bots.dca", "spotFee"] },
+  spotSwing: { require: {}, sort: ["spotTaker"], show: ["spotFee", "proofOfReserves"] },
+  futuresSwing: { require: {}, sort: ["demo", "futuresTaker"], show: ["futuresFee", "demo"] },
   dayTrading: { require: {}, sort: ["demo", "futuresTaker", "futuresMaker"], show: ["futuresFee", "demo"] },
   scalping: { require: {}, sort: ["demo", "futuresMaker", "futuresTaker"], show: ["futuresFee", "demo"] },
   gridBot: { require: { allOf: ["bots.grid"] }, sort: ["spotTaker"], show: ["bots.grid", "bots.futuresGrid", "spotFee"] },
@@ -413,7 +413,7 @@ const QUIZ_STRINGS = {
     },
     disclaimerTitle: "Это не индивидуальная инвестиционная рекомендация.",
     disclaimerText:
-      "Результат показывает, какой тип стратегии соответствует вашим ответам, а не советует купить конкретный актив или совершить сделку. Криптовалюта — высоковолатильный актив: можно потерять все вложенные средства. Решение и ответственность остаются за вами.",
+      "Это соответствие ваших ответов типу стратегии, а не совет купить актив или совершить сделку. Можно потерять все вложенные средства.",
     headingOne: "По вашим ответам вам подходит:",
     headingMany: "По вашим ответам вам подходят:",
     bestLabel: "Лучшее совпадение",
@@ -422,15 +422,18 @@ const QUIZ_STRINGS = {
     riskValue: (n) => `${n} из 5`,
     riskScaleNote: "по шкале внутри крипторынка",
     timeLabel: "Время",
-    whyTitle: "Почему подходит вам",
+    whyTitle: "Почему вам",
     cautionTitle: "Что учесть",
     skillsTitle: "Что нужно уметь",
     mistakesTitle: "Типичные ошибки",
     firstStepTitle: "Безопасный первый шаг",
-    exchangesTitle: "Где это делать: биржи с нужными условиями",
-    exchangesNote: (date) =>
-      `Порядок бирж зависит только от того, насколько их условия подходят под стратегию. Партнёрских отношений с биржами у нас нет. Данные собраны ${date} — сверяйте их на сайте биржи.`,
-    exchangeMore: "Подробнее о бирже →",
+    exchangesTitle: "Где это делать",
+    moreTitle: "Риски, навыки и типичные ошибки",
+    tabsLabel: "Подходящие стратегии",
+    factSpot: (v) => `Спот ${v}`,
+    factFutures: (m, tk) => `Фьючерсы ${m} / ${tk}`,
+    exchangesNote: (date) => `Порядок — только по условиям для этой стратегии, партнёрств с биржами нет. Данные на ${date}, сверяйте на сайте биржи.`,
+    exchangeMore: "Обзор биржи →",
     noExchanges: "Для этой стратегии не нашлось бирж с подтверждёнными нужными функциями.",
     dims: {
       goal: "Цель",
@@ -576,7 +579,7 @@ const QUIZ_STRINGS = {
     },
     disclaimerTitle: "This is not personal investment advice.",
     disclaimerText:
-      "The result shows which type of strategy matches your answers; it doesn't advise you to buy a specific asset or make a specific trade. Crypto is a highly volatile asset: you can lose all the money you put in. The decision and the responsibility remain yours.",
+      "This matches your answers to a type of strategy; it isn't advice to buy an asset or make a trade. You can lose all the money you put in.",
     headingOne: "Based on your answers, this suits you:",
     headingMany: "Based on your answers, these suit you:",
     bestLabel: "Best match",
@@ -585,15 +588,18 @@ const QUIZ_STRINGS = {
     riskValue: (n) => `${n} of 5`,
     riskScaleNote: "on a scale within the crypto market",
     timeLabel: "Time",
-    whyTitle: "Why it suits you",
+    whyTitle: "Why you",
     cautionTitle: "Keep in mind",
     skillsTitle: "What you need to know",
     mistakesTitle: "Common mistakes",
     firstStepTitle: "A safe first step",
-    exchangesTitle: "Where to do it: exchanges with the right tools",
-    exchangesNote: (date) =>
-      `Exchanges are ordered only by how well their terms fit the strategy. We have no partnerships with any exchange. Data collected ${date} — confirm it on the exchange's site.`,
-    exchangeMore: "More about the exchange →",
+    exchangesTitle: "Where to do it",
+    moreTitle: "Risks, skills and common mistakes",
+    tabsLabel: "Matching strategies",
+    factSpot: (v) => `Spot ${v}`,
+    factFutures: (m, tk) => `Futures ${m} / ${tk}`,
+    exchangesNote: (date) => `Ordered only by terms for this strategy; no partnerships with exchanges. Data as of ${date} — confirm on the exchange's site.`,
+    exchangeMore: "Exchange overview →",
     noExchanges: "No exchange with the required tools confirmed for this strategy.",
     dims: {
       goal: "Goal",
@@ -676,36 +682,46 @@ function formatPct(v, t) {
   return `${new Intl.NumberFormat(t.locale, { maximumFractionDigits: 3 }).format(v)}%`;
 }
 
-function featureValueHTML(ex, key, t) {
-  if (key === "spotFee") return quizEscape(`${ex.makerFeeText} / ${ex.takerFeeText}`);
+// Одно условие биржи в компактной строке: цифры — коротко, функции — «✓ есть»
+// или приглушённое «не подтверждено».
+function exchangeFactHTML(ex, key, t) {
+  if (key === "spotFee") {
+    // Тейкер в формулировке из данных, без пояснения в скобках: «~0,05-0,1%»
+    // честнее, чем усреднённое число из takerFeeValue.
+    const taker = ex.takerFeeText.replace(/\s*\(.*\)\s*$/, "");
+    return `<span class="sq-fact" title="${quizEscape(`${ex.makerFeeText} / ${ex.takerFeeText}`)}">${quizEscape(t.factSpot(taker))}</span>`;
+  }
   if (key === "futuresFee") {
     const f = EXCHANGE_FEATURES[ex.slug];
-    return quizEscape(`${formatPct(f.futuresMaker, t)} / ${formatPct(f.futuresTaker, t)}`);
+    return `<span class="sq-fact">${t.factFutures(formatPct(f.futuresMaker, t), formatPct(f.futuresTaker, t))}</span>`;
   }
-  if (key === "withdrawFee") return quizEscape(ex.withdrawalFeeText);
-  if (key === "deposit") return quizEscape(ex.depositMethods.join(", "));
   const v = exchangeFeature(ex.slug, key);
-  if (v === true) return `<span class="sq-yes">${t.yes}</span>`;
-  if (v === false) return `<span class="sq-no">${t.no}</span>`;
-  return `<span class="sq-unknown">${t.unknown}</span>`;
+  const label = t.features[key];
+  if (v === true) return `<span class="sq-fact sq-fact--yes">✓ ${label}</span>`;
+  if (v === false) return `<span class="sq-fact sq-fact--no">✗ ${label}</span>`;
+  return `<span class="sq-fact sq-fact--unknown">${label}: ${t.unknown}</span>`;
 }
 
-// Почему стратегия подходит: ответы, за которые она получила 2+ балла.
+// Почему стратегия подходит: ответы, за которые она получила 2+ балла, —
+// самые весомые первыми, не больше трёх.
 function strategyReasons(id, a, t, lang) {
   return Object.keys(SCORE_WEIGHTS)
-    .filter((dim) => strategyPoints(id, dim, a) >= 2)
-    .map((dim) => `${t.dims[dim]}: ${lcFirst(optionLabel(t, dim, a[dim]), lang)}`);
+    .map((dim, order) => ({ dim, order, pts: strategyPoints(id, dim, a) * SCORE_WEIGHTS[dim] }))
+    .filter((r) => strategyPoints(id, r.dim, a) >= 2)
+    .sort((x, y) => y.pts - x.pts || x.order - y.order)
+    .slice(0, 3)
+    .map((r) => `${t.dims[r.dim]}: ${lcFirst(optionLabel(t, r.dim, a[r.dim]), lang)}`);
 }
 
-// Общие предупреждения по ответам (один раз над результатами).
+// Общие предупреждения по ответам (один раз под карточкой).
 function generalNotes(a, results, t) {
   const notes = [];
-  if (a.country === "ru") notes.push(t.notes.ru);
   if (a.drawdown === "sell") notes.push(t.notes.panic);
-  if (a.money === "notable") notes.push(t.notes.notable);
-  if (a.experience === 0) notes.push(t.notes.beginner);
   if (a.leverage === "high" && results.some((id) => STRATEGY_RULES[id].futures)) notes.push(t.notes.highLeverage);
   if (a.leverage === "never" && results.includes("copyTrading")) notes.push(t.notes.spotCopy);
+  if (a.money === "notable") notes.push(t.notes.notable);
+  if (a.experience === 0) notes.push(t.notes.beginner);
+  if (a.country === "ru") notes.push(t.notes.ru);
   return notes;
 }
 
@@ -725,11 +741,11 @@ function listHTML(items, cls) {
   return `<ul class="${cls}">${items.map((s) => `<li>${quizEscape(s)}</li>`).join("")}</ul>`;
 }
 
-function exchangeCardsHTML(id, a, t) {
+function exchangeRowsHTML(id, a, t) {
   const list = rankExchangesForStrategy(id, a.country);
   if (!list.length) return `<p class="sq-muted">${t.noExchanges}</p>`;
   const show = STRATEGY_EXCHANGE_NEEDS[id].show;
-  const cards = list
+  const rows = list
     .map((ex) => {
       const badge =
         a.country === "ru"
@@ -737,54 +753,65 @@ function exchangeCardsHTML(id, a, t) {
               ex.ruAccessTier === "open" ? t.ruAccessOpen : t.ruAccessGrey
             }</span>`
           : "";
-      const fields = show
-        .map((key) => `<div class="cmp-field"><dt>${t.features[key]}</dt><dd>${featureValueHTML(ex, key, t)}</dd></div>`)
-        .join("");
       return `
-        <div class="sq-exchange">
-          <div class="sq-exchange-head"><h5>${quizEscape(ex.name)}</h5>${badge}</div>
-          <dl class="cmp-fields sq-exchange-fields">${fields}</dl>
+        <li class="sq-exchange">
+          <div class="sq-exchange-name"><strong>${quizEscape(ex.name)}</strong>${badge}</div>
+          <div class="sq-exchange-facts">${show.map((key) => exchangeFactHTML(ex, key, t)).join("")}</div>
           <a class="sq-exchange-link" href="${t.exchangesBase}${ex.slug}/">${t.exchangeMore}</a>
-        </div>`;
+        </li>`;
     })
     .join("");
   const date = new Intl.DateTimeFormat(t.locale, { year: "numeric", month: "long", day: "numeric" }).format(new Date(EXCHANGE_FEATURES_CHECKED));
-  return `<div class="sq-exchanges">${cards}</div><p class="sq-muted sq-exchanges-note">${t.exchangesNote(date)}</p>`;
+  return `<ul class="sq-exchanges">${rows}</ul><p class="sq-muted sq-exchanges-note">${t.exchangesNote(date)}</p>`;
 }
 
-function strategyCardHTML(id, index, a, t, lang) {
+// Карточка выбранной стратегии: на виду только главное, подробности — под
+// одной кнопкой (результат раньше был перегружен — 2026-09-23).
+function strategyDetailHTML(id, a, t, lang) {
   const s = STRATEGIES[id];
   const rule = STRATEGY_RULES[id];
   const reasons = strategyReasons(id, a, t, lang);
   return `
-    <article class="cmp-card sq-strategy${index === 0 ? " match-best" : ""}">
-      <p class="match-score">${index === 0 ? t.bestLabel : t.alsoLabel}</p>
+    <article class="cmp-card sq-strategy match-best">
       <h3 class="cmp-card-name">${quizEscape(s.name)}</h3>
       <p class="sq-tagline">${quizEscape(s.tagline)}</p>
-      <div class="sq-meta">
-        <span><strong>${t.riskLabel}:</strong> ${riskMeterHTML(rule.risk, t)} ${t.riskValue(rule.risk)} <span class="sq-muted">${t.riskScaleNote}</span></span>
+      <p class="sq-meta">
+        <span title="${t.riskScaleNote}"><strong>${t.riskLabel}:</strong> ${riskMeterHTML(rule.risk, t)} ${t.riskValue(rule.risk)}</span>
         <span><strong>${t.timeLabel}:</strong> ${quizEscape(s.time)}</span>
-      </div>
-      <p>${quizEscape(s.summary)}</p>
+      </p>
+      <p class="sq-summary">${quizEscape(s.summary)}</p>
       ${
         reasons.length
-          ? `<h4>${t.whyTitle}</h4><dl class="cmp-fields match-reasons">${reasons
-              .map((r) => `<div class="cmp-field"><dt class="match-icon match-icon--yes">✓</dt><dd>${quizEscape(r)}</dd></div>`)
-              .join("")}</dl>`
+          ? `<div class="sq-why"><span class="sq-why-label">${t.whyTitle}:</span>${listHTML(reasons.map((r) => `✓ ${r}`), "sq-chips")}</div>`
           : ""
       }
-      <h4>${t.cautionTitle}</h4>
-      <dl class="cmp-fields match-reasons">${s.cautions
-        .map((c) => `<div class="cmp-field"><dt class="match-icon sq-icon-warn">!</dt><dd>${quizEscape(c)}</dd></div>`)
-        .join("")}</dl>
-      <div class="sq-columns">
-        <div><h4>${t.skillsTitle}</h4>${listHTML(s.skills, "sq-list")}</div>
-        <div><h4>${t.mistakesTitle}</h4>${listHTML(s.mistakes, "sq-list")}</div>
-      </div>
+      <p class="sq-warn-line">${quizEscape(s.cautions[0])}</p>
       <div class="sq-first-step"><strong>${t.firstStepTitle}:</strong> ${quizEscape(s.firstStep)}</div>
-      <h4>${t.exchangesTitle}</h4>
-      ${exchangeCardsHTML(id, a, t)}
+      <details class="sq-more">
+        <summary>${t.moreTitle}</summary>
+        <h4>${t.cautionTitle}</h4>${listHTML(s.cautions, "sq-list")}
+        <h4>${t.skillsTitle}</h4>${listHTML(s.skills, "sq-list")}
+        <h4>${t.mistakesTitle}</h4>${listHTML(s.mistakes, "sq-list")}
+      </details>
+      <h4 class="sq-exchanges-title">${t.exchangesTitle}</h4>
+      ${exchangeRowsHTML(id, a, t)}
     </article>`;
+}
+
+function strategyTabsHTML(results, selected, t) {
+  if (results.length < 2) return "";
+  return `
+    <div class="sq-tabs" role="tablist" aria-label="${t.tabsLabel}">
+      ${results
+        .map(
+          (id, i) => `
+        <button type="button" role="tab" class="sq-tab${i === selected ? " sq-tab--active" : ""}" aria-selected="${i === selected}" data-tab="${i}">
+          <span class="sq-tab-name">${quizEscape(STRATEGIES[id].name)}</span>
+          <span class="sq-tab-note">${i === 0 ? t.bestLabel : t.alsoLabel}</span>
+        </button>`
+        )
+        .join("")}
+    </div>`;
 }
 
 // --------------------------------------------------------------------------
@@ -847,18 +874,23 @@ function initStrategyQuiz(rootId) {
       </div>`;
   }
 
+  // Какая из подходящих стратегий открыта во вкладках (0 — лучшее совпадение).
+  let selected = 0;
+
   function renderResults() {
     const res = recommendStrategies(answers);
     const notes = generalNotes(answers, res.results, t);
+    if (selected >= res.results.length) selected = 0;
     root.innerHTML = `
-      <div class="disclaimer-box"><strong>${t.disclaimerTitle}</strong> ${t.disclaimerText}</div>
+      <p class="sq-disclaimer"><strong>${t.disclaimerTitle}</strong> ${t.disclaimerText}</p>
       <h2 class="match-heading" tabindex="-1" data-focus>${res.results.length > 1 ? t.headingMany : t.headingOne}</h2>
+      ${strategyTabsHTML(res.results, selected, t)}
+      <div class="sq-panel" role="tabpanel">${strategyDetailHTML(res.results[selected], answers, t, lang)}</div>
       ${
         notes.length
-          ? `<div class="notes-box sq-notes"><strong>${t.generalTitle}</strong>${listHTML(notes, "sq-list")}</div>`
+          ? `<div class="sq-notes"><strong>${t.generalTitle}</strong>${listHTML(notes, "sq-list")}</div>`
           : ""
       }
-      <div class="sq-results">${res.results.map((id, i) => strategyCardHTML(id, i, answers, t, lang)).join("")}</div>
       ${
         res.excluded.length
           ? `<details class="sq-excluded"><summary>${t.excludedTitle(res.excluded.length)}</summary><ul class="sq-list">${res.excluded
@@ -905,15 +937,33 @@ function initStrategyQuiz(rootId) {
     render();
   }
 
+  // Переключение вкладок меняет только карточку, без прокрутки и перерисовки
+  // остального результата.
+  function selectTab(i) {
+    selected = i;
+    const res = recommendStrategies(answers);
+    root.querySelectorAll(".sq-tab").forEach((b, j) => {
+      b.classList.toggle("sq-tab--active", j === i);
+      b.setAttribute("aria-selected", String(j === i));
+    });
+    root.querySelector(".sq-panel").innerHTML = strategyDetailHTML(res.results[i], answers, t, lang);
+  }
+
   root.addEventListener("click", (e) => {
+    const tab = e.target.closest("[data-tab]");
+    if (tab) return selectTab(Number(tab.dataset.tab));
     const opt = e.target.closest("[data-index]");
-    if (opt) return answer(Number(opt.dataset.index));
+    if (opt) {
+      selected = 0;
+      return answer(Number(opt.dataset.index));
+    }
     const act = e.target.closest("[data-action]");
     if (!act) return;
     if (act.dataset.action === "back") back();
     if (act.dataset.action === "restart") {
       answers = {};
       step = 0;
+      selected = 0;
       render();
     }
   });

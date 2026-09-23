@@ -575,7 +575,8 @@ const FIRMS = [
 //
 // Copy rules (Russian crypto advertising rules and common sense): never name
 // specific coins, never forecast prices or quote returns, never promise
-// results. State risks plainly and concretely.
+// results. State risks plainly and concretely. The first item of cautions
+// is shown up front in the result card — put the strategy's main risk first.
 const STRATEGIES = {
   hodl: {
     name: "Long-term holding",
@@ -615,8 +616,8 @@ const STRATEGIES = {
       "Ignoring fees on very small amounts",
     ],
     cautions: [
-      "If the whole amount is already available, investing it at once has historically done better more often: about two times out of three in Vanguard's study of stock markets. The value of regular purchases lies in discipline and in money arriving gradually",
       "Averaging doesn't protect against a long market decline",
+      "If the whole amount is already available, investing it at once has historically done better more often: about two times out of three in Vanguard's study of stock markets. The value of regular purchases lies in discipline and in money arriving gradually",
     ],
     firstStep:
       "Pick an amount you can comfortably set aside every month and set up auto-buy on the exchange.",

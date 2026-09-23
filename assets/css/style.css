@@ -1175,18 +1175,65 @@ a {
   margin-bottom: 0;
 }
 
-.sq-notes {
-  margin: 0 0 20px;
+/* Результат: сверху тонкая строка «не рекомендация», вкладки подходящих
+   стратегий, одна карточка. Подробности — под <details>, биржи — строками. */
+.sq-disclaimer {
+  margin: 0 0 18px;
+  padding: 8px 0 8px 12px;
+  border-left: 3px solid var(--color-primary);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
 }
 
-.sq-notes .sq-list {
-  margin: 8px 0 0;
+.sq-disclaimer strong {
+  color: var(--color-text);
 }
 
-.sq-results {
+.sq-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.sq-tab {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 9px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.sq-tab:hover {
+  border-color: var(--color-primary);
+}
+
+.sq-tab:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.sq-tab--active {
+  border-color: var(--color-best-border);
+  background: var(--color-best);
+}
+
+.sq-tab-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.sq-tab-note {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
 }
 
 .sq-strategy h3 {
@@ -1194,20 +1241,26 @@ a {
 }
 
 .sq-strategy h4 {
-  margin: 20px 0 6px;
-  font-size: 0.95rem;
+  margin: 16px 0 6px;
+  font-size: 0.92rem;
 }
 
 .sq-tagline {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   color: var(--color-text-muted);
 }
 
 .sq-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 24px;
+  gap: 6px 24px;
+  margin: 0 0 12px;
   font-size: 0.92rem;
+}
+
+.sq-summary {
+  margin: 0 0 14px;
+  max-width: 68ch;
 }
 
 .sq-risk {
@@ -1234,14 +1287,43 @@ a {
   background: var(--color-danger-text);
 }
 
-.match-reasons dt.sq-icon-warn {
-  color: var(--color-warn-text);
+.sq-why {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  margin: 0 0 12px;
 }
 
-.sq-columns {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 0 24px;
+.sq-why-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.sq-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sq-chips li {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--color-best);
+  color: var(--color-success-text);
+  font-size: 0.82rem;
+}
+
+.sq-warn-line {
+  margin: 0 0 12px;
+  padding-left: 12px;
+  border-left: 3px solid var(--color-warn-border);
+  font-size: 0.88rem;
+  color: var(--color-warn-text);
 }
 
 .sq-list {
@@ -1251,79 +1333,110 @@ a {
 
 .sq-list li {
   margin: 4px 0;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
 }
 
 .sq-first-step {
-  margin-top: 18px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-left: 3px solid var(--color-best-border);
   background: var(--color-best);
   border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.sq-more {
+  margin-top: 12px;
   font-size: 0.92rem;
 }
 
+.sq-more summary {
+  cursor: pointer;
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.sq-more h4:first-of-type {
+  margin-top: 10px;
+}
+
+.sq-exchanges-title {
+  margin-top: 22px;
+}
+
 .sq-exchanges {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-border);
 }
 
 .sq-exchange {
-  display: flex;
-  flex-direction: column;
-  padding: 14px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  background: var(--color-bg);
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) 2fr auto;
+  align-items: center;
+  gap: 6px 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.sq-exchange-head {
+.sq-exchange-name {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 6px;
+  gap: 6px 8px;
 }
 
-.sq-exchange-head h5 {
-  margin: 0;
-  font-size: 1.05rem;
+.sq-exchange-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 0.86rem;
 }
 
-.sq-exchange-fields {
-  flex: 1;
-  margin-top: 8px;
-}
-
-.sq-exchange-fields .cmp-field dt {
-  text-decoration: none;
-  cursor: default;
-}
-
-.sq-exchange-fields .cmp-field dd {
-  font-size: 0.9rem;
-}
-
-.sq-exchange-link {
-  margin-top: 10px;
-  font-size: 0.9rem;
-}
-
-.sq-yes {
+.sq-fact--yes {
   color: var(--color-success-text);
 }
 
-.sq-no {
+.sq-fact--no {
   color: var(--color-danger-text);
 }
 
-.sq-unknown {
+.sq-fact--unknown {
   color: var(--color-text-muted);
 }
 
+.sq-exchange-link {
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
+
 .sq-exchanges-note {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+}
+
+.sq-notes {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-warn-border);
+  border-radius: 8px;
+  background: var(--color-warn-bg);
+  font-size: 0.88rem;
+}
+
+.sq-notes .sq-list {
+  margin: 6px 0 0;
+}
+
+@media (max-width: 640px) {
+  .sq-exchange {
+    grid-template-columns: 1fr auto;
+  }
+  .sq-exchange-facts {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
 }
 
 .sq-excluded {
