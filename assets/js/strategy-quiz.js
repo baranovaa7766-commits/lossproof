@@ -245,8 +245,8 @@ const EXCHANGE_FEATURES = {
     bots: { grid: true, futuresGrid: true, dca: true, martingale: true, rebalance: true, arbitrage: true },
   },
   okx: {
-    futuresMaker: 0.02, futuresTaker: 0.05, demo: true, copyTrading: true, autoInvest: true, earn: null, proofOfReserves: true,
-    bots: { grid: true, futuresGrid: true, dca: true, martingale: null, rebalance: true, arbitrage: true },
+    futuresMaker: 0.02, futuresTaker: 0.05, demo: true, copyTrading: true, autoInvest: true, earn: true, proofOfReserves: true,
+    bots: { grid: true, futuresGrid: true, dca: true, martingale: true, rebalance: true, arbitrage: true },
   },
   mexc: {
     futuresMaker: 0, futuresTaker: 0.02, demo: true, copyTrading: true, autoInvest: true, earn: true, proofOfReserves: true,
@@ -254,7 +254,7 @@ const EXCHANGE_FEATURES = {
   },
   gate: {
     futuresMaker: 0.02, futuresTaker: 0.05, demo: true, copyTrading: true, autoInvest: true, earn: true, proofOfReserves: true,
-    bots: { grid: true, futuresGrid: null, dca: true, martingale: null, rebalance: true, arbitrage: true },
+    bots: { grid: true, futuresGrid: true, dca: true, martingale: true, rebalance: null, arbitrage: true },
   },
 };
 
@@ -280,6 +280,11 @@ const STRATEGY_EXCHANGE_NEEDS = {
 
 const EXCHANGES_PER_STRATEGY = 3;
 
+// Страны из ответа на вопрос о стране, которые биржа по своим условиям не
+// обслуживает (проверено 2026-09-23): Gate — Россия (п. 2.5 соглашения),
+// KuCoin и MEXC — Казахстан.
+const EXCHANGE_COUNTRY_BLOCKS = { gate: ["ru"], kucoin: ["kz"], mexc: ["kz"] };
+
 function exchangeFeature(slug, path) {
   return path.split(".").reduce((obj, key) => (obj == null ? obj : obj[key]), EXCHANGE_FEATURES[slug]);
 }
@@ -302,6 +307,7 @@ function rankExchangesForStrategy(id, country) {
   const req = needs.require || {};
   const list = EXCHANGES_COMPARE.filter((ex) => {
     if (!EXCHANGE_FEATURES[ex.slug]) return false;
+    if ((EXCHANGE_COUNTRY_BLOCKS[ex.slug] || []).includes(country)) return false;
     if (req.allOf && !req.allOf.every((p) => exchangeFeature(ex.slug, p) === true)) return false;
     if (req.anyOf && !req.anyOf.some((p) => exchangeFeature(ex.slug, p) === true)) return false;
     return true;

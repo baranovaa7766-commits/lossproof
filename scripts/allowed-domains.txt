@@ -18,6 +18,7 @@ kucoin.com
 okx.com
 mexc.com
 gate.io
+gate.com
 whitebird.io
 cifra.by
 bestchange.ru

@@ -48,10 +48,12 @@ const COSTS_FEE_TABLE = [
   // https://www.mexc.com/fee — основные пары (BTC/USDT и т. п.); по
   // отдельным парам ставки другие, от 0% до 0,1%.
   { slug: "mexc", name: "MEXC", spot: { maker: 0, taker: 0.05 }, futures: { maker: 0, taker: 0.02 }, official: true, pairDependent: true },
-  // Спот — страница OKX Europe (0,08%/0,1%), фьючерсы — по обзорам.
-  { slug: "okx", name: "OKX", spot: { maker: 0.08, taker: 0.1 }, futures: { maker: 0.02, taker: 0.05 }, official: false },
-  { slug: "kucoin", name: "KuCoin", spot: { maker: 0.1, taker: 0.1 }, futures: { maker: 0.02, taker: 0.06 }, official: false },
-  { slug: "gate", name: "Gate", spot: { maker: 0.2, taker: 0.2 }, futures: { maker: 0.02, taker: 0.05 }, official: false },
+  // OKX: объявление «Updates to Global Fee Framework» (с 25.11.2025).
+  // KuCoin: kucoin.com/vip/privilege/fee — класс A (основные монеты);
+  // Gate: gate.com/fee — VIP0.
+  { slug: "okx", name: "OKX", spot: { maker: 0.08, taker: 0.1 }, futures: { maker: 0.02, taker: 0.05 }, official: true },
+  { slug: "kucoin", name: "KuCoin", spot: { maker: 0.1, taker: 0.1 }, futures: { maker: 0.02, taker: 0.06 }, official: true, pairDependent: true },
+  { slug: "gate", name: "Gate", spot: { maker: 0.1, taker: 0.1 }, futures: { maker: 0.02, taker: 0.05 }, official: true },
 ];
 
 // --------------------------------------------------------------------------
