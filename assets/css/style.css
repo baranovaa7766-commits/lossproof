@@ -1640,6 +1640,10 @@ a.pf-cross {
   --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M24 13 C20 10 14 9 8 10 V37 C14 36 20 37 24 40 C28 37 34 36 40 37 V10 C34 9 28 10 24 13 Z'/%3E%3Cline x1='24' y1='13' x2='24' y2='40'/%3E%3C/svg%3E");
 }
 
+.site-nav a[href$="/costs/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='15' cy='15' r='5'/%3E%3Ccircle cx='33' cy='33' r='5'/%3E%3Cline x1='36' y1='10' x2='12' y2='38'/%3E%3C/svg%3E");
+}
+
 .site-nav a[href$="/about/"] {
   --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Cline x1='24' y1='22' x2='24' y2='33'/%3E%3Cline x1='24' y1='15' x2='24' y2='15.01'/%3E%3C/svg%3E");
 }
@@ -1648,3 +1652,510 @@ a.pf-cross {
   --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Cpath d='M7 24 H41'/%3E%3Cellipse cx='24' cy='24' rx='8' ry='17'/%3E%3C/svg%3E");
 }
 
+
+/* «Стоимость сделок» (/costs/, assets/js/costs.js). Кнопки — общие
+   .sq-button из квиза; таблицы на узком экране складываются в карточки,
+   как таблица калькулятора. */
+.cs-privacy {
+  margin: 0 0 16px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.cs-privacy strong {
+  color: var(--color-text);
+}
+
+.cs-drop {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 30px 20px;
+  border: 2px dashed var(--color-border);
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.cs-drop:hover,
+.cs-drop--over {
+  border-color: var(--color-primary);
+  background: var(--color-hover-bg);
+}
+
+.cs-drop:focus-within {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.cs-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.cs-drop-title {
+  font-weight: 600;
+  font-size: 1.02rem;
+  text-wrap: balance;
+}
+
+.cs-drop-sub {
+  max-width: 62ch;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.cs-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin-top: 14px;
+  font-size: 0.9rem;
+}
+
+.cs-link-button {
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cs-link-button:focus-visible,
+.cs-rate:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.cs-status {
+  margin: 10px 0 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.cs-status:empty {
+  display: none;
+}
+
+.cs-files {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-files:empty {
+  display: none;
+}
+
+.cs-file {
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.cs-file--bad {
+  border-color: var(--color-warn-border);
+  background: var(--color-warn-bg);
+}
+
+.cs-file-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+
+.cs-file-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.cs-file-remove {
+  margin-left: auto;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.cs-file-meta,
+.cs-file-note {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.cs-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  border: 1px solid var(--color-warn-border);
+  border-radius: 999px;
+  background: var(--color-warn-bg);
+  color: var(--color-warn-text);
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cs-tag--soft {
+  border-color: var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.cs-map {
+  margin-top: 12px;
+}
+
+.cs-map-intro {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+}
+
+.cs-map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.cs-map-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.cs-map-field select,
+.cs-map-field input {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 400;
+}
+
+.cs-map-error {
+  margin: 0 0 10px;
+  color: var(--color-danger-text);
+  font-size: 0.85rem;
+}
+
+.cs-map-preview {
+  margin-top: 12px;
+  font-size: 0.82rem;
+}
+
+.cs-map-preview summary {
+  width: fit-content;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.cs-preview {
+  margin-top: 8px;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.cs-preview th,
+.cs-preview td {
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.cs-results:empty {
+  display: none;
+}
+
+.cs-demo-banner {
+  margin: 28px 0 0;
+  padding: 10px 14px;
+  border: 1px solid var(--color-info-border);
+  border-radius: 8px;
+  background: var(--color-info-bg);
+  font-size: 0.88rem;
+}
+
+.cs-block {
+  margin-top: 34px;
+}
+
+.cs-block--first {
+  margin-top: 28px;
+  padding-top: 26px;
+  border-top: 1px solid var(--color-border);
+}
+
+.cs-demo-banner + .cs-block--first {
+  margin-top: 16px;
+}
+
+.cs-block h3 {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+}
+
+.cs-block h4 {
+  margin: 18px 0 8px;
+  font-size: 0.98rem;
+}
+
+.cs-title {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.cs-title:focus {
+  outline: none;
+}
+
+.cs-period {
+  margin: 4px 0 16px;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.cs-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.cs-tile {
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg);
+}
+
+.cs-tile--main {
+  border-color: var(--color-primary);
+}
+
+.cs-tile-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+
+.cs-tile-value {
+  margin-top: 4px;
+  font-size: 1.45rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cs-tile-sub {
+  margin-top: 2px;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.cs-disclaimer {
+  margin: 14px 0 0;
+  padding: 6px 0 6px 12px;
+  border-left: 3px solid var(--color-primary);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.cs-muted {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.cs-table-wrap {
+  overflow-x: auto;
+}
+
+.cs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.cs-table th,
+.cs-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.cs-table th {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.cs-table .cs-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-table td.cs-num {
+  white-space: nowrap;
+}
+
+.cs-table tr.cs-sub td:first-child {
+  padding-left: 26px;
+  color: var(--color-text-muted);
+}
+
+.cs-table tr.cs-total td {
+  font-weight: 700;
+  border-bottom: none;
+}
+
+.cs-table tr.cs-actual {
+  background: var(--color-best);
+}
+
+.cs-insight {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--color-primary);
+  border-radius: 4px;
+  background: var(--color-bg);
+  font-size: 0.9rem;
+}
+
+.cs-dl {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) 1fr;
+  gap: 6px 18px;
+  margin: 0 0 10px;
+  font-size: 0.92rem;
+}
+
+.cs-dl dt {
+  color: var(--color-text-muted);
+}
+
+.cs-dl dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-rate-pair {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-muted);
+}
+
+.cs-rate {
+  width: 4.4em;
+  padding: 4px 6px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-rate--bad {
+  border-color: var(--color-danger-border);
+}
+
+.cs-less {
+  color: var(--color-success-text);
+}
+
+.cs-more {
+  color: var(--color-danger-text);
+}
+
+.cs-cmp-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 16px;
+  margin: 12px 0 0;
+  font-size: 0.88rem;
+}
+
+.cs-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.9rem;
+}
+
+.cs-list li + li {
+  margin-top: 6px;
+}
+
+@media (max-width: 640px) {
+  .cs-table,
+  .cs-table tbody {
+    display: block;
+    width: 100%;
+  }
+  .cs-table thead {
+    display: none;
+  }
+  .cs-table tr {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .cs-table td {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 12px;
+    padding: 4px 0;
+    border-bottom: none;
+    text-align: right;
+  }
+  .cs-rate-pair {
+    margin-left: auto;
+  }
+  .cs-table td:first-child {
+    font-weight: 600;
+    text-align: left;
+  }
+  .cs-table td[data-label]:not([data-label=""])::before {
+    content: attr(data-label);
+    color: var(--color-text-muted);
+    font-weight: 400;
+    text-align: left;
+  }
+  .cs-table td:empty,
+  .cs-table td[data-label=""]:not(:first-child) {
+    display: none;
+  }
+  .cs-table tr.cs-sub td:first-child {
+    padding-left: 14px;
+  }
+  .cs-dl {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .cs-dl dd {
+    margin-bottom: 8px;
+  }
+}

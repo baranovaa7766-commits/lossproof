@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Стоимость сделок: комиссии и фандинг по вашей истории — LossProof</title>
+  <meta name="description" content="Загрузите выгрузку истории сделок с биржи — увидите, сколько ушло на комиссии и фандинг, какая доля оборота пришлась на рыночные ордера и где порог безубыточности. Файлы не покидают ваш браузер." />
+  <link rel="canonical" href="/costs/" />
+  <link rel="alternate" hreflang="ru" href="/costs/" />
+  <link rel="alternate" hreflang="en" href="/en/costs/" />
+  <link rel="alternate" hreflang="x-default" href="/costs/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">
+        <svg viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 18 L8 6 L11.5 11 L16 3 L25 18" stroke="#eab876" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 3 L20 3" stroke="#eab876" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        LossProof
+      </a>
+      <nav class="site-nav">
+        <a href="/calculator/">Калькулятор переводов</a>
+        <a href="/payouts/">Вывод по фирмам</a>
+        <a href="/crypto-payout-guide/">Гид по крипто-выводу</a>
+        <a href="/strategy/">Подбор стратегии</a>
+        <a href="/costs/">Стоимость сделок</a>
+        <a href="/exchanges/">Сравнение бирж</a>
+        <a href="/offramps/">Сравнение обменников</a>
+        <a href="/red-flags/">Красные флаги пропфирм</a>
+        <a href="/terms/">Словарь терминов</a>
+        <a href="/about/">О проекте</a>
+        <a class="lang-switch" href="/en/costs/" aria-label="Switch to English"><span class="lang-switch-icon" aria-hidden="true"></span>EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Стоимость сделок</h1>
+        <p>Загрузите выгрузку истории сделок с биржи — и увидите, сколько на самом деле ушло на комиссии и фандинг, какая доля оборота пришлась на рыночные ордера и где ваш порог безубыточности. Файлы не покидают ваш браузер.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <p class="law-note"><strong>Для резидентов России:</strong> по закону № 282-ФЗ с 1 июля 2027 года сделки с цифровой валютой (криптовалютой) можно будет совершать только через организаторов обращения цифровой валюты. Биржи и обменники на этом сайте — иностранные компании. Материалы справочные: когда станет известно, кто получит этот статус, мы обновим маршруты. <a href="/about/#law-2027">Подробнее</a></p>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <div id="costs-tool"></div>
+        <noscript><p>Для расчёта нужен JavaScript: файлы обрабатываются прямо в браузере.</p></noscript>
+      </div>
+    </section>
+
+    <section class="section container" id="cs-howto">
+      <div class="card">
+        <h2>Как выгрузить файлы</h2>
+        <p>Нужна история <strong>исполненных сделок</strong> — не ордеров: в ней у каждой сделки своя комиссия. Формат — CSV. Колонки с UID и адресами кошельков можно не удалять: файл остаётся у вас, а в расчёт идут только сделки, комиссии и даты.</p>
+
+        <h3>Bybit</h3>
+        <ul>
+          <li><strong>Сделки в деривативах</strong> — Orders → Derivatives → Trade History → Export. В этом же файле есть начисления фандинга и ликвидации.</li>
+          <li><strong>Сделки на споте</strong> — Orders → Spot → Trade History → Export.</li>
+          <li><strong>Закрытые позиции</strong> — Orders → Derivatives → Closed P&amp;L → Export. Нужен для доли прибыльных позиций и порога безубыточности.</li>
+          <li><strong>Журнал счёта</strong> — Assets → Unified Trading Account → History Records → Transaction Log → Export. Добавит комиссии по опционам, обмен монет внутри счёта и проценты за заём.</li>
+        </ul>
+        <p class="sq-muted">Одна выгрузка — до 6 месяцев и до 10 000 записей, доступны последние 2 года; за длинный период сделайте несколько выгрузок и загрузите все — повторы мы уберём сами. Запасной путь — Account → Data Export, там файл готовится до 1–3 дней. Подробнее — в <a href="https://www.bybit.com/en/help-center/article/How-to-Self-Export-Account-Data" target="_blank" rel="noopener">справке Bybit</a>.</p>
+
+        <h3>OKX <span class="cs-tag">бета</span></h3>
+        <ul>
+          <li><strong>История сделок</strong> — Assets → Order center → Trading history → Download, формат CSV.</li>
+          <li><strong>История позиций</strong> — Order center → Position history → Download. В ней по каждой позиции есть комиссия и фандинг.</li>
+        </ul>
+        <p class="sq-muted">Формат OKX мы собрали по <a href="https://www.okx.com/en-us/help/how-to-check-download-order-history-position-history-and-trading-history" target="_blank" rel="noopener">официальной справке</a> и ещё не проверили на реальной выгрузке, поэтому расчёт по OKX помечен как бета. Ссылка на готовый файл действует час после копирования.</p>
+
+        <h3>Другая биржа</h3>
+        <p>Загрузите CSV с историей сделок — если формат незнакомый, мы покажем его колонки, а вы укажете, где комиссия, сумма сделки и дата. Файлы Excel (XLSX) сначала сохраните как CSV.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Как мы считаем</h2>
+        <ul>
+          <li><strong>Комиссии — ровно из ваших файлов.</strong> Суммы переводим в доллары: USDT и USDC считаем за 1 $, комиссию в другой монете — по цене этой монеты из ваших же сделок в ближайший момент. Если цены нет, комиссию не угадываем, а показываем отдельно.</li>
+          <li><strong>Без двойного счёта.</strong> У Bybit одна и та же сделка есть и в истории сделок, и в журнале счёта, и в Closed P&amp;L. Берём самый подробный файл, остальные — только за периоды, которых в нём нет. Повторно загруженный файл тоже не удвоит суммы.</li>
+          <li><strong>Мейкер и тейкер.</strong> Рыночный ордер — всегда тейкер. Лимитный считаем мейкером, если его ставка заметно ниже ставки рыночных сделок в том же файле, — значит, он постоял в стакане.</li>
+          <li><strong>Порог безубыточности</strong> — по закрытым позициям: при ваших же средних прибыли и убытке после издержек, какая доля прибыльных позиций нужна, чтобы выйти в ноль.</li>
+          <li><strong>Сравнение ставок</strong> — по опубликованным базовым ставкам бирж без VIP-уровней и скидок. Фактические ставки зависят от страны и аккаунта, поэтому их можно поменять прямо в таблице.</li>
+          <li><strong>Это не оценка вашей торговли.</strong> Мы не советуем, где и как торговать, и не даём инвестиционных рекомендаций — только считаем издержки по вашим файлам.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Источники ставок для сравнения</h2>
+        <ul>
+          <li>Bybit — <a href="https://www.bybit.com/en/announcement-info/fee-rate/" target="_blank" rel="noopener">страница комиссий</a>, уровень Non-VIP: спот 0,1% / 0,1%, бессрочные фьючерсы 0,02% / 0,055%.</li>
+          <li>BingX — <a href="https://bingx.com/en/support/costs/" target="_blank" rel="noopener">страница комиссий</a>, VIP 0: спот 0,1% / 0,1%, бессрочные фьючерсы 0,02% / 0,05%.</li>
+          <li>MEXC — <a href="https://www.mexc.com/fee" target="_blank" rel="noopener">страница комиссий</a>: по основным парам спот 0% / 0,05%, фьючерсы 0% / 0,02%; по отдельным парам ставки другие.</li>
+          <li>OKX — спот 0,08% / 0,1% по странице комиссий OKX Europe; фьючерсы, а также KuCoin и Gate — по обзорам, с официальными сайтами не сверены. В таблице такие ставки помечены «не сверено».</li>
+        </ul>
+        <p class="sq-muted">Ставки проверены 23 сентября 2026 года. Первым указан мейкер, вторым — тейкер. Региональные версии бирж берут по-разному: например, у OKX UAE базовая ставка на споте — 0,4% / 0,6%.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация и не индивидуальная инвестиционная рекомендация.</span>
+      <span><a href="/about/">О проекте и данных</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/costs-core.js"></script>
+  <script src="/assets/js/costs.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initCostsTool("costs-tool");
+  </script>
+  <script src="/assets/js/reveal.js"></script>
+  <script src="/assets/js/metrika.js"></script>
+</body>
+</html>

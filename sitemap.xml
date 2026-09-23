@@ -313,4 +313,16 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/strategy/" />
     <changefreq>monthly</changefreq><priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://example.com/costs/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/costs/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/costs/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/en/costs/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/costs/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/costs/" />
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
 </urlset>
