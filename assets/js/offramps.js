@@ -1,8 +1,8 @@
 // Widget for the "Compare cash-out services" section (/offramps/):
 //   - renderOfframpsCompare(rootId) → cards for OFFRAMPS (assets/js/data.js / data.en.js)
 //
-// Reuses the same .cmp-card / .cmp-fields markup and CSS as prop-firms.js
-// and exchanges.js. Only 2 providers exist today, so there's no
+// Reuses the same .cmp-card / .cmp-fields markup and CSS as exchanges.js
+// (the /exchanges/ section). Only 2 providers exist today, so there's no
 // filter/sort UI here — just plain cards, same as everywhere else on the
 // site. Language is taken from <html lang="ru|en">.
 

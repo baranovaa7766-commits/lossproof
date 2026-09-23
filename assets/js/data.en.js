@@ -1,14 +1,14 @@
-// Static data for crypto payout routes, prop firms, and affiliate links
-// (English). Fee/spread figures are estimates for comparison purposes —
+// Static data for crypto payout routes, exchanges, cash-out services and
+// prop firms (English). The site has no affiliate links (decision
+// 2026-09-23). Fee/spread figures are estimates for comparison purposes —
 // always verify live rates directly with each provider before withdrawing.
 // Keep this in sync with assets/js/data.js (the Russian version) whenever
 // the underlying numbers (spreadPercent, fixedFee, ids, slugs) change.
 //
-// v2: the site compares exchange + off-ramp combos (buy USDT, then convert
+// The site compares exchange + off-ramp combos (buy USDT, then convert
 // USDT to local currency) instead of Wise/Revolut/bank, because Wise and
 // Revolut don't work for users in Russia. Bank transfer is kept as a
-// contrasting worst-case baseline. See
-// payout-comparison-site-spec-v2-crypto-pivot.md.
+// contrasting worst-case baseline.
 
 const CURRENCIES = ["USD", "EUR", "GBP", "AUD", "CAD", "CHF", "JPY", "PLN", "CZK", "HUF", "RON", "BGN", "TRY", "INR", "ZAR", "MXN", "BRL", "NGN", "SEK", "NOK", "DKK", "RUB", "KZT", "UAH", "BYN"];
 
@@ -17,15 +17,10 @@ const CURRENCIES = ["USD", "EUR", "GBP", "AUD", "CAD", "CHF", "JPY", "PLN", "CZK
 // "Fees verified: …" — update alongside the numbers.
 const DATA_LAST_VERIFIED = "2026-09-03";
 
-// Crypto exchanges — stage 1 (buying/receiving USDT). Affiliate programs
-// are confirmed for bybit/bingx/kucoin; okx/mexc/gate were added to the
-// calculator's math 2026-09-12 at the site owner's request (they were
-// already in the informational EXCHANGES_COMPARE list below, just not in
-// the calculator itself) — their affiliate program is NOT confirmed
-// (affiliateConfirmed: false), so no "Get started" button shows for them
-// (no matching entry in AFFILIATE_LINKS below). The spread/fee for all six
-// is a shared estimate (0.3% / $1), not an individually verified tariff per
-// exchange — verify before a large amount.
+// Crypto exchanges — stage 1 (buying/receiving USDT) in the calculator. The
+// same six exchanges as the informational EXCHANGES_COMPARE list below. The
+// spread/fee for all six is a shared estimate (0.3% / $1), not an
+// individually verified tariff per exchange — verify before a large amount.
 //
 // WhiteBIT is deliberately excluded (was here until 2026-09-07): it has
 // blocked all users from Russia and Belarus since early 2022, and in
@@ -41,8 +36,7 @@ const EXCHANGES = [
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
-    affiliateConfirmed: true,
-    notes: "Affiliate program confirmed (affiliates.bybit.com); no mandatory ID verification just to join the affiliate program. Russia is formally listed as an excluded jurisdiction (Service Agreement), but many users reportedly still verify with a Russian passport via P2P — details on /en/exchanges/bybit/.",
+    notes: "Russia is formally listed as an excluded jurisdiction (Service Agreement), but many users reportedly still verify with a Russian passport via P2P — details on /en/exchanges/bybit/.",
   },
   {
     id: "bingx",
@@ -50,8 +44,7 @@ const EXCHANGES = [
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
-    affiliateConfirmed: true,
-    notes: "Affiliate program is application-based (needs a verified account and a real promotion channel). Russia isn't named in the Restricted Jurisdictions list or anywhere else in the disclaimer -- the only major exchange on this site that doesn't name Russia in its restrictions (only occupied Ukrainian territories).",
+    notes: "Russia isn't named in the Restricted Jurisdictions list or anywhere else in the disclaimer -- the only major exchange on this site that doesn't name Russia in its restrictions (only occupied Ukrainian territories).",
   },
   {
     id: "kucoin",
@@ -59,8 +52,7 @@ const EXCHANGES = [
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
-    affiliateConfirmed: true,
-    notes: "Open affiliate program, 30-50% of trading fees for life. Russia isn't separately listed as restricted — access is governed by sanctions screening.",
+    notes: "Russia isn't separately listed as restricted — access is governed by sanctions screening.",
   },
   {
     id: "okx",
@@ -68,8 +60,7 @@ const EXCHANGES = [
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
-    affiliateConfirmed: false,
-    notes: "Affiliate program not confirmed — no \"Get started\" button. Russian-resident access could change — details on /en/exchanges/okx/.",
+    notes: "Russian-resident access could change — details on /en/exchanges/okx/.",
   },
   {
     id: "mexc",
@@ -77,8 +68,7 @@ const EXCHANGES = [
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
-    affiliateConfirmed: false,
-    notes: "Affiliate program not confirmed — no \"Get started\" button. Details on /en/exchanges/mexc/.",
+    notes: "Russia isn't on the list of restricted jurisdictions — details on /en/exchanges/mexc/.",
   },
   {
     id: "gate",
@@ -86,17 +76,14 @@ const EXCHANGES = [
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
-    affiliateConfirmed: false,
-    notes: "Affiliate program not confirmed — no \"Get started\" button. Details on /en/exchanges/gate/.",
+    notes: "Russia is listed as a restricted jurisdiction in the user agreement — details on /en/exchanges/gate/.",
   },
 ];
 
 // "Compare exchanges" section (/exchanges/). Separate from EXCHANGES above —
-// EXCHANGES drives the calculator's math (only exchanges with a confirmed
-// affiliate program), while EXCHANGES_COMPARE is a broader informational
-// overview of vetted, licensed exchanges for a sortable/filterable table and
-// per-exchange pages. This section is purely informational — affiliate
-// status is deliberately not shown and doesn't drive any filter or sort.
+// EXCHANGES drives the calculator's math, while EXCHANGES_COMPARE is an
+// informational overview of the same exchanges for a sortable/filterable
+// table and per-exchange pages.
 //
 // Inclusion bar: only platforms with a publicly checkable license/VASP
 // registration — no fully unregulated exchanges. WhiteBIT and HTX (Huobi)
@@ -221,8 +208,7 @@ const EXCHANGES_COMPARE = [
 
 // Off-ramp services — stage 2 (USDT to local currency).
 //
-// Affiliate/referral programs (sign-up-via-link) are NOT what `dataVerified`
-// tracks. `dataVerified: true` only means the spread/fixedFee below came
+// `dataVerified: true` only means the spread/fixedFee below came
 // from the provider's own published fee page (not a guess) as of the date
 // noted. Fees change without notice and neither provider exposes a public
 // API for them — there's no live auto-refresh for these the way there is
@@ -286,8 +272,7 @@ const OFFRAMPS = [
   },
 ];
 
-// Bank transfer — kept only as a contrasting worst-case baseline, with no
-// affiliate link.
+// Bank transfer — kept only as a contrasting worst-case baseline.
 const BANK_BASELINE = {
   id: "bank",
   name: "Bank transfer (for comparison)",
@@ -303,31 +288,24 @@ const E_WALLETS = [
   {
     id: "payeer",
     name: "Payeer",
-    notes: "An e-wallet used as an intermediate step between an exchange and an off-ramp. Check whether it has an affiliate program.",
+    notes: "An e-wallet used as an intermediate step between an exchange and an off-ramp.",
   },
   {
     id: "advcash",
     name: "AdvCash / Volet",
-    notes: "Direct transfers to Russian bank cards no longer work directly, but it's still useful as an intermediate step with off-ramps. Check for an affiliate program.",
+    notes: "Direct transfers to Russian bank cards no longer work directly, but it's still useful as an intermediate step with off-ramps.",
   },
 ];
 
-// A reference resource — not an affiliate partner, more of a competing
-// aggregator in this niche.
+// A reference resource — an exchanger aggregator.
 const REFERENCE_RESOURCES = [
   {
     id: "bestchange",
     name: "BestChange",
     url: "https://www.bestchange.ru/",
-    notes: "An exchanger aggregator — useful to cross-check current rates against, but not an affiliate service.",
+    notes: "An exchanger aggregator — useful to cross-check current rates against.",
   },
 ];
-
-const AFFILIATE_LINKS = {
-  bybit: { url: null, label: "Sign up with Bybit" },
-  bingx: { url: null, label: "Sign up with BingX" },
-  kucoin: { url: null, label: "Sign up with KuCoin" },
-};
 
 // Prop-firm specific payout data, collected via web research.
 // IMPORTANT: verify every figure directly on the firm's own site before

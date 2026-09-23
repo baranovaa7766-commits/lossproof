@@ -4,7 +4,7 @@
 //   - renderOtherExchanges(slug, rootId)  → grid linking the other exchanges
 //
 // Data comes from the global EXCHANGES_COMPARE (assets/js/data.js / data.en.js).
-// Language is taken from <html lang="ru|en">, same as calculator.js / prop-firms.js.
+// Language is taken from <html lang="ru|en">, same as calculator.js.
 
 const EXCHANGES_STRINGS = {
   ru: {
@@ -114,8 +114,8 @@ function initExchangesTable(rootId) {
   if (!root || typeof EXCHANGES_COMPARE === "undefined") return;
   const t = EXCHANGES_STRINGS[getExLang()];
 
-  // Card layout (not a scrollable table) on purpose — see the same note in
-  // prop-firms.js: the license/deposit text is long enough that a real row
+  // Card layout (not a scrollable table) on purpose (see .cmp-cards in
+  // style.css): the license/deposit text is long enough that a real row
   // table needs more width than the ~1080px container ever gives it, on
   // any screen size. Sorting is driven by a select + direction toggle.
   const state = { ruAccess: [], sortKey: "name", sortDir: 1 };

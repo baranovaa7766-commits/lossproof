@@ -6,8 +6,7 @@
 #   1. каждый адрес http(s)://… ведёт на домен из scripts/allowed-domains.txt;
 #   2. нет незашифрованных http:// (кроме технических пространств имён);
 #   3. в адресах нет приёма «userinfo@» (https://bybit.com@evil.com — это evil.com);
-#   4. партнёрские ссылки из AFFILIATE_LINKS ведут только на разрешённые домены и по https;
-#   5. в коде нет eval(), new Function() и document.write().
+#   4. в коде нет eval(), new Function() и document.write().
 # sitemap.xml исключён: там временные адреса-заглушки до запуска на своём домене.
 set -uo pipefail
 cd "$(git rev-parse --show-toplevel)"
@@ -60,19 +59,7 @@ while IFS= read -r file; do
   done < <(grep -ohE "https?://[^\"'\`<> )]+" "$file" | sort -u)
 done <<<"$FILES"
 
-# 4: партнёрские ссылки
-for f in assets/js/data.js assets/js/data.en.js; do
-  [ -f "$f" ] || continue
-  while IFS= read -r line; do
-    url=$(echo "$line" | grep -oE 'url: *"[^"]+"' | sed -E 's/url: *"//; s/"$//')
-    [ -z "$url" ] && continue
-    case "$url" in https://*) ;; *) fail "$f: партнёрская ссылка не по https: $url"; continue ;; esac
-    host=$(host_of "$url")
-    is_allowed "$host" || fail "$f: партнёрская ссылка ведёт на неразрешённый домен $host"
-  done < <(awk '/const AFFILIATE_LINKS/{f=1} f{print} f&&/^};/{exit}' "$f")
-done
-
-# 5: опасные конструкции в коде
+# 4: опасные конструкции в коде
 if dangerous=$(git ls-files 'assets/js/*.js' 'scripts/*.mjs' | xargs grep -nE '\beval\(|new Function\(|document\.write\(' 2>/dev/null); then
   fail "опасная конструкция в коде:
 $dangerous"

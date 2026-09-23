@@ -18,7 +18,7 @@
 // 3) Никаких названий монет, прогнозов и цифр доходности — этого требуют и
 //    правила рекламы криптовалют, и здравый смысл.
 // 4) Порядок бирж зависит только от соответствия стратегии и стоимости,
-//    партнёрство на него не влияет (как обещано на /disclosure/). Партнёрских
+//    партнёрство на него не влияет (как написано на /about/). Партнёрских
 //    кнопок нет вообще: карточки ведут на наши страницы /exchanges/<slug>/.
 // Инварианты проверяет scripts/strategy-quiz-check.js (перебор всех
 // сочетаний ответов) — запускайте его после любых правок правил.
@@ -446,7 +446,7 @@ const QUIZ_STRINGS = {
     },
     generalTitle: "Важно по вашим ответам",
     notes: {
-      ru: "Вы указали Россию. С 1 июля 2027 года россияне должны совершать сделки с криптовалютой через посредников из реестра Банка России; иностранные биржи в него не входят. Следите за изменениями правил.",
+      ru: "Вы указали Россию. По закону № 282-ФЗ с 1 июля 2027 года резиденты России смогут совершать сделки с криптовалютой только через организаторов обращения цифровой валюты. Биржи в подборе — иностранные компании. Следите за изменениями правил.",
       notable: "Вы планируете направить заметную часть сбережений: не вкладывайте всё в одну стратегию и не храните всё на одной площадке.",
       panic: "Криптовалюта регулярно дешевеет на 30–80%. Если такие просадки вызывают желание продать всё, долю криптовалюты в сбережениях лучше держать минимальной.",
       beginner: "Опыта пока нет: начните с суммы, потерю которой вы спокойно переживёте, и включите двухфакторную защиту аккаунта на бирже.",
@@ -612,7 +612,7 @@ const QUIZ_STRINGS = {
     },
     generalTitle: "Important for your answers",
     notes: {
-      ru: "You chose Russia. From 1 July 2027, Russians must trade crypto through intermediaries listed in the Bank of Russia registry; foreign exchanges aren't in it. Keep an eye on rule changes.",
+      ru: "You chose Russia. Under Law No. 282-FZ, from 1 July 2027 Russian residents may carry out crypto transactions only through digital currency circulation organisers. The exchanges in the finder are foreign companies. Keep an eye on rule changes.",
       notable: "You plan to put in a noticeable part of your savings: don't put everything into one strategy or keep it all on one platform.",
       panic: "Crypto regularly drops 30–80%. If drops like that make you want to sell everything, keep crypto a minimal share of your savings.",
       beginner: "No experience yet: start with an amount you could lose without trouble, and turn on two-factor authentication on the exchange.",

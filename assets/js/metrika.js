@@ -2,9 +2,8 @@
 // Только базовая статистика: без Вебвизора и карты кликов. На localhost не
 // работает, чтобы разработка и проверки не попадали в статистику.
 //
-// Цели (нужно один раз создать в Метрике: Настройки → Цели → «JavaScript-событие»):
-//   calc_submit     — пользователь запустил расчёт в калькуляторе;
-//   affiliate_click — клик по партнёрской ссылке (a[rel~="sponsored"]).
+// Цель (нужно один раз создать в Метрике: Настройки → Цели → «JavaScript-событие»):
+//   calc_submit — пользователь запустил расчёт в калькуляторе.
 (function () {
   var COUNTER_ID = 112817440;
   var host = location.hostname;
@@ -29,10 +28,5 @@
     if (e.target && e.target.classList && e.target.classList.contains("calc-form")) {
       ym(COUNTER_ID, "reachGoal", "calc_submit");
     }
-  });
-
-  document.addEventListener("click", function (e) {
-    var a = e.target && e.target.closest ? e.target.closest('a[rel~="sponsored"]') : null;
-    if (a) ym(COUNTER_ID, "reachGoal", "affiliate_click", { url: a.href });
   });
 })();

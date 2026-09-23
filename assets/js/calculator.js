@@ -97,10 +97,9 @@ const CALC_STRINGS = {
     challengePayLink: (name) => `Оплатить челлендж на сайте ${name} →`,
     whyCryptoNote: "Почему через биржу, а не напрямую? Прямой банковский перевод или карта из большинства стран сейчас не доходят до российского банка — Visa/Mastercard и SWIFT не проводят такие платежи в Россию. Обменники вроде Whitebird и Cifra Markets тоже работают только с криптой на входе — они меняют USDT на рубли, а не доллары на рубли напрямую. Поэтому рабочий маршрут — сначала купить USDT на бирже, затем обменять его на рубли. Банковский перевод в таблице ниже показан только для сравнения, насколько хуже был бы курс, если бы прямой перевод вообще работал.",
     baselineBadge: "гипотетически",
-    disclaimer: (date) => `Оценка по тарифам сервисов на ${date} и текущему курсу — реальные цифры могут отличаться. См.`,
-    disclaimerLinkText: "раскрытие информации о партнёрских ссылках",
-    disclosureHref: "/disclosure/",
-    getStarted: "Оформить",
+    disclaimer: (date) => `Оценка по тарифам сервисов на ${date} и текущему курсу — реальные цифры могут отличаться. Откуда данные — на странице`,
+    disclaimerLinkText: "«О проекте и данных»",
+    aboutHref: "/about/",
     locale: "ru-RU",
   },
   en: {
@@ -178,10 +177,9 @@ const CALC_STRINGS = {
     challengePayLink: (name) => `Pay for the challenge on ${name}'s site →`,
     whyCryptoNote: "Why go through an exchange instead of direct? A direct bank transfer or card payment from most countries doesn't reach a Russian bank right now — Visa/Mastercard and SWIFT don't process payments into Russia. Exchangers like Whitebird and Cifra Markets also only work with crypto on the input side — they convert USDT to rubles, not dollars to rubles directly. So the route that actually works is: buy USDT on an exchange first, then convert it to rubles. The bank transfer row below is shown only for comparison, to show how much worse the rate would be if a direct transfer worked at all.",
     baselineBadge: "hypothetical",
-    disclaimer: (date) => `An estimate based on providers' tariffs as of ${date} and the current rate — actual figures may differ. See our`,
-    disclaimerLinkText: "disclosure",
-    disclosureHref: "/en/disclosure/",
-    getStarted: "Get started",
+    disclaimer: (date) => `An estimate based on providers' tariffs as of ${date} and the current rate — actual figures may differ. Where the data comes from:`,
+    disclaimerLinkText: "About &amp; data",
+    aboutHref: "/en/about/",
     locale: "en-US",
   },
 };
@@ -568,7 +566,7 @@ function fiatToUsdtStates(srcFiat, amountUSD, opts, t, excluded) {
             hi: amountUSD,
             location,
             unverified: true,
-            steps: [{ names: [ex.name], suffix: t.p2pSuffix, group: "exchange", linkId: ex.id }],
+            steps: [{ names: [ex.name], suffix: t.p2pSuffix, group: "exchange" }],
             feeParts: [t.feeP2P],
             speeds: [ex.speed],
           })
@@ -582,7 +580,7 @@ function fiatToUsdtStates(srcFiat, amountUSD, opts, t, excluded) {
         hi: amountUSD,
         location,
         unverified: true,
-        steps: [{ names: [ex.name], suffix: "", group: "exchange", linkId: ex.id }],
+        steps: [{ names: [ex.name], suffix: "", group: "exchange" }],
         speeds: [ex.speed],
       });
       const s = afterPercent(base, ex.spreadPercent, tol);
@@ -601,7 +599,7 @@ function fiatToUsdtStates(srcFiat, amountUSD, opts, t, excluded) {
         hi: amountUSD,
         location: { type: "exchanger", id: of.id },
         unverified: g.unchecked,
-        steps: [{ names: [of.name], suffix: t.viaOfframp(g.mode, g.methods), group: null, linkId: null }],
+        steps: [{ names: [of.name], suffix: t.viaOfframp(g.mode, g.methods), group: null }],
         speeds: [of.speed],
       });
       const s = afterPercentRange(base, g.min, g.max, tol);
@@ -634,7 +632,7 @@ function usdtToFiatStates(states, destCurrency, opts, t) {
         cur = afterPercentRange(cur, g.min, g.max, tol);
         out.push(
           withStep(cur, {
-            step: { names: [of.name], suffix: t.viaOfframp(g.mode, g.methods), group: null, linkId: null },
+            step: { names: [of.name], suffix: t.viaOfframp(g.mode, g.methods), group: null },
             fee: t.feeChannel(g.mode, "sell", percentText(g, t)) + (g.fixedUSD ? ` + ${t.feeFlat(formatMoney(g.fixedUSD, "USD", t))}` : ""),
             speed: of.speed,
             location: { type: "fiat" },
@@ -649,7 +647,7 @@ function usdtToFiatStates(states, destCurrency, opts, t) {
       if (state.location.type === "exchange") {
         out.push(
           withStep(Object.assign({}, state, { lo: null }), {
-            step: { names: [t.p2pStep], suffix: "", group: null, linkId: null },
+            step: { names: [t.p2pStep], suffix: "", group: null },
             fee: t.feeP2P,
             speed: (opts.exchanges.find((e) => e.id === state.location.id) || {}).speed,
             location: { type: "fiat" },
@@ -661,7 +659,7 @@ function usdtToFiatStates(states, destCurrency, opts, t) {
           if (!/P2P/i.test(exchangeDeposits(ex.id))) return;
           out.push(
             withStep(Object.assign({}, state, { lo: null }), {
-              step: { names: [ex.name], suffix: t.p2pSuffix, group: "exchange", linkId: ex.id },
+              step: { names: [ex.name], suffix: t.p2pSuffix, group: "exchange" },
               fee: t.feeP2P,
               speed: ex.speed,
               location: { type: "fiat" },
@@ -688,7 +686,7 @@ function payFirmStates(states, destFirm, opts, t) {
     const known = cp.cryptoFeePercent != null;
     if (known) cur = afterPercent(cur, cp.cryptoFeePercent, 0);
     return withStep(cur, {
-      step: { names: [destFirm.name], suffix: "", group: null, linkId: null, directLinkUrl: cp.officialUrl },
+      step: { names: [destFirm.name], suffix: "", group: null },
       fee: known ? t.firmFeeKnown(cp.cryptoFeePercent).replace(/^\+\s*/, "") : t.firmFeeUnknown,
       location: { type: "firm" },
       unverified: !cp.dataVerified || !known,
@@ -711,7 +709,7 @@ function mergeRows(rows) {
       !!row.isBaseline,
     ].join("|");
     if (!map.has(key)) {
-      map.set(key, Object.assign({}, row, { steps: row.steps.map((s) => Object.assign({}, s, { names: s.names.slice(), linkIds: s.linkId ? [s.linkId] : [] })) }));
+      map.set(key, Object.assign({}, row, { steps: row.steps.map((s) => Object.assign({}, s, { names: s.names.slice() })) }));
     } else {
       const base = map.get(key);
       row.steps.forEach((s, i) => {
@@ -719,7 +717,6 @@ function mergeRows(rows) {
         s.names.forEach((n) => {
           if (!base.steps[i].names.includes(n)) base.steps[i].names.push(n);
         });
-        if (s.linkId && !base.steps[i].linkIds.includes(s.linkId)) base.steps[i].linkIds.push(s.linkId);
       });
     }
   });
@@ -814,7 +811,7 @@ async function runCalculation(form, resultEl, opts, t) {
           lo: amountUSD,
           hi: amountUSD,
           unverified: firmCryptoIsUsdcOnly(sourceFirm),
-          steps: [{ names: [t.firmCryptoStep], suffix: "", group: null, linkId: null }],
+          steps: [{ names: [t.firmCryptoStep], suffix: "", group: null }],
           labelOverride: sourceFirm.name,
         })
       );
@@ -834,11 +831,11 @@ async function runCalculation(form, resultEl, opts, t) {
       .map((s) => {
         if (s.location.type === "exchange") return s.location.id === target ? s : null;
         if (s.location.type === "free") {
-          return withStep(s, { step: { names: [t.depositStep(exchangeName(target))], suffix: "", group: null, linkId: target }, location: { type: "exchange", id: target } });
+          return withStep(s, { step: { names: [t.depositStep(exchangeName(target))], suffix: "", group: null }, location: { type: "exchange", id: target } });
         }
         if (s.location.type === "exchanger") {
           // Обменник → перевод USDT на выбранную биржу; сетевую комиссию сервиса не знаем.
-          return withStep(s, { step: { names: [t.depositStep(exchangeName(target))], suffix: "", group: null, linkId: target }, fee: t.feeNetworkUnknown, location: { type: "exchange", id: target }, unverified: true });
+          return withStep(s, { step: { names: [t.depositStep(exchangeName(target))], suffix: "", group: null }, fee: t.feeNetworkUnknown, location: { type: "exchange", id: target }, unverified: true });
         }
         return null;
       })
@@ -872,7 +869,7 @@ async function runCalculation(form, resultEl, opts, t) {
     const lo = toFinal(after.lo);
     const hi = toFinal(after.hi);
     rows.push({
-      steps: [{ names: [opts.bank.name], suffix: "", group: null, linkId: null }],
+      steps: [{ names: [opts.bank.name], suffix: "", group: null }],
       label: sourceFirm ? `${sourceFirm.name} (${srcFiat})` : srcFiat,
       lo,
       hi,
@@ -920,11 +917,6 @@ async function runCalculation(form, resultEl, opts, t) {
       : Math.abs(row.hi - row.lo) <= 0.005
       ? fmt(row.hi)
       : `${formatAmount(row.lo, displayTo, t).replace(/\s*USDT$/, "")}–${fmt(row.hi)}`;
-  const linkCell = (row) => {
-    const step = row.steps.find((s) => s.directLinkUrl);
-    if (step) return linkForUrl(step.directLinkUrl, t);
-    return row.steps.flatMap((s) => s.linkIds || []).map((id) => linkForId(id, t)).join(" ");
-  };
   const detailsHTML = (row) => `
     <details class="calc-row-more">
       <summary>${t.detailsToggle}</summary>
@@ -955,7 +947,6 @@ async function runCalculation(form, resultEl, opts, t) {
           <tr>
             <th>${t.thMethod}</th>
             <th>${resultHeaderReceive}</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -971,7 +962,6 @@ async function runCalculation(form, resultEl, opts, t) {
                 </div>
               </td>
               <td data-label="${resultHeaderReceive}"><strong>${receiveText(row)}</strong></td>
-              <td data-label="">${linkCell(row)}</td>
             </tr>
           `
             )
@@ -981,7 +971,7 @@ async function runCalculation(form, resultEl, opts, t) {
     </div>
     ${isDestFirm ? `<div class="notes-box">${renderChallengePaymentNote(destFirm, t)}</div>` : ""}
     ${how.length ? `<details class="calc-how"><summary>${t.howSummary}</summary>${how.map((n) => `<p>${n}</p>`).join("")}</details>` : ""}
-    <p class="calc-disclaimer">${t.disclaimer(verifiedDate)} <a href="${t.disclosureHref}">${t.disclaimerLinkText}</a>.</p>
+    <p class="calc-disclaimer">${t.disclaimer(verifiedDate)} <a href="${t.aboutHref}">${t.disclaimerLinkText}</a>.</p>
   `);
 }
 
@@ -1026,19 +1016,6 @@ function formatMoney(value, currency, t) {
   } catch (e) {
     return `${value.toFixed(2)} ${currency}`;
   }
-}
-
-function linkForId(id, t) {
-  if (!id) return "";
-  const link = (typeof AFFILIATE_LINKS !== "undefined" && AFFILIATE_LINKS[id]) || {};
-  if (link.url) {
-    return `<a class="calc-link" href="${link.url}" target="_blank" rel="noopener sponsored">${t.getStarted}</a>`;
-  }
-  return "";
-}
-
-function linkForUrl(url, t) {
-  return `<a class="calc-link" href="${url}" target="_blank" rel="noopener">${t.getStarted}</a>`;
 }
 
 function escapeHTML(str) {

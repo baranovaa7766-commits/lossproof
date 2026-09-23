@@ -390,94 +390,7 @@ a {
   color: var(--color-danger-text);
 }
 
-/* Проверка условий пропфирмы (/compliance-check/) */
-.cc-hint-field {
-  grid-column: 1 / -1;
-}
-
-.cc-hint {
-  margin: 2px 0 0;
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  font-weight: 400;
-}
-
-.cc-result-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 20px 24px;
-}
-
-.cc-result-card h3 {
-  margin-top: 0;
-}
-
-.cc-result-row {
-  padding: 12px 0;
-  border-top: 1px solid var(--color-border);
-}
-
-.cc-result-row:first-of-type {
-  border-top: none;
-  padding-top: 4px;
-}
-
-.cc-result-row-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.cc-result-label {
-  font-weight: 600;
-}
-
-.cc-result-sub {
-  margin-top: 4px;
-  font-size: 0.86rem;
-  color: var(--color-text-muted);
-}
-
-.cc-status {
-  flex-shrink: 0;
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-
-.cc-status--ok {
-  background: var(--color-best);
-  color: var(--color-best-border);
-}
-
-.cc-status--bad {
-  background: var(--color-danger-bg);
-  color: var(--color-danger-text);
-}
-
-.cc-status--warn {
-  background: var(--color-warn-bg);
-  color: var(--color-warn-text);
-}
-
-.cc-status--neutral {
-  background: var(--color-bg);
-  color: var(--color-text-muted);
-}
-
-.calc-country-note {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  background: var(--color-warn-bg);
-  border: 1px solid var(--color-warn-border);
-  padding: 10px 14px;
-  border-radius: 8px;
-}
+/* Таблица результатов калькулятора */
 
 .calc-table-wrap {
   overflow-x: auto;
@@ -516,24 +429,6 @@ a {
   background: var(--color-best-border);
   color: #fff;
   border-radius: 999px;
-}
-
-.calc-unverified {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 2px 8px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  background: var(--color-warn-bg);
-  border: 1px solid var(--color-warn-border);
-  color: var(--color-warn-text);
-  border-radius: 999px;
-}
-
-.calc-link {
-  text-decoration: none;
-  font-weight: 600;
-  white-space: nowrap;
 }
 
 .calc-disclaimer {
@@ -803,7 +698,7 @@ a {
   gap: 12px;
 }
 
-/* Prop-firms comparison section (/prop-firms/) */
+/* Информационные плашки и фильтры сравнений (/exchanges/, /offramps/) */
 .disclaimer-box {
   background: var(--color-info-bg);
   border: 1px solid var(--color-info-border);
@@ -816,6 +711,23 @@ a {
 
 .disclaimer-box strong {
   color: var(--color-primary-dark);
+}
+
+/* Справочная плашка о законе 282-ФЗ под hero гидов, калькулятора, бирж,
+   обменников и выводов по фирмам. Факт, а не предупреждение об ошибке —
+   поэтому приглушённая и без акцентной полосы. Подробности — /about/#law-2027. */
+.law-note {
+  background: var(--color-info-bg);
+  border: 1px solid var(--color-info-border);
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin: 20px 0 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.law-note strong {
+  color: var(--color-text);
 }
 
 .pf-filters {
@@ -863,7 +775,7 @@ a {
   padding: 3px 0;
 }
 
-/* Comparison cards (/prop-firms/, /exchanges/) — a grid of per-item cards
+/* Comparison cards (/exchanges/, /offramps/) — a grid of per-item cards
    instead of a wide table. With 6-11 fields of real content, a classic row
    table never fits the site's ~1080px container without a horizontal
    scrollbar (the container width is the constraint, not the viewport, so
@@ -955,59 +867,15 @@ a {
   margin: 0;
 }
 
-/* Общие элементы квиза (раньше — «Подбор пропфирмы» /match/, теперь — /strategy/) */
+/* Общие элементы квиза «Подбор стратегии» (/strategy/) */
 .match-heading {
   margin: 0 0 16px;
   font-size: 1.1rem;
 }
 
-.match-score {
-  margin: 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-}
-
 .cmp-card.match-best {
   border-color: var(--color-best-border);
   box-shadow: 0 0 0 1px var(--color-best-border);
-}
-
-.match-reasons .cmp-field {
-  display: flex;
-  gap: 10px;
-  align-items: baseline;
-}
-
-.match-reasons dt.match-icon {
-  flex: 0 0 auto;
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: default;
-}
-
-.match-icon--yes {
-  color: var(--color-best-border);
-}
-
-.match-icon--no {
-  color: var(--color-danger-text);
-}
-
-.match-icon--neutral {
-  color: var(--color-text-muted);
-}
-
-.match-reasons dd {
-  font-size: 0.9rem;
-}
-
-.match-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
 .match-step {
@@ -1023,11 +891,6 @@ a {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.match-step-label {
-  margin: 0 0 10px;
-  font-weight: 600;
 }
 
 .match-options {
@@ -1057,14 +920,6 @@ a {
   border-color: var(--color-best-border);
   background: var(--color-best);
   font-weight: 600;
-}
-
-.match-submit {
-  margin-top: 20px;
-}
-
-.match-result:not(:empty) {
-  margin-top: 28px;
 }
 
 /* «Подбор стратегии» (/strategy/, assets/js/strategy-quiz.js). Варианты
@@ -1522,18 +1377,13 @@ a.pf-cross {
   color: var(--color-primary);
 }
 
-.pf-muted {
-  color: var(--color-text-muted);
-  font-size: 0.9em;
-}
-
 .pf-empty {
   text-align: center;
   color: var(--color-text-muted);
   padding: 24px 10px;
 }
 
-/* Exchange comparison badges (Russia access / affiliate status) */
+/* Exchange comparison badges (Russia access) */
 .ex-badge {
   display: inline-block;
   padding: 3px 10px;
@@ -1552,48 +1402,6 @@ a.pf-cross {
   background: var(--color-warn-bg);
   color: var(--color-warn-text);
   border: 1px solid var(--color-warn-border);
-}
-
-.price-matrix {
-  margin: 16px 0 0;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-}
-
-.price-matrix > summary {
-  cursor: pointer;
-  padding: 12px 16px;
-  font-weight: 600;
-  color: var(--color-primary-dark);
-  list-style: none;
-}
-
-.price-matrix > summary::-webkit-details-marker {
-  display: none;
-}
-
-.price-matrix > summary::before {
-  content: "\25B8";
-  display: inline-block;
-  margin-right: 8px;
-  transition: transform 0.15s ease;
-}
-
-.price-matrix[open] > summary::before {
-  transform: rotate(90deg);
-}
-
-.price-matrix > summary:hover {
-  background: rgba(227, 163, 91, 0.14);
-}
-
-.price-matrix .calc-table-wrap,
-.price-matrix .calc-disclaimer {
-  padding: 0 16px;
-}
-
-.price-matrix .calc-disclaimer {
-  padding-bottom: 14px;
 }
 
 @media (max-width: 640px) {
@@ -1804,10 +1612,6 @@ a.pf-cross {
   --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Cline x1='24' y1='5' x2='24' y2='9'/%3E%3Cline x1='24' y1='39' x2='24' y2='43'/%3E%3Cline x1='5' y1='24' x2='9' y2='24'/%3E%3Cline x1='39' y1='24' x2='43' y2='24'/%3E%3Cpolygon points='24,13 29,24 24,35 19,24' transform='rotate(25 24 24)'/%3E%3C/svg%3E");
 }
 
-.site-nav a[href$="/prop-firms/"] {
-  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='10' y='10' width='28' height='32' rx='3'/%3E%3Cline x1='17' y1='18' x2='17' y2='18.01'/%3E%3Cline x1='24' y1='18' x2='24' y2='18.01'/%3E%3Cline x1='31' y1='18' x2='31' y2='18.01'/%3E%3Cline x1='17' y1='26' x2='17' y2='26.01'/%3E%3Cline x1='24' y1='26' x2='24' y2='26.01'/%3E%3Cline x1='31' y1='26' x2='31' y2='26.01'/%3E%3Cpath d='M20 42 V34 H28 V42'/%3E%3C/svg%3E");
-}
-
 .site-nav a[href$="/strategy/"] {
   --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Ccircle cx='24' cy='24' r='9'/%3E%3Ccircle cx='24' cy='24' r='1.5'/%3E%3C/svg%3E");
 }
@@ -1832,16 +1636,12 @@ a.pf-cross {
   --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M24 8 L44 40 H4 Z'/%3E%3Cline x1='24' y1='20' x2='24' y2='28'/%3E%3Cline x1='24' y1='34' x2='24' y2='34.01'/%3E%3C/svg%3E");
 }
 
-.site-nav a[href$="/compliance-check/"] {
-  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Cpath d='M16 24 L21 29 L32 18'/%3E%3C/svg%3E");
-}
-
 .site-nav a[href$="/terms/"] {
   --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M24 13 C20 10 14 9 8 10 V37 C14 36 20 37 24 40 C28 37 34 36 40 37 V10 C34 9 28 10 24 13 Z'/%3E%3Cline x1='24' y1='13' x2='24' y2='40'/%3E%3C/svg%3E");
 }
 
-.site-nav a[href$="/disclosure/"] {
-  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 6 H29 L38 15 V42 H14 Z'/%3E%3Cpath d='M29 6 V15 H38'/%3E%3Cpath d='M20 24 H32'/%3E%3Cpath d='M20 31 H32'/%3E%3C/svg%3E");
+.site-nav a[href$="/about/"] {
+  --nav-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='24' cy='24' r='17'/%3E%3Cline x1='24' y1='22' x2='24' y2='33'/%3E%3Cline x1='24' y1='15' x2='24' y2='15.01'/%3E%3C/svg%3E");
 }
 
 .lang-switch .lang-switch-icon {
