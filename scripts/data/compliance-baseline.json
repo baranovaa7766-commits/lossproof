@@ -129,7 +129,7 @@
     "brightfunded": 0,
     "blueberry-funded": 0,
     "fundingpips": 0,
-    "bybit": 4,
+    "bybit": 5,
     "kucoin": 0,
     "okx": 0,
     "mexc": 0,
@@ -175,6 +175,17 @@
       "client renew prohibited",
       "client transfer prohibited",
       "client update prohibited"
+    ]
+  },
+  "fundedtradingplus.com": {
+    "registrar": "Cloudflare, Inc.",
+    "nameservers": [
+      "emely.ns.cloudflare.com",
+      "luke.ns.cloudflare.com"
+    ],
+    "expires": "2029-01-12T21:02:28Z",
+    "status": [
+      "client transfer prohibited"
     ]
   }
 }
