@@ -18,7 +18,7 @@ const CURRENCIES = ["USD", "EUR", "GBP", "AUD", "CAD", "CHF", "JPY", "PLN", "CZK
 const DATA_LAST_VERIFIED = "2026-09-03";
 
 // Crypto exchanges — stage 1 (buying/receiving USDT). Affiliate programs
-// are confirmed for bybit/bitget/kucoin; okx/mexc/gate were added to the
+// are confirmed for bybit/bingx/kucoin; okx/mexc/gate were added to the
 // calculator's math 2026-09-12 at the site owner's request (they were
 // already in the informational EXCHANGES_COMPARE list below, just not in
 // the calculator itself) — their affiliate program is NOT confirmed
@@ -45,13 +45,13 @@ const EXCHANGES = [
     notes: "Affiliate program confirmed (affiliates.bybit.com); no mandatory ID verification just to join the affiliate program. Russia is formally listed as an excluded jurisdiction (Service Agreement), but many users reportedly still verify with a Russian passport via P2P — details on /en/exchanges/bybit/.",
   },
   {
-    id: "bitget",
-    name: "Bitget",
+    id: "bingx",
+    name: "BingX",
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
     affiliateConfirmed: true,
-    notes: "Relatively low barrier to join the affiliate program. No explicit restriction found for Russian residents.",
+    notes: "Affiliate program is application-based (needs a verified account and a real promotion channel). Russia isn't named in the Restricted Jurisdictions list or anywhere else in the disclaimer -- the only major exchange on this site that doesn't name Russia in its restrictions (only occupied Ukrainian territories).",
   },
   {
     id: "kucoin",
@@ -135,19 +135,22 @@ const EXCHANGES_COMPARE = [
     dataVerified: false,
   },
   {
-    slug: "bitget",
-    name: "Bitget",
+    // Source: bingx.com/en/support/articles/360034028153-disclaimer (Restricted
+    // Jurisdictions list, checked 2026-09-23) and bingx.com/en/support/articles/
+    // 12803820985231 (Customer Agreement).
+    slug: "bingx",
+    name: "BingX",
     founded: 2018,
-    hq: "Registered in Seychelles, Singapore office, Vienna compliance hub",
-    licenses: "VASP FSA (Seychelles, under the 2024 Act) · a financial services license in New Zealand",
+    hq: "Singapore, with offices in Canada, Europe (Lithuania) and Australia",
+    licenses: "MSB registration (AUSTRAC in Australia; FINTRAC in Canada; FinCEN in the US) · regulated by FCIS in Lithuania, transitioning to MiCA -- as of July 2026 it does not hold a full MiCA CASP license passported across the EEA",
     ruAccessTier: "open",
-    ruAccessText: "No explicit restriction for Russian residents found in public sources — registration, verification, and the ruble P2P section work normally.",
+    ruAccessText: "Russia is not named in the official disclaimer's Restricted Jurisdictions list -- that list covers sanctioned/high-risk states (Iran, North Korea, etc.), heavily regulated markets (the US, UK, and EU countries needing local licensing) and occupied Ukrainian territories (Crimea, Donetsk, Luhansk). The ruble P2P section works, including offers via Sberbank and T-Bank; ruble funding is P2P-only, no bank deposit in rubles.",
     takerFeeValue: 0.1,
     takerFeeText: "0.1%",
     makerFeeText: "0.1%",
     depositMethods: ["P2P (including rubles)", "crypto deposit", "bank card"],
     withdrawalFeeText: "~1 USDT on the TRC20 network",
-    officialUrl: "https://www.bitget.com",
+    officialUrl: "https://bingx.com",
     dataVerified: false,
   },
   {
@@ -322,7 +325,7 @@ const REFERENCE_RESOURCES = [
 
 const AFFILIATE_LINKS = {
   bybit: { url: null, label: "Sign up with Bybit" },
-  bitget: { url: null, label: "Sign up with Bitget" },
+  bingx: { url: null, label: "Sign up with BingX" },
   kucoin: { url: null, label: "Sign up with KuCoin" },
 };
 

@@ -120,24 +120,6 @@
       "client transfer prohibited"
     ]
   },
-  "bitget.com": {
-    "registrar": "MarkMonitor Inc.",
-    "nameservers": [
-      "ns-1413.awsdns-48.org",
-      "ns-1617.awsdns-10.co.uk",
-      "ns-490.awsdns-61.com",
-      "ns-777.awsdns-33.net"
-    ],
-    "expires": "2030-02-03T19:26:09Z",
-    "status": [
-      "client delete prohibited",
-      "client transfer prohibited",
-      "client update prohibited",
-      "server delete prohibited",
-      "server transfer prohibited",
-      "server update prohibited"
-    ]
-  },
   "_availability": {
     "ftmo": 0,
     "fundednext": 0,
@@ -148,7 +130,6 @@
     "blueberry-funded": 0,
     "fundingpips": 0,
     "bybit": 3,
-    "bitget": 0,
     "kucoin": 0,
     "okx": 0,
     "mexc": 0,

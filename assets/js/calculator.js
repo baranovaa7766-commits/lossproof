@@ -697,7 +697,7 @@ function payFirmStates(states, destFirm, opts, t) {
 }
 
 // Одинаковые по цифрам строки (например, шесть бирж с одним и тем же оценочным
-// тарифом) склеиваем в одну: «Bybit / Bitget / … → Whitebird → RUB».
+// тарифом) склеиваем в одну: «Bybit / BingX / … → Whitebird → RUB».
 function mergeRows(rows) {
   const map = new Map();
   rows.forEach((row) => {

@@ -13,7 +13,7 @@ exchangerate-api.com
 
 # Биржи и обменники (обзоры, партнёрские ссылки, тарифы)
 bybit.com
-bitget.com
+bingx.com
 kucoin.com
 okx.com
 mexc.com

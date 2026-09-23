@@ -35,7 +35,7 @@
   }
 
   // 2) Полнота: рубли на любую биржу — и P2P, и оба обменника.
-  for (const e of ["bybit", "bitget", "kucoin", "okx", "mexc", "gate"]) {
+  for (const e of ["bybit", "bingx", "kucoin", "okx", "mexc", "gate"]) {
     const { routes } = await run("cash:RUB", `crypto:${e}`, 100000);
     for (const [name, re] of [["P2P", /\(P2P\)/], ["Whitebird", /Whitebird/], ["Cifra", /Cifra/]]) {
       if (!routes.some((r) => re.test(r))) problems.push(`RUB > ${e}: нет маршрута через ${name}`);
@@ -45,10 +45,10 @@
   {
     const { routes } = await run("cash:RUB", "crypto:all", 100000);
     const p2p = routes.find((r) => /\(P2P\)/.test(r)) || "";
-    for (const n of ["Bybit", "Bitget", "KuCoin", "OKX", "MEXC", "Gate"]) if (!p2p.includes(n)) problems.push(`RUB > все: в P2P нет ${n}`);
+    for (const n of ["Bybit", "BingX", "KuCoin", "OKX", "MEXC", "Gate"]) if (!p2p.includes(n)) problems.push(`RUB > все: в P2P нет ${n}`);
   }
   // 4) Валюта на карте: биржи с вводом картой/банком присутствуют.
-  for (const [id, name] of [["bybit", "Bybit"], ["bitget", "Bitget"], ["mexc", "MEXC"], ["gate", "Gate"]]) {
+  for (const [id, name] of [["bybit", "Bybit"], ["bingx", "BingX"], ["mexc", "MEXC"], ["gate", "Gate"]]) {
     const { routes } = await run("cash:USD", `crypto:${id}`);
     if (!routes.some((r) => r.includes(name))) problems.push(`USD > ${id}: маршрута нет`);
   }

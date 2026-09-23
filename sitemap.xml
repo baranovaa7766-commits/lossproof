@@ -206,15 +206,15 @@
     <changefreq>monthly</changefreq><priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/exchanges/bitget/</loc>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/bitget/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/bitget/" />
+    <loc>https://example.com/exchanges/bingx/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/bingx/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/bingx/" />
     <changefreq>monthly</changefreq><priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/en/exchanges/bitget/</loc>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/bitget/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/bitget/" />
+    <loc>https://example.com/en/exchanges/bingx/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://example.com/exchanges/bingx/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/exchanges/bingx/" />
     <changefreq>monthly</changefreq><priority>0.8</priority>
   </url>
   <url>

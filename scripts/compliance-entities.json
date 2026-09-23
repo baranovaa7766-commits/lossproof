@@ -13,7 +13,7 @@
     { "id": "fxify", "name": "FXIFY", "kind": "пропфирма", "url": "https://fxify.com", "domains": ["fxify.com"], "names": ["FXIFY"] },
     { "id": "funded-trading-plus", "name": "Funded Trading Plus", "kind": "пропфирма", "url": "https://www.fundedtradingplus.com", "domains": ["fundedtradingplus.com"], "names": ["Funded Trading Plus"] },
     { "id": "bybit", "name": "Bybit", "kind": "биржа", "url": "https://www.bybit.com", "domains": ["bybit.com"], "names": ["Bybit"] },
-    { "id": "bitget", "name": "Bitget", "kind": "биржа", "url": "https://www.bitget.com", "domains": ["bitget.com"], "names": ["Bitget"] },
+    { "id": "bingx", "name": "BingX", "kind": "биржа", "url": "https://bingx.com", "domains": ["bingx.com"], "names": ["BingX"] },
     { "id": "kucoin", "name": "KuCoin", "kind": "биржа", "url": "https://www.kucoin.com", "domains": ["kucoin.com"], "names": ["KuCoin"] },
     { "id": "okx", "name": "OKX", "kind": "биржа", "url": "https://www.okx.com", "domains": ["okx.com"], "names": ["OKX", "OKEx"] },
     { "id": "mexc", "name": "MEXC", "kind": "биржа", "url": "https://www.mexc.com", "domains": ["mexc.com"], "names": ["MEXC"] },
