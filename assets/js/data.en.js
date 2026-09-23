@@ -567,3 +567,282 @@ const FIRMS = [
     challengePayment: null,
   },
 ];
+
+// ---------------------------------------------------------------------------
+// Strategy texts for the "Strategy finder" quiz (/en/strategy/). Logic, risk
+// and rules live in assets/js/strategy-quiz.js; only texts here. Keys must
+// match STRATEGY_RULES and assets/js/data.js.
+//
+// Copy rules (Russian crypto advertising rules and common sense): never name
+// specific coins, never forecast prices or quote returns, never promise
+// results. State risks plainly and concretely.
+const STRATEGIES = {
+  hodl: {
+    name: "Long-term holding",
+    tagline: "Buy and hold for years, ignoring market swings",
+    summary:
+      "You buy crypto and hold it for several years with almost no trading. The result depends on how the market moves over the whole period, not on the precision of individual trades. The key requirement is being able to sit through deep drawdowns for years without panic-selling.",
+    time: "A few minutes a month",
+    skills: [
+      "Understand what you're buying and why you're willing to hold it for years",
+      "Store funds safely: two-factor authentication, and your own wallet for larger amounts",
+    ],
+    mistakes: [
+      "Panic-selling during a drawdown and locking in the loss",
+      "Putting in more than you can leave untouched for several years",
+      "Keeping everything on one exchange without accounting for the platform's own risk",
+    ],
+    cautions: [
+      "In 2021–2022 the largest cryptocurrencies lost 70–80% from their peaks — drawdowns like that are normal for this market",
+      "A long horizon doesn't guarantee a result: some projects never recover",
+    ],
+    firstStep:
+      "Decide on an amount you can leave untouched for at least two years and buy without leverage. Turn on two-factor authentication.",
+  },
+  dca: {
+    name: "Regular purchases (DCA)",
+    tagline: "Buy the same amount on a fixed schedule",
+    summary:
+      "You choose an amount and a frequency in advance — say, weekly or monthly — and buy regardless of the current price. This removes the question of when to get in and builds discipline. Your average purchase price is smoothed out, but the risk of the market falling remains.",
+    time: "A few minutes a month once auto-buy is set up",
+    skills: [
+      "Choose an affordable regular amount and don't change the plan because of news",
+      "Set up auto-buy or a DCA bot on the exchange",
+    ],
+    mistakes: [
+      "Pausing purchases during a fall — which is exactly when the strategy averages the price",
+      "Raising the amounts on emotion after a rally",
+      "Ignoring fees on very small amounts",
+    ],
+    cautions: [
+      "If the whole amount is already available, investing it at once has historically done better more often: about two times out of three in Vanguard's study of stock markets. The value of regular purchases lies in discipline and in money arriving gradually",
+      "Averaging doesn't protect against a long market decline",
+    ],
+    firstStep:
+      "Pick an amount you can comfortably set aside every month and set up auto-buy on the exchange.",
+  },
+  spotSwing: {
+    name: "Spot swing trading",
+    tagline: "Trades lasting days to weeks, no leverage",
+    summary:
+      "You look for entry and exit points using charts or news and hold a position for days or weeks. There's no leverage, so you can't lose more than you put in, but a single trade can still draw down deeply. A good school for anyone who wants to learn to trade.",
+    time: "A couple of hours a week",
+    skills: [
+      "Technical analysis basics: trend, support and resistance",
+      "Setting a stop-loss and defining the risk per trade in advance",
+      "Keeping a trading journal",
+    ],
+    mistakes: [
+      "Entering a trade without an exit plan and a stop-loss",
+      "Risking too large a share of the deposit on one trade",
+      "Trying to win back a loss",
+    ],
+    cautions: [
+      "Most active retail traders underperform the market",
+      "Results depend far more on discipline than on predictions",
+    ],
+    firstStep:
+      "Start with a small amount and cap your risk in advance — for example, no more than 1–2% of the deposit per trade. Keep a journal from the first trade.",
+  },
+  futuresSwing: {
+    name: "Low-leverage futures swing trading",
+    tagline: "Trades lasting days to weeks, including shorts, with small leverage",
+    summary:
+      "The same as spot swing trading, but through perpetual futures: you can also profit from a falling price (shorting). Leverage magnifies losses as well as profits, and if the market moves sharply against you the exchange closes the position by force — that's liquidation. Holding for days means accounting for the funding rate.",
+    time: "A couple of hours a week or more",
+    skills: [
+      "Spot trading experience",
+      "Understanding margin, liquidation and the funding rate",
+      "Sticking to your stop-loss without exception",
+    ],
+    mistakes: [
+      "Raising leverage to win back a loss",
+      "Ignoring the funding rate on long holds",
+      "Trading without a stop-loss",
+    ],
+    cautions: [
+      "Leverage can wipe out a position within minutes in a sharp move",
+      "Funding is charged several times a day and can eat into longer trades",
+    ],
+    firstStep:
+      "Practise the strategy on a demo account before trading real money. On a live account, start with minimal leverage.",
+  },
+  dayTrading: {
+    name: "Day trading",
+    tagline: "Opening and closing trades within the same day",
+    summary:
+      "Trades last from tens of minutes to a few hours and are closed by the end of the day. It's usually done on futures, where fees are lower and you can trade both directions. It takes screen time, a tested system and strict discipline.",
+    time: "An hour a day or more",
+    skills: [
+      "Futures trading experience",
+      "A tested trading system with clear entry and exit rules",
+      "Managing risk and emotions through a losing streak",
+    ],
+    mistakes: [
+      "Trading without a system, on gut feeling",
+      "Overtrading: fees pile up faster than profit",
+      "Increasing size after a losing streak",
+    ],
+    cautions: [
+      "In a study of the Brazilian futures market, 97% of people who day traded for more than 300 days lost money (Chague, De-Losso, Giovannetti). It's not the crypto market, but the mechanics are the same",
+      "Fees from frequent trading noticeably reduce results",
+    ],
+    firstStep:
+      "Test your system on a demo account for a few weeks and judge the result after fees.",
+  },
+  scalping: {
+    name: "Scalping",
+    tagline: "Many short trades lasting minutes",
+    summary:
+      "A scalper makes dozens of trades a day, capturing small price moves. Profit per trade is small, so fees, liquidity and execution speed decide everything. It's the most demanding style in terms of time and experience.",
+    time: "Several hours a day at the screen",
+    skills: [
+      "Futures trading experience and reading the order book",
+      "Fast decisions and strict discipline",
+      "Understanding the difference between maker and taker fees",
+    ],
+    mistakes: [
+      "Ignoring fees: on trades worth fractions of a percent they eat all the profit",
+      "Trading illiquid pairs with wide spreads",
+      "Continuing to trade after hitting a daily loss limit",
+    ],
+    cautions: [
+      "Maximum risk and maximum workload: most people who try scalping lose money",
+      "Results depend heavily on the exchange's fees",
+    ],
+    firstStep:
+      "Practise scalping on a demo account and work out how much you'd have paid in fees trading live.",
+  },
+  gridBot: {
+    name: "Grid bot",
+    tagline: "Automatically buy lower and sell higher within a price range",
+    summary:
+      "You set a price range and the bot places a grid of orders inside it, buying on dips and selling on rises. It works best in a market without a clear trend (sideways). Bots are built into exchanges and run around the clock at no extra charge — you pay only the normal trading fees.",
+    time: "Set up, then check weekly",
+    skills: [
+      "Choosing a sensible range and number of grid levels",
+      "Knowing what to do if the price leaves the range",
+    ],
+    mistakes: [
+      "A range that's too narrow: the price quickly leaves it",
+      "Starting during a sharp fall: the bot keeps buying an asset that's getting cheaper",
+      "A grid that's too dense: fees eat the profit",
+    ],
+    cautions: [
+      "In a strong trend the price leaves the range: in a fall you're left holding a cheaper asset, in a rally the bot sells everything and stops earning",
+      "Leveraged futures grids are considerably riskier than spot grids",
+    ],
+    firstStep:
+      "Start with a spot grid on a small amount with a wide range and watch it for a few weeks.",
+  },
+  dcaBot: {
+    name: "DCA bot and martingale",
+    tagline: "Buy more on the way down and close on the rebound",
+    summary:
+      "The bot opens a position and, as the price falls, buys more in preset steps, lowering the average entry price. When the price rebounds to the target, the position closes. In martingale mode each additional buy is larger — and so is the risk.",
+    time: "Set up, then check weekly",
+    skills: [
+      "Working out whether you have enough funds for every buy step",
+      "Setting a loss limit in case of a prolonged fall",
+    ],
+    mistakes: [
+      "Unlimited martingale: in a long fall the money runs out before the price turns",
+      "Running it on weak assets that may never recover",
+      "Too many steps with growing size",
+    ],
+    cautions: [
+      "In a prolonged fall the strategy builds up a large losing position",
+      "Martingale is one of the riskiest bot modes",
+    ],
+    firstStep:
+      "Run the bot on a small amount with moderate steps and a loss limit, without martingale.",
+  },
+  rebalanceBot: {
+    name: "Portfolio rebalancing bot",
+    tagline: "Automatically keep set shares of assets in a portfolio",
+    summary:
+      "You build a portfolio of several cryptocurrencies and set their shares. When prices move and the shares drift, the bot sells what got more expensive and buys what got cheaper, returning the portfolio to its original mix. A calm version of long-term holding with built-in discipline.",
+    time: "Minimal: set up and check occasionally",
+    skills: [
+      "Building a portfolio of assets you're willing to hold long term",
+      "Choosing a deviation threshold or a rebalancing schedule",
+    ],
+    mistakes: [
+      "Rebalancing too often — unnecessary fees",
+      "Adding random illiquid assets to the portfolio",
+    ],
+    cautions: [
+      "The portfolio still falls with the market: rebalancing manages shares, not overall risk",
+      "If one asset keeps getting cheaper, the bot keeps buying more of it",
+    ],
+    firstStep:
+      "Build a portfolio of 2–4 large assets and turn on threshold-based rebalancing.",
+  },
+  copyTrading: {
+    name: "Copy trading",
+    tagline: "Automatically repeat the trades of a chosen trader",
+    summary:
+      "You choose a trader on the exchange and allocate an amount — their trades are repeated on your account automatically. Someone else makes the decisions, but the risk and the losses stay yours. The trader usually takes a share of the profit, from 5% to 50% depending on the exchange and terms.",
+    time: "Choosing a trader, then checking weekly",
+    skills: [
+      "Judging a trader not only by returns but by drawdowns, track record length and number of trades",
+      "Capping the amount and risk you allocate to copying",
+    ],
+    mistakes: [
+      "Choosing the trader with the highest short-term return",
+      "Giving your whole amount to a single trader",
+      "Not checking whether the trader uses high leverage",
+    ],
+    cautions: [
+      "A trader's past results don't guarantee future ones, and high returns often mean high risk",
+      "Many copied traders trade futures with leverage",
+    ],
+    firstStep:
+      "Allocate a small amount, split it between several traders with long track records and moderate drawdowns, and set a loss limit.",
+  },
+  earn: {
+    name: "Earn: savings on an exchange",
+    tagline: "Get rewards for placing funds on an exchange",
+    summary:
+      "The exchange pays a reward for placing your funds in its products: flexible savings you can withdraw at any time, or fixed-term ones locked for a period. It's the most passive option, but the exchange holds your funds, so the main risk is the platform itself.",
+    time: "A few minutes a month",
+    skills: [
+      "Telling simple products (flexible and fixed savings) from complex structured ones",
+      "Checking whether the exchange publishes Proof of Reserves",
+    ],
+    mistakes: [
+      "Chasing the highest rate — it often hides a complex or risky product",
+      "Keeping all your funds on one exchange",
+      "Placing a volatile cryptocurrency expecting the reward to outweigh a price fall",
+    ],
+    cautions: [
+      "Funds are held by the exchange: if it goes bankrupt you can lose them, as happened with FTX in 2022",
+      "If you place a volatile cryptocurrency, its price can fall by more than you earn in rewards",
+    ],
+    firstStep:
+      "Start with flexible stablecoin savings on an exchange that publishes Proof of Reserves, and don't keep all your funds on one platform.",
+  },
+  fundingArb: {
+    name: "Funding-rate arbitrage",
+    tagline: "Earn the funding rate without betting on price direction",
+    summary:
+      "You buy an asset on spot and at the same time open a short of the same size on perpetual futures. Price moves cancel each other out, and the income comes from the funding rate paid to shorts while it's positive. The strategy is market-neutral, but it needs capital, attention and an understanding of how futures work.",
+    time: "A couple of hours a week",
+    skills: [
+      "Understanding how the funding rate works",
+      "Watching the margin on the short position",
+      "Accounting for entry and exit fees on both legs",
+    ],
+    mistakes: [
+      "Forgetting the rate can turn negative — then you're the one paying",
+      "Keeping too little margin on futures: a sharp rally can liquidate the short",
+      "Not counting fees that eat a small income",
+    ],
+    cautions: [
+      "Income is small and unstable: the funding rate changes and can go negative",
+      "Liquidation risk on the short and the exchange's own risk remain",
+    ],
+    firstStep:
+      "Learn the mechanics on a demo account and work out whether funding covers your entry and exit fees.",
+  },
+};

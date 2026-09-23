@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Trading Strategy Finder — LossProof</title>
+  <meta name="description" content="12 questions about your goals, experience and attitude to risk — see which crypto strategies fit your profile and which exchanges have the tools for them." />
+  <link rel="canonical" href="/en/strategy/" />
+  <link rel="alternate" hreflang="ru" href="/strategy/" />
+  <link rel="alternate" hreflang="en" href="/en/strategy/" />
+  <link rel="alternate" hreflang="x-default" href="/strategy/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/en/">
+        <svg viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 18 L8 6 L11.5 11 L16 3 L25 18" stroke="#eab876" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 3 L20 3" stroke="#eab876" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        LossProof
+      </a>
+      <nav class="site-nav">
+        <a href="/en/calculator/">Transfer Calculator</a>
+        <a href="/en/payouts/">Withdrawals by firm</a>
+        <a href="/en/crypto-payout-guide/">Crypto Payout Guide</a>
+        <a href="/en/strategy/">Strategy finder</a>
+        <a href="/en/exchanges/">Compare exchanges</a>
+        <a href="/en/offramps/">Compare cash-out services</a>
+        <a href="/en/red-flags/">Prop Firm Red Flags</a>
+        <a href="/en/terms/">Glossary</a>
+        <a href="/en/disclosure/">Disclosure</a>
+        <a class="lang-switch" href="/strategy/" aria-label="Переключить на русский"><span class="lang-switch-icon" aria-hidden="true"></span>RU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Trading Strategy Finder</h1>
+        <p>12 questions about your goals, experience and attitude to risk — and you'll see which crypto strategies fit your profile, and which exchanges have the tools for them. About three minutes; your answers stay in your browser.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card sq-card">
+        <div id="strategy-quiz"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>How the finder works</h2>
+        <ul>
+          <li><strong>Safety first, then scoring.</strong> Leveraged and futures strategies are only offered with trading experience, consent to leverage, a calm reaction to drawdowns, and when it isn't most of your savings. No combination of other answers overrides this.</li>
+          <li><strong>Then matching.</strong> The remaining strategies score points for matching your goal, time, horizon, decision style, analysis approach and starting amount. We show the best match and up to two close ones.</li>
+          <li><strong>Exclusions are visible.</strong> Below the result is the list of strategies we didn't suggest, with a reason for each.</li>
+          <li><strong>Exchanges without partnerships.</strong> Exchanges are ordered only by whether they have the tools the strategy needs and what they cost. We have no partnerships with exchanges; links go to our own exchange overviews.</li>
+          <li><strong>No forecasts or promises.</strong> We don't name coins, forecast prices or show strategy returns: past results guarantee nothing.</li>
+          <li><strong>Your answers go nowhere.</strong> Matching runs in your browser: we don't store your answers or send them anywhere.</li>
+        </ul>
+        <p>We deliberately left out P2P arbitrage (risk of criminal liability under Russia's law on "droppers" and account freezes under anti-money-laundering rules), trading new listings and memecoins (effectively gambling, with a high share of scams), as well as options and spot margin trading.</p>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Sources</h2>
+        <ul>
+          <li>Day-trading statistics: Chague, De-Losso, Giovannetti, <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3423101" target="_blank" rel="noopener">"Day Trading for a Living?"</a> — a study of the Brazilian futures market: of those who day traded for more than 300 days, 97% lost money.</li>
+          <li>Regular purchases vs. investing at once: Vanguard's study "Dollar-cost averaging just means taking risk later" — in stock markets, investing at once more often did better, about two times out of three.</li>
+          <li>Exchange tools (demo account, bots, copy trading, Earn, Proof of Reserves, futures fees) — exchanges' official pages and help centers, some features from reviews. Details per exchange are in <a href="/en/exchanges/">Compare exchanges</a>.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> LossProof. Not financial advice and not personal investment advice.</span>
+      <span><a href="/en/disclosure/">Affiliate disclosure</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/data.en.js"></script>
+  <script src="/assets/js/strategy-quiz.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    initStrategyQuiz("strategy-quiz");
+  </script>
+  <script src="/assets/js/reveal.js"></script>
+  <script src="/assets/js/metrika.js"></script>
+</body>
+</html>

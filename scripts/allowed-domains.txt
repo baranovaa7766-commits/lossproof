@@ -35,6 +35,9 @@ alphacapitalgroup.uk
 fxify.com
 fundedtradingplus.com
 
+# Источники исследований (ссылки в разделе «Источники» подбора стратегии)
+ssrn.com
+
 # Технические адреса (пространства имён, не ссылки на внешние сайты)
 w3.org
 sitemaps.org
