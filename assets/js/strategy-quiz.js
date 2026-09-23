@@ -363,7 +363,8 @@ const QUIZ_STRINGS = {
         options: ["Несколько минут в месяц", "Пару часов в неделю", "Около часа в день", "Несколько часов в день у экрана"],
       },
       horizon: {
-        title: "На какой срок вы рассчитываете?",
+        title: "Через какое время вы планируете забрать деньги или подвести итог?",
+        hint: "Это срок, на который вы готовы оставить средства в криптовалюте, не выводя их.",
         options: ["До месяца", "От 1 до 6 месяцев", "От 6 месяцев до 2 лет", "Больше 2 лет"],
       },
       drawdown: {
@@ -434,7 +435,7 @@ const QUIZ_STRINGS = {
     dims: {
       goal: "Цель",
       time: "Время",
-      horizon: "Срок",
+      horizon: "Срок вложений",
       style: "Решения",
       analysis: "Подход",
       drawdown: "Реакция на просадку",
@@ -525,7 +526,8 @@ const QUIZ_STRINGS = {
         options: ["A few minutes a month", "A couple of hours a week", "About an hour a day", "Several hours a day at the screen"],
       },
       horizon: {
-        title: "What time horizon do you have in mind?",
+        title: "When do you plan to take the money out or assess the result?",
+        hint: "The period you're willing to leave your funds in crypto without withdrawing them.",
         options: ["Up to a month", "1 to 6 months", "6 months to 2 years", "More than 2 years"],
       },
       drawdown: {
@@ -596,7 +598,7 @@ const QUIZ_STRINGS = {
     dims: {
       goal: "Goal",
       time: "Time",
-      horizon: "Horizon",
+      horizon: "Holding period",
       style: "Decisions",
       analysis: "Approach",
       drawdown: "Reaction to a drop",
