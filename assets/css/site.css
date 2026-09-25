@@ -1,7 +1,9 @@
 /* LossProof — сайт приложения для учёта личных финансов.
-   Тёмная тема «Графит», как в самом приложении: те же цвета, шрифт Onest
-   и скругления. Шрифт лежит на сайте (assets/fonts, лицензия OFL рядом) —
-   браузер посетителя не обращается к сторонним сервисам. */
+   Светлая тема «Изумруд», как в самом приложении: белый фон, изумрудный
+   #0b5d46 — цвет бренда, шрифт Onest. Шрифт лежит на сайте (assets/fonts,
+   лицензия OFL рядом) — браузер посетителя не обращается к сторонним
+   сервисам. Логотип «Печать» — встроенный SVG в разметке, цвет задаётся
+   через color (currentColor). */
 
 @font-face {
   font-family: "Onest";
@@ -37,20 +39,24 @@
 }
 
 :root {
-  --bg: #0c0d0f;
-  --surface: #141619;
-  --surface-2: #1a1d22;
-  --line: #1d2025;
-  --line-2: #23262c;
-  --line-3: #2c3037;
-  --text: #eef0f3;
-  --text-2: #aeb4bd;
-  --text-3: #8a909a;
-  --accent: #8fb8ff;
-  --accent-hover: #b8d0ff;
-  --accent-bg: #16202f;
-  --warn: #ffa15c;
-  color-scheme: dark;
+  --bg: #ffffff;
+  --bg-tint: #f3f8f5;
+  --surface: #ffffff;
+  --surface-2: #eef2f0;
+  --field: #f7faf8;
+  --line: #e1e8e4;
+  --line-2: #cfd9d4;
+  --text: #0e1b16;
+  --text-2: #4a5953;
+  --text-3: #687670;
+  --accent: #0b5d46;
+  --accent-hover: #0e7154;
+  --accent-bg: #e6f2ec;
+  --accent-bg-2: #d3e8de;
+  --accent-data: #16936b;
+  --track: #e3ebe7;
+  --warn: #c2501a;
+  color-scheme: light;
 }
 
 *,
@@ -78,6 +84,11 @@ body {
   font-size: 16px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-bg-2);
+  color: var(--text);
 }
 
 h1,
@@ -121,6 +132,23 @@ a:hover {
   padding: 0 32px;
 }
 
+/* ── Логотип «Печать» ───────────────────────────────────────────────── */
+
+.seal {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Надпись LOSSPROOF. PT Serif на сайте не лежит — берётся похожий
+   системный шрифт с засечками (Georgia на Windows и Apple). */
+.wordmark {
+  font-family: "PT Serif", Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 /* ── Кнопки ─────────────────────────────────────────────────────────── */
 
 .btn {
@@ -153,6 +181,7 @@ a:hover {
 .btn-sm {
   min-height: 44px;
   padding: 0 18px;
+  border-radius: 14px;
   font-size: 15px;
 }
 
@@ -163,33 +192,45 @@ a:hover {
 
 .btn-primary {
   background: var(--accent);
-  color: #0c0d0f;
+  color: #ffffff;
   font-weight: 700;
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
-  color: #0c0d0f;
+  color: #ffffff;
 }
 
 .btn-soft {
-  background: var(--surface-2);
-  color: var(--text);
+  background: var(--accent-bg);
+  color: var(--accent);
 }
 
 .btn-soft:hover {
-  background: #22262c;
-  color: var(--text);
+  background: var(--accent-bg-2);
+  color: var(--accent);
 }
 
 .btn-ghost {
-  border-color: #2a2e35;
+  border-color: var(--line-2);
   color: var(--text);
 }
 
 .btn-ghost:hover {
-  border-color: #3b404a;
+  border-color: #a9bab2;
   color: var(--text);
+}
+
+/* Белая кнопка на изумрудном фоне */
+.btn-white {
+  background: #ffffff;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.btn-white:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
 }
 
 .show-sm {
@@ -200,6 +241,7 @@ a:hover {
 
 .site-header {
   border-bottom: 1px solid var(--line);
+  background: var(--bg);
 }
 
 .site-header .container {
@@ -214,30 +256,20 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: var(--text);
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.logo:hover {
-  color: var(--text);
-}
-
-.logo-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-  background: var(--accent-bg);
   color: var(--accent);
 }
 
-.logo-mark svg {
-  width: 20px;
-  height: 16px;
+.logo:hover {
+  color: var(--accent);
+}
+
+.logo .seal {
+  width: 36px;
+  height: 36px;
+}
+
+.logo .wordmark {
+  font-size: 17px;
 }
 
 .nav {
@@ -265,8 +297,21 @@ a:hover {
 .site-footer .container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
   gap: 12px 24px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-brand .seal {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
 }
 
 .footer-links {
@@ -330,7 +375,7 @@ a:hover {
   padding: 8px 14px;
   border-radius: 999px;
   background: var(--surface-2);
-  color: #d7dbe0;
+  color: var(--text-2);
   font-size: 14px;
   font-weight: 600;
 }
@@ -360,9 +405,10 @@ a:hover {
   flex-direction: column;
   gap: 20px;
   padding: 36px;
-  border: 1px solid var(--line-2);
+  border: 1px solid var(--line);
   border-radius: 28px;
   background: var(--surface);
+  box-shadow: 0 24px 60px rgba(11, 93, 70, 0.08);
 }
 
 .field {
@@ -380,9 +426,9 @@ a:hover {
   width: 100%;
   height: 56px;
   padding: 0 18px;
-  border: 1px solid var(--line-3);
+  border: 1px solid var(--line-2);
   border-radius: 16px;
-  background: var(--bg);
+  background: var(--field);
   color: var(--text);
   font: inherit;
   font-size: 20px;
@@ -393,7 +439,8 @@ a:hover {
 .field input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(143, 184, 255, 0.22);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(11, 93, 70, 0.16);
 }
 
 .field-hint {
@@ -413,7 +460,7 @@ a:hover {
   flex-direction: column;
   gap: 6px;
   padding-top: 20px;
-  border-top: 1px solid var(--line-2);
+  border-top: 1px solid var(--line);
 }
 
 .calc-result-label {
@@ -471,6 +518,11 @@ a:hover {
   border-top: 1px solid var(--line);
 }
 
+/* Секция на мятном фоне — чередуется с белыми */
+.section-tint {
+  background: var(--bg-tint);
+}
+
 .section-head {
   display: flex;
   flex-direction: column;
@@ -506,7 +558,7 @@ a:hover {
   flex-direction: column;
   gap: 12px;
   padding: 28px;
-  border: 1px solid var(--line-2);
+  border: 1px solid var(--line);
   border-radius: 22px;
   background: var(--surface);
 }
@@ -535,7 +587,7 @@ a:hover {
   padding: 5px 10px;
   border-radius: 999px;
   background: var(--surface-2);
-  color: var(--text-3);
+  color: var(--text-2);
   font-size: 13px;
   font-weight: 600;
 }
@@ -562,9 +614,8 @@ a:hover {
   width: 300px;
   height: 620px;
   padding: 12px;
-  border: 1px solid var(--line-3);
   border-radius: 48px;
-  background: var(--surface-2);
+  background: #1b2420;
 }
 
 .phone-screen {
@@ -576,7 +627,7 @@ a:hover {
   padding: 28px 15px 15px;
   overflow: hidden;
   border-radius: 38px;
-  background: var(--bg);
+  background: #f4f7f5;
   font-size: 13px;
 }
 
@@ -600,13 +651,14 @@ a:hover {
 
 .ps-card {
   padding: 14px;
-  border-radius: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
   background: var(--surface);
 }
 
 .ps-big {
   margin-top: 2px;
-  font-size: 28px;
+  font-size: 27px;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -619,6 +671,7 @@ a:hover {
 
 .ps-up {
   font-size: 12px;
+  font-weight: 600;
   color: var(--accent);
 }
 
@@ -642,7 +695,7 @@ a:hover {
   height: 8px;
   margin: 8px 0 6px;
   border-radius: 99px;
-  background: #23262c;
+  background: var(--track);
 }
 
 .ps-bar span {
@@ -650,11 +703,11 @@ a:hover {
   width: 73%;
   height: 100%;
   border-radius: inherit;
-  background: var(--accent);
+  background: var(--accent-data);
 }
 
 .ps-list {
-  padding: 4px 14px;
+  padding: 2px 12px;
 }
 
 .ps-row {
@@ -662,7 +715,7 @@ a:hover {
   align-items: center;
   gap: 10px;
   padding: 9px 0;
-  border-bottom: 1px solid #1f2227;
+  border-bottom: 1px solid var(--line);
 }
 
 .ps-row:last-child {
@@ -670,11 +723,20 @@ a:hover {
 }
 
 .ps-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   width: 30px;
   height: 30px;
   border-radius: 10px;
-  background: #1d2129;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.ps-dot svg {
+  width: 16px;
+  height: 16px;
 }
 
 .ps-name {
@@ -706,10 +768,10 @@ a:hover {
   gap: 6px;
   width: 220px;
   padding: 18px;
-  border: 1px solid var(--line-3);
+  border: 1px solid var(--line);
   border-radius: 20px;
   background: var(--surface);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 24px 48px rgba(14, 27, 22, 0.12);
 }
 
 .fc-label {
@@ -798,8 +860,9 @@ a:hover {
   flex-direction: column;
   gap: 14px;
   padding: 28px;
-  border: 1px solid var(--line-2);
+  border: 1px solid var(--line);
   border-radius: 22px;
+  background: var(--surface);
 }
 
 .outline-card svg {
@@ -833,7 +896,7 @@ a:hover {
 .faq-item {
   padding: 28px;
   border-radius: 22px;
-  background: var(--surface);
+  background: var(--bg-tint);
 }
 
 .faq-item summary {
@@ -900,20 +963,44 @@ a:hover {
   justify-content: space-between;
   gap: 48px;
   padding: 64px;
-  border: 1px solid var(--line-2);
   border-radius: 28px;
-  background: var(--surface);
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.cta-main {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.cta-main .seal {
+  width: 88px;
+  height: 88px;
+  color: #ffffff;
 }
 
 .cta-copy {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   max-width: 720px;
+}
+
+.cta-card h2 {
+  color: #ffffff;
+}
+
+.cta-card p {
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .cta-card .btn {
   flex-shrink: 0;
+}
+
+.cta-card :focus-visible {
+  outline-color: #ffffff;
 }
 
 /* ── Страница 404 ───────────────────────────────────────────────────── */
@@ -995,7 +1082,16 @@ a:hover {
   }
 
   .logo {
-    font-size: 18px;
+    gap: 10px;
+  }
+
+  .logo .seal {
+    width: 30px;
+    height: 30px;
+  }
+
+  .logo .wordmark {
+    font-size: 14px;
   }
 
   .hide-sm {
@@ -1176,9 +1272,20 @@ a:hover {
   }
 
   .cta-card {
-    gap: 18px;
+    gap: 20px;
     padding: 24px;
     border-radius: 24px;
+  }
+
+  .cta-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .cta-main .seal {
+    width: 56px;
+    height: 56px;
   }
 
   .cta-card .btn {
@@ -1187,6 +1294,7 @@ a:hover {
 
   .site-footer .container {
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .notfound {
