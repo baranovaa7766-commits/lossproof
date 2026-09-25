@@ -1,13 +1,12 @@
 // Квиз «Подбор стратегии» (/strategy/ и /en/strategy/).
 //
 // Человек отвечает на 12 вопросов по одному, квиз подбирает 1–3 стратегии
-// работы с криптовалютой и показывает биржи, где для них есть нужные
-// инструменты. Всё считается в браузере: ответы никуда не отправляются и не
-// сохраняются (Метрика на сайте без Вебвизора, отдельных целей квиз не шлёт).
+// работы с криптовалютой и показывает, какие инструменты для них нужны от
+// площадки. Всё считается в браузере: ответы никуда не отправляются и не
+// сохраняются.
 //
-// Здесь — логика, правила и данные о функциях бирж: один источник для RU и
-// EN. Тексты стратегий — в STRATEGIES (assets/js/data.js / data.en.js), общие
-// данные бирж (спот-комиссии, доступ для РФ) — в EXCHANGES_COMPARE там же.
+// Здесь — логика и правила: один источник для RU и EN. Тексты стратегий — в
+// STRATEGIES (assets/js/data.js / data.en.js).
 //
 // Безопасность (утверждено владельцем сайта 2026-09-23, «максимально
 // обезопасить» при прямой формулировке результата):
@@ -17,9 +16,10 @@
 //    большая часть сбережений (см. isEligible). Баллы не могут их обойти.
 // 3) Никаких названий монет, прогнозов и цифр доходности — этого требуют и
 //    правила рекламы криптовалют, и здравый смысл.
-// 4) Порядок бирж зависит только от соответствия стратегии и стоимости,
-//    партнёрство на него не влияет (как написано на /about/). Партнёрских
-//    кнопок нет вообще: карточки ведут на наши страницы /exchanges/<slug>/.
+// 4) Квиз не называет и не подбирает конкретные биржи (с 2026-09-25): это
+//    выглядело бы как реклама иностранных криптобирж, которую в РФ размещать
+//    нельзя. Вместо этого — список нужных инструментов и ссылка на общее
+//    нейтральное сравнение бирж.
 // Инварианты проверяет scripts/strategy-quiz-check.js (перебор всех
 // сочетаний ответов) — запускайте его после любых правок правил.
 
@@ -212,117 +212,23 @@ function recommendStrategies(a) {
 }
 
 // --------------------------------------------------------------------------
-// Инструменты бирж под стратегии.
-// true — подтверждено (официальные страницы и справка бирж, для части
-// функций — обзоры), null — не подтверждено: в карточке так и пишем, а если
-// функция для стратегии обязательна, биржа в её список не попадает.
-// Комиссии фьючерсов — базовый уровень (без VIP и скидок), в процентах.
-// Источники (проверено 2026-09-23): справка и страницы бирж — Bybit (Demo
-// Trading, Recurring Buy, Arbitrage, Proof of Reserves, Futures Grid Bot),
-// BingX (Demo Trading/VST, Recurring Buy, Martingale (DCA), Futures Grid,
-// Earn), OKX (Demo trading, Smart Portfolio, Recurring buy, Proof of
-// Reserves), KuCoin (Smart Rebalance, Futures Grid, Earn, Proof of Reserves,
-// futures arbitrage), MEXC (fee: 0% / 0,02% на фьючерсах, Spot DCA,
-// Martingale, Earn, Proof of Reserves), Gate (Futures Testnet, Trading Bots,
-// Simple Earn, Proof of Reserves); комиссии Bybit/BingX/OKX/KuCoin/Gate,
-// копитрейдинг и часть ботов — по обзорам datawallet.com, bitdegree.org и др.
-// Как и остальные данные бирж на сайте, это не построчная сверка — перед
-// изменениями проверяйте на официальных сайтах.
+// Что стратегии нужно от площадки. Элемент — ключ инструмента или массив
+// ключей-альтернатив («любой из»). Подписи — в QUIZ_STRINGS[lang].needs.
 // --------------------------------------------------------------------------
-const EXCHANGE_FEATURES_CHECKED = "2026-09-23";
-
-const EXCHANGE_FEATURES = {
-  bybit: {
-    futuresMaker: 0.02, futuresTaker: 0.055, demo: true, copyTrading: true, autoInvest: true, earn: true, proofOfReserves: true,
-    bots: { grid: true, futuresGrid: true, dca: true, martingale: true, rebalance: null, arbitrage: true },
-  },
-  bingx: {
-    futuresMaker: 0.02, futuresTaker: 0.05, demo: true, copyTrading: true, autoInvest: true, earn: true, proofOfReserves: true,
-    bots: { grid: true, futuresGrid: true, dca: true, martingale: true, rebalance: null, arbitrage: null },
-  },
-  kucoin: {
-    futuresMaker: 0.02, futuresTaker: 0.06, demo: null, copyTrading: true, autoInvest: null, earn: true, proofOfReserves: true,
-    bots: { grid: true, futuresGrid: true, dca: true, martingale: true, rebalance: true, arbitrage: true },
-  },
-  okx: {
-    futuresMaker: 0.02, futuresTaker: 0.05, demo: true, copyTrading: true, autoInvest: true, earn: true, proofOfReserves: true,
-    bots: { grid: true, futuresGrid: true, dca: true, martingale: true, rebalance: true, arbitrage: true },
-  },
-  mexc: {
-    futuresMaker: 0, futuresTaker: 0.02, demo: true, copyTrading: true, autoInvest: true, earn: true, proofOfReserves: true,
-    bots: { grid: true, futuresGrid: true, dca: true, martingale: true, rebalance: null, arbitrage: null },
-  },
-  gate: {
-    futuresMaker: 0.02, futuresTaker: 0.05, demo: true, copyTrading: true, autoInvest: true, earn: true, proofOfReserves: true,
-    bots: { grid: true, futuresGrid: true, dca: true, martingale: true, rebalance: null, arbitrage: true },
-  },
+const STRATEGY_NEEDS = {
+  hodl: ["proofOfReserves", "spotFee"],
+  dca: [["autoInvest", "bots.dca"], "spotFee"],
+  spotSwing: ["spotFee", "proofOfReserves"],
+  futuresSwing: ["demo", "futuresFee"],
+  dayTrading: ["demo", "futuresFee"],
+  scalping: ["demo", "futuresFee"],
+  gridBot: ["bots.grid", "spotFee"],
+  dcaBot: [["bots.dca", "bots.martingale"], "spotFee"],
+  rebalanceBot: ["bots.rebalance", "spotFee"],
+  copyTrading: ["copyTrading", "demo", "futuresFee"],
+  earn: ["earn", "proofOfReserves"],
+  fundingArb: ["bots.arbitrage", "futuresFee", "spotFee"],
 };
-
-// Что нужно стратегии от биржи.
-//   require — функции, которые должны быть подтверждены (любая из групп
-//             anyOf, все из allOf);
-//   sort    — порядок сортировки (после доступа для РФ, если человек из РФ);
-//   show    — какие условия показать в карточке биржи.
-const STRATEGY_EXCHANGE_NEEDS = {
-  hodl: { require: {}, sort: ["proofOfReserves", "spotTaker"], show: ["spotFee", "proofOfReserves"] },
-  dca: { require: { anyOf: ["autoInvest", "bots.dca"] }, sort: ["autoInvest", "spotTaker"], show: ["autoInvest", "bots.dca", "spotFee"] },
-  spotSwing: { require: {}, sort: ["spotTaker"], show: ["spotFee", "proofOfReserves"] },
-  futuresSwing: { require: {}, sort: ["demo", "futuresTaker"], show: ["futuresFee", "demo"] },
-  dayTrading: { require: {}, sort: ["demo", "futuresTaker", "futuresMaker"], show: ["futuresFee", "demo"] },
-  scalping: { require: {}, sort: ["demo", "futuresMaker", "futuresTaker"], show: ["futuresFee", "demo"] },
-  gridBot: { require: { allOf: ["bots.grid"] }, sort: ["spotTaker"], show: ["bots.grid", "bots.futuresGrid", "spotFee"] },
-  dcaBot: { require: { anyOf: ["bots.dca", "bots.martingale"] }, sort: ["spotTaker"], show: ["bots.dca", "bots.martingale", "spotFee"] },
-  rebalanceBot: { require: { allOf: ["bots.rebalance"] }, sort: ["spotTaker"], show: ["bots.rebalance", "spotFee"] },
-  copyTrading: { require: { allOf: ["copyTrading"] }, sort: ["demo", "futuresTaker"], show: ["copyTrading", "demo", "futuresFee"] },
-  earn: { require: { allOf: ["earn"] }, sort: ["proofOfReserves", "spotTaker"], show: ["earn", "proofOfReserves"] },
-  fundingArb: { require: {}, sort: ["bots.arbitrage", "futuresTaker", "spotTaker"], show: ["bots.arbitrage", "futuresFee", "spotFee"] },
-};
-
-const EXCHANGES_PER_STRATEGY = 3;
-
-// Страны из ответа на вопрос о стране, которые биржа по своим условиям не
-// обслуживает (проверено 2026-09-23): Gate — Россия (п. 2.5 соглашения),
-// KuCoin и MEXC — Казахстан.
-const EXCHANGE_COUNTRY_BLOCKS = { gate: ["ru"], kucoin: ["kz"], mexc: ["kz"] };
-
-function exchangeFeature(slug, path) {
-  return path.split(".").reduce((obj, key) => (obj == null ? obj : obj[key]), EXCHANGE_FEATURES[slug]);
-}
-
-// Числовые ключи сортировки: меньше — выше в списке.
-function exchangeSortValue(ex, key) {
-  const f = EXCHANGE_FEATURES[ex.slug];
-  if (key === "spotTaker") return ex.takerFeeValue;
-  if (key === "futuresTaker") return f.futuresTaker;
-  if (key === "futuresMaker") return f.futuresMaker;
-  return exchangeFeature(ex.slug, key) === true ? 0 : 1;
-}
-
-// Биржи под стратегию. country — ответ на вопрос о стране: для России первым
-// ключом идёт доступ (без ограничений раньше серой зоны). Партнёрство в
-// сортировке не участвует.
-function rankExchangesForStrategy(id, country) {
-  if (typeof EXCHANGES_COMPARE === "undefined") return [];
-  const needs = STRATEGY_EXCHANGE_NEEDS[id];
-  const req = needs.require || {};
-  const list = EXCHANGES_COMPARE.filter((ex) => {
-    if (!EXCHANGE_FEATURES[ex.slug]) return false;
-    if ((EXCHANGE_COUNTRY_BLOCKS[ex.slug] || []).includes(country)) return false;
-    if (req.allOf && !req.allOf.every((p) => exchangeFeature(ex.slug, p) === true)) return false;
-    if (req.anyOf && !req.anyOf.some((p) => exchangeFeature(ex.slug, p) === true)) return false;
-    return true;
-  });
-  const keys = (country === "ru" ? ["ruAccess"] : []).concat(needs.sort);
-  list.sort((x, y) => {
-    for (const k of keys) {
-      const vx = k === "ruAccess" ? (x.ruAccessTier === "open" ? 0 : 1) : exchangeSortValue(x, k);
-      const vy = k === "ruAccess" ? (y.ruAccessTier === "open" ? 0 : 1) : exchangeSortValue(y, k);
-      if (vx !== vy) return vx - vy;
-    }
-    return x.name.localeCompare(y.name);
-  });
-  return list.slice(0, EXCHANGES_PER_STRATEGY);
-}
 
 // --------------------------------------------------------------------------
 // Тексты интерфейса и вопросов.
@@ -338,7 +244,7 @@ const QUIZ_STRINGS = {
       age: { title: "Вам уже исполнилось 18 лет?", options: ["Да", "Нет"] },
       country: {
         title: "В какой стране вы живёте?",
-        hint: "Это нужно, чтобы учесть доступность бирж и местные правила.",
+        hint: "Это нужно, чтобы учесть местные правила.",
         options: ["Россия", "Беларусь", "Казахстан", "Другая страна СНГ", "Другая страна"],
       },
       money: {
@@ -433,14 +339,11 @@ const QUIZ_STRINGS = {
     skillsTitle: "Что нужно уметь",
     mistakesTitle: "Типичные ошибки",
     firstStepTitle: "Безопасный первый шаг",
-    exchangesTitle: "Где это делать",
+    needsTitle: "Что нужно от площадки",
     moreTitle: "Риски, навыки и типичные ошибки",
     tabsLabel: "Подходящие стратегии",
-    factSpot: (v) => `Спот ${v}`,
-    factFutures: (m, tk) => `Фьючерсы ${m} / ${tk}`,
-    exchangesNote: (date) => `Порядок — только по условиям для этой стратегии, партнёрств с биржами нет. Данные на ${date}, сверяйте на сайте биржи.`,
-    exchangeMore: "Обзор биржи →",
-    noExchanges: "Для этой стратегии не нашлось бирж с подтверждёнными нужными функциями.",
+    needsOr: " или ",
+    needsNote: 'Мы не подбираем биржу за вас. Лицензии, комиссии и условия для резидентов РФ разных бирж собраны в нейтральном <a href="/exchanges/">сравнении бирж</a>.',
     dims: {
       goal: "Цель",
       time: "Время",
@@ -452,7 +355,7 @@ const QUIZ_STRINGS = {
     },
     generalTitle: "Важно по вашим ответам",
     notes: {
-      ru: "Вы указали Россию. По закону № 282-ФЗ с 1 июля 2027 года резиденты России смогут совершать сделки с криптовалютой только через организаторов обращения цифровой валюты. Биржи в подборе — иностранные компании. Следите за изменениями правил.",
+      ru: "Вы указали Россию. По закону № 282-ФЗ с 1 июля 2027 года резиденты России смогут совершать сделки с криптовалютой только через организаторов обращения цифровой валюты. Биржи из сравнения на сайте — иностранные компании. Следите за изменениями правил.",
       notable: "Вы планируете направить заметную часть сбережений: не вкладывайте всё в одну стратегию и не храните всё на одной площадке.",
       panic: "Криптовалюта регулярно дешевеет на 30–80%. Если такие просадки вызывают желание продать всё, долю криптовалюты в сбережениях лучше держать минимальной.",
       beginner: "Опыта пока нет: начните с суммы, потерю которой вы спокойно переживёте, и включите двухфакторную защиту аккаунта на бирже.",
@@ -469,30 +372,21 @@ const QUIZ_STRINGS = {
       capital: (need) => `нужна стартовая сумма не ниже «${need}»`,
       horizon: (need) => `стратегия рассчитана на срок не меньше чем «${need}»`,
     },
-    yes: "есть",
-    no: "нет",
-    unknown: "не подтверждено",
-    features: {
-      spotFee: "Спот, мейкер / тейкер",
-      futuresFee: "Фьючерсы, мейкер / тейкер",
-      withdrawFee: "Вывод USDT",
-      deposit: "Пополнение",
-      proofOfReserves: "Подтверждение резервов (Proof of Reserves)",
-      demo: "Демо-счёт",
-      copyTrading: "Копитрейдинг",
+    needs: {
+      spotFee: "Невысокая комиссия на споте — сравните ставки мейкера и тейкера",
+      futuresFee: "Невысокая комиссия во фьючерсах",
+      proofOfReserves: "Публикация подтверждения резервов (Proof of Reserves)",
+      demo: "Демо-счёт, чтобы отработать стратегию без риска",
+      copyTrading: "Раздел копитрейдинга с историей и просадками трейдеров",
       autoInvest: "Автопокупка по расписанию",
-      earn: "Earn (сбережения)",
-      "bots.grid": "Сеточный бот (спот)",
-      "bots.futuresGrid": "Сеточный бот (фьючерсы)",
+      earn: "Простые продукты Earn: гибкие и срочные сбережения",
+      "bots.grid": "Сеточный бот",
       "bots.dca": "DCA-бот",
       "bots.martingale": "Мартингейл-бот",
-      "bots.rebalance": "Бот ребалансировки",
+      "bots.rebalance": "Бот ребалансировки портфеля",
       "bots.arbitrage": "Инструмент арбитража ставки финансирования",
     },
-    ruAccessOpen: "Для РФ: без ограничений",
-    ruAccessGrey: "Для РФ: серая зона",
     locale: "ru-RU",
-    exchangesBase: "/exchanges/",
   },
   en: {
     progress: (n, total) => `Question ${n} of ${total}`,
@@ -504,7 +398,7 @@ const QUIZ_STRINGS = {
       age: { title: "Are you 18 or older?", options: ["Yes", "No"] },
       country: {
         title: "Which country do you live in?",
-        hint: "This lets us account for exchange availability and local rules.",
+        hint: "This lets us account for local rules.",
         options: ["Russia", "Belarus", "Kazakhstan", "Another CIS country", "Another country"],
       },
       money: {
@@ -599,14 +493,11 @@ const QUIZ_STRINGS = {
     skillsTitle: "What you need to know",
     mistakesTitle: "Common mistakes",
     firstStepTitle: "A safe first step",
-    exchangesTitle: "Where to do it",
+    needsTitle: "What you need from a platform",
     moreTitle: "Risks, skills and common mistakes",
     tabsLabel: "Matching strategies",
-    factSpot: (v) => `Spot ${v}`,
-    factFutures: (m, tk) => `Futures ${m} / ${tk}`,
-    exchangesNote: (date) => `Ordered only by terms for this strategy; no partnerships with exchanges. Data as of ${date} — confirm on the exchange's site.`,
-    exchangeMore: "Exchange overview →",
-    noExchanges: "No exchange with the required tools confirmed for this strategy.",
+    needsOr: " or ",
+    needsNote: `We don't pick an exchange for you. Licenses, fees and terms for Russian residents of different exchanges are collected in a neutral <a href="/en/exchanges/">exchange comparison</a>.`,
     dims: {
       goal: "Goal",
       time: "Time",
@@ -618,7 +509,7 @@ const QUIZ_STRINGS = {
     },
     generalTitle: "Important for your answers",
     notes: {
-      ru: "You chose Russia. Under Law No. 282-FZ, from 1 July 2027 Russian residents may carry out crypto transactions only through digital currency circulation organisers. The exchanges in the finder are foreign companies. Keep an eye on rule changes.",
+      ru: "You chose Russia. Under Law No. 282-FZ, from 1 July 2027 Russian residents may carry out crypto transactions only through digital currency circulation organisers. The exchanges in the site's comparison are foreign companies. Keep an eye on rule changes.",
       notable: "You plan to put in a noticeable part of your savings: don't put everything into one strategy or keep it all on one platform.",
       panic: "Crypto regularly drops 30–80%. If drops like that make you want to sell everything, keep crypto a minimal share of your savings.",
       beginner: "No experience yet: start with an amount you could lose without trouble, and turn on two-factor authentication on the exchange.",
@@ -635,30 +526,21 @@ const QUIZ_STRINGS = {
       capital: (need) => `needs a starting amount of at least "${need}"`,
       horizon: (need) => `is designed for a horizon of at least "${need}"`,
     },
-    yes: "yes",
-    no: "no",
-    unknown: "not confirmed",
-    features: {
-      spotFee: "Spot, maker / taker",
-      futuresFee: "Futures, maker / taker",
-      withdrawFee: "USDT withdrawal",
-      deposit: "Funding",
-      proofOfReserves: "Proof of Reserves",
-      demo: "Demo account",
-      copyTrading: "Copy trading",
+    needs: {
+      spotFee: "Low spot fees — compare maker and taker rates",
+      futuresFee: "Low futures fees",
+      proofOfReserves: "Published Proof of Reserves",
+      demo: "A demo account to practise the strategy without risk",
+      copyTrading: "A copy-trading section showing traders' history and drawdowns",
       autoInvest: "Scheduled auto-buy",
-      earn: "Earn (savings)",
-      "bots.grid": "Grid bot (spot)",
-      "bots.futuresGrid": "Grid bot (futures)",
-      "bots.dca": "DCA bot",
-      "bots.martingale": "Martingale bot",
-      "bots.rebalance": "Rebalancing bot",
-      "bots.arbitrage": "Funding-rate arbitrage tool",
+      earn: "Simple Earn products: flexible and fixed-term savings",
+      "bots.grid": "A grid bot",
+      "bots.dca": "A DCA bot",
+      "bots.martingale": "A martingale bot",
+      "bots.rebalance": "A portfolio rebalancing bot",
+      "bots.arbitrage": "A funding-rate arbitrage tool",
     },
-    ruAccessOpen: "Russia: no restrictions",
-    ruAccessGrey: "Russia: grey zone",
     locale: "en-US",
-    exchangesBase: "/en/exchanges/",
   },
 };
 
@@ -682,30 +564,6 @@ function optionLabel(t, qid, value) {
 
 function lcFirst(s, lang) {
   return lang === "ru" ? s.charAt(0).toLowerCase() + s.slice(1) : s;
-}
-
-function formatPct(v, t) {
-  return `${new Intl.NumberFormat(t.locale, { maximumFractionDigits: 3 }).format(v)}%`;
-}
-
-// Одно условие биржи в компактной строке: цифры — коротко, функции — «✓ есть»
-// или приглушённое «не подтверждено».
-function exchangeFactHTML(ex, key, t) {
-  if (key === "spotFee") {
-    // Тейкер в формулировке из данных, без пояснения в скобках: «~0,05-0,1%»
-    // честнее, чем усреднённое число из takerFeeValue.
-    const taker = ex.takerFeeText.replace(/\s*\(.*\)\s*$/, "");
-    return `<span class="sq-fact" title="${quizEscape(`${ex.makerFeeText} / ${ex.takerFeeText}`)}">${quizEscape(t.factSpot(taker))}</span>`;
-  }
-  if (key === "futuresFee") {
-    const f = EXCHANGE_FEATURES[ex.slug];
-    return `<span class="sq-fact">${t.factFutures(formatPct(f.futuresMaker, t), formatPct(f.futuresTaker, t))}</span>`;
-  }
-  const v = exchangeFeature(ex.slug, key);
-  const label = t.features[key];
-  if (v === true) return `<span class="sq-fact sq-fact--yes">✓ ${label}</span>`;
-  if (v === false) return `<span class="sq-fact sq-fact--no">✗ ${label}</span>`;
-  return `<span class="sq-fact sq-fact--unknown">${label}: ${t.unknown}</span>`;
 }
 
 // Почему стратегия подходит: ответы, за которые она получила 2+ балла, —
@@ -747,28 +605,10 @@ function listHTML(items, cls) {
   return `<ul class="${cls}">${items.map((s) => `<li>${quizEscape(s)}</li>`).join("")}</ul>`;
 }
 
-function exchangeRowsHTML(id, a, t) {
-  const list = rankExchangesForStrategy(id, a.country);
-  if (!list.length) return `<p class="sq-muted">${t.noExchanges}</p>`;
-  const show = STRATEGY_EXCHANGE_NEEDS[id].show;
-  const rows = list
-    .map((ex) => {
-      const badge =
-        a.country === "ru"
-          ? `<span class="ex-badge ${ex.ruAccessTier === "open" ? "ex-badge--open" : "ex-badge--grey"}">${
-              ex.ruAccessTier === "open" ? t.ruAccessOpen : t.ruAccessGrey
-            }</span>`
-          : "";
-      return `
-        <li class="sq-exchange">
-          <div class="sq-exchange-name"><strong>${quizEscape(ex.name)}</strong>${badge}</div>
-          <div class="sq-exchange-facts">${show.map((key) => exchangeFactHTML(ex, key, t)).join("")}</div>
-          <a class="sq-exchange-link" href="${t.exchangesBase}${ex.slug}/">${t.exchangeMore}</a>
-        </li>`;
-    })
-    .join("");
-  const date = new Intl.DateTimeFormat(t.locale, { year: "numeric", month: "long", day: "numeric" }).format(new Date(EXCHANGE_FEATURES_CHECKED));
-  return `<ul class="sq-exchanges">${rows}</ul><p class="sq-muted sq-exchanges-note">${t.exchangesNote(date)}</p>`;
+// Что нужно от площадки — без названий бирж.
+function needsHTML(id, t) {
+  const items = STRATEGY_NEEDS[id].map((need) => (Array.isArray(need) ? need.map((k) => t.needs[k]).join(t.needsOr) : t.needs[need]));
+  return `${listHTML(items, "sq-list sq-needs")}<p class="sq-muted sq-exchanges-note">${t.needsNote}</p>`;
 }
 
 // Карточка выбранной стратегии: на виду только главное, подробности — под
@@ -799,8 +639,8 @@ function strategyDetailHTML(id, a, t, lang) {
         <h4>${t.skillsTitle}</h4>${listHTML(s.skills, "sq-list")}
         <h4>${t.mistakesTitle}</h4>${listHTML(s.mistakes, "sq-list")}
       </details>
-      <h4 class="sq-exchanges-title">${t.exchangesTitle}</h4>
-      ${exchangeRowsHTML(id, a, t)}
+      <h4 class="sq-exchanges-title">${t.needsTitle}</h4>
+      ${needsHTML(id, t)}
     </article>`;
 }
 

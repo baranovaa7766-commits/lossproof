@@ -13,9 +13,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -38,6 +36,7 @@
         <a href="/en/offramps/">Compare cash-out services</a>
         <a href="/en/red-flags/">Prop Firm Red Flags</a>
         <a href="/en/terms/">Glossary</a>
+        <a href="/en/app/">App</a>
         <a href="/en/about/">About</a>
         <a class="lang-switch" href="/terms/" aria-label="Переключить на русский"><span class="lang-switch-icon" aria-hidden="true"></span>RU</a>
       </nav>
@@ -57,7 +56,7 @@
         <h2>Prop firms &amp; trading</h2>
         <dl class="term-list">
           <dt>Prop firm (proprietary trading firm)</dt>
-          <dd>A company that gives a trader its own money to trade, in exchange for a share of the profit. You don't put up your own capital — just pay for the evaluation.</dd>
+          <dd>A company that gives a trader its own money to trade, in exchange for a share of the profit. The trader pays for the evaluation, and the fee isn't refunded if they fail it. The industry isn't licensed — how to vet a firm is covered on the <a href="/en/red-flags/">red flags</a> page.</dd>
 
           <dt>Evaluation / challenge</dt>
           <dd>A paid test of profitable trading under the firm's rules. Pass it, and you get an account funded with the firm's money.</dd>
@@ -97,7 +96,7 @@
           <dd>Taker: your order fills instantly at the market price (fee is usually higher). Maker: your order sits in the order book until someone else fills it (fee is usually lower).</dd>
 
           <dt>P2P</dt>
-          <dd>A direct deal between two people through an exchange acting as a middleman: one sells crypto for rubles, the other buys it, and the money goes straight to a card.</dd>
+          <dd>A direct deal between two people through an exchange acting as a middleman: one sells crypto for rubles, the other buys it, and the money goes straight to a card. For Russian residents, P2P trades with strangers carry the risk of card blocks under Law No. 115-FZ and liability for handing your card or account to third parties.</dd>
 
           <dt>KYC (Know Your Customer)</dt>
           <dd>The mandatory identity check when signing up on an exchange: a passport, sometimes a selfie holding it.</dd>
@@ -145,6 +144,5 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
   <script src="/assets/js/reveal.js"></script>
-  <script src="/assets/js/metrika.js"></script>
 </body>
 </html>

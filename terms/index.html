@@ -13,9 +13,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -38,6 +36,7 @@
         <a href="/offramps/">Сравнение обменников</a>
         <a href="/red-flags/">Красные флаги пропфирм</a>
         <a href="/terms/">Словарь терминов</a>
+        <a href="/app/">Приложение</a>
         <a href="/about/">О проекте</a>
         <a class="lang-switch" href="/en/terms/" aria-label="Switch to English"><span class="lang-switch-icon" aria-hidden="true"></span>EN</a>
       </nav>
@@ -57,7 +56,7 @@
         <h2>Пропфирмы и трейдинг</h2>
         <dl class="term-list">
           <dt>Пропфирма (proprietary trading firm)</dt>
-          <dd>Компания, которая даёт трейдеру свои деньги для торговли, а взамен забирает часть прибыли. Свой капитал вкладывать не нужно — только заплатить за оценку.</dd>
+          <dd>Компания, которая даёт трейдеру свои деньги для торговли, а взамен забирает часть прибыли. Трейдер платит за оценку; если её не пройти, плата не возвращается. Индустрия не лицензируется — как проверить фирму, рассказано на странице <a href="/red-flags/">красных флагов</a>.</dd>
 
           <dt>Оценка / челлендж</dt>
           <dd>Платный экзамен на прибыльную торговлю по правилам фирмы. Пройдёшь — получишь счёт с деньгами фирмы.</dd>
@@ -97,7 +96,7 @@
           <dd>Тейкер — сделка исполнилась сразу по рыночной цене (комиссия обычно выше). Мейкер — ордер полежал в очереди, пока кто-то другой его не купил (комиссия обычно ниже).</dd>
 
           <dt>P2P</dt>
-          <dd>Прямая сделка между двумя людьми через биржу-посредника: один продаёт крипту за рубли, другой покупает, деньги идут напрямую на карту.</dd>
+          <dd>Прямая сделка между двумя людьми через биржу-посредника: один продаёт крипту за рубли, другой покупает, деньги идут напрямую на карту. Для резидентов России P2P-сделки с незнакомыми людьми связаны с риском блокировки карты по закону № 115-ФЗ и ответственностью за передачу своей карты или счёта третьим лицам.</dd>
 
           <dt>KYC (Know Your Customer)</dt>
           <dd>Обязательная проверка личности при регистрации на бирже: паспорт, иногда селфи с ним.</dd>
@@ -145,6 +144,5 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
   <script src="/assets/js/reveal.js"></script>
-  <script src="/assets/js/metrika.js"></script>
 </body>
 </html>

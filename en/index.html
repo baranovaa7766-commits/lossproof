@@ -16,9 +16,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -32,6 +30,7 @@
         LossProof
       </a>
       <nav class="site-nav">
+        <a href="/en/app/">App</a>
         <a href="/en/about/">About</a>
         <a class="lang-switch" href="/" aria-label="Переключить на русский"><span class="lang-switch-icon" aria-hidden="true"></span>RU</a>
       </nav>
@@ -45,7 +44,7 @@
         <div class="hero-copy">
           <p class="hero-eyebrow">Verified against primary sources</p>
           <h1>Every payout route is <em>fully visible</em> before you pay for it</h1>
-          <p>We compare exchanges and cash-out services and calculate prop-firm payout transfers using verified data, not marketing promises. Gradually growing this into a full trader's guide — from picking a platform to the last dollar in your account.</p>
+          <p>We collect the terms of exchanges, cash-out services and prop firms from official sources and calculate how much is lost at each step of moving a payout. No advertising and no affiliate links — only reference data.</p>
         </div>
       </div>
     </section>
@@ -79,7 +78,7 @@
               </g>
             </svg>
             <h3>Crypto Payout Guide</h3>
-            <p>Cash out through an exchange and an off-ramp</p>
+            <p>How cashing out through crypto works and what it costs</p>
           </a>
 
           <a class="hub-card" href="/en/exchanges/">
@@ -105,7 +104,7 @@
               </g>
             </svg>
             <h3>Compare Cash-Out Services</h3>
-            <p>Where to convert USDT to rubles, and at what rate</p>
+            <p>Cash-out service fees and terms</p>
           </a>
         </div>
       </div>
@@ -136,7 +135,7 @@
               </g>
             </svg>
             <h3>Strategy Finder</h3>
-            <p>12 questions — a strategy and exchanges for your profile</p>
+            <p>12 questions — which type of strategy fits your profile</p>
           </a>
         </div>
       </div>
@@ -188,6 +187,22 @@
     </section>
 
     <section class="section container">
+      <div class="card app-promo">
+        <p class="app-status"><span class="ex-badge ex-badge--open">In development</span> <span class="ex-badge ex-badge--open">Free</span></p>
+        <h2>The LossProof app</h2>
+        <p>We're building a personal finance app — for everyone, not just traders. Spending, budget, savings and net worth in one place, on your phone and your computer. At launch the app will be completely free.</p>
+        <ul>
+          <li>Log spending and income in seconds, including as a phrase: "coffee 350"</li>
+          <li>A budget by category and a hint of how much you can spend today</li>
+          <li>Recurring payments and subscriptions with reminders</li>
+          <li>Goals and savings, net worth, loans and debts</li>
+          <li>Separate sections for personal money, business and investments</li>
+        </ul>
+        <p><a href="/en/app/">More about the app →</a></p>
+      </div>
+    </section>
+
+    <section class="section container">
       <div class="card">
         <h2>Why LossProof</h2>
         <p>We compare actual terms, not marketing promises — turning exchanges, prop firms, and withdrawal services into readable tables, so you spend your time trading instead of re-checking fees across a dozen tabs.</p>
@@ -200,7 +215,7 @@
             </svg>
             <div>
               <strong>Vetted platforms</strong>
-              <p>For exchanges, a public license or VASP registration; for cash-out services, public tariffs and terms. We do not rate or recommend prop firms: we only give reference facts about withdrawals, and explain how to vet a firm yourself on the red-flags page.</p>
+              <p>For exchanges we list licences confirmed by regulators' registers; for cash-out services, published tariffs. This is reference information, not a recommendation: we don't rate or recommend exchanges, cash-out services or prop firms, and we explain how to vet a firm yourself on the red-flags page.</p>
             </div>
           </div>
           <div class="advantage-item">
@@ -233,7 +248,7 @@
             </svg>
             <div>
               <strong>Grounded in CIS reality</strong>
-              <p>We cover not just what's officially available, but how it actually works in practice for traders in Russia and the CIS.</p>
+              <p>We flag sanctions, restrictions in service terms and changes to Russian law — for example, Law No. 282-FZ on digital currencies.</p>
             </div>
           </div>
           <div class="advantage-item">
@@ -265,6 +280,5 @@
   <script src="/assets/js/reveal.js"></script>
   <script src="/assets/js/mountain.js"></script>
   <script>initMountainScene("mtn-canvas");</script>
-  <script src="/assets/js/metrika.js"></script>
 </body>
 </html>

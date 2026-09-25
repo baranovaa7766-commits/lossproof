@@ -16,9 +16,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -32,6 +30,7 @@
         LossProof
       </a>
       <nav class="site-nav">
+        <a href="/app/">Приложение</a>
         <a href="/about/">О проекте</a>
         <a class="lang-switch" href="/en/" aria-label="Switch to English"><span class="lang-switch-icon" aria-hidden="true"></span>EN</a>
       </nav>
@@ -45,7 +44,7 @@
         <div class="hero-copy">
           <p class="hero-eyebrow">Проверено по первоисточникам</p>
           <h1>Каждый маршрут вывода <em>виден насквозь</em>, прежде чем вы за него заплатите</h1>
-          <p>Сравниваем биржи и обменники и считаем переводы выплат пропфирм по проверенным данным, без рекламных обещаний. Постепенно превращаем это в полноценный гид для трейдера — от выбора площадки до последнего рубля на счету.</p>
+          <p>Собираем условия бирж, обменников и пропфирм из официальных источников и считаем, сколько теряется на каждом шаге перевода выплаты. Без рекламы и партнёрских ссылок — только справочные данные.</p>
         </div>
       </div>
     </section>
@@ -79,7 +78,7 @@
               </g>
             </svg>
             <h3>Гид по крипто-выводу</h3>
-            <p>Как вывести выплату через биржу и off-ramp</p>
+            <p>Как устроен вывод через криптовалюту и сколько он стоит</p>
           </a>
 
           <a class="hub-card" href="/exchanges/">
@@ -105,7 +104,7 @@
               </g>
             </svg>
             <h3>Сравнение обменников</h3>
-            <p>Куда вывести USDT в рубли и по какому курсу</p>
+            <p>Тарифы и условия обменников</p>
           </a>
         </div>
       </div>
@@ -136,7 +135,7 @@
               </g>
             </svg>
             <h3>Подбор стратегии</h3>
-            <p>12 вопросов — стратегия и биржи под ваш профиль</p>
+            <p>12 вопросов — какой тип стратегии подходит вашему профилю</p>
           </a>
         </div>
       </div>
@@ -188,6 +187,22 @@
     </section>
 
     <section class="section container">
+      <div class="card app-promo">
+        <p class="app-status"><span class="ex-badge ex-badge--open">В разработке</span> <span class="ex-badge ex-badge--open">Бесплатно</span></p>
+        <h2>Приложение LossProof</h2>
+        <p>Мы делаем приложение для учёта личных финансов — для всех, а не только для трейдеров. Траты, бюджет, накопления и капитал в одном месте, на телефоне и на компьютере. На старте приложение будет полностью бесплатным.</p>
+        <ul>
+          <li>Запись трат и доходов за пару секунд, в том числе фразой: «кофе 350»</li>
+          <li>Бюджет по категориям и подсказка, сколько можно потратить сегодня</li>
+          <li>Регулярные платежи и подписки с напоминаниями</li>
+          <li>Цели и накопления, капитал, кредиты и долги</li>
+          <li>Отдельные разделы для личных денег, бизнеса и инвестиций</li>
+        </ul>
+        <p><a href="/app/">Подробнее о приложении →</a></p>
+      </div>
+    </section>
+
+    <section class="section container">
       <div class="card">
         <h2>Почему LossProof</h2>
         <p>Мы сравниваем реальные условия, а не рекламные обещания — сводим биржи, обменники и условия выплат пропфирм в понятные таблицы, чтобы вы тратили время на трейдинг, а не на ручной пересчёт комиссий по десятку вкладок.</p>
@@ -199,8 +214,8 @@
               <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <div>
-              <strong>Проверенные площадки</strong>
-              <p>Для бирж — публичная лицензия или регистрация VASP, для обменников — публичные тарифы и условия работы. Пропфирмы мы не оцениваем и не рекомендуем: даём только справочные сведения о выводе, а как проверить фирму самому — объясняем на странице красных флагов.</p>
+              <strong>Только проверяемые данные</strong>
+              <p>Для бирж указываем лицензии, которые подтверждаются реестрами регуляторов, для обменников — опубликованные тарифы. Это справка, а не рекомендация: мы не оцениваем и не советуем биржи, обменники и пропфирмы, а как проверить фирму самому — объясняем на странице красных флагов.</p>
             </div>
           </div>
           <div class="advantage-item">
@@ -232,8 +247,8 @@
               <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <div>
-              <strong>Учитываем реальность СНГ</strong>
-              <p>Пишем не только «что доступно официально», но и как это работает на практике для трейдеров из России и стран СНГ.</p>
+              <strong>Учитываем законы России и СНГ</strong>
+              <p>Отмечаем санкции, ограничения в условиях сервисов и изменения российского законодательства — например, закона № 282-ФЗ о цифровых валютах.</p>
             </div>
           </div>
           <div class="advantage-item">
@@ -265,6 +280,5 @@
   <script src="/assets/js/reveal.js"></script>
   <script src="/assets/js/mountain.js"></script>
   <script>initMountainScene("mtn-canvas");</script>
-  <script src="/assets/js/metrika.js"></script>
 </body>
 </html>

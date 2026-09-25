@@ -5,8 +5,9 @@
 // Главное — правила безопасности на ВСЕХ сочетаниях ответов (перебор ~737
 // тысяч вариантов): новичку, тому, кто вкладывает большую часть сбережений,
 // кто продаст всё на просадке или не хочет плеча, никогда не выпадают
-// стратегии с плечом и рискованные режимы. Плюс полнота текстов, списки бирж
-// под каждую стратегию и сквозной проход по интерфейсу.
+// стратегии с плечом и рискованные режимы. Плюс полнота текстов, список нужных
+// инструментов под каждую стратегию (без названий бирж) и сквозной проход по
+// интерфейсу.
 (async () => {
   const problems = [];
   const warn = [];
@@ -20,8 +21,8 @@
     if (!s) return add(`нет текста стратегии ${id}`);
     ["name", "tagline", "summary", "time", "firstStep"].forEach((k) => { if (!s[k]) add(`${id}: пустое поле ${k}`); });
     ["skills", "mistakes", "cautions"].forEach((k) => { if (!Array.isArray(s[k]) || !s[k].length) add(`${id}: пустой список ${k}`); });
-    if (!STRATEGY_EXCHANGE_NEEDS[id]) add(`${id}: нет STRATEGY_EXCHANGE_NEEDS`);
-    STRATEGY_EXCHANGE_NEEDS[id].show.forEach((k) => { if (!t.features[k]) add(`${id}: нет подписи для ${k}`); });
+    if (!STRATEGY_NEEDS[id] || !STRATEGY_NEEDS[id].length) return add(`${id}: нет STRATEGY_NEEDS`);
+    STRATEGY_NEEDS[id].flat().forEach((k) => { if (!t.needs[k]) add(`${id}: нет подписи для ${k}`); });
   });
   Object.keys(STRATEGIES).forEach((id) => { if (!STRATEGY_RULES[id]) add(`лишний текст стратегии ${id}`); });
   QUIZ_QUESTIONS.forEach((q) => {
@@ -86,18 +87,10 @@
     if (!top[id]) warn.push(`${id} ни разу не выходит на первое место`);
   });
 
-  // 4) Биржи под каждую стратегию.
-  for (const id of STRATEGY_ORDER) {
-    for (const country of ["ru", "other"]) {
-      const list = rankExchangesForStrategy(id, country);
-      if (list.length === 0) add(`${id} (${country}): нет ни одной биржи`);
-      else if (list.length < 2) warn.push(`${id} (${country}): только ${list.length} биржа`);
-      if (country === "ru") {
-        const firstGrey = list.findIndex((e) => e.ruAccessTier !== "open");
-        if (firstGrey !== -1 && list.slice(firstGrey).some((e) => e.ruAccessTier === "open")) add(`${id} (ru): серая зона выше открытой биржи`);
-      }
-    }
-  }
+  // 4) Квиз не называет биржи: ни одного названия из сравнения в текстах.
+  const names = (typeof EXCHANGES_COMPARE !== "undefined" ? EXCHANGES_COMPARE : []).map((e) => e.name);
+  const texts = JSON.stringify([t, typeof STRATEGIES !== "undefined" ? STRATEGIES : {}]);
+  names.forEach((n) => { if (texts.includes(n)) add(`в текстах квиза есть название биржи ${n}`); });
 
   // 5) Сквозной проход по интерфейсу.
   const root = document.getElementById("strategy-quiz");
@@ -130,7 +123,9 @@
       tabs[0].click();
     }
     if (!root.querySelector(".sq-more")) add("UI: подробности стратегии не свёрнуты в <details>");
-    if (!root.querySelector(".sq-exchange")) add("UI: нет карточек бирж");
+    if (!root.querySelector(".sq-needs")) add("UI: нет списка нужных инструментов");
+    if (root.querySelector(".sq-exchange")) add("UI: в результате остались карточки бирж");
+    names.forEach((n) => { if (root.innerText.includes(n)) add(`UI: в результате названа биржа ${n}`); });
     if (root.querySelector('a[rel~="sponsored"]')) add("UI: в квизе есть партнёрская ссылка");
     if (/undefined|NaN|null/.test(root.innerText)) add("UI: мусор в тексте результата");
     click('[data-action="restart"]');

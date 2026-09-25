@@ -13,9 +13,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -38,6 +36,7 @@
         <a href="/en/offramps/">Compare cash-out services</a>
         <a href="/en/red-flags/">Prop Firm Red Flags</a>
         <a href="/en/terms/">Glossary</a>
+        <a href="/en/app/">App</a>
         <a href="/en/about/">About</a>
         <a class="lang-switch" href="/costs/" aria-label="Переключить на русский"><span class="lang-switch-icon" aria-hidden="true"></span>RU</a>
       </nav>
@@ -75,14 +74,14 @@
           <li><strong>Closed positions</strong> — Orders → Derivatives → Closed P&amp;L → Export. Needed for your win rate and break-even threshold.</li>
           <li><strong>Transaction log</strong> — Assets → Unified Trading Account → History Records → Transaction Log → Export. Adds options fees, coin conversions inside the account and borrowing interest.</li>
         </ul>
-        <p class="sq-muted">One export covers up to 6 months and 10,000 records within the last 2 years; for a longer period make several exports and upload them all — we remove the overlaps. The fallback is Account → Data Export, where a file can take 1–3 days. More in <a href="https://www.bybit.com/en/help-center/article/How-to-Self-Export-Account-Data" target="_blank" rel="noopener">Bybit's help centre</a>.</p>
+        <p class="sq-muted">One export covers up to 6 months and 10,000 records within the last 2 years; for a longer period make several exports and upload them all — we remove the overlaps. The fallback is Account → Data Export, where a file can take 1–3 days. More in <a href="https://www.bybit.com/en/help-center/article/How-to-Self-Export-Account-Data" target="_blank" rel="noopener nofollow">Bybit's help centre</a>.</p>
 
         <h3>OKX <span class="cs-tag">beta</span></h3>
         <ul>
           <li><strong>Trading history</strong> — Assets → Order center → Trading history → Download, CSV format.</li>
           <li><strong>Position history</strong> — Order center → Position history → Download. It has the fee and funding for every position.</li>
         </ul>
-        <p class="sq-muted">We built the OKX format from <a href="https://www.okx.com/en-us/help/how-to-check-download-order-history-position-history-and-trading-history" target="_blank" rel="noopener">OKX's official help page</a> and haven't checked it against a real export yet, so OKX results are marked beta. A copied download link works for one hour.</p>
+        <p class="sq-muted">We built the OKX format from <a href="https://www.okx.com/en-us/help/how-to-check-download-order-history-position-history-and-trading-history" target="_blank" rel="noopener nofollow">OKX's official help page</a> and haven't checked it against a real export yet, so OKX results are marked beta. A copied download link works for one hour.</p>
 
         <h3>Another exchange</h3>
         <p>Upload a CSV with your trade history — if the format is unfamiliar, we show its columns and you point to the fee, trade value and date. Save Excel (XLSX) files as CSV first.</p>
@@ -107,9 +106,9 @@
       <div class="card">
         <h2>Where the comparison rates come from</h2>
         <ul>
-          <li>Bybit — <a href="https://www.bybit.com/en/announcement-info/fee-rate/" target="_blank" rel="noopener">fee page</a>, Non-VIP: spot 0.1% / 0.1%, perpetual futures 0.02% / 0.055%.</li>
-          <li>BingX — <a href="https://bingx.com/en/support/costs/" target="_blank" rel="noopener">fee page</a>, VIP 0: spot 0.1% / 0.1%, perpetual futures 0.02% / 0.05%.</li>
-          <li>MEXC — <a href="https://www.mexc.com/fee" target="_blank" rel="noopener">fee page</a>: main pairs on spot 0% / 0.05%, futures 0% / 0.02%; other pairs differ.</li>
+          <li>Bybit — <a href="https://www.bybit.com/en/announcement-info/fee-rate/" target="_blank" rel="noopener nofollow">fee page</a>, Non-VIP: spot 0.1% / 0.1%, perpetual futures 0.02% / 0.055%.</li>
+          <li>BingX — <a href="https://bingx.com/en/support/costs/" target="_blank" rel="noopener nofollow">fee page</a>, VIP 0: spot 0.1% / 0.1%, perpetual futures 0.02% / 0.05%.</li>
+          <li>MEXC — <a href="https://www.mexc.com/fee" target="_blank" rel="noopener nofollow">fee page</a>: main pairs on spot 0% / 0.05%, futures 0% / 0.02%; other pairs differ.</li>
           <li>OKX — base-rate announcement (from 25.11.2025): spot 0.08% / 0.1%, futures 0.02% / 0.05%. KuCoin — VIP tier page: spot 0.1% / 0.1% for major coins (0.2% and 0.3% for classes B and C), futures 0.02% / 0.06%. Gate — fee page, VIP0: spot 0.1% / 0.1%, futures 0.02% / 0.05%.</li>
         </ul>
         <p class="sq-muted">Rates checked on 23 September 2026. Maker comes first, taker second. Regional versions of exchanges charge differently: OKX UAE, for example, has a base spot rate of 0.4% / 0.6%.</p>
@@ -131,6 +130,5 @@
     initCostsTool("costs-tool");
   </script>
   <script src="/assets/js/reveal.js"></script>
-  <script src="/assets/js/metrika.js"></script>
 </body>
 </html>

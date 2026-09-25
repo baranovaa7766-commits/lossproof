@@ -16,9 +16,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -41,6 +39,7 @@
         <a href="/offramps/">Сравнение обменников</a>
         <a href="/red-flags/">Красные флаги пропфирм</a>
         <a href="/terms/">Словарь терминов</a>
+        <a href="/app/">Приложение</a>
         <a href="/about/">О проекте</a>
         <a class="lang-switch" href="/en/calculator/" aria-label="Switch to English"><span class="lang-switch-icon" aria-hidden="true"></span>EN</a>
       </nav>
@@ -68,7 +67,7 @@
     <section class="section container">
       <div class="card">
         <h2>Почему сумма, одобренная пропфирмой, — это не то, что окажется у вас на счету</h2>
-        <p>Ваша пропфирма отправляет выплату в USD (или EUR/GBP), обычно через банковский перевод, крипто или платёжного партнёра вроде RiseWorks. Для трейдеров из России и СНГ путь дальше обычно лежит через покупку USDT на бирже и последующую конвертацию в рубли или локальную валюту через обменник — Wise и Revolut для этого недоступны. Итоговая сумма зависит от того, сколько этапов вам ещё нужно пройти, и от <strong>спреда/курса</strong> и <strong>комиссий</strong> на каждом из них. Эти потери легко складываются в 3-5% — реальные деньги при пятизначной выплате. Этот инструмент существует, чтобы сделать это сравнение прозрачным до того, как вы выберете маршрут.</p>
+        <p>Ваша пропфирма отправляет выплату в USD (или EUR/GBP), обычно через банковский перевод, крипто или платёжного партнёра вроде RiseWorks. Трейдерам из России и СНГ Wise и Revolut недоступны, поэтому такие выплаты часто конвертируют в два шага: USDT на бирже, затем обмен на рубли или местную валюту через обменник. Итоговая сумма зависит от того, сколько этапов вам ещё нужно пройти, и от <strong>спреда/курса</strong> и <strong>комиссий</strong> на каждом из них. Эти потери легко складываются в 3-5% — реальные деньги при пятизначной выплате. Калькулятор показывает эти потери заранее — это расчёт, а не рекомендация сервиса.</p>
         <p>Читайте подробный разбор: <a href="/crypto-payout-guide/">гид по крипто-выводу для трейдеров пропфирм</a>.</p>
         <p>Полный список способов вывода по каждой фирме — на странице <a href="/payouts/">«Вывод по фирмам»</a>.</p>
         <p>Тот же расчёт работает и в обратную сторону: если деньги на карте (например, в рублях), а нужно оплатить челлендж у пропфирмы криптой — выберите валюту в поле «Откуда» и нужную фирму в поле «Куда». Большинство пропфирм на сайте принимают оплату криптой, но не все — Topstep, например, принимает только банковскую карту.</p>
@@ -91,6 +90,5 @@
     initCalculator("calculator-root", { presetSource: "cash:USD", presetDestination: "fiat:RUB", amount: 1000 });
   </script>
   <script src="/assets/js/reveal.js"></script>
-  <script src="/assets/js/metrika.js"></script>
 </body>
 </html>

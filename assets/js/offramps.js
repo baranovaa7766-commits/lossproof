@@ -4,7 +4,9 @@
 // Reuses the same .cmp-card / .cmp-fields markup and CSS as exchanges.js
 // (the /exchanges/ section). Only 2 providers exist today, so there's no
 // filter/sort UI here — just plain cards, same as everywhere else on the
-// site. Language is taken from <html lang="ru|en">.
+// site. No "visit site" buttons (removed 2026-09-25): the cards are reference
+// data, not an invitation to use a service. Language is taken from
+// <html lang="ru|en">.
 
 const OFFRAMPS_STRINGS = {
   ru: {
@@ -26,7 +28,6 @@ const OFFRAMPS_STRINGS = {
     fieldSpeed: "Скорость",
     tipSpeed: "Сколько обычно занимает вывод после отправки крипты.",
     feeText: (spread, fixed) => (fixed > 0 ? `~${spread}% спред + $${fixed} фикс.` : `~${spread}% спред`),
-    getStarted: "Перейти на сайт",
     researched: (d) => `Тарифы сверяются с официальными страницами сервисов автоматически каждую ночь — последняя сверка: ${d}. Тарифы меняются без предупреждения — перед крупным выводом проверьте их на сайте сервиса.`,
   },
   en: {
@@ -48,7 +49,6 @@ const OFFRAMPS_STRINGS = {
     fieldSpeed: "Speed",
     tipSpeed: "How long a withdrawal usually takes after sending the crypto.",
     feeText: (spread, fixed) => (fixed > 0 ? `~${spread}% spread + $${fixed} flat` : `~${spread}% spread`),
-    getStarted: "Visit site",
     researched: (d) => `Rates are checked against the providers' official pages automatically every night — last check: ${d}. Rates change without notice — verify on the provider's site before a large withdrawal.`,
   },
 };
@@ -129,7 +129,6 @@ async function renderOfframpsCompare(rootId) {
             ${feeFields(o)}
             ${field(t.fieldSpeed, t.tipSpeed, escapeOfframp(o.speed))}
           </dl>
-          ${o.officialUrl ? `<p class="cmp-card-cross"><a class="pf-cross" href="${o.officialUrl}" target="_blank" rel="noopener">${t.getStarted} →</a></p>` : ""}
         </article>`;
       }).join("")}
     </div>

@@ -36,7 +36,7 @@ const EXCHANGES = [
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
-    notes: "Russia isn't on Bybit's list of excluded jurisdictions — details on /en/exchanges/bybit/.",
+    notes: "Russia isn't on Bybit's list of excluded jurisdictions — details in the exchange comparison.",
   },
   {
     id: "bingx",
@@ -44,7 +44,7 @@ const EXCHANGES = [
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
-    notes: "Russia isn't named in BingX's restricted jurisdictions — details on /en/exchanges/bingx/.",
+    notes: "Russia isn't named in BingX's restricted jurisdictions — details in the exchange comparison.",
   },
   {
     id: "kucoin",
@@ -60,7 +60,7 @@ const EXCHANGES = [
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
-    notes: "For Russia OKX restricts fiat payment services — details on /en/exchanges/okx/.",
+    notes: "For Russia OKX restricts fiat payment services — details in the exchange comparison.",
   },
   {
     id: "mexc",
@@ -76,14 +76,18 @@ const EXCHANGES = [
     spreadPercent: 0.3,
     fixedFee: 1,
     speed: "minutes",
-    notes: "Russia is listed as a restricted jurisdiction in the user agreement — details on /en/exchanges/gate/.",
+    notes: "Russia is listed as a restricted jurisdiction in the user agreement — details in the exchange comparison.",
   },
 ];
 
 // "Compare exchanges" section (/exchanges/). Separate from EXCHANGES above —
 // EXCHANGES drives the calculator's math, while EXCHANGES_COMPARE is an
 // informational overview of the same exchanges for a sortable/filterable
-// table and per-exchange pages.
+// table. There are no per-exchange pages (removed 2026-09-25): all exchanges
+// are shown the same way, in one list, with no links to their sites, so the
+// comparison doesn't read as advertising of foreign crypto exchanges, which
+// isn't allowed in Russia. officialUrl is used only by the company check in
+// scripts/ and isn't shown on the site.
 //
 // Inclusion bar: only platforms with a publicly checkable license/VASP
 // registration — no fully unregulated exchanges. WhiteBIT and HTX (Huobi)
@@ -92,15 +96,14 @@ const EXCHANGES = [
 //
 // ruAccessTier drives the "Russia access" filter:
 //   "open" — Russia isn't separately listed as restricted, normal access
-//   "grey" — the ToS/user agreement formally excludes Russia, but available
-//            evidence suggests residents still verify and use the exchange
-//            in practice (e.g. via P2P)
-// See ruAccessText on each exchange's page for the details.
+//   "grey" — the ToS/user agreement has restrictions for Russia.
+// The site doesn't describe how restrictions are worked around in practice.
+// Details are in ruAccessText (shown on the exchange's card).
 //
 // Figures were gathered via web search as of EXCHANGES_COMPARE_RESEARCHED
 // and have NOT been checked directly against official fee pages (unlike
 // Whitebird/Cifra Markets in OFFRAMPS above) — dataVerified: false for all,
-// with a red "verify" box shown on each exchange's page. Keep the numbers in
+// with a "verify" note shown under the comparison. Keep the numbers in
 // sync with data.js.
 const EXCHANGES_COMPARE_RESEARCHED = "2026-09-07";
 
@@ -116,7 +119,7 @@ const EXCHANGES_COMPARE = [
     takerFeeValue: 0.1,
     takerFeeText: "0.1% (Non-VIP base tier)",
     makerFeeText: "0.1%",
-    depositMethods: ["P2P (rubles available)", "crypto deposit", "bank card — depends on the country"],
+    depositMethods: ["P2P", "crypto deposit", "bank card — depends on the country"],
     withdrawalFeeText: "Depends on the network and changes — the withdrawal form shows the exact amount",
     officialUrl: "https://www.bybit.com",
     dataVerified: false,
@@ -131,11 +134,11 @@ const EXCHANGES_COMPARE = [
     hq: "Singapore, with offices in Canada, Europe (Lithuania) and Australia",
     licenses: "The European arm BingX EU has applied for a MiCA licence in Austria (FMA); as of 16.06.2026 it has not been granted (per BingX). BingX isn't in the ESMA or Seychelles FSA registers",
     ruAccessTier: "open",
-    ruAccessText: "Russia isn't named in the Restricted Jurisdictions list of BingX's disclaimer. The list includes, among others, the US, UK, Canada, the Netherlands, Singapore, mainland China and Hong Kong, plus Crimea, Donetsk and Luhansk. The P2P section supports rubles.",
+    ruAccessText: "Russia isn't named in the Restricted Jurisdictions list of BingX's disclaimer. The list includes, among others, the US, UK, Canada, the Netherlands, Singapore, mainland China and Hong Kong, plus Crimea, Donetsk and Luhansk.",
     takerFeeValue: 0.1,
     takerFeeText: "0.1%",
     makerFeeText: "0.1%",
-    depositMethods: ["P2P (rubles available)", "crypto deposit", "bank card — depends on the country"],
+    depositMethods: ["P2P", "crypto deposit", "bank card — depends on the country"],
     withdrawalFeeText: "Depends on the network and changes — the withdrawal form shows the exact amount",
     officialUrl: "https://bingx.com",
     dataVerified: false,
@@ -151,7 +154,7 @@ const EXCHANGES_COMPARE = [
     takerFeeValue: 0.1,
     takerFeeText: "0.1% for major coins (class A); 0.2% and 0.3% for classes B and C",
     makerFeeText: "0.1% (class A); 0.2% and 0.3% for classes B and C",
-    depositMethods: ["P2P (rubles available)", "crypto deposit"],
+    depositMethods: ["P2P", "crypto deposit"],
     withdrawalFeeText: "Depends on the network and changes — the withdrawal form shows the exact amount",
     officialUrl: "https://www.kucoin.com",
     dataVerified: false,
@@ -183,7 +186,7 @@ const EXCHANGES_COMPARE = [
     takerFeeValue: 0.05,
     takerFeeText: "0.05% on major pairs (e.g. BTC/USDT), 0% on some pairs",
     makerFeeText: "0%",
-    depositMethods: ["P2P (rubles available)", "crypto deposit", "bank card — depends on the country"],
+    depositMethods: ["P2P", "crypto deposit", "bank card — depends on the country"],
     withdrawalFeeText: "Depends on the network and changes — the withdrawal form shows the exact amount",
     officialUrl: "https://www.mexc.com",
     dataVerified: false,
@@ -294,16 +297,6 @@ const E_WALLETS = [
     id: "advcash",
     name: "AdvCash / Volet",
     notes: "An e-wallet; check its terms for users from Russia with the service.",
-  },
-];
-
-// A reference resource — an exchanger aggregator.
-const REFERENCE_RESOURCES = [
-  {
-    id: "bestchange",
-    name: "BestChange",
-    url: "https://www.bestchange.ru/",
-    notes: "An exchanger aggregator — useful to cross-check current rates against.",
   },
 ];
 

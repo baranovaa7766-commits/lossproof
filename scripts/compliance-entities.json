@@ -19,7 +19,6 @@
     { "id": "mexc", "name": "MEXC", "kind": "биржа", "url": "https://www.mexc.com", "domains": ["mexc.com"], "names": ["MEXC"] },
     { "id": "gate", "name": "Gate", "kind": "биржа", "url": "https://www.gate.com", "domains": ["gate.io", "gate.com"], "names": ["Gate.io", "Gate Technology"] },
     { "id": "whitebird", "name": "Whitebird", "kind": "обменник", "url": "https://whitebird.io", "domains": ["whitebird.io"], "names": ["Whitebird", "Уайт Бёрд"] },
-    { "id": "cifra", "name": "Cifra Markets", "kind": "обменник", "url": "https://cifra.by", "domains": ["cifra.by"], "names": ["Cifra Markets", "Cifra Broker", "Цифра брокер", "Цифра Маркетс"] },
-    { "id": "bestchange", "name": "BestChange", "kind": "агрегатор", "url": "https://www.bestchange.ru", "domains": ["bestchange.ru"], "names": ["BestChange"] }
+    { "id": "cifra", "name": "Cifra Markets", "kind": "обменник", "url": "https://cifra.by", "domains": ["cifra.by"], "names": ["Cifra Markets", "Cifra Broker", "Цифра брокер", "Цифра Маркетс"] }
   ]
 }

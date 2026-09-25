@@ -5,9 +5,7 @@
 # осознанно вписать сюда — и это изменение будет видно в истории.
 # Один домен на строку; всё после # — комментарий.
 
-# Шрифты и курсы валют (подключаются сайтом)
-fonts.googleapis.com
-fonts.gstatic.com
+# Курсы валют (запрашиваются сайтом)
 open.er-api.com
 exchangerate-api.com
 
@@ -21,7 +19,6 @@ gate.io
 gate.com
 whitebird.io
 cifra.by
-bestchange.ru
 
 # Пропфирмы
 ftmo.com
@@ -42,9 +39,6 @@ ssrn.com
 # Технические адреса (пространства имён, не ссылки на внешние сайты)
 w3.org
 sitemaps.org
-
-# Аналитика
-mc.yandex.ru
 
 # Проверка компаний (источники и наш сайт в User-Agent)
 treasury.gov

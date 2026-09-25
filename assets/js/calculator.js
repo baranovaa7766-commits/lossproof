@@ -54,11 +54,8 @@ const CALC_STRINGS = {
     alreadySameMessage: "Деньги уже в той валюте, куда вы хотите их перевести, — конвертация не нужна.",
     firmPaymentBlocked: (firm, notes) => `${firm} не принимает оплату криптовалютой. ${notes}`,
     noOfframpRoute: (currency, supported) => `Из USDT в ${currency} у нас нет подтверждённых маршрутов: обменники в нашей базе выводят USDT только в ${supported}.`,
-    p2pStep: "P2P",
-    p2pSuffix: " (P2P)",
     firmCryptoStep: "USDT (выплата фирмы)",
     depositStep: (name) => `${name} (крипто-депозит)`,
-    feeP2P: "цена P2P задаётся продавцом — наценку к среднему курсу мы не знаем",
     feeChannel: (mode, dir, p) => (mode === "account" ? (dir === "buy" ? `пополнение ${p} + конвертация 0%` : `конвертация 0% + вывод ${p}`) : `комиссия ${p}`),
     feeDepositUnchecked: "(комиссию за ввод рублей не проверяли)",
     viaOfframp: (mode, methods) => (mode === "pair" ? "" : ` (${mode === "account" ? "через счёт" : "мгновенный обмен"}${methods.length ? ": " + methods.join(" / ") : ""})`),
@@ -67,9 +64,8 @@ const CALC_STRINGS = {
     feeNetwork: (amount) => `${amount} сетевая комиссия`,
     usdtNote: "Здесь «доллары» — это USDT: стейблкоин, 1 USDT ≈ 1 USD. Показаны все способы получить их за ваши деньги; вывод USDT дальше (в рубли, на карту) — отдельный шаг, в этот расчёт он не входит.",
     usdtOtherNote: (currency) => `Маршруты доводят деньги до USDT. Последний шаг — вывод USDT в ${currency} — в нашей базе не покрыт (обменники выводят только в RUB/BYN), поэтому в расчёт он не входит.`,
-    fromRubNote: "Рубли можно обменять на USDT двумя способами: у обменника напрямую или через P2P на бирже (вы платите на карту продавца, цену задаёт он). Комиссии обменников (Whitebird, Cifra) взяты с их официальных страниц тарифов, а курс обмена они задают сами — поэтому итог показан диапазоном. У P2P цену продавца мы заранее не знаем — такие строки показывают только верхнюю границу.",
-    excludedExchangesNote: (names, currency) => `Не показаны биржи: ${names} — в наших данных у них нет пополнения в ${currency} картой или банком. P2P за рубли мы учитываем, а P2P в других валютах не проверяли.`,
-    ceilingDisclaimer: "<strong>P2P:</strong> цену задаёт продавец, поэтому показан максимум — при курсе ровно по рынку. Реально вы получите меньше, сколько именно — зависит от объявлений на момент сделки. Такие маршруты стоят в конце списка.",
+    fromRubNote: "Комиссии обменников взяты с их официальных страниц тарифов, а курс обмена они задают сами — поэтому итог показан диапазоном. P2P-сделки с частными продавцами калькулятор не считает: для резидентов России они связаны с риском блокировки карты по закону № 115-ФЗ и ответственности за дропперство.",
+    excludedExchangesNote: (names, currency) => `Не показаны биржи: ${names} — в наших данных у них нет пополнения в ${currency} картой или банком. P2P-сделки с частными продавцами калькулятор не считает.`,
     usdcNote: "Эта фирма платит только в USDC (сеть ERC-20). Чтобы работать с USDT, USDC нужно обменять, а за перевод в сети ERC-20 берётся сетевая комиссия — ни обмен, ни комиссия в расчёт не входят.",
     noRoutes: "Для этой пары у нас нет маршрутов. Попробуйте другую валюту или направление.",
     thMethod: "Маршрут",
@@ -78,7 +74,6 @@ const CALC_STRINGS = {
     thSpeed: "Скорость",
     thReceive: "Получите на руки",
     thArrives: "Дойдёт до фирмы",
-    bestBadge: "Выгоднее всего",
     detailsToggle: "Подробнее",
     howSummary: "Как мы считаем",
     lossLabel: (r) => `потеря ≈ ${r}`,
@@ -94,8 +89,8 @@ const CALC_STRINGS = {
     rangeTo: (max) => `до ${max}`,
     challengeAcceptsLabel: "Принимает:",
     challengeFeeLabel: "Комиссия за оплату криптой:",
-    challengePayLink: (name) => `Оплатить челлендж на сайте ${name} →`,
-    whyCryptoNote: "Почему через биржу, а не напрямую? Прямой банковский перевод или карта из большинства стран сейчас не доходят до российского банка — Visa/Mastercard и SWIFT не проводят такие платежи в Россию. Обменники вроде Whitebird и Cifra Markets тоже работают только с криптой на входе — они меняют USDT на рубли, а не доллары на рубли напрямую. Поэтому рабочий маршрут — сначала купить USDT на бирже, затем обменять его на рубли. Банковский перевод в таблице ниже показан только для сравнения, насколько хуже был бы курс, если бы прямой перевод вообще работал.",
+    challengePayLink: (name) => `Условия оплаты — на сайте ${name}`,
+    whyCryptoNote: "Почему маршруты идут через USDT? Прямой банковский перевод или карта из большинства стран сейчас не доходят до российского банка — Visa/Mastercard и SWIFT не проводят такие платежи в Россию. Обменники из сравнения принимают на входе только криптовалюту: они меняют USDT на рубли, а не доллары на рубли напрямую. Поэтому в расчёте два шага: USDT на бирже, затем обмен на рубли. Банковский перевод в таблице показан только для сравнения — каким был бы итог, если бы прямой перевод работал. Для резидентов России: с 1 июля 2027 года сделки с цифровой валютой будут разрешены только через организаторов обращения по закону № 282-ФЗ.",
     baselineBadge: "гипотетически",
     disclaimer: (date) => `Оценка по тарифам сервисов на ${date} и текущему курсу — реальные цифры могут отличаться. Откуда данные — на странице`,
     disclaimerLinkText: "«О проекте и данных»",
@@ -134,11 +129,8 @@ const CALC_STRINGS = {
     alreadySameMessage: "The money is already in the currency you want to convert it to — no conversion needed.",
     firmPaymentBlocked: (firm, notes) => `${firm} doesn't accept crypto payment. ${notes}`,
     noOfframpRoute: (currency, supported) => `We have no confirmed routes from USDT to ${currency}: the exchangers in our database only pay USDT out in ${supported}.`,
-    p2pStep: "P2P",
-    p2pSuffix: " (P2P)",
     firmCryptoStep: "USDT (firm payout)",
     depositStep: (name) => `${name} (crypto deposit)`,
-    feeP2P: "P2P price is set by the seller — we don't know the markup over the mid-market rate",
     feeChannel: (mode, dir, p) => (mode === "account" ? (dir === "buy" ? `deposit ${p} + conversion 0%` : `conversion 0% + withdrawal ${p}`) : `fee ${p}`),
     feeDepositUnchecked: "(ruble deposit fee not checked)",
     viaOfframp: (mode, methods) => (mode === "pair" ? "" : ` (${mode === "account" ? "via account" : "instant exchange"}${methods.length ? ": " + methods.join(" / ") : ""})`),
@@ -147,9 +139,8 @@ const CALC_STRINGS = {
     feeNetwork: (amount) => `${amount} network fee`,
     usdtNote: "Here \"dollars\" means USDT: a stablecoin, 1 USDT ≈ 1 USD. All ways to get it for your money are shown; withdrawing USDT further (to rubles, to a card) is a separate step and isn't part of this calculation.",
     usdtOtherNote: (currency) => `These routes bring your money to USDT. The last step — withdrawing USDT to ${currency} — isn't covered in our database (exchangers only pay out RUB/BYN), so it isn't included.`,
-    fromRubNote: "Rubles can be exchanged for USDT in two ways: directly at an exchanger, or via P2P on an exchange (you pay a seller's card, and the seller sets the price). Exchanger fees (Whitebird, Cifra) come from their official tariff pages, but they set the exchange rate themselves — so the result is shown as a range. We can't know a P2P seller's price in advance — those rows show only an upper bound.",
-    excludedExchangesNote: (names, currency) => `Exchanges not shown: ${names} — our data shows no ${currency} deposits by card or bank for them. We count P2P for rubles, but haven't verified P2P in other currencies.`,
-    ceilingDisclaimer: "<strong>P2P:</strong> the seller sets the price, so the maximum is shown — at exactly the mid-market rate. You will actually get less; how much depends on the listings at the time of the trade. Such routes are ranked last.",
+    fromRubNote: "Exchanger fees come from their official tariff pages, but they set the exchange rate themselves — so the result is shown as a range. The calculator doesn't include P2P trades with private sellers: for Russian residents they carry the risk of card blocks under Law No. 115-FZ and liability for acting as a money mule.",
+    excludedExchangesNote: (names, currency) => `Exchanges not shown: ${names} — our data shows no ${currency} deposits by card or bank for them. The calculator doesn't include P2P trades with private sellers.`,
     usdcNote: "This firm pays out only in USDC (ERC-20 network). To work with USDT the USDC has to be swapped, and ERC-20 transfers carry a network fee — neither is included.",
     noRoutes: "We have no routes for this pair. Try another currency or direction.",
     thMethod: "Route",
@@ -158,7 +149,6 @@ const CALC_STRINGS = {
     thSpeed: "Speed",
     thReceive: "You receive",
     thArrives: "Arrives at the firm",
-    bestBadge: "Best value",
     detailsToggle: "Details",
     howSummary: "How we calculate",
     lossLabel: (r) => `loss ≈ ${r}`,
@@ -174,8 +164,8 @@ const CALC_STRINGS = {
     rangeTo: (max) => `to ${max}`,
     challengeAcceptsLabel: "Accepts:",
     challengeFeeLabel: "Crypto payment fee:",
-    challengePayLink: (name) => `Pay for the challenge on ${name}'s site →`,
-    whyCryptoNote: "Why go through an exchange instead of direct? A direct bank transfer or card payment from most countries doesn't reach a Russian bank right now — Visa/Mastercard and SWIFT don't process payments into Russia. Exchangers like Whitebird and Cifra Markets also only work with crypto on the input side — they convert USDT to rubles, not dollars to rubles directly. So the route that actually works is: buy USDT on an exchange first, then convert it to rubles. The bank transfer row below is shown only for comparison, to show how much worse the rate would be if a direct transfer worked at all.",
+    challengePayLink: (name) => `Payment terms are on ${name}'s site`,
+    whyCryptoNote: "Why do the routes go through USDT? A direct bank transfer or card payment from most countries doesn't reach a Russian bank right now — Visa/Mastercard and SWIFT don't process payments into Russia. The exchangers in the comparison only accept crypto on the input side — they convert USDT to rubles, not dollars to rubles directly. So the calculation has two steps: USDT on an exchange, then conversion to rubles. The bank transfer row is shown only for comparison — what the result would be if a direct transfer worked. For Russian residents: from 1 July 2027, digital currency transactions will be allowed only through circulation organisers under Law No. 282-FZ.",
     baselineBadge: "hypothetical",
     disclaimer: (date) => `An estimate based on providers' tariffs as of ${date} and the current rate — actual figures may differ. Where the data comes from:`,
     disclaimerLinkText: "About &amp; data",
@@ -286,7 +276,7 @@ function renderChallengePaymentNote(firm, t) {
     <strong>${t.challengeAcceptsLabel}</strong> ${cp.cryptoAssets}<br>
     <strong>${t.challengeFeeLabel}</strong> ${feeText}<br>
     ${cp.notes ? `${cp.notes}<br>` : ""}
-    <a href="${cp.officialUrl}" target="_blank" rel="noopener">${t.challengePayLink(firm.name)}</a>
+    <a href="${cp.officialUrl}" target="_blank" rel="noopener nofollow">${t.challengePayLink(firm.name)}</a>
   `;
 }
 
@@ -400,12 +390,15 @@ function renderResult(resultEl, html) {
 //   1) ПОЛУЧИТЬ USDT (доллары в крипте) из того, что у пользователя есть:
 //        · крипто-выплата пропфирмы / уже USDT      — шаг не нужен;
 //        · фиат → обменник напрямую (Whitebird, Cifra) — если он принимает валюту;
-//        · рубли → P2P на бирже                        — цена продавца неизвестна;
-//        · другой фиат → биржа картой/банком           — только где биржа это умеет.
+//        · другой фиат (не рубли) → биржа картой/банком — только где биржа это умеет.
 //   2) (если нужно) ПЕРЕВЕСТИ USDT с биржи на обменник — сетевая комиссия ≈ 1 USDT
 //      (`fixedFee` биржи в EXCHANGES — это именно она, а не плата за покупку).
 //   3) (если нужно) ПРОДАТЬ USDT за рубли/BYN — через обменник, поддерживающий
-//      эту валюту (`currencies` в OFFRAMPS), либо P2P на бирже (только RUB).
+//      эту валюту (`currencies` в OFFRAMPS).
+//
+// P2P-сделок с частными продавцами в расчёте нет (убраны 2026-09-25): для
+// резидентов РФ это риск блокировки карт по 115-ФЗ и ответственности за
+// дропперство, а сайт не должен подталкивать к таким сделкам.
 //
 // «Доллары» как цель = USDT (шаг 1): дальнейший вывод USDT — отдельный шаг,
 // в такой расчёт он не входит. Для валют, куда обменники не выводят (EUR, KZT…),
@@ -413,8 +406,8 @@ function renderResult(resultEl, html) {
 //
 // Точность данных описывается тремя видами результата:
 //   · диапазон  [lo, hi] — оценка ± допуск (обменники, биржи);
-//   · верхняя граница (lo = null) — цену P2P задаёт продавец, известен лишь
-//     потолок (курс ровно по рынку); такие строки ставятся ниже остальных;
+//   · верхняя граница (lo = null) — известен лишь потолок; такие строки
+//     ставятся ниже остальных (сейчас таких шагов нет — остались от P2P);
 //   · точное число — только если все данные шага подтверждены (например,
 //     процент комиссии пропфирмы за приём крипты, указанный официально).
 // Выдуманных цифр нет: чего не знаем — не показываем как точное.
@@ -558,22 +551,8 @@ function fiatToUsdtStates(srcFiat, amountUSD, opts, t, excluded) {
     const deposits = exchangeDeposits(ex.id);
     const location = { type: "exchange", id: ex.id };
     if (srcFiat === "RUB") {
-      if (/P2P/i.test(deposits)) {
-        // Цена P2P — у продавца: известен только потолок (курс ровно по рынку).
-        states.push(
-          newState({
-            lo: null,
-            hi: amountUSD,
-            location,
-            unverified: true,
-            steps: [{ names: [ex.name], suffix: t.p2pSuffix, group: "exchange" }],
-            feeParts: [t.feeP2P],
-            speeds: [ex.speed],
-          })
-        );
-      } else {
-        excluded.push(ex.name);
-      }
+      // Рубли на иностранную биржу — только через P2P, а P2P мы не считаем.
+      excluded.push(ex.name);
     } else if (/карт|card|банк|bank/i.test(deposits)) {
       const base = newState({
         lo: amountUSD,
@@ -611,7 +590,7 @@ function fiatToUsdtStates(srcFiat, amountUSD, opts, t, excluded) {
   return states;
 }
 
-// ШАГИ 2–3. USDT → рубли/BYN: обменники и P2P.
+// ШАГИ 2–3. USDT → рубли/BYN: обменники.
 function usdtToFiatStates(states, destCurrency, opts, t) {
   const out = [];
   const tol = OFFRAMP_TOLERANCE_PERCENT;
@@ -641,34 +620,6 @@ function usdtToFiatStates(states, destCurrency, opts, t) {
         );
       });
     });
-
-    if (destCurrency === "RUB") {
-      // P2P-продажа USDT за рубли на бирже. Цена покупателя неизвестна — потолок.
-      if (state.location.type === "exchange") {
-        out.push(
-          withStep(Object.assign({}, state, { lo: null }), {
-            step: { names: [t.p2pStep], suffix: "", group: null },
-            fee: t.feeP2P,
-            speed: (opts.exchanges.find((e) => e.id === state.location.id) || {}).speed,
-            location: { type: "fiat" },
-            unverified: true,
-          })
-        );
-      } else if (state.location.type === "free") {
-        opts.exchanges.forEach((ex) => {
-          if (!/P2P/i.test(exchangeDeposits(ex.id))) return;
-          out.push(
-            withStep(Object.assign({}, state, { lo: null }), {
-              step: { names: [ex.name], suffix: t.p2pSuffix, group: "exchange" },
-              fee: t.feeP2P,
-              speed: ex.speed,
-              location: { type: "fiat" },
-              unverified: true,
-            })
-          );
-        });
-      }
-    }
   });
   return out;
 }
@@ -894,7 +845,8 @@ async function runCalculation(form, resultEl, opts, t) {
     const bl = b.lo == null ? -1 : b.lo;
     return bl - al || b.hi - a.hi;
   });
-  const best = rows.find((r) => !r.isBaseline && r.lo != null && r.lo > 0);
+  // Строки идут по расчётной сумме, но ни одну мы не выделяем как «лучшую»:
+  // сайт не выбирает сервис за читателя (2026-09-25).
   const verifiedDate = opts.tariffs && opts.tariffs.updatedAt ? formatCalcDate(opts.tariffs.updatedAt, t) : typeof DATA_LAST_VERIFIED !== "undefined" ? formatCalcDate(DATA_LAST_VERIFIED, t) : "";
 
   // «Сколько теряете» относительно среднерыночного курса — одно понятное число
@@ -938,7 +890,6 @@ async function runCalculation(form, resultEl, opts, t) {
   if (destFiat === "RUB" && srcFiat && srcFiat !== "RUB") how.push(t.whyCryptoNote);
   if (excluded.length) how.push(t.excludedExchangesNote(excluded.join(", "), srcFiat));
   if (sourceFirm && firmPaysCrypto(sourceFirm) && firmCryptoIsUsdcOnly(sourceFirm)) how.push(t.usdcNote);
-  if (rows.some((r) => r.lo == null)) how.push(t.ceilingDisclaimer);
 
   renderResult(resultEl, `
     <div class="calc-table-wrap">
@@ -953,10 +904,10 @@ async function runCalculation(form, resultEl, opts, t) {
           ${rows
             .map(
               (row) => `
-            <tr class="${row === best ? "calc-best" : ""}">
+            <tr>
               <td data-label="">
                 <div class="calc-cell">
-                  <div class="calc-route">${rowName(row)}${row === best ? `<span class="calc-badge">${t.bestBadge}</span>` : ""}</div>
+                  <div class="calc-route">${rowName(row)}</div>
                   <div class="calc-sub">${lossText(row)}${row.isBaseline ? ` · ${t.baselineBadge}` : ""}</div>
                   ${detailsHTML(row)}
                 </div>

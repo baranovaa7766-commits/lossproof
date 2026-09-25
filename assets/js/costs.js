@@ -174,7 +174,7 @@ const COSTS_STRINGS = {
     nf: {
       title: "Что не учтено",
       spread: "Спред и проскальзывание: цена исполнения в файле их уже включает, отдельной суммой биржа их не показывает.",
-      transfers: 'Комиссии за ввод и вывод, P2P и обмен на рубли — их считает <a href="/calculator/">калькулятор переводов</a>.',
+      transfers: 'Комиссии за ввод и вывод и обмен на рубли — их считает <a href="/calculator/">калькулятор переводов</a>.',
       unpriced: (list) => `Комиссии в монетах, для которых в ваших файлах нет цены: ${list}. В суммы они не вошли.`,
       noNotional: (n, s) => `${s} ${costsPlural(n, ["сделка", "сделки", "сделок"])} без суммы сделки (например, объём в контрактах): их комиссия учтена, а в долю от оборота и сравнение ставок они не вошли.`,
       beta: "Файлы OKX разобраны в бета-режиме: формат собран по официальной справке и ещё не проверен на реальной выгрузке.",
@@ -336,7 +336,7 @@ const COSTS_STRINGS = {
     nf: {
       title: "What isn't included",
       spread: "Spread and slippage: the fill price in the file already includes them, and exchanges don't show them as a separate amount.",
-      transfers: 'Deposit and withdrawal fees, P2P and conversion to fiat — the <a href="/en/calculator/">transfer calculator</a> covers those.',
+      transfers: 'Deposit and withdrawal fees and conversion to fiat — the <a href="/en/calculator/">transfer calculator</a> covers those.',
       unpriced: (list) => `Fees in coins with no price in your files: ${list}. They aren't included in the totals.`,
       noNotional: (n, s) => `${s} ${costsPlural(n, ["trade has", "trades have"])} no trade value (for example, size in contracts): the fee is counted, but they're left out of the turnover share and the rate comparison.`,
       beta: "OKX files are read in beta mode: the format is built from OKX's official help pages and hasn't been checked against a real export yet.",

@@ -1,7 +1,10 @@
-// Reusable widgets for the "Compare exchanges" section (/exchanges/):
-//   - initExchangesTable(rootId)        → sortable/filterable comparison table
-//   - renderExchangeSummary(slug, rootId) → key-facts table on an exchange page
-//   - renderOtherExchanges(slug, rootId)  → grid linking the other exchanges
+// Widget for the "Compare exchanges" section (/exchanges/):
+//   - initExchangesTable(rootId) → sortable/filterable comparison cards
+//
+// All exchanges are shown the same way, in one list, with no links to their
+// sites and no separate page per exchange (removed 2026-09-25): a page about a
+// single foreign crypto exchange with a "check before registering" link reads
+// as advertising, which is not allowed for such services in Russia.
 //
 // Data comes from the global EXCHANGES_COMPARE (assets/js/data.js / data.en.js).
 // Language is taken from <html lang="ru|en">, same as calculator.js.
@@ -18,9 +21,8 @@ const EXCHANGES_STRINGS = {
     colFee: "Комиссия (тейкер)",
     colDeposit: "Способы пополнения",
     colFounded: "Год",
-    tipExchange: "Название биржи — нажмите, чтобы открыть подробный обзор.",
     tipLicenses: "Какие лицензии или регистрации VASP есть у биржи и в какой юрисдикции.",
-    tipRuAccess: "Насколько свободно резиденты России могут пользоваться биржей — формально и на практике.",
+    tipRuAccess: "Упоминает ли пользовательское соглашение биржи Россию среди ограниченных стран.",
     tipFee: "Комиссия за исполнение ордера по рынку (тейкер) на споте, базовый уровень без скидок за объём.",
     tipDeposit: "Какими способами можно завести деньги на биржу.",
     tipFounded: "В каком году биржа начала работать.",
@@ -31,16 +33,15 @@ const EXCHANGES_STRINGS = {
     sortByLabel: "Сортировка",
     sortDirLabel: "Сменить направление сортировки",
     researched: (d) =>
-      `Данные собраны ${d} через веб-поиск и не сверялись построчно с официальными сайтами бирж. Лицензии, комиссии и доступ для резидентов РФ меняются — проверяйте ключевые пункты на сайте биржи перед регистрацией.`,
-    summaryFounded: "Год основания",
-    summaryHq: "Штаб-квартира / регистрация",
-    summaryLicenses: "Лицензии / регулирование",
-    summaryRuAccess: "Доступ для резидентов РФ",
-    summaryTakerFee: "Комиссия тейкера (спот)",
-    summaryMakerFee: "Комиссия мейкера (спот)",
-    summaryDeposit: "Способы пополнения",
-    summaryWithdrawal: "Комиссия за вывод USDT",
-    otherHeading: "Другие биржи",
+      `Данные собраны ${d} через веб-поиск и не сверялись построчно с официальными сайтами бирж. Лицензии, комиссии и условия для резидентов РФ меняются — сверяйте их по официальным документам биржи.`,
+    colHq: "Штаб-квартира / регистрация",
+    tipHq: "Где зарегистрирована биржа и какое право применяется к соглашению с пользователем.",
+    colMaker: "Комиссия (мейкер)",
+    tipMaker: "Комиссия за лимитный ордер, который постоял в стакане, на споте, базовый уровень.",
+    colWithdrawal: "Вывод USDT",
+    tipWithdrawal: "Комиссия за вывод USDT с биржи.",
+    colRuTerms: "Условия для РФ подробно",
+    tipRuTerms: "Что написано о России в пользовательском соглашении биржи.",
     locale: "ru-RU",
   },
   en: {
@@ -54,9 +55,8 @@ const EXCHANGES_STRINGS = {
     colFee: "Fee (taker)",
     colDeposit: "Deposit methods",
     colFounded: "Founded",
-    tipExchange: "The exchange's name — click to open the full review.",
     tipLicenses: "What licenses or VASP registrations the exchange holds, and in which jurisdiction.",
-    tipRuAccess: "How freely Russian residents can use the exchange — formally and in practice.",
+    tipRuAccess: "Whether the exchange's user agreement lists Russia among restricted countries.",
     tipFee: "The base spot taker fee (market order), before any volume discount.",
     tipDeposit: "Ways to fund the exchange account.",
     tipFounded: "The year the exchange started operating.",
@@ -67,16 +67,15 @@ const EXCHANGES_STRINGS = {
     sortByLabel: "Sort by",
     sortDirLabel: "Toggle sort direction",
     researched: (d) =>
-      `Data gathered ${d} via web search and not checked line by line against official exchange sites. Licenses, fees, and Russia-access status change — verify the key points on the exchange's own site before registering.`,
-    summaryFounded: "Founded",
-    summaryHq: "Headquarters / registration",
-    summaryLicenses: "Licenses / regulation",
-    summaryRuAccess: "Access for Russian residents",
-    summaryTakerFee: "Taker fee (spot)",
-    summaryMakerFee: "Maker fee (spot)",
-    summaryDeposit: "Deposit methods",
-    summaryWithdrawal: "USDT withdrawal fee",
-    otherHeading: "Other exchanges",
+      `Data gathered ${d} via web search and not checked line by line against official exchange sites. Licenses, fees, and terms for Russian residents change — verify them in the exchange's official documents.`,
+    colHq: "Headquarters / registration",
+    tipHq: "Where the exchange is registered and which law governs its user agreement.",
+    colMaker: "Fee (maker)",
+    tipMaker: "The base spot fee for a limit order that rested in the order book.",
+    colWithdrawal: "USDT withdrawal",
+    tipWithdrawal: "The fee for withdrawing USDT from the exchange.",
+    colRuTerms: "Terms for Russia in detail",
+    tipRuTerms: "What the exchange's user agreement says about Russia.",
     locale: "en-US",
   },
 };
@@ -85,18 +84,10 @@ function getExLang() {
   return document.documentElement.lang === "en" ? "en" : "ru";
 }
 
-function exchangesBase() {
-  return getExLang() === "en" ? "/en/exchanges/" : "/exchanges/";
-}
-
 function escapeEx(str) {
   const div = document.createElement("div");
   div.textContent = str == null ? "" : String(str);
   return div.innerHTML;
-}
-
-function getExchangeCompare(slug) {
-  return typeof EXCHANGES_COMPARE !== "undefined" ? EXCHANGES_COMPARE.find((e) => e.slug === slug) : null;
 }
 
 function ruAccessBadgeHTML(ex, t) {
@@ -184,17 +175,20 @@ function initExchangesTable(rootId) {
       cardsRoot.innerHTML = `<p class="pf-empty">${t.empty}</p>`;
       return;
     }
-    const base = exchangesBase();
     cardsRoot.innerHTML = rows
       .map(
         (ex) => `
-        <article class="cmp-card">
-          <h3 class="cmp-card-name"><a class="pf-name" href="${base}${ex.slug}/">${escapeEx(ex.name)}</a></h3>
+        <article class="cmp-card" id="${ex.slug}">
+          <h3 class="cmp-card-name">${escapeEx(ex.name)}</h3>
           <dl class="cmp-fields">
             ${field(t.colLicenses, t.tipLicenses, escapeEx(ex.licenses))}
             ${field(t.colRuAccess, t.tipRuAccess, ruAccessBadgeHTML(ex, t))}
+            ${field(t.colRuTerms, t.tipRuTerms, escapeEx(ex.ruAccessText))}
             ${field(t.colFee, t.tipFee, escapeEx(ex.takerFeeText))}
+            ${field(t.colMaker, t.tipMaker, escapeEx(ex.makerFeeText))}
+            ${field(t.colWithdrawal, t.tipWithdrawal, escapeEx(ex.withdrawalFeeText))}
             ${field(t.colDeposit, t.tipDeposit, ex.depositMethods.map(escapeEx).join(", "))}
+            ${field(t.colHq, t.tipHq, escapeEx(ex.hq))}
             ${field(t.colFounded, t.tipFounded, ex.founded ?? t.dash)}
           </dl>
         </article>`
@@ -219,49 +213,4 @@ function initExchangesTable(rootId) {
   });
 
   render();
-}
-
-// --------------------------------------------------------------------------
-// Exchange-page helpers
-// --------------------------------------------------------------------------
-
-function renderExchangeSummary(slug, rootId) {
-  const root = document.getElementById(rootId);
-  const ex = getExchangeCompare(slug);
-  if (!root || !ex) return;
-  const t = EXCHANGES_STRINGS[getExLang()];
-
-  const rows = [
-    [t.summaryFounded, ex.founded],
-    [t.summaryHq, escapeEx(ex.hq)],
-    [t.summaryLicenses, escapeEx(ex.licenses)],
-    [t.summaryRuAccess, `${ruAccessBadgeHTML(ex, t)}<br>${escapeEx(ex.ruAccessText)}`],
-    [t.summaryTakerFee, escapeEx(ex.takerFeeText)],
-    [t.summaryMakerFee, escapeEx(ex.makerFeeText)],
-    [t.summaryDeposit, ex.depositMethods.map(escapeEx).join(", ")],
-    [t.summaryWithdrawal, escapeEx(ex.withdrawalFeeText)],
-  ];
-
-  root.innerHTML = `
-    <table class="data-table">
-      <tbody>
-        ${rows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join("")}
-      </tbody>
-    </table>
-  `;
-}
-
-function renderOtherExchanges(slug, rootId) {
-  const root = document.getElementById(rootId);
-  if (!root || typeof EXCHANGES_COMPARE === "undefined") return;
-  const base = exchangesBase();
-  root.innerHTML = EXCHANGES_COMPARE.filter((e) => e.slug !== slug)
-    .map(
-      (e) => `
-      <a class="firm-card" href="${base}${e.slug}/">
-        <h3>${escapeEx(e.name)}</h3>
-        <p>${escapeEx(e.takerFeeText)} · ${e.founded ?? ""}</p>
-      </a>`
-    )
-    .join("");
 }

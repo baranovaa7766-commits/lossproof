@@ -13,9 +13,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -38,6 +36,7 @@
         <a href="/offramps/">Сравнение обменников</a>
         <a href="/red-flags/">Красные флаги пропфирм</a>
         <a href="/terms/">Словарь терминов</a>
+        <a href="/app/">Приложение</a>
         <a href="/about/">О проекте</a>
         <a class="lang-switch" href="/en/offramps/" aria-label="Switch to English"><span class="lang-switch-icon" aria-hidden="true"></span>EN</a>
       </nav>
@@ -48,7 +47,7 @@
     <section class="hero">
       <div class="container">
         <h1>Сравнение обменников</h1>
-        <p>Обменник (в англоязычных источниках его называют «off-ramp сервис») — это сервис, который меняет USDT или другую криптовалюту на рубли или другую обычную валюту и переводит их на карту. Это второй, обычно самый дорогой, этап вывода — сравните комиссию и условия перед тем как выбрать.</p>
+        <p>Обменник (в англоязычных источниках его называют «off-ramp сервис») — это сервис, который меняет USDT или другую криптовалюту на рубли или другую обычную валюту и переводит их на карту. Это второй, обычно самый дорогой, этап вывода. Здесь собраны комиссии и условия обменников по их официальным страницам.</p>
       </div>
     </section>
 
@@ -75,8 +74,7 @@
         <div class="verify-box">
           <strong>A7A5 в это сравнение намеренно не включён.</strong> Это не отдельный обменник, а рублёвый стейблкоин от A7/Old Vector LLC, торгуемый в основном на бирже Grinex — а Grinex и связанные с A7A5 структуры попали под санкции OFAC Минфина США в августе 2025 года как преемник санкционной биржи Garantex.
         </div>
-        <p>Есть ещё один способ свериться с текущими курсами — агрегатор <a href="https://www.bestchange.ru/" target="_blank" rel="noopener">BestChange</a>. Это справочный ресурс.</p>
-        <p>Когда выберете обменник, посчитайте итоговую сумму на руки с учётом обеих ступеней (биржа + обменник) в <a href="/calculator/">калькуляторе переводов</a>.</p>
+        <p>Итоговую сумму с учётом обеих ступеней (биржа + обменник) показывает <a href="/calculator/">калькулятор переводов</a>. P2P-сделки с частными продавцами мы не рассматриваем: для резидентов России это риск блокировки карты по закону № 115-ФЗ.</p>
       </div>
     </section>
   </main>
@@ -96,6 +94,5 @@
     renderOfframpsCompare("offramps-root");
   </script>
   <script src="/assets/js/reveal.js"></script>
-  <script src="/assets/js/metrika.js"></script>
 </body>
 </html>

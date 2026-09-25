@@ -13,9 +13,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -38,6 +36,7 @@
         <a href="/offramps/">Сравнение обменников</a>
         <a href="/red-flags/">Красные флаги пропфирм</a>
         <a href="/terms/">Словарь терминов</a>
+        <a href="/app/">Приложение</a>
         <a href="/about/">О проекте</a>
         <a class="lang-switch" href="/en/exchanges/" aria-label="Switch to English"><span class="lang-switch-icon" aria-hidden="true"></span>EN</a>
       </nav>
@@ -71,13 +70,13 @@
     <section class="section container">
       <div class="card">
         <h2>Как мы отбираем биржи</h2>
-        <p>В сравнении — крупные биржи, которыми пользуются трейдеры из России и СНГ. Для каждой показываем, какие лицензии подтверждаются официальными реестрами (ESMA — для MiCA в ЕС, FSA — на Сейшелах), а каких нет: например, у MEXC лицензий в этих реестрах нет.</p>
-        <p>Отдельно проверяем доступ для резидентов России, потому что часть лицензированных бирж эту аудиторию не обслуживает вовсе, а часть — обслуживает вопреки формальным ограничениям в пользовательском соглашении. Помечаем это статусом «не в списке ограничений» либо «есть ограничения» — подробности и ссылка на условия биржи на странице каждой биржи.</p>
+        <p>В сравнении — крупные международные биржи, которые чаще всего упоминают трейдеры из России и СНГ. Для каждой показываем, какие лицензии подтверждаются официальными реестрами (ESMA — для MiCA в ЕС, FSA — на Сейшелах), а каких нет: например, у MEXC лицензий в этих реестрах нет.</p>
+        <p>Отдельно показываем, что пользовательское соглашение каждой биржи говорит о резидентах России: статус «не в списке ограничений» или «есть ограничения» и подробности — в карточке биржи. Все биржи показаны одинаково, без ссылок на их сайты: это справка, а не рекомендация и не приглашение пользоваться биржей.</p>
         <div class="verify-box">
           <strong>WhiteBIT в это сравнение не включена.</strong> Биржа блокирует пользователей из России с 2022 года, а в январе 2026 российская Генпрокуратура официально признала WhiteBIT и материнскую компанию W Group «нежелательной организацией» — за участие в деятельности такой организации грозит административная ответственность, а при повторном нарушении — уголовная (ст. 20.33 КоАП РФ, ст. 284.1 УК РФ).
         </div>
         <p><strong>HTX (Huobi)</strong> тоже не включена: 23 июля 2026 года ЕС внёс HTX (Huobi Global SA) в 21-й пакет санкций против России — с 23 августа 2026 года лицам из ЕС запрещены любые операции с биржей.</p>
-        <p>Когда решите, через какую биржу покупать USDT, посчитайте итоговую сумму на руки в <a href="/calculator/">калькуляторе переводов</a> — он уже учитывает и биржу, и off-ramp сервис для вывода в рубли.</p>
+        <p>Сколько теряется на комиссиях по всему маршруту — с биржей и обменником, — показывает <a href="/calculator/">калькулятор переводов</a>.</p>
       </div>
     </section>
   </main>
@@ -96,6 +95,5 @@
     initExchangesTable("exchanges-root");
   </script>
   <script src="/assets/js/reveal.js"></script>
-  <script src="/assets/js/metrika.js"></script>
 </body>
 </html>

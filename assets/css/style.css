@@ -414,23 +414,6 @@ a {
   white-space: nowrap;
 }
 
-.calc-table tr.calc-best {
-  background: var(--color-best);
-}
-
-.calc-badge {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 2px 8px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  background: var(--color-best-border);
-  color: #fff;
-  border-radius: 999px;
-}
-
 .calc-disclaimer {
   margin-top: 16px;
   font-size: 0.82rem;
@@ -838,10 +821,6 @@ a {
   margin: 0 0 4px;
 }
 
-.cmp-card-cross {
-  margin: 0 0 12px;
-}
-
 .cmp-fields {
   margin: 12px 0 0;
 }
@@ -1219,53 +1198,6 @@ a {
   margin-top: 22px;
 }
 
-.sq-exchanges {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--color-border);
-}
-
-.sq-exchange {
-  display: grid;
-  grid-template-columns: minmax(150px, 1fr) 2fr auto;
-  align-items: center;
-  gap: 6px 16px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.sq-exchange-name {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 8px;
-}
-
-.sq-exchange-facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 14px;
-  font-size: 0.86rem;
-}
-
-.sq-fact--yes {
-  color: var(--color-success-text);
-}
-
-.sq-fact--no {
-  color: var(--color-danger-text);
-}
-
-.sq-fact--unknown {
-  color: var(--color-text-muted);
-}
-
-.sq-exchange-link {
-  font-size: 0.86rem;
-  white-space: nowrap;
-}
-
 .sq-exchanges-note {
   margin: 8px 0 0;
   font-size: 0.8rem;
@@ -1282,16 +1214,6 @@ a {
 
 .sq-notes .sq-list {
   margin: 6px 0 0;
-}
-
-@media (max-width: 640px) {
-  .sq-exchange {
-    grid-template-columns: 1fr auto;
-  }
-  .sq-exchange-facts {
-    grid-column: 1 / -1;
-    grid-row: 2;
-  }
 }
 
 .sq-excluded {
@@ -1356,25 +1278,6 @@ a {
 .flag-list dd {
   margin: 4px 0 0;
   color: var(--color-text-muted);
-}
-
-.pf-name {
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.pf-cross,
-a.pf-cross {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.pf-cross:hover {
-  color: var(--color-primary);
 }
 
 .pf-empty {
@@ -2158,4 +2061,16 @@ a.pf-cross {
   .cs-dl dd {
     margin-bottom: 8px;
   }
+}
+
+/* Приложение LossProof: плашки статуса на главной и на странице /app/ */
+.app-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.app-promo ul {
+  margin: 12px 0;
 }

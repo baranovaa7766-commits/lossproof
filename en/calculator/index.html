@@ -16,9 +16,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -41,6 +39,7 @@
         <a href="/en/offramps/">Compare cash-out services</a>
         <a href="/en/red-flags/">Prop Firm Red Flags</a>
         <a href="/en/terms/">Glossary</a>
+        <a href="/en/app/">App</a>
         <a href="/en/about/">About</a>
         <a class="lang-switch" href="/calculator/" aria-label="Переключить на русский"><span class="lang-switch-icon" aria-hidden="true"></span>RU</a>
       </nav>
@@ -68,7 +67,7 @@
     <section class="section container">
       <div class="card">
         <h2>Why the "amount" a prop firm approves isn't what lands in your account</h2>
-        <p>Your prop firm sends your payout in USD (or EUR/GBP), usually via bank transfer, crypto, or a payout partner like RiseWorks. For traders in Russia and the CIS, the next step is usually buying USDT on an exchange and then converting it to rubles or a local currency through a cash-out service — Wise and Revolut aren't an option. Your final amount depends on how many stages you still need to go through, and on the <strong>spread/rate</strong> and <strong>fees</strong> at each one. Those losses stack up fast, easily 3-5% — real money on a five-figure payout. This tool exists to make that comparison transparent before you pick a route.</p>
+        <p>Your prop firm sends your payout in USD (or EUR/GBP), usually via bank transfer, crypto, or a payout partner like RiseWorks. Wise and Revolut aren't available to traders in Russia and the CIS, so such payouts are often converted in two steps: USDT on an exchange, then an exchange into rubles or a local currency through a cash-out service. Your final amount depends on how many stages you still need to go through, and on the <strong>spread/rate</strong> and <strong>fees</strong> at each one. Those losses stack up fast, easily 3-5% — real money on a five-figure payout. The calculator shows these losses in advance — it's a calculation, not a recommendation of any service.</p>
         <p>Read the full breakdown: <a href="/en/crypto-payout-guide/">the crypto payout guide for prop traders</a>.</p>
         <p>The full list of withdrawal methods by firm is on the <a href="/en/payouts/">"Withdrawals by firm"</a> page.</p>
         <p>The same calculator works the other way too: if the money's on a card (say, in rubles) and you need to pay for a prop firm challenge with crypto, pick your currency in "From" and the firm in "To". Most prop firms on this site accept crypto payment, but not all — Topstep, for instance, only takes a bank card.</p>
@@ -91,6 +90,5 @@
     initCalculator("calculator-root", { presetSource: "cash:USD", presetDestination: "fiat:RUB", amount: 1000 });
   </script>
   <script src="/assets/js/reveal.js"></script>
-  <script src="/assets/js/metrika.js"></script>
 </body>
 </html>

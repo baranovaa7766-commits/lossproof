@@ -13,9 +13,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -38,6 +36,7 @@
         <a href="/en/offramps/">Compare cash-out services</a>
         <a href="/en/red-flags/">Prop Firm Red Flags</a>
         <a href="/en/terms/">Glossary</a>
+        <a href="/en/app/">App</a>
         <a href="/en/about/">About</a>
         <a class="lang-switch" href="/about/" aria-label="Переключить на русский"><span class="lang-switch-icon" aria-hidden="true"></span>RU</a>
       </nav>
@@ -50,28 +49,32 @@
       <p>LossProof is a reference site about how money moves between a card, crypto and a prop firm: a transfer calculator, exchange and cash-out service reviews, payout guides, a strategy finder, a trading-costs breakdown and a glossary. We collect the public terms of each service and show how much is lost at every step.</p>
 
       <h2>No partnerships, no advertising</h2>
-      <p>There are no affiliate or referral links on this site. We are not paid by exchanges, cash-out services or prop firms — neither for a place in a list nor for a mention. Links to company websites go to their official pages so you can check the terms yourself.</p>
+      <p>There are no affiliate or referral links on this site and no advertising for third-party companies. We are not paid by exchanges, cash-out services or prop firms — neither for a place in a list nor for a mention. All companies in the comparisons are shown by the same rules, with no highlighting, no "visit site" buttons and no calls to use their services. Links to company websites serve only as data sources so you can check the terms yourself.</p>
+      <p>The only thing the site presents as its own product is our own <a href="/en/app/">LossProof app</a> for personal finance. It is in development and will be completely free at launch.</p>
       <p>We don't rate or recommend prop firms: the payout guides contain only the methods, fees and timelines from each firm's official documentation.</p>
 
       <h2>How the tools work</h2>
       <ul>
-        <li><strong>The transfer calculator</strong> ranks routes purely by the estimated amount you receive. Where the service sets its own rate, the result is shown as a range; where a P2P seller sets the price, only as an upper bound.</li>
-        <li><strong>The strategy finder</strong> orders exchanges only by whether they have the tools a strategy needs (demo account, bots, copy trading and so on) and what they cost. Your answers are processed in your browser — we don't store them or send them anywhere.</li>
+        <li><strong>The transfer calculator</strong> ranks routes purely by the estimated amount you receive and doesn't highlight any of them as the best. Where the service sets its own rate, the result is shown as a range. The calculator doesn't include P2P trades with private sellers: for Russian residents they carry the risk of card blocks under Law No. 115-FZ.</li>
+        <li><strong>The strategy finder</strong> doesn't name or pick exchanges — it only shows which tools a strategy needs (demo account, bots, copy trading and so on). Your answers are processed in your browser — we don't store them or send them anywhere.</li>
         <li><strong>Trading costs</strong> works out your costs from the trade history exports you upload yourself. The files are processed only in your browser — we never see them, store them or send them anywhere. The rate comparison uses the exchanges' published base rates; actual rates depend on your country and account.</li>
         <li><strong>Exchange and cash-out comparisons</strong>: “verified” means a publicly checkable licence or registration, or published tariffs. It is not a guarantee of safety.</li>
       </ul>
 
       <h2>Where the data comes from</h2>
       <ul>
-        <li><strong>Exchange rates</strong> — <a href="https://www.exchangerate-api.com/docs/free" target="_blank" rel="noopener">ExchangeRate-API (open.er-api.com)</a>, loaded when you calculate. Unlike ECB rates, it covers the ruble and other CIS currencies.</li>
+        <li><strong>Exchange rates</strong> — <a href="https://www.exchangerate-api.com/docs/free" target="_blank" rel="noopener nofollow">ExchangeRate-API (open.er-api.com)</a>, loaded when you calculate. Unlike ECB rates, it covers the ruble and other CIS currencies.</li>
         <li><strong>Whitebird and Cifra Markets tariffs</strong> — from their official tariff pages, refreshed automatically every night. If a service changes its page and the tariffs can't be read, the update stops and we check them by hand.</li>
-        <li><strong>Exchanges</strong> — licences, access for Russian residents and fees were collected from official sources in September 2026. Terms change, so every exchange page reminds you to check them on the exchange's own site. Exchange spreads and P2P markups are estimates, not live quotes.</li>
+        <li><strong>Exchanges</strong> — licences, access for Russian residents and fees were collected from official sources in September 2026. Terms change, so the comparison reminds you to check them in the exchange's official documents. Exchange spreads are estimates, not live quotes.</li>
         <li><strong>Prop-firm payouts</strong> — from each firm's official documentation; checked by hand and may go out of date.</li>
         <li><strong>Bank transfer</strong> in the calculator is shown only for contrast, based on typical pricing.</li>
       </ul>
 
+      <h2>Cookies and analytics</h2>
+      <p>The site sets no cookies and uses no visitor counters. The calculator, strategy finder and trading-costs breakdown run right in your browser. Fonts are hosted on the site itself; the only third-party service the site contacts is ExchangeRate-API, for exchange rates.</p>
+
       <h2>Weekly company check</h2>
-      <p>Every Monday, every company mentioned on the site is checked automatically against the US OFAC sanctions list, the <a href="https://www.cbr.ru/inside/warning-list/" target="_blank" rel="noopener">Bank of Russia list</a> of companies showing signs of illegal activity, and official statements from regulators: the SEC, CFTC and US Department of Justice, the FCA, ESMA and the Bank of Russia. We also check that company websites are reachable and haven't changed domain.</p>
+      <p>Every Monday, every company mentioned on the site is checked automatically against the US OFAC sanctions list, the <a href="https://www.cbr.ru/inside/warning-list/" target="_blank" rel="noopener nofollow">Bank of Russia list</a> of companies showing signs of illegal activity, and official statements from regulators: the SEC, CFTC and US Department of Justice, the FCA, ESMA and the Bank of Russia. We also check that company websites are reachable and haven't changed domain.</p>
       <p>A matching name doesn't always mean the same company, so pages never change automatically: we review each finding by hand and, if it holds up, annotate or remove the company's page.</p>
 
       <h2 id="law-2027">Russia's digital currency law</h2>
@@ -94,6 +97,5 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
   <script src="/assets/js/reveal.js"></script>
-  <script src="/assets/js/metrika.js"></script>
 </body>
 </html>
