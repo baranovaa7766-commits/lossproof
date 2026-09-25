@@ -5,7 +5,7 @@
 # Проверяет все отслеживаемые HTML/JS/JSON/CSS/SVG/YAML-файлы:
 #   1. каждый адрес http(s)://… ведёт на домен из scripts/allowed-domains.txt;
 #   2. нет незашифрованных http:// (кроме технических пространств имён);
-#   3. в адресах нет приёма «userinfo@» (https://bybit.com@evil.com — это evil.com);
+#   3. в адресах нет приёма «userinfo@» (https://t.me@evil.com — это evil.com);
 #   4. в коде нет eval(), new Function() и document.write().
 # sitemap.xml исключён: там временные адреса-заглушки до запуска на своём домене.
 set -uo pipefail

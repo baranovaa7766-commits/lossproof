@@ -3,265 +3,301 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LossProof — путеводитель для трейдера: вывод выплат пропфирм, биржи, обменники</title>
-  <meta name="description" content="Как получить выплату пропфирмы и вывести её в рубли: калькулятор переводов, сравнение бирж и обменников — по документированным источникам, без рекламных обещаний." />
+  <title>Сколько можно тратить в день до зарплаты — калькулятор | LossProof</title>
+  <meta name="description" content="Посчитайте, сколько можно тратить в день до зарплаты с учётом обязательных платежей. LossProof — приложение для учёта личных финансов: бюджет, накопления, долги и капитал. В разработке, на запуске бесплатно." />
   <link rel="canonical" href="/" />
-  <link rel="alternate" hreflang="ru" href="/" />
-  <link rel="alternate" hreflang="en" href="/en/" />
-  <link rel="alternate" hreflang="x-default" href="/" />
-  <meta property="og:title" content="LossProof — путеводитель для трейдера" />
-  <meta property="og:description" content="Как получить выплату пропфирмы и вывести её в рубли: калькулятор переводов, сравнение бирж и обменников — по документированным источникам." />
+  <meta property="og:title" content="Сколько можно потратить сегодня? — LossProof" />
+  <meta property="og:description" content="Бесплатный калькулятор трат до зарплаты и приложение для учёта личных финансов, которое считает это само." />
   <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta name="theme-color" content="#0c0d0f" />
+  <meta name="color-scheme" content="dark" />
   <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/assets/css/fonts.css" />
-  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="preload" href="/assets/fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/css/site.css" />
+  <script src="/assets/js/spend.js" defer></script>
+  <script src="/assets/js/faq.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <a class="site-logo" href="/">
-        <svg viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M1 18 L8 6 L11.5 11 L16 3 L25 18" stroke="#eab876" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M16 3 L20 3" stroke="#eab876" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
+      <a class="logo" href="/" aria-label="LossProof — на главную">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 26 20" fill="none" focusable="false"><path d="M1 18 L8 6 L11.5 11 L16 3 L25 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><path d="M16 3 L20 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+        </span>
         LossProof
       </a>
-      <nav class="site-nav">
-        <a href="/app/">Приложение</a>
-        <a href="/about/">О проекте</a>
-        <a class="lang-switch" href="/en/" aria-label="Switch to English"><span class="lang-switch-icon" aria-hidden="true"></span>EN</a>
+      <nav class="nav" aria-label="Разделы">
+        <a class="nav-link" href="#calc">Калькулятор</a>
+        <a class="nav-link" href="#app">Приложение</a>
+        <a class="nav-link" href="#security">Безопасность</a>
+        <a class="nav-link" href="#faq">Вопросы</a>
+        <a class="btn btn-soft btn-sm" href="https://t.me/LossProof1" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m22 2-7 20-4-9-9-4z" /><path d="M22 2 11 13" /></svg>
+          <span class="hide-sm">Следить за новостями</span><span class="show-sm">Новости</span>
+        </a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero hero--home">
-      <canvas id="mtn-canvas" aria-hidden="true"></canvas>
-      <div class="container">
+    <section class="hero" id="calc" aria-labelledby="hero-title">
+      <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="hero-eyebrow">Проверено по первоисточникам</p>
-          <h1>Каждый маршрут вывода <em>виден насквозь</em>, прежде чем вы за него заплатите</h1>
-          <p>Собираем условия бирж, обменников и пропфирм из официальных источников и считаем, сколько теряется на каждом шаге перевода выплаты. Без рекламы и партнёрских ссылок — только справочные данные.</p>
+          <div class="badges">
+            <span class="badge badge-accent"><span class="hide-sm">Приложение в разработке</span><span class="show-sm">В разработке</span></span>
+            <span class="badge"><span class="hide-sm">На запуске — бесплатно</span><span class="show-sm">Бесплатно на запуске</span></span>
+          </div>
+          <h1 id="hero-title">Сколько можно потратить сегодня?</h1>
+          <p class="lead">Посчитайте за десять секунд. В приложении LossProof это число обновляется само — после каждой покупки.</p>
+        </div>
+
+        <form class="calc" id="spend-form" autocomplete="off" aria-label="Калькулятор трат до зарплаты">
+          <div class="field">
+            <label for="spend-balance">Сейчас на карте, ₽</label>
+            <input id="spend-balance" name="balance" type="text" inputmode="decimal" value="42 000" />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="spend-fixed">Обязательные платежи, ₽</label>
+              <input id="spend-fixed" name="fixed" type="text" inputmode="decimal" value="9 500" aria-describedby="spend-fixed-hint" />
+              <div class="field-hint" id="spend-fixed-hint">Аренда, кредит, связь — всё, что спишется до зарплаты</div>
+            </div>
+            <div class="field">
+              <label for="spend-days">Дней до зарплаты</label>
+              <input id="spend-days" name="days" type="text" inputmode="numeric" value="12" />
+            </div>
+          </div>
+          <div class="calc-result" aria-live="polite">
+            <div class="calc-result-label">Можно тратить в день</div>
+            <div id="spend-ok">
+              <div class="calc-value" id="spend-per-day">2&nbsp;708&nbsp;₽</div>
+              <div class="calc-explain" id="spend-explain">(42&nbsp;000&nbsp;₽ − 9&nbsp;500&nbsp;₽) ÷ 12&nbsp;дней</div>
+            </div>
+            <div id="spend-short" hidden>
+              <div class="calc-value calc-value-warn">Не хватает <span id="spend-gap">0&nbsp;₽</span></div>
+              <div class="calc-explain">Обязательные платежи больше, чем денег на карте.</div>
+            </div>
+          </div>
+          <div class="calc-foot">
+            <span>Считается прямо в браузере — цифры никуда не отправляются.</span>
+            <a href="#app">Чтобы считалось само
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></svg>
+            </a>
+          </div>
+        </form>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="https://t.me/LossProof1" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m22 2-7 20-4-9-9-4z" /><path d="M22 2 11 13" /></svg>
+            Следить за новостями
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#app">Что умеет приложение</a>
         </div>
       </div>
     </section>
 
-    <section class="section container">
-      <div class="hub-category">
-        <h2 class="hub-category-title">Крипто и вывод денег</h2>
-        <div class="hub-grid">
-          <a class="hub-card" href="/calculator/">
-            <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-calc" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <g fill="none" stroke="url(#hg-calc)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="24" cy="24" r="17"/>
-                <line x1="24" y1="5" x2="24" y2="9"/>
-                <line x1="24" y1="39" x2="24" y2="43"/>
-                <line x1="5" y1="24" x2="9" y2="24"/>
-                <line x1="39" y1="24" x2="43" y2="24"/>
-                <polygon points="24,13 29,24 24,35 19,24" transform="rotate(25 24 24)"/>
-              </g>
-            </svg>
-            <h3>Калькулятор переводов</h3>
-            <p>Сравните маршруты и узнайте сумму на руки</p>
-          </a>
-
-          <a class="hub-card" href="/crypto-payout-guide/">
-            <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-guide" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <g fill="none" stroke="url(#hg-guide)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="24" cy="24" r="17"/>
-                <polygon points="24,14 28,24 24,34 20,24"/>
-              </g>
-            </svg>
-            <h3>Гид по крипто-выводу</h3>
-            <p>Как устроен вывод через криптовалюту и сколько он стоит</p>
-          </a>
-
-          <a class="hub-card" href="/exchanges/">
-            <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-exchange" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <g fill="none" stroke="url(#hg-exchange)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M8 18 H34 M28 12 L34 18 L28 24"/>
-                <path d="M40 30 H14 M20 24 L14 30 L20 36"/>
-              </g>
-            </svg>
-            <h3>Сравнение бирж</h3>
-            <p>Лицензии, доступ для РФ и комиссии бирж</p>
-          </a>
-
-          <a class="hub-card" href="/offramps/">
-            <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-offramp" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <g fill="none" stroke="url(#hg-offramp)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="6" y="14" width="36" height="20" rx="4"/>
-                <circle cx="24" cy="24" r="6"/>
-                <line x1="12" y1="19" x2="12" y2="19.01"/>
-                <line x1="36" y1="29" x2="36" y2="29.01"/>
-              </g>
-            </svg>
-            <h3>Сравнение обменников</h3>
-            <p>Тарифы и условия обменников</p>
-          </a>
+    <section class="section" aria-labelledby="soon-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="soon-title">Скоро: ещё калькуляторы</h2>
+          <p>Готовим ещё три — тоже бесплатные и без регистрации.</p>
         </div>
-      </div>
-
-      <div class="hub-category">
-        <h2 class="hub-category-title">Инструменты трейдера</h2>
-        <div class="hub-grid">
-          <a class="hub-card" href="/costs/">
-            <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-costs" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <g fill="none" stroke="url(#hg-costs)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="15" cy="15" r="5"/>
-                <circle cx="33" cy="33" r="5"/>
-                <line x1="36" y1="10" x2="12" y2="38"/>
-              </g>
-            </svg>
-            <h3>Стоимость сделок</h3>
-            <p>Сколько забрали комиссии и фандинг по вашей истории</p>
-          </a>
-
-          <a class="hub-card" href="/strategy/">
-            <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-strategy" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <g fill="none" stroke="url(#hg-strategy)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="24" cy="24" r="17"/>
-                <circle cx="24" cy="24" r="9"/>
-                <circle cx="24" cy="24" r="1.5" fill="url(#hg-strategy)"/>
-              </g>
-            </svg>
-            <h3>Подбор стратегии</h3>
-            <p>12 вопросов — какой тип стратегии подходит вашему профилю</p>
-          </a>
-        </div>
-      </div>
-
-      <div class="hub-category">
-        <h2 class="hub-category-title">Справочник</h2>
-        <div class="hub-grid">
-          <a class="hub-card" href="/payouts/">
-            <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-withdraw" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <g fill="none" stroke="url(#hg-withdraw)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="6" y="16" width="30" height="22" rx="4"/>
-                <path d="M6 23 H36"/>
-                <circle cx="29" cy="29" r="2"/>
-                <path d="M32 6 L42 6 L42 16"/>
-                <path d="M42 6 L28 20"/>
-              </g>
-            </svg>
-            <h3>Вывод по фирмам</h3>
-            <p>Способы и минимальные суммы для вашей фирмы</p>
-          </a>
-
-          <a class="hub-card" href="/red-flags/">
-            <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-flags" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <g fill="none" stroke="url(#hg-flags)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M24 8 L44 40 H4 Z"/>
-                <line x1="24" y1="20" x2="24" y2="28"/>
-                <line x1="24" y1="34" x2="24" y2="34.01"/>
-              </g>
-            </svg>
-            <h3>Красные флаги</h3>
-            <p>Как распознать скам-пропфирму самому</p>
-          </a>
-
-          <a class="hub-card" href="/terms/">
-            <svg class="hub-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-terms" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <g fill="none" stroke="url(#hg-terms)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M24 13 C20 10 14 9 8 10 V37 C14 36 20 37 24 40 C28 37 34 36 40 37 V10 C34 9 28 10 24 13 Z"/>
-                <line x1="24" y1="13" x2="24" y2="40"/>
-              </g>
-            </svg>
-            <h3>Словарь терминов</h3>
-            <p>Что значат просадка, спред, P2P и другие слова</p>
-          </a>
+        <div class="soon-grid">
+          <article class="soon-card">
+            <span class="kicker">Кредит</span>
+            <h3>Досрочное погашение</h3>
+            <p>Сколько сэкономите на процентах и что выгоднее: сократить срок или платёж.</p>
+            <span class="soon-tag">Скоро</span>
+          </article>
+          <article class="soon-card">
+            <span class="kicker">Налоги</span>
+            <h3>Налог самозанятого и ИП</h3>
+            <p>НПД и УСН: сколько платить и до какого числа.</p>
+            <span class="soon-tag">Скоро</span>
+          </article>
+          <article class="soon-card">
+            <span class="kicker">Накопления</span>
+            <h3>Подушка безопасности и цель</h3>
+            <p>Сколько нужно отложить и за какой срок получится.</p>
+            <span class="soon-tag">Скоро</span>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="section container">
-      <div class="card app-promo">
-        <p class="app-status"><span class="ex-badge ex-badge--open">В разработке</span> <span class="ex-badge ex-badge--open">Бесплатно</span></p>
-        <h2>Приложение LossProof</h2>
-        <p>Мы делаем приложение для учёта личных финансов — для всех, а не только для трейдеров. Траты, бюджет, накопления и капитал в одном месте, на телефоне и на компьютере. На старте приложение будет полностью бесплатным.</p>
-        <ul>
-          <li>Запись трат и доходов за пару секунд, в том числе фразой: «кофе 350»</li>
-          <li>Бюджет по категориям и подсказка, сколько можно потратить сегодня</li>
-          <li>Регулярные платежи и подписки с напоминаниями</li>
-          <li>Цели и накопления, капитал, кредиты и долги</li>
-          <li>Отдельные разделы для личных денег, бизнеса и инвестиций</li>
-        </ul>
-        <p><a href="/app/">Подробнее о приложении →</a></p>
+    <section class="section" id="app" aria-labelledby="app-title">
+      <div class="container app-grid">
+        <div class="phone-wrap" aria-hidden="true">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="ps-head">
+                <span class="ps-title">Обзор</span>
+                <span class="ps-date">25 сентября</span>
+              </div>
+              <div class="ps-card">
+                <div class="ps-label">Капитал</div>
+                <div class="ps-big">1&nbsp;013&nbsp;123&nbsp;₽</div>
+                <div class="ps-up">+12&nbsp;400&nbsp;₽ за месяц</div>
+              </div>
+              <div class="ps-grid">
+                <div class="ps-card">
+                  <div class="ps-label">Доходы</div>
+                  <div class="ps-mid">85&nbsp;000&nbsp;₽</div>
+                </div>
+                <div class="ps-card">
+                  <div class="ps-label">Расходы</div>
+                  <div class="ps-mid">55&nbsp;486&nbsp;₽</div>
+                </div>
+              </div>
+              <div class="ps-card">
+                <div class="ps-bar-head"><span>Бюджет сентября</span><span>73&nbsp;%</span></div>
+                <div class="ps-bar"><span></span></div>
+                <div class="ps-label">Осталось 15&nbsp;014&nbsp;₽ на 6 дней</div>
+              </div>
+              <div class="ps-card ps-list">
+                <div class="ps-row">
+                  <span class="ps-dot"></span>
+                  <span class="ps-name">Пятёрочка<small>Продукты</small></span>
+                  <span class="ps-sum">−433&nbsp;₽</span>
+                </div>
+                <div class="ps-row">
+                  <span class="ps-dot"></span>
+                  <span class="ps-name">Кофе<small>Кафе и рестораны</small></span>
+                  <span class="ps-sum">−350&nbsp;₽</span>
+                </div>
+                <div class="ps-row">
+                  <span class="ps-dot"></span>
+                  <span class="ps-name">Зарплата<small>Доход</small></span>
+                  <span class="ps-sum ps-in">+85&nbsp;000&nbsp;₽</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="float-card">
+            <span class="fc-label">Можно тратить сегодня</span>
+            <span class="fc-value">1&nbsp;250&nbsp;₽</span>
+            <span class="fc-note">Пересчитывается после каждой покупки</span>
+          </div>
+        </div>
+
+        <div class="app-copy">
+          <div class="section-head">
+            <h2 id="app-title">В приложении всё это считается само</h2>
+            <p>LossProof — приложение для учёта личных финансов: траты, бюджет, накопления, долги и капитал в одном месте.</p>
+          </div>
+          <ul class="features">
+            <li class="feature">
+              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" /></svg></span>
+              <div><h3>Быстрый ввод</h3><p><span class="hide-sm">Трата записывается за пару секунд, даже фразой: «такси 412 вчера».</span><span class="show-sm">Одной фразой: «такси 412 вчера»</span></p></div>
+            </li>
+            <li class="feature">
+              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></svg></span>
+              <div><h3>Бюджет</h3><p><span class="hide-sm">Лимиты по категориям, перенос остатка и «можно тратить сегодня».</span><span class="show-sm">Лимиты и «можно тратить сегодня»</span></p></div>
+            </li>
+            <li class="feature">
+              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m17 2 4 4-4 4" /><path d="M3 11v-1a4 4 0 0 1 4-4h14" /><path d="m7 22-4-4 4-4" /><path d="M21 13v1a4 4 0 0 1-4 4H3" /></svg></span>
+              <div><h3>Платежи и подписки</h3><p><span class="hide-sm">Находит регулярные списания и напоминает о них заранее.</span><span class="show-sm">Напоминания до списания</span></p></div>
+            </li>
+            <li class="feature">
+              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg></span>
+              <div><h3>Цели и накопления</h3><p><span class="hide-sm">Сколько откладывать в месяц, чтобы успеть к сроку.</span><span class="show-sm">Сколько откладывать, чтобы успеть</span></p></div>
+            </li>
+            <li class="feature">
+              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M22 7 13.5 15.5 8.5 10.5 2 17" /><path d="M16 7h6v6" /></svg></span>
+              <div><h3>Капитал</h3><p><span class="hide-sm">Счета, вклады, имущество, кредиты и долги — одной суммой.</span><span class="show-sm">Счета, вклады, имущество и долги</span></p></div>
+            </li>
+            <li class="feature">
+              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" /></svg></span>
+              <div><h3>Прогноз</h3><p><span class="hide-sm">Сколько денег будет на картах через 30–90 дней.</span><span class="show-sm">Остаток на картах через 30–90 дней</span></p></div>
+            </li>
+            <li class="feature">
+              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M21.2 15.9A10 10 0 1 1 8 2.8" /><path d="M22 12A10 10 0 0 0 12 2v10z" /></svg></span>
+              <div><h3>Отчёты</h3><p><span class="hide-sm">Куда уходят деньги — по категориям, месяцам и дням.</span><span class="show-sm">По категориям, месяцам и дням</span></p></div>
+            </li>
+            <li class="feature">
+              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg></span>
+              <div><h3>Самозанятым и ИП</h3><p><span class="hide-sm">Выручка, прибыль и оценка налога с напоминаниями о сроках.</span><span class="show-sm">Выручка, прибыль, налог и сроки</span></p></div>
+            </li>
+            <li class="feature">
+              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m12 2 10 5-10 5L2 7z" /><path d="m2 17 10 5 10-5" /><path d="m2 12 10 5 10-5" /></svg></span>
+              <div><h3>Разделы</h3><p><span class="hide-sm">Личные деньги, бизнес и инвестиции — отдельно или вместе.</span><span class="show-sm">Личное, бизнес и инвестиции</span></p></div>
+            </li>
+            <li class="feature">
+              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2" y="4" width="14" height="10" rx="2" /><path d="M6 18h6" /><rect x="17" y="9" width="5" height="11" rx="1.5" /></svg></span>
+              <div><h3>Телефон и компьютер</h3><p><span class="hide-sm">Ставится с сайта на главный экран — без магазина приложений.</span><span class="show-sm">Ставится с сайта на главный экран</span></p></div>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
 
-    <section class="section container">
-      <div class="card">
-        <h2>Почему LossProof</h2>
-        <p>Мы сравниваем реальные условия, а не рекламные обещания — сводим биржи, обменники и условия выплат пропфирм в понятные таблицы, чтобы вы тратили время на трейдинг, а не на ручной пересчёт комиссий по десятку вкладок.</p>
-        <div class="advantages-grid">
-          <div class="advantage-item">
-            <svg class="advantage-check" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-check1" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <circle cx="12" cy="12" r="10" fill="none" stroke="url(#hg-check1)" stroke-width="2"/>
-              <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <div>
-              <strong>Только проверяемые данные</strong>
-              <p>Для бирж указываем лицензии, которые подтверждаются реестрами регуляторов, для обменников — опубликованные тарифы. Это справка, а не рекомендация: мы не оцениваем и не советуем биржи, обменники и пропфирмы, а как проверить фирму самому — объясняем на странице красных флагов.</p>
-            </div>
+    <section class="section" id="security" aria-labelledby="security-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="security-title">Спокойно за данные</h2>
+          <p>Приложение помогает считать, но не распоряжается вашими деньгами.</p>
+        </div>
+        <div class="cards-3">
+          <article class="outline-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="m9 12 2 2 4-4" /></svg>
+            <h3>Только учёт</h3>
+            <p>Приложение не может переводить или списывать деньги — оно только считает.</p>
+          </article>
+          <article class="outline-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+            <h3>Без паролей от банка</h3>
+            <p>Операции вносятся вручную, одной фразой или файлом выписки — входить в банк через приложение не нужно.</p>
+          </article>
+          <article class="outline-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 7V5a2 2 0 0 1 2-2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M21 17v2a2 2 0 0 1-2 2h-2" /><path d="M7 21H5a2 2 0 0 1-2-2v-2" /><path d="M8 14s1.5 2 4 2 4-2 4-2" /><path d="M9 9h.01" /><path d="M15 9h.01" /></svg>
+            <h3>Вход по лицу или отпечатку</h3>
+            <p>Без паролей, которые можно подсмотреть или украсть: Face ID, отпечаток или ПИН-код устройства.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="faq-title">Вопросы</h2>
+        </div>
+        <div class="faq">
+          <details class="faq-item" open>
+            <summary><h3>Когда запуск?</h3><span class="faq-toggle" aria-hidden="true"></span></summary>
+            <p>Дату пока не называем: сначала доведём приложение до уровня, которым не стыдно делиться. О запуске сообщим в Telegram-канале.</p>
+          </details>
+          <details class="faq-item" open>
+            <summary><h3>Сколько это будет стоить?</h3><span class="faq-toggle" aria-hidden="true"></span></summary>
+            <p>На запуске приложение будет полностью бесплатным. Калькулятор на сайте бесплатен уже сейчас.</p>
+          </details>
+          <details class="faq-item" open>
+            <summary><h3>На каких устройствах оно работает?</h3><span class="faq-toggle" aria-hidden="true"></span></summary>
+            <p>На iPhone, Android и компьютере: открывается в браузере и ставится на главный экран как обычное приложение.</p>
+          </details>
+          <details class="faq-item" open>
+            <summary><h3>Приложение даёт финансовые советы?</h3><span class="faq-toggle" aria-hidden="true"></span></summary>
+            <p>Нет. Это инструмент учёта своих денег: оно не даёт инвестиционных рекомендаций и не продаёт финансовые продукты.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-card">
+          <div class="cta-copy">
+            <h2 id="cta-title">Узнайте первыми о запуске</h2>
+            <p>В канале — новости разработки, скриншоты новых возможностей и дата запуска.</p>
           </div>
-          <div class="advantage-item">
-            <svg class="advantage-check" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-check2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <circle cx="12" cy="12" r="10" fill="none" stroke="url(#hg-check2)" stroke-width="2"/>
-              <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <div>
-              <strong>Честные источники данных</strong>
-              <p>У каждой цифры указано, откуда она взята и когда проверялась — если данные не сверены построчно, это прямо помечено.</p>
-            </div>
-          </div>
-          <div class="advantage-item">
-            <svg class="advantage-check" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-check3" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <circle cx="12" cy="12" r="10" fill="none" stroke="url(#hg-check3)" stroke-width="2"/>
-              <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <div>
-              <strong>Без партнёрских ссылок</strong>
-              <p>Мы не получаем комиссий от бирж, обменников и пропфирм — ни порядок в сравнениях, ни цифры никем не оплачены.</p>
-            </div>
-          </div>
-          <div class="advantage-item">
-            <svg class="advantage-check" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-check4" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <circle cx="12" cy="12" r="10" fill="none" stroke="url(#hg-check4)" stroke-width="2"/>
-              <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <div>
-              <strong>Учитываем законы России и СНГ</strong>
-              <p>Отмечаем санкции, ограничения в условиях сервисов и изменения российского законодательства — например, закона № 282-ФЗ о цифровых валютах.</p>
-            </div>
-          </div>
-          <div class="advantage-item">
-            <svg class="advantage-check" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="hg-check5" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a5320"/><stop offset="100%" stop-color="#eab876"/></linearGradient></defs>
-              <circle cx="12" cy="12" r="10" fill="none" stroke="url(#hg-check5)" stroke-width="2"/>
-              <path d="M7.5 12.5 L10.5 15.5 L16.5 9" fill="none" stroke="url(#hg-check5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <div>
-              <strong>Бесплатно, без регистрации</strong>
-              <p>Никаких аккаунтов, подписок или платных функций — все сравнения открыты сразу.</p>
-            </div>
-          </div>
+          <a class="btn btn-primary btn-lg" href="https://t.me/LossProof1" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m22 2-7 20-4-9-9-4z" /><path d="M22 2 11 13" /></svg>
+            Перейти в Telegram
+          </a>
         </div>
       </div>
     </section>
@@ -269,16 +305,12 @@
 
   <footer class="site-footer">
     <div class="container">
-      <span>&copy; <span id="year"></span> LossProof. Это не финансовая консультация — уточняйте условия напрямую у провайдеров.</span>
-      <span><a href="/about/">О проекте и данных</a></span>
+      <span>© 2026 LossProof. Не является финансовой рекомендацией.</span>
+      <span class="footer-links">
+        <a href="#calc">Калькулятор</a>
+        <a href="https://t.me/LossProof1" target="_blank" rel="noopener">Telegram-канал</a>
+      </span>
     </div>
   </footer>
-
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
-  <script src="/assets/js/reveal.js"></script>
-  <script src="/assets/js/mountain.js"></script>
-  <script>initMountainScene("mtn-canvas");</script>
 </body>
 </html>

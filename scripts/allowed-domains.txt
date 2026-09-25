@@ -5,52 +5,9 @@
 # осознанно вписать сюда — и это изменение будет видно в истории.
 # Один домен на строку; всё после # — комментарий.
 
-# Курсы валют (запрашиваются сайтом)
-open.er-api.com
-exchangerate-api.com
+# Наш Telegram-канал с новостями приложения
+t.me
 
-# Биржи и обменники (обзоры, официальные страницы, тарифы)
-bybit.com
-bingx.com
-kucoin.com
-okx.com
-mexc.com
-gate.io
-gate.com
-whitebird.io
-cifra.by
-
-# Пропфирмы
-ftmo.com
-fundednext.com
-the5ers.com
-e8markets.com
-topstep.com
-brightfunded.com
-blueberryfunded.com
-fundingpips.com
-alphacapitalgroup.uk
-fxify.com
-fundedtradingplus.com
-
-# Источники исследований (ссылки в разделе «Источники» подбора стратегии)
-ssrn.com
-
-# Технические адреса (пространства имён, не ссылки на внешние сайты)
+# Технические адреса (пространства имён в SVG и XML, не ссылки на внешние сайты)
 w3.org
 sitemaps.org
-
-# Проверка компаний (источники и наш сайт в User-Agent)
-treasury.gov
-treas.gov
-cbr.ru
-rdap.org
-minjust.gov.ru
-lossproof.vercel.app
-
-# Официальные ленты регуляторов (проверка компаний)
-sec.gov
-cftc.gov
-justice.gov
-fca.org.uk
-esma.europa.eu

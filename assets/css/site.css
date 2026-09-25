@@ -1,0 +1,1200 @@
+/* LossProof — сайт приложения для учёта личных финансов.
+   Тёмная тема «Графит», как в самом приложении: те же цвета, шрифт Onest
+   и скругления. Шрифт лежит на сайте (assets/fonts, лицензия OFL рядом) —
+   браузер посетителя не обращается к сторонним сервисам. */
+
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/onest-cyrillic-ext.woff2") format("woff2");
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/onest-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/onest-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/onest-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --bg: #0c0d0f;
+  --surface: #141619;
+  --surface-2: #1a1d22;
+  --line: #1d2025;
+  --line-2: #23262c;
+  --line-3: #2c3037;
+  --text: #eef0f3;
+  --text-2: #aeb4bd;
+  --text-3: #8a909a;
+  --accent: #8fb8ff;
+  --accent-hover: #b8d0ff;
+  --accent-bg: #16202f;
+  --warn: #ffa15c;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.container {
+  width: 100%;
+  max-width: 1312px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ── Кнопки ─────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.btn-lg {
+  min-height: 60px;
+  padding: 0 26px;
+  font-size: 17px;
+}
+
+.btn-sm {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 15px;
+}
+
+.btn-sm svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #0c0d0f;
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  color: #0c0d0f;
+}
+
+.btn-soft {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.btn-soft:hover {
+  background: #22262c;
+  color: var(--text);
+}
+
+.btn-ghost {
+  border-color: #2a2e35;
+  color: var(--text);
+}
+
+.btn-ghost:hover {
+  border-color: #3b404a;
+  color: var(--text);
+}
+
+.show-sm {
+  display: none;
+}
+
+/* ── Шапка и подвал ─────────────────────────────────────────────────── */
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 88px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.logo:hover {
+  color: var(--text);
+}
+
+.logo-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.logo-mark svg {
+  width: 20px;
+  height: 16px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: 15px;
+}
+
+.nav-link {
+  color: var(--text-2);
+}
+
+.nav-link:hover {
+  color: var(--text);
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 32px 0;
+  font-size: 14px;
+  color: var(--text-3);
+}
+
+.site-footer .container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer-links a {
+  color: var(--text-2);
+}
+
+.footer-links a:hover {
+  color: var(--text);
+}
+
+/* ── Первый экран с калькулятором ───────────────────────────────────── */
+
+.hero {
+  padding: 72px 0 104px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "copy calc"
+    "actions calc";
+  column-gap: 72px;
+  row-gap: 28px;
+}
+
+.hero-copy {
+  grid-area: copy;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.hero-actions {
+  grid-area: actions;
+  align-self: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero .calc {
+  grid-area: calc;
+  align-self: center;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.badge {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: #d7dbe0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.badge-accent {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.hero h1 {
+  font-size: 56px;
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.lead {
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+/* ── Калькулятор ────────────────────────────────────────────────────── */
+
+.calc {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 36px;
+  border: 1px solid var(--line-2);
+  border-radius: 28px;
+  background: var(--surface);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field label {
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.field input {
+  width: 100%;
+  height: 56px;
+  padding: 0 18px;
+  border: 1px solid var(--line-3);
+  border-radius: 16px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 20px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(143, 184, 255, 0.22);
+}
+
+.field-hint {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-3);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.calc-result {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-2);
+}
+
+.calc-result-label {
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.calc-value {
+  font-size: 52px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.calc-value-warn {
+  font-size: 36px;
+  line-height: 1.15;
+  color: var(--warn);
+}
+
+.calc-explain {
+  font-size: 14px;
+  color: var(--text-3);
+}
+
+.calc-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-3);
+}
+
+.calc-foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.calc-foot a svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ── Секции ─────────────────────────────────────────────────────────── */
+
+.section {
+  padding: 96px 0;
+  border-top: 1px solid var(--line);
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 720px;
+  margin-bottom: 48px;
+}
+
+.section-head h2,
+.cta-card h2 {
+  font-size: 44px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.section-head p,
+.cta-card p {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+/* Калькуляторы, которые готовятся */
+.soon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.soon-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px;
+  border: 1px solid var(--line-2);
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.kicker {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.soon-card h3 {
+  font-size: 21px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.soon-card p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+.soon-tag {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-3);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ── О приложении ───────────────────────────────────────────────────── */
+
+.app-grid {
+  display: flex;
+  align-items: center;
+  gap: 96px;
+}
+
+.phone-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 400px;
+  height: 660px;
+}
+
+.phone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 620px;
+  padding: 12px;
+  border: 1px solid var(--line-3);
+  border-radius: 48px;
+  background: var(--surface-2);
+}
+
+.phone-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 28px 15px 15px;
+  overflow: hidden;
+  border-radius: 38px;
+  background: var(--bg);
+  font-size: 13px;
+}
+
+.ps-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 4px;
+}
+
+.ps-title {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.ps-date,
+.ps-label {
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+.ps-card {
+  padding: 14px;
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.ps-big {
+  margin-top: 2px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ps-mid {
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.ps-up {
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.ps-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ps-bar-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.ps-bar-head span + span {
+  color: var(--text-3);
+}
+
+.ps-bar {
+  height: 8px;
+  margin: 8px 0 6px;
+  border-radius: 99px;
+  background: #23262c;
+}
+
+.ps-bar span {
+  display: block;
+  width: 73%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+}
+
+.ps-list {
+  padding: 4px 14px;
+}
+
+.ps-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid #1f2227;
+}
+
+.ps-row:last-child {
+  border-bottom: 0;
+}
+
+.ps-dot {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: #1d2129;
+}
+
+.ps-name {
+  flex-grow: 1;
+  font-weight: 500;
+}
+
+.ps-name small {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-3);
+}
+
+.ps-sum {
+  font-weight: 600;
+}
+
+.ps-in {
+  color: var(--accent);
+}
+
+.float-card {
+  position: absolute;
+  right: 0;
+  bottom: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 220px;
+  padding: 18px;
+  border: 1px solid var(--line-3);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+}
+
+.fc-label {
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.fc-value {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.fc-note {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-3);
+}
+
+.app-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.app-copy .section-head {
+  margin-bottom: 0;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature {
+  display: flex;
+  gap: 14px;
+}
+
+.icon-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.icon-tile svg {
+  width: 20px;
+  height: 20px;
+}
+
+.feature h3 {
+  margin-bottom: 4px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.feature p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+/* ── Безопасность и вопросы ─────────────────────────────────────────── */
+
+.cards-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.outline-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px;
+  border: 1px solid var(--line-2);
+  border-radius: 22px;
+}
+
+.outline-card svg {
+  width: 26px;
+  height: 26px;
+  color: var(--accent);
+}
+
+.outline-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.outline-card p,
+.faq-item p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.faq {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.faq {
+  align-items: start;
+}
+
+.faq-item {
+  padding: 28px;
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item h3 {
+  font-size: 19px;
+  font-weight: 600;
+}
+
+/* Плюс, который превращается в минус, когда ответ открыт */
+.faq-toggle {
+  position: relative;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--text-3);
+}
+
+.faq-toggle::before,
+.faq-toggle::after {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: 3px;
+  width: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.15s;
+}
+
+.faq-toggle::after {
+  transform: rotate(90deg);
+}
+
+.faq-item[open] .faq-toggle::after {
+  transform: rotate(0deg);
+}
+
+.faq-item p {
+  margin-top: 10px;
+}
+
+/* ── Призыв подписаться ─────────────────────────────────────────────── */
+
+.cta {
+  padding: 0 0 96px;
+}
+
+.cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  padding: 64px;
+  border: 1px solid var(--line-2);
+  border-radius: 28px;
+  background: var(--surface);
+}
+
+.cta-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 720px;
+}
+
+.cta-card .btn {
+  flex-shrink: 0;
+}
+
+/* ── Страница 404 ───────────────────────────────────────────────────── */
+
+.notfound {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding-top: 120px;
+  padding-bottom: 140px;
+}
+
+.notfound h1 {
+  font-size: 44px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ── Адаптивность ───────────────────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "copy"
+      "calc"
+      "actions";
+  }
+
+  .hero-copy,
+  .hero-actions,
+  .hero .calc {
+    align-self: auto;
+  }
+
+  .app-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 48px;
+  }
+
+  .phone-wrap {
+    align-self: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav-link {
+    display: none;
+  }
+
+  .soon-grid,
+  .cards-3,
+  .faq {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cta-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 760px) {
+  .features {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .site-header .container {
+    min-height: 72px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .hide-sm {
+    display: none;
+  }
+
+  .show-sm {
+    display: inline;
+  }
+
+  .hero {
+    padding: 28px 0 44px;
+  }
+
+  .hero-grid {
+    row-gap: 20px;
+  }
+
+  .hero-copy {
+    gap: 20px;
+  }
+
+  .badge {
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+    line-height: 1.1;
+  }
+
+  .lead {
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .hero-actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .calc {
+    gap: 16px;
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .field-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .field input {
+    height: 52px;
+    padding: 0 16px;
+    font-size: 19px;
+  }
+
+  .calc-value {
+    font-size: 42px;
+  }
+
+  .calc-value-warn {
+    font-size: 30px;
+  }
+
+  .calc-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .section {
+    padding: 44px 0;
+  }
+
+  .section-head {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .section-head h2,
+  .cta-card h2 {
+    font-size: 28px;
+    line-height: 1.15;
+  }
+
+  .section-head p,
+  .cta-card p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .soon-grid,
+  .cards-3,
+  .faq {
+    gap: 12px;
+  }
+
+  .soon-card,
+  .outline-card,
+  .faq-item {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  /* На телефоне «скоро» — компактные строки без описаний */
+  .soon-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "kicker tag"
+      "title tag";
+    gap: 4px 12px;
+    padding: 16px 18px;
+  }
+
+  .soon-card .kicker {
+    grid-area: kicker;
+    font-size: 12px;
+  }
+
+  .soon-card h3 {
+    grid-area: title;
+    font-size: 17px;
+  }
+
+  .soon-card p {
+    display: none;
+  }
+
+  .soon-tag {
+    grid-area: tag;
+    align-self: center;
+    margin-top: 0;
+  }
+
+  .faq-item {
+    padding: 18px 20px;
+  }
+
+  .faq-item h3 {
+    font-size: 17px;
+  }
+
+  .phone-wrap {
+    width: 300px;
+    height: 620px;
+  }
+
+  .float-card {
+    display: none;
+  }
+
+  .app-grid {
+    gap: 28px;
+  }
+
+  .features {
+    gap: 16px;
+  }
+
+  .feature {
+    align-items: center;
+    gap: 12px;
+  }
+
+  .feature h3 {
+    margin-bottom: 0;
+    font-size: 16px;
+  }
+
+  .feature p {
+    font-size: 14px;
+  }
+
+  .cta {
+    padding-bottom: 44px;
+  }
+
+  .cta-card {
+    gap: 18px;
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .cta-card .btn {
+    width: 100%;
+  }
+
+  .site-footer .container {
+    flex-direction: column;
+  }
+
+  .notfound {
+    padding-top: 64px;
+    padding-bottom: 80px;
+  }
+
+  .notfound h1 {
+    font-size: 30px;
+  }
+}
