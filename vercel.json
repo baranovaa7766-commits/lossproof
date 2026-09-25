@@ -2,11 +2,10 @@
   "redirects": [
     { "source": "/app", "destination": "/#app", "permanent": true },
     { "source": "/app/", "destination": "/#app", "permanent": true },
-    {
-      "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest*",
-      "destination": "/",
-      "permanent": true
-    }
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)", "destination": "/", "permanent": true },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/", "destination": "/", "permanent": true },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+", "destination": "/", "permanent": true },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+/", "destination": "/", "permanent": true }
   ],
   "headers": [
     {
