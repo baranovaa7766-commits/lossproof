@@ -1,12 +1,13 @@
 {
   "outputDirectory": "public",
   "redirects": [
-    { "source": "/app", "destination": "/#app", "permanent": true },
-    { "source": "/app/", "destination": "/#app", "permanent": true },
-    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)", "destination": "/", "permanent": true },
-    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/", "destination": "/", "permanent": true },
-    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+", "destination": "/", "permanent": true },
-    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+/", "destination": "/", "permanent": true }
+    { "source": "/app", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/#app", "permanent": false },
+    { "source": "/app/", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/#app", "permanent": false },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/", "permanent": false },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/", "permanent": false },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/", "permanent": false },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+/", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/", "permanent": false },
+    { "source": "/:path*", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/:path*", "permanent": false }
   ],
   "headers": [
     {
