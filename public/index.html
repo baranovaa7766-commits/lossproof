@@ -5,12 +5,12 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Сколько можно тратить в день до зарплаты — калькулятор | LossProof</title>
-  <meta name="description" content="Посчитайте, сколько можно тратить в день до зарплаты с учётом обязательных платежей. LossProof — приложение для учёта личных финансов: бюджет, накопления, долги и капитал. В разработке, на запуске бесплатно." />
+  <title>LossProof — приложение для учёта личных финансов и бесплатные калькуляторы</title>
+  <meta name="description" content="LossProof считает, сколько можно потратить сегодня, и ведёт бюджет, накопления, долги и капитал в одном месте. Приложение в разработке, на запуске бесплатно. Бесплатные калькуляторы: траты до зарплаты, досрочное погашение, налоги, подушка безопасности." />
   <link rel="canonical" href="https://lossproof.ru/" />
   <meta property="og:url" content="https://lossproof.ru/" />
-  <meta property="og:title" content="Сколько можно потратить сегодня? — LossProof" />
-  <meta property="og:description" content="Бесплатный калькулятор трат до зарплаты и приложение для учёта личных финансов, которое считает это само." />
+  <meta property="og:title" content="LossProof — приложение, которое знает, сколько можно потратить сегодня" />
+  <meta property="og:description" content="Учёт личных финансов: траты, бюджет, накопления, долги и капитал. На запуске бесплатно, а калькуляторы на сайте — уже сейчас." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ru_RU" />
   <meta name="theme-color" content="#ffffff" />
@@ -33,8 +33,8 @@
         <span class="wordmark" aria-hidden="true">LOSSPROOF</span>
       </a>
       <nav class="nav" aria-label="Разделы">
-        <a class="nav-link" href="#calculators">Калькуляторы</a>
         <a class="nav-link" href="#app">Приложение</a>
+        <a class="nav-link" href="#calculators">Калькуляторы</a>
         <a class="nav-link" href="#security">Безопасность</a>
         <a class="nav-link" href="#faq">Вопросы</a>
         <a class="btn btn-soft btn-sm" href="https://t.me/LossProof1" target="_blank" rel="noopener">
@@ -46,93 +46,24 @@
   </header>
 
   <main>
-    <section class="hero" id="calc" aria-labelledby="hero-title">
-      <div class="container hero-grid">
-        <div class="hero-copy">
+    <section class="app-hero" id="app" aria-labelledby="hero-title">
+      <div class="container app-hero-grid">
+        <div class="app-hero-copy">
           <div class="badges">
             <span class="badge badge-accent"><span class="hide-sm">Приложение в разработке</span><span class="show-sm">В разработке</span></span>
             <span class="badge"><span class="hide-sm">На запуске — бесплатно</span><span class="show-sm">Бесплатно на запуске</span></span>
           </div>
-          <h1 id="hero-title">Сколько можно потратить сегодня?</h1>
-          <p class="lead">Посчитайте за десять секунд. В приложении LossProof это число обновляется само — после каждой покупки.</p>
-        </div>
-
-        <form class="calc" id="spend-form" autocomplete="off" aria-label="Калькулятор трат до зарплаты">
-          <div class="field">
-            <label for="spend-balance">Сейчас на карте, ₽</label>
-            <input id="spend-balance" name="balance" type="text" inputmode="decimal" value="42 000" />
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="spend-fixed">Обязательные платежи, ₽</label>
-              <input id="spend-fixed" name="fixed" type="text" inputmode="decimal" value="9 500" aria-describedby="spend-fixed-hint" />
-              <div class="field-hint" id="spend-fixed-hint">Аренда, кредит, связь — всё, что спишется до зарплаты</div>
-            </div>
-            <div class="field">
-              <label for="spend-days">Дней до зарплаты</label>
-              <input id="spend-days" name="days" type="text" inputmode="numeric" value="12" />
-            </div>
-          </div>
-          <div class="calc-result" aria-live="polite">
-            <div class="calc-result-label">Можно тратить в день</div>
-            <div id="spend-ok">
-              <div class="calc-value" id="spend-per-day">2&nbsp;708&nbsp;₽</div>
-              <div class="calc-explain" id="spend-explain">(42&nbsp;000&nbsp;₽ − 9&nbsp;500&nbsp;₽) ÷ 12&nbsp;дней</div>
-            </div>
-            <div id="spend-short" hidden>
-              <div class="calc-value calc-value-warn">Не хватает <span id="spend-gap">0&nbsp;₽</span></div>
-              <div class="calc-explain">Обязательные платежи больше, чем денег на карте.</div>
-            </div>
-          </div>
-          <div class="calc-foot">
-            <span>Считается прямо в браузере — цифры никуда не отправляются.</span>
-            <a href="#app">Чтобы считалось само
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></svg>
+          <h1 id="hero-title">Приложение, которое знает, сколько можно потратить сегодня</h1>
+          <p class="lead">LossProof ведёт траты, бюджет, накопления, долги и капитал в одном месте — и пересчитывает дневной лимит после каждой покупки.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="https://t.me/LossProof1" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m22 2-7 20-4-9-9-4z" /><path d="M22 2 11 13" /></svg>
+              Следить за новостями
             </a>
+            <a class="btn btn-ghost btn-lg" href="#calculators">Посчитать бесплатно</a>
           </div>
-        </form>
-
-        <div class="hero-actions">
-          <a class="btn btn-primary btn-lg" href="https://t.me/LossProof1" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m22 2-7 20-4-9-9-4z" /><path d="M22 2 11 13" /></svg>
-            Следить за новостями
-          </a>
-          <a class="btn btn-ghost btn-lg" href="#app">Что умеет приложение</a>
         </div>
-      </div>
-    </section>
 
-    <section class="section section-tint" id="calculators" aria-labelledby="soon-title">
-      <div class="container">
-        <div class="section-head">
-          <h2 id="soon-title">Ещё калькуляторы</h2>
-          <p>Тоже бесплатные и без регистрации: всё считается прямо в браузере.</p>
-        </div>
-        <div class="soon-grid">
-          <a class="soon-card" href="/dosrochnoe-pogashenie/">
-            <span class="kicker">Кредит</span>
-            <h3>Досрочное погашение</h3>
-            <p>Сколько сэкономите на процентах и что выгоднее: сократить срок или платёж.</p>
-            <span class="soon-tag is-open">Открыть</span>
-          </a>
-          <a class="soon-card" href="/nalog-samozanyatogo-i-ip/">
-            <span class="kicker">Налоги</span>
-            <h3>Налог самозанятого и ИП</h3>
-            <p>НПД и УСН: сколько платить и до какого числа.</p>
-            <span class="soon-tag is-open">Открыть</span>
-          </a>
-          <a class="soon-card" href="/podushka-bezopasnosti/">
-            <span class="kicker">Накопления</span>
-            <h3>Подушка безопасности и цель</h3>
-            <p>Сколько нужно отложить и за какой срок получится.</p>
-            <span class="soon-tag is-open">Открыть</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="app" aria-labelledby="app-title">
-      <div class="container app-grid">
         <div class="phone-wrap" aria-hidden="true">
           <div class="phone">
             <div class="phone-screen">
@@ -185,59 +116,61 @@
             <span class="fc-note">Пересчитывается после каждой покупки</span>
           </div>
         </div>
-
-        <div class="app-copy">
-          <div class="section-head">
-            <h2 id="app-title">В приложении всё это считается само</h2>
-            <p>LossProof — приложение для учёта личных финансов: траты, бюджет, накопления, долги и капитал в одном месте.</p>
-          </div>
-          <ul class="features">
-            <li class="feature">
-              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" /></svg></span>
-              <div><h3>Быстрый ввод</h3><p><span class="hide-sm">Трата записывается за пару секунд, даже фразой: «такси 412 вчера».</span><span class="show-sm">Одной фразой: «такси 412 вчера»</span></p></div>
-            </li>
-            <li class="feature">
-              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></svg></span>
-              <div><h3>Бюджет</h3><p><span class="hide-sm">Лимиты по категориям, перенос остатка и «можно тратить сегодня».</span><span class="show-sm">Лимиты и «можно тратить сегодня»</span></p></div>
-            </li>
-            <li class="feature">
-              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m17 2 4 4-4 4" /><path d="M3 11v-1a4 4 0 0 1 4-4h14" /><path d="m7 22-4-4 4-4" /><path d="M21 13v1a4 4 0 0 1-4 4H3" /></svg></span>
-              <div><h3>Платежи и подписки</h3><p><span class="hide-sm">Находит регулярные списания и напоминает о них заранее.</span><span class="show-sm">Напоминания до списания</span></p></div>
-            </li>
-            <li class="feature">
-              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg></span>
-              <div><h3>Цели и накопления</h3><p><span class="hide-sm">Сколько откладывать в месяц, чтобы успеть к сроку.</span><span class="show-sm">Сколько откладывать, чтобы успеть</span></p></div>
-            </li>
-            <li class="feature">
-              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M22 7 13.5 15.5 8.5 10.5 2 17" /><path d="M16 7h6v6" /></svg></span>
-              <div><h3>Капитал</h3><p><span class="hide-sm">Счета, вклады, имущество, кредиты и долги — одной суммой.</span><span class="show-sm">Счета, вклады, имущество и долги</span></p></div>
-            </li>
-            <li class="feature">
-              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" /></svg></span>
-              <div><h3>Прогноз</h3><p><span class="hide-sm">Сколько денег будет на картах через 30–90 дней.</span><span class="show-sm">Остаток на картах через 30–90 дней</span></p></div>
-            </li>
-            <li class="feature">
-              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M21.2 15.9A10 10 0 1 1 8 2.8" /><path d="M22 12A10 10 0 0 0 12 2v10z" /></svg></span>
-              <div><h3>Отчёты</h3><p><span class="hide-sm">Куда уходят деньги — по категориям, месяцам и дням.</span><span class="show-sm">По категориям, месяцам и дням</span></p></div>
-            </li>
-            <li class="feature">
-              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg></span>
-              <div><h3>Самозанятым и ИП</h3><p><span class="hide-sm">Выручка, прибыль и оценка налога с напоминаниями о сроках.</span><span class="show-sm">Выручка, прибыль, налог и сроки</span></p></div>
-            </li>
-            <li class="feature">
-              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m12 2 10 5-10 5L2 7z" /><path d="m2 17 10 5 10-5" /><path d="m2 12 10 5 10-5" /></svg></span>
-              <div><h3>Разделы</h3><p><span class="hide-sm">Личные деньги, бизнес и инвестиции — отдельно или вместе.</span><span class="show-sm">Личное, бизнес и инвестиции</span></p></div>
-            </li>
-            <li class="feature">
-              <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2" y="4" width="14" height="10" rx="2" /><path d="M6 18h6" /><rect x="17" y="9" width="5" height="11" rx="1.5" /></svg></span>
-              <div><h3>Телефон и компьютер</h3><p><span class="hide-sm">Ставится с сайта на главный экран — без магазина приложений.</span><span class="show-sm">Ставится с сайта на главный экран</span></p></div>
-            </li>
-          </ul>
-        </div>
       </div>
     </section>
 
-    <section class="section section-tint" id="security" aria-labelledby="security-title">
+    <section class="section section-tint" id="features" aria-labelledby="app-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="app-title">Что умеет приложение</h2>
+          <p>LossProof — приложение для учёта личных финансов: траты, бюджет, накопления, долги и капитал в одном месте.</p>
+        </div>
+        <ul class="features">
+          <li class="feature">
+            <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" /></svg></span>
+            <div><h3>Быстрый ввод</h3><p><span class="hide-sm">Трата записывается за пару секунд, даже фразой: «такси 412 вчера».</span><span class="show-sm">Одной фразой: «такси 412 вчера»</span></p></div>
+          </li>
+          <li class="feature">
+            <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></svg></span>
+            <div><h3>Бюджет</h3><p><span class="hide-sm">Лимиты по категориям, перенос остатка и «можно тратить сегодня».</span><span class="show-sm">Лимиты и «можно тратить сегодня»</span></p></div>
+          </li>
+          <li class="feature">
+            <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m17 2 4 4-4 4" /><path d="M3 11v-1a4 4 0 0 1 4-4h14" /><path d="m7 22-4-4 4-4" /><path d="M21 13v1a4 4 0 0 1-4 4H3" /></svg></span>
+            <div><h3>Платежи и подписки</h3><p><span class="hide-sm">Находит регулярные списания и напоминает о них заранее.</span><span class="show-sm">Напоминания до списания</span></p></div>
+          </li>
+          <li class="feature">
+            <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg></span>
+            <div><h3>Цели и накопления</h3><p><span class="hide-sm">Сколько откладывать в месяц, чтобы успеть к сроку.</span><span class="show-sm">Сколько откладывать, чтобы успеть</span></p></div>
+          </li>
+          <li class="feature">
+            <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M22 7 13.5 15.5 8.5 10.5 2 17" /><path d="M16 7h6v6" /></svg></span>
+            <div><h3>Капитал</h3><p><span class="hide-sm">Счета, вклады, имущество, кредиты и долги — одной суммой.</span><span class="show-sm">Счета, вклады, имущество и долги</span></p></div>
+          </li>
+          <li class="feature">
+            <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" /></svg></span>
+            <div><h3>Прогноз</h3><p><span class="hide-sm">Сколько денег будет на картах через 30–90 дней.</span><span class="show-sm">Остаток на картах через 30–90 дней</span></p></div>
+          </li>
+          <li class="feature">
+            <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M21.2 15.9A10 10 0 1 1 8 2.8" /><path d="M22 12A10 10 0 0 0 12 2v10z" /></svg></span>
+            <div><h3>Отчёты</h3><p><span class="hide-sm">Куда уходят деньги — по категориям, месяцам и дням.</span><span class="show-sm">По категориям, месяцам и дням</span></p></div>
+          </li>
+          <li class="feature">
+            <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg></span>
+            <div><h3>Самозанятым и ИП</h3><p><span class="hide-sm">Выручка, прибыль и оценка налога с напоминаниями о сроках.</span><span class="show-sm">Выручка, прибыль, налог и сроки</span></p></div>
+          </li>
+          <li class="feature">
+            <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m12 2 10 5-10 5L2 7z" /><path d="m2 17 10 5 10-5" /><path d="m2 12 10 5 10-5" /></svg></span>
+            <div><h3>Разделы</h3><p><span class="hide-sm">Личные деньги, бизнес и инвестиции — отдельно или вместе.</span><span class="show-sm">Личное, бизнес и инвестиции</span></p></div>
+          </li>
+          <li class="feature">
+            <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2" y="4" width="14" height="10" rx="2" /><path d="M6 18h6" /><rect x="17" y="9" width="5" height="11" rx="1.5" /></svg></span>
+            <div><h3>Телефон и компьютер</h3><p><span class="hide-sm">Ставится с сайта на главный экран — без магазина приложений.</span><span class="show-sm">Ставится с сайта на главный экран</span></p></div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="security" aria-labelledby="security-title">
       <div class="container">
         <div class="section-head">
           <h2 id="security-title">Спокойно за данные</h2>
@@ -260,6 +193,75 @@
             <p>Без паролей, которые можно подсмотреть или украсть: Face ID, отпечаток или ПИН-код устройства.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="calculators" aria-labelledby="calc-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="calc-title">Бесплатные калькуляторы</h2>
+          <p>Пока приложение готовится, посчитайте главное прямо на сайте: без регистрации, цифры остаются в вашем браузере.</p>
+        </div>
+        <div class="calc-feature" id="calc">
+          <div class="calc-feature-copy">
+            <span class="kicker">До зарплаты</span>
+            <h3>Сколько можно потратить сегодня?</h3>
+            <p>Посчитайте за десять секунд. В приложении LossProof это число обновляется само — после каждой покупки.</p>
+          </div>
+          <form class="calc" id="spend-form" autocomplete="off" aria-label="Калькулятор трат до зарплаты">
+            <div class="field">
+              <label for="spend-balance">Сейчас на карте, ₽</label>
+              <input id="spend-balance" name="balance" type="text" inputmode="decimal" value="42 000" />
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="spend-fixed">Обязательные платежи, ₽</label>
+                <input id="spend-fixed" name="fixed" type="text" inputmode="decimal" value="9 500" aria-describedby="spend-fixed-hint" />
+                <div class="field-hint" id="spend-fixed-hint">Аренда, кредит, связь — всё, что спишется до зарплаты</div>
+              </div>
+              <div class="field">
+                <label for="spend-days">Дней до зарплаты</label>
+                <input id="spend-days" name="days" type="text" inputmode="numeric" value="12" />
+              </div>
+            </div>
+            <div class="calc-result" aria-live="polite">
+              <div class="calc-result-label">Можно тратить в день</div>
+              <div id="spend-ok">
+                <div class="calc-value" id="spend-per-day">2&nbsp;708&nbsp;₽</div>
+                <div class="calc-explain" id="spend-explain">(42&nbsp;000&nbsp;₽ − 9&nbsp;500&nbsp;₽) ÷ 12&nbsp;дней</div>
+              </div>
+              <div id="spend-short" hidden>
+                <div class="calc-value calc-value-warn">Не хватает <span id="spend-gap">0&nbsp;₽</span></div>
+                <div class="calc-explain">Обязательные платежи больше, чем денег на карте.</div>
+              </div>
+            </div>
+            <div class="calc-foot">
+              <span>Считается прямо в браузере — цифры никуда не отправляются.</span>
+              <a href="#app">Чтобы считалось само
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5" /><path d="m5 12 7-7 7 7" /></svg>
+              </a>
+            </div>
+          </form>
+        </div>
+        <div class="soon-grid">
+          <a class="soon-card" href="/dosrochnoe-pogashenie/">
+            <span class="kicker">Кредит</span>
+            <h3>Досрочное погашение</h3>
+            <p>Сколько сэкономите на процентах и что выгоднее: сократить срок или платёж.</p>
+            <span class="soon-tag is-open">Открыть</span>
+          </a>
+          <a class="soon-card" href="/nalog-samozanyatogo-i-ip/">
+            <span class="kicker">Налоги</span>
+            <h3>Налог самозанятого и ИП</h3>
+            <p>НПД и УСН: сколько платить и до какого числа.</p>
+            <span class="soon-tag is-open">Открыть</span>
+          </a>
+          <a class="soon-card" href="/podushka-bezopasnosti/">
+            <span class="kicker">Накопления</span>
+            <h3>Подушка безопасности и цель</h3>
+            <p>Сколько нужно отложить и за какой срок получится.</p>
+            <span class="soon-tag is-open">Открыть</span>
+          </a>
       </div>
     </section>
 
