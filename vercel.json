@@ -1,14 +1,14 @@
 {
   "outputDirectory": "public",
   "redirects": [
-    { "source": "/app", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/#app", "permanent": false },
-    { "source": "/app/", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/#app", "permanent": false },
-    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/", "permanent": false },
-    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/", "permanent": false },
-    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/", "permanent": false },
-    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+/", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/", "permanent": false },
-    { "source": "/", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/", "permanent": false },
-    { "source": "/:path*", "destination": "https://baranovaa7766-commits-lossproof-b79e.twc1.net/:path*", "permanent": false }
+    { "source": "/app", "destination": "https://lossproof.ru/#app", "permanent": true },
+    { "source": "/app/", "destination": "https://lossproof.ru/#app", "permanent": true },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)", "destination": "https://lossproof.ru/", "permanent": true },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/", "destination": "https://lossproof.ru/", "permanent": true },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+", "destination": "https://lossproof.ru/", "permanent": true },
+    { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+/", "destination": "https://lossproof.ru/", "permanent": true },
+    { "source": "/", "destination": "https://lossproof.ru/", "permanent": true },
+    { "source": "/:path*", "destination": "https://lossproof.ru/:path*", "permanent": true }
   ],
   "headers": [
     {
