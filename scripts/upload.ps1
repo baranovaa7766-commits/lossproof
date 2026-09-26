@@ -1,6 +1,6 @@
 param(
     [int]$Port = 8081,
-    [string]$OutDir = (Join-Path (Split-Path -Parent $PSScriptRoot) "assets\icons")
+    [string]$OutDir = (Join-Path (Split-Path -Parent $PSScriptRoot) "public\assets\icons")
 )
 
 $listener = New-Object System.Net.HttpListener

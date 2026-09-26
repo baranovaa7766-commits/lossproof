@@ -60,7 +60,7 @@ while IFS= read -r file; do
 done <<<"$FILES"
 
 # 4: опасные конструкции в коде
-if dangerous=$(git ls-files 'assets/js/*.js' 'scripts/*.mjs' | xargs grep -nE '\beval\(|new Function\(|document\.write\(' 2>/dev/null); then
+if dangerous=$(git ls-files 'public/assets/js/*.js' 'scripts/*.mjs' | xargs grep -nE '\beval\(|new Function\(|document\.write\(' 2>/dev/null); then
   fail "опасная конструкция в коде:
 $dangerous"
 fi

@@ -1,6 +1,6 @@
 param(
     [int]$Port = 8080,
-    [string]$Root = (Split-Path -Parent $PSScriptRoot)
+    [string]$Root = (Join-Path (Split-Path -Parent $PSScriptRoot) "public")
 )
 
 Add-Type -AssemblyName System.Net.HttpListener -ErrorAction SilentlyContinue
