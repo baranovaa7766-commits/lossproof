@@ -8,6 +8,7 @@
     { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+", "destination": "https://lossproof.ru/", "permanent": true },
     { "source": "/:section(about|calculator|costs|crypto-payout-guide|disclosure|exchanges|offramps|payout|payouts|red-flags|strategy|terms|en)/:rest+/", "destination": "https://lossproof.ru/", "permanent": true },
     { "source": "/", "destination": "https://lossproof.ru/", "permanent": true },
+    { "source": "/:path+/", "destination": "https://lossproof.ru/:path+/", "permanent": true },
     { "source": "/:path*", "destination": "https://lossproof.ru/:path*", "permanent": true }
   ],
   "headers": [
