@@ -67,7 +67,8 @@
             <div class="field-row">
             <div class="field">
               <label for="loan-rate">Ставка, % годовых</label>
-              <input id="loan-rate" type="text" inputmode="decimal" value="18" data-decimal />
+              <input id="loan-rate" type="text" inputmode="decimal" value="18" data-decimal data-max="300" aria-describedby="loan-rate-hint" />
+              <div class="field-hint" id="loan-rate-hint">Не больше 300&nbsp;% — это предел даже для микрозаймов</div>
             </div>
             <div class="field">
               <label for="loan-months">Осталось платежей</label>

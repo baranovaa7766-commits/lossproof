@@ -50,11 +50,18 @@
     return MONTHS[d.getMonth()] + " " + d.getFullYear();
   }
 
-  /** После ввода показываем сумму с пробелами между разрядами: 42000 → 42 000. */
+  /** Число из поля в пределах 0…data-max (если предел задан). */
+  function bounded(input) {
+    var n = Math.max(0, parseNumber(input.value));
+    var max = input.getAttribute("data-max");
+    return max === null ? n : Math.min(n, Number(max));
+  }
+
+  /** После ввода показываем сумму с пробелами между разрядами: 42000 → 42 000. Лишнее срезаем до предела. */
   function tidy(input) {
     if (input.value.trim() === "") return;
     var digits = input.hasAttribute("data-decimal") ? 2 : 0;
-    input.value = group(Math.max(0, parseNumber(input.value)), digits);
+    input.value = group(bounded(input), digits);
   }
 
   /** Подключает форму: пересчёт при вводе, красивые числа после ввода, без отправки. */
@@ -101,7 +108,8 @@
     bind: bind,
     segmented: segmented,
     num: function (id) {
-      return parseNumber(document.getElementById(id).value);
+      var input = document.getElementById(id);
+      return input.hasAttribute("data-max") ? bounded(input) : parseNumber(input.value);
     },
     set: function (id, text) {
       document.getElementById(id).textContent = text;
