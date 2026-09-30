@@ -13,6 +13,11 @@
   <meta property="og:description" content="Учёт личных финансов: траты, бюджет, накопления, долги и капитал. На запуске бесплатно, а калькуляторы на сайте — уже сейчас." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ru_RU" />
+  <meta property="og:image" content="https://lossproof.ru/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="LossProof — сколько можно потратить сегодня" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#ffffff" />
   <meta name="color-scheme" content="light" />
   <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
@@ -221,7 +226,8 @@
               </div>
               <div class="field">
                 <label for="spend-days">Дней до зарплаты</label>
-                <input id="spend-days" name="days" type="text" inputmode="numeric" value="12" />
+                <input id="spend-days" name="days" type="text" inputmode="numeric" value="12" aria-describedby="spend-days-hint" />
+                <div class="field-hint" id="spend-days-hint">Не больше 62</div>
               </div>
             </div>
             <div class="calc-result" aria-live="polite">

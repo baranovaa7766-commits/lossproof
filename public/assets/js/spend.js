@@ -21,6 +21,8 @@
   var gap = document.getElementById("spend-gap");
 
   var NBSP = " ";
+  // Зарплата приходит хотя бы раз в два месяца: больше — почти наверняка опечатка.
+  var MAX_DAYS = 62;
 
   /** «42 000», «42000,50», «9 500 ₽» → число; пусто или мусор → 0. */
   function parseNumber(text) {
@@ -45,7 +47,7 @@
   function update() {
     var b = Math.max(0, parseNumber(balance.value));
     var f = Math.max(0, parseNumber(fixed.value));
-    var d = Math.max(1, Math.round(parseNumber(days.value)) || 1);
+    var d = Math.min(MAX_DAYS, Math.max(1, Math.round(parseNumber(days.value)) || 1));
     var free = b - f;
     var short = free < 0;
 
@@ -74,6 +76,7 @@
     tidy(fixed, false);
   });
   days.addEventListener("change", function () {
+    if (parseNumber(days.value) > MAX_DAYS) days.value = String(MAX_DAYS);
     tidy(days, true);
     update();
   });
