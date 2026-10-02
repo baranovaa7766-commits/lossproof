@@ -5,12 +5,12 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Калькулятор подушки безопасности и накоплений на цель | LossProof</title>
-  <meta name="description" content="Посчитайте, какая нужна финансовая подушка и за сколько вы её накопите, или сколько откладывать в месяц, чтобы собрать нужную сумму к сроку. Бесплатно, без регистрации." />
-  <link rel="canonical" href="https://lossproof.ru/podushka-bezopasnosti/" />
-  <meta property="og:url" content="https://lossproof.ru/podushka-bezopasnosti/" />
-  <meta property="og:title" content="Подушка безопасности: сколько нужно и когда накоплю — LossProof" />
-  <meta property="og:description" content="Посчитайте, какая нужна финансовая подушка и за сколько вы её накопите, или сколько откладывать в месяц, чтобы собрать нужную сумму к сроку. Бесплатно, без регистрации." />
+  <title>Калькулятор вклада с капитализацией и налогом на проценты | LossProof</title>
+  <meta name="description" content="Посчитайте доход по вкладу с ежемесячной капитализацией или без, с пополнением, и налог на проценты: необлагаемый лимит за 2026 год — 160 000 ₽. Бесплатно, без регистрации." />
+  <link rel="canonical" href="https://lossproof.ru/kalkulyator-vklada/" />
+  <meta property="og:url" content="https://lossproof.ru/kalkulyator-vklada/" />
+  <meta property="og:title" content="Доход по вкладу и налог на проценты — LossProof" />
+  <meta property="og:description" content="Посчитайте доход по вкладу с ежемесячной капитализацией или без, с пополнением, и налог на проценты: необлагаемый лимит за 2026 год — 160 000 ₽. Бесплатно, без регистрации." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:image" content="https://lossproof.ru/assets/og-image.png" />
@@ -28,7 +28,7 @@
   <link rel="preload" href="/assets/fonts/pt-serif-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/css/site.css" />
   <script src="/assets/js/calc-common.js" defer></script>
-  <script src="/assets/js/savings.js" defer></script>
+  <script src="/assets/js/deposit.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -59,80 +59,59 @@
             <span class="badge badge-accent">Бесплатно</span>
             <span class="badge">Без регистрации</span>
           </div>
-          <h1 id="page-title">Подушка безопасности и накопления на цель</h1>
-          <p class="lead">Узнайте, сколько денег держать на чёрный день и за сколько вы их накопите — или сколько откладывать в месяц, чтобы успеть к своей цели.</p>
+          <h1 id="page-title">Доход по вкладу и налог на проценты</h1>
+          <p class="lead">Сколько получите в конце срока с капитализацией или без, с пополнениями — и придётся ли платить налог на проценты.</p>
         </div>
         <div class="tool-grid">
-          <form class="calc" id="sav-form" autocomplete="off" aria-label="Калькулятор накоплений">
-            <div class="seg" id="sav-mode" role="group" aria-label="Что считаем">
-              <button type="button" data-value="cushion" aria-pressed="true">Подушка безопасности</button>
-              <button type="button" data-value="goal" aria-pressed="false">Своя цель</button>
-            </div>
-            <div class="tool-stack" id="sav-cushion-fields">
-            <div class="field">
-              <label for="sav-expenses">Расходы в месяц, ₽</label>
-              <input id="sav-expenses" type="text" inputmode="decimal" value="60 000" aria-describedby="sav-expenses-hint" />
-              <div class="field-hint" id="sav-expenses-hint">Всё, что уходит за месяц: жильё, еда, транспорт, кредиты</div>
-            </div>
+          <form class="calc" id="dep-form" autocomplete="off" aria-label="Калькулятор вклада">
+            <div class="field-row">
               <div class="field">
-                <span class="field-label" id="sav-months-label">На сколько месяцев жизни</span>
-                <div class="seg" id="sav-months" role="group" aria-labelledby="sav-months-label">
-                  <button type="button" data-value="3" aria-pressed="false">3 месяца</button>
-                  <button type="button" data-value="6" aria-pressed="true">6 месяцев</button>
-                  <button type="button" data-value="12" aria-pressed="false">12 месяцев</button>
-                </div>
+                <label for="dep-sum">Сумма вклада, ₽</label>
+                <input id="dep-sum" type="text" inputmode="decimal" value="500 000" />
               </div>
-            <div class="field">
-              <label for="sav-monthly">Могу откладывать в месяц, ₽</label>
-              <input id="sav-monthly" type="text" inputmode="decimal" value="20 000" />
-            </div>
-            </div>
-            <div class="tool-stack" id="sav-goal-fields" hidden>
-            <div class="field">
-              <label for="goal-target">Сколько нужно, ₽</label>
-              <input id="goal-target" type="text" inputmode="decimal" value="300 000" aria-describedby="goal-target-hint" />
-              <div class="field-hint" id="goal-target-hint">Отпуск, машина, первый взнос по ипотеке</div>
-            </div>
-            <div class="field">
-              <label for="goal-months">За сколько месяцев</label>
-              <input id="goal-months" type="text" inputmode="numeric" value="12" />
-            </div>
+              <div class="field">
+                <label for="dep-rate">Ставка, % годовых</label>
+                <input id="dep-rate" type="text" inputmode="decimal" value="14" data-decimal data-max="50" aria-describedby="dep-rate-hint" />
+                <div class="field-hint" id="dep-rate-hint">Не больше 50&nbsp;%</div>
+              </div>
             </div>
             <div class="field-row">
-            <div class="field">
-              <label for="sav-saved">Уже отложено, ₽</label>
-              <input id="sav-saved" type="text" inputmode="decimal" value="50 000" />
+              <div class="field">
+                <label for="dep-months">Срок, месяцев</label>
+                <input id="dep-months" type="text" inputmode="numeric" value="12" data-max="120" aria-describedby="dep-months-hint" />
+                <div class="field-hint" id="dep-months-hint">От 1 до 120</div>
+              </div>
+              <div class="field">
+                <label for="dep-topup">Пополнение в месяц, ₽</label>
+                <input id="dep-topup" type="text" inputmode="decimal" value="0" aria-describedby="dep-topup-hint" />
+                <div class="field-hint" id="dep-topup-hint">Если не пополняете — оставьте 0</div>
+              </div>
             </div>
             <div class="field">
-              <label for="sav-rate">Ставка, % годовых</label>
-              <input id="sav-rate" type="text" inputmode="decimal" value="0" data-decimal data-max="50" aria-describedby="sav-rate-hint" />
-              <div class="field-hint" id="sav-rate-hint">Если деньги лежат на вкладе или накопительном счёте. Не больше 50&nbsp;%</div>
-            </div>
+              <span class="field-label" id="dep-cap-label">Как начисляются проценты</span>
+              <div class="seg" id="dep-cap" role="group" aria-labelledby="dep-cap-label">
+                <button type="button" data-value="monthly" aria-pressed="true">Капитализация</button>
+                <button type="button" data-value="end" aria-pressed="false">В конце срока</button>
+              </div>
             </div>
             <div class="calc-foot">
               <span>Считается прямо в браузере — цифры никуда не отправляются.</span>
             </div>
           </form>
           <div class="tool-result" aria-live="polite">
-            <div class="tool-stack" id="sav-cushion-result">
+            <div class="tool-stack">
               <div>
-                <h2>Нужная подушка</h2>
-                <div class="calc-value" id="sav-target">—</div>
-                <div class="tool-sub" id="sav-target-note">—</div>
+                <h2>Получите в конце срока</h2>
+                <div class="calc-value" id="dep-final">—</div>
+                <div class="tool-sub" id="dep-final-note">—</div>
               </div>
               <div>
-                <h2>Накопите за</h2>
-                <div class="calc-value" id="sav-when">—</div>
-                <div class="tool-sub" id="sav-when-note">—</div>
+                <h2>Налог на проценты</h2>
+                <div class="calc-value" id="dep-tax">—</div>
+                <div class="tool-sub" id="dep-tax-note">—</div>
               </div>
-              <p class="tool-verdict" id="sav-year"></p>
-            </div>
-            <div class="tool-stack" id="sav-goal-result" hidden>
-              <div>
-                <h2>Откладывайте в месяц</h2>
-                <div class="calc-value" id="goal-monthly">—</div>
-                <div class="tool-sub" id="goal-note">—</div>
-              </div>
+              <ul class="schedule" id="dep-schedule"></ul>
+              <p class="tool-verdict" id="dep-verdict">—</p>
             </div>
           </div>
         </div>
@@ -142,20 +121,22 @@
     <section class="section" aria-labelledby="how-title">
       <div class="container">
         <div class="prose">
-          <h2 id="how-title">Сколько нужно на подушку</h2>
-          <p>Подушка безопасности — деньги на случай, если доход внезапно пропадёт: потеря работы, болезнь, простой в бизнесе. Обычно советуют запас на <strong>3–6 месяцев</strong> обычных расходов, а при нестабильном доходе (самозанятость, ИП, одна зарплата на семью) — на 6–12 месяцев.</p>
-          <p>Считайте от расходов, а не от дохода: важно, сколько нужно, чтобы прожить привычно, а не сколько вы сейчас зарабатываете.</p>
-          <h2>Как считаем</h2>
+          <h2 id="how-title">Как считаем</h2>
           <ul>
-            <li>Проценты начисляются раз в месяц на остаток и сразу добавляются к нему (капитализация), взнос — в конце месяца.</li>
-            <li>«Своя цель»: считаем, какой ежемесячный взнос вместе с процентами и уже отложенным даст нужную сумму к сроку.</li>
-            <li>Ставка по умолчанию — 0 %: так расчёт не зависит от условий банка. Укажите свою, если деньги лежат на вкладе или накопительном счёте.</li>
+            <li><strong>Проценты</strong> — раз в месяц: остаток × ставка ÷ 12. С капитализацией они добавляются к вкладу и сами приносят проценты; без неё выплачиваются в конце срока. Пополнение — в конце каждого месяца.</li>
+            <li><strong>Налог на проценты:</strong> не облагается доход за год до 1 млн ₽ × максимальная ключевая ставка ЦБ на 1-е число месяцев этого года. За 2025 год — 21 %, лимит 210 000 ₽. За 2026 год — 16 % (ставка на 1 января, дальше снижалась), лимит 160 000 ₽, если до конца года ставка не поднимется выше. Для 2027 года ставка неизвестна — берём нынешнюю, 14 %: лимит около 140 000 ₽.</li>
+            <li><strong>С превышения</strong> — 13 % (15 % — с части доходов от вкладов и ценных бумаг за год свыше 2,4 млн ₽).</li>
           </ul>
-          <p>Подушку держат там, откуда деньги можно быстро снять без потерь, отдельно от денег на текущие расходы — так их не потратишь случайно.</p>
+          <h2>Что учесть</h2>
+          <ul>
+            <li>Лимит общий на все вклады и счета в любых банках. Проценты по счетам со ставкой не выше 1 % не учитываются.</li>
+            <li>Банк налог не удерживает: налоговая пришлёт уведомление, заплатить нужно до 1 декабря следующего года.</li>
+            <li>Банки начисляют проценты по дням — их цифры могут немного отличаться.</li>
+            <li>Вклады застрахованы государством до 1,4 млн ₽ в одном банке.</li>
+          </ul>
         </div>
       </div>
     </section>
-
     <section class="section section-tint" aria-labelledby="more-title">
       <div class="container">
         <div class="section-head">
@@ -163,16 +144,16 @@
           <p>Тоже бесплатные и без регистрации: всё считается прямо в браузере.</p>
         </div>
         <div class="soon-grid">
-          <a class="soon-card" href="/kalkulyator-vklada/">
-            <span class="kicker">Вклады</span>
-            <h3>Доход по вкладу и налог</h3>
-            <p>Проценты с капитализацией и без, пополнения и налог на доход по вкладам.</p>
+          <a class="soon-card" href="/podushka-bezopasnosti/">
+            <span class="kicker">Накопления</span>
+            <h3>Подушка безопасности и цель</h3>
+            <p>Сколько нужно отложить и за какой срок получится.</p>
             <span class="soon-tag is-open">Открыть</span>
           </a>
-          <a class="soon-card" href="/skolko-mozhno-tratit/">
-            <span class="kicker">До зарплаты</span>
-            <h3>Сколько можно тратить в день</h3>
-            <p>Остаток на карте, обязательные платежи и дни до зарплаты — и готово.</p>
+          <a class="soon-card" href="/kalkulyator-ndfl/">
+            <span class="kicker">Зарплата</span>
+            <h3>НДФЛ и зарплата на руки</h3>
+            <p>Сколько останется после налога по прогрессивной шкале 2026 года.</p>
             <span class="soon-tag is-open">Открыть</span>
           </a>
           <a class="soon-card" href="/dosrochnoe-pogashenie/">

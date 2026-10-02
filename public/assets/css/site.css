@@ -1427,6 +1427,87 @@ a.soon-card:hover {
   font-variant-numeric: tabular-nums;
 }
 
+/* Списки сроков внутри текста (налоговый календарь) */
+.prose .schedule {
+  gap: 0;
+  padding-left: 0;
+}
+
+.prose .schedule li {
+  font-size: 16px;
+}
+
+/* Абзацы в правой колонке калькулятора */
+.tool-result > p:not(.tool-verdict):not(.tool-note) {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+/* Полоса «текст + кнопка» (калькуляторы на главной, приложение на странице калькуляторов) */
+.calc-teaser {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.calc-teaser .calc-feature-copy {
+  max-width: 720px;
+}
+
+/* Кнопка «Все калькуляторы» под карточками */
+.more-all {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* Печать и PDF налогового календаря: только содержимое */
+.print-only {
+  display: none;
+}
+
+@media print {
+  .print-only {
+    display: block;
+  }
+
+  .print-brand {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0b5d46;
+  }
+
+  .site-header,
+  .site-footer,
+  .cta,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff;
+  }
+
+  .tool-hero,
+  .section {
+    padding: 12px 0;
+  }
+
+  .prose {
+    max-width: none;
+  }
+
+  .schedule li {
+    break-inside: avoid;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
 /* ── Адаптивность ───────────────────────────────────────────────────── */
 
 @media (max-width: 1100px) {
@@ -1804,5 +1885,22 @@ a.soon-card:hover {
 
   .notfound h1 {
     font-size: 30px;
+  }
+}
+
+/* Страница калькуляторов: все карточки одной сеткой по 4 в ряд */
+.soon-grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1100px) {
+  .soon-grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .soon-grid-4 {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
