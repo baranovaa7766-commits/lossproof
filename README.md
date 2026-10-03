@@ -224,6 +224,12 @@ powershell -ExecutionPolicy Bypass -File scripts\serve.ps1
     - `X-Frame-Options`: `DENY`
     - `Referrer-Policy`: `strict-origin-when-cross-origin`
     - `Permissions-Policy`: `camera=(), microphone=(), geolocation=(), payment=()`
+    - `Cache-Control`: `no-cache` (только Timeweb, с 2026-10-02) — браузер
+      хранит копию, но перед показом сверяется с сервером по `ETag`, поэтому
+      после выкладки сразу видна новая версия. Без этого заголовка браузеры
+      часами показывали старую главную. Правило действует на все файлы, в
+      панели нельзя задать его только для страниц; неизменённые файлы
+      отдаются ответом 304 без повторной загрузки.
   - Запрет встраивать сайт в чужие страницы (`frame-ancestors`,
     `X-Frame-Options`) работает только из заголовков сервера: браузеры
     игнорируют его в `<meta>`.
