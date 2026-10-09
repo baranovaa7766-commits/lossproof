@@ -5,12 +5,12 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Калькулятор досрочного погашения кредита: сократить срок или платёж | LossProof</title>
-  <meta name="description" content="Посчитайте, сколько сэкономите на процентах при досрочном погашении кредита или ипотеки и что выгоднее — сократить срок или уменьшить платёж. Бесплатно, без регистрации." />
-  <link rel="canonical" href="https://lossproof.ru/dosrochnoe-pogashenie/" />
-  <meta property="og:url" content="https://lossproof.ru/dosrochnoe-pogashenie/" />
-  <meta property="og:title" content="Досрочное погашение: сократить срок или платёж? — LossProof" />
-  <meta property="og:description" content="Посчитайте, сколько сэкономите на процентах при досрочном погашении кредита или ипотеки и что выгоднее — сократить срок или уменьшить платёж. Бесплатно, без регистрации." />
+  <title>Калькулятор кредитной карты: льготный период, платёж и переплата | LossProof</title>
+  <meta name="description" content="Посчитайте, сколько откладывать в день, чтобы вернуть долг по кредитной карте без процентов, или за сколько месяцев закроете карту частями и сколько переплатите. Бесплатно, без регистрации." />
+  <link rel="canonical" href="https://lossproof.ru/kalkulyator-kreditnoj-karty/" />
+  <meta property="og:url" content="https://lossproof.ru/kalkulyator-kreditnoj-karty/" />
+  <meta property="og:title" content="Кредитная карта: вернуть без процентов или гасить частями — LossProof" />
+  <meta property="og:description" content="Посчитайте, сколько откладывать в день, чтобы вернуть долг по кредитной карте без процентов, или за сколько месяцев закроете карту частями и сколько переплатите. Бесплатно, без регистрации." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:image" content="https://lossproof.ru/assets/og-image.png" />
@@ -28,7 +28,7 @@
   <link rel="preload" href="/assets/fonts/pt-serif-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/css/site.css" />
   <script src="/assets/js/calc-common.js" defer></script>
-  <script src="/assets/js/loan.js" defer></script>
+  <script src="/assets/js/card.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -59,76 +59,79 @@
             <span class="badge badge-accent">Бесплатно</span>
             <span class="badge">Без регистрации</span>
           </div>
-          <h1 id="page-title">Досрочное погашение кредита: что выгоднее</h1>
-          <p class="lead">Сравните два варианта — сократить срок или уменьшить платёж — и узнайте, сколько сэкономите на процентах.</p>
+          <h1 id="page-title">Калькулятор кредитной карты: без процентов или частями</h1>
+          <p class="lead">Узнайте, сколько откладывать в день, чтобы вернуть долг до конца льготного периода, — или за сколько месяцев закроете карту частями и сколько переплатите.</p>
         </div>
         <div class="tool-grid">
-          <form class="calc" id="loan-form" autocomplete="off" aria-label="Калькулятор досрочного погашения">
-            <div class="field">
-              <label for="loan-balance">Остаток долга, ₽</label>
-              <input id="loan-balance" type="text" inputmode="decimal" value="1 500 000" aria-describedby="loan-balance-hint" />
-              <div class="field-hint" id="loan-balance-hint">Сколько осталось вернуть банку — видно в приложении банка</div>
-            </div>
-            <div class="field-row">
-            <div class="field">
-              <label for="loan-rate">Ставка, % годовых</label>
-              <input id="loan-rate" type="text" inputmode="decimal" value="18" data-decimal data-max="300" aria-describedby="loan-rate-hint" />
-              <div class="field-hint" id="loan-rate-hint">Не больше 300&nbsp;% — это предел даже для микрозаймов</div>
+          <form class="calc" id="card-form" autocomplete="off" aria-label="Калькулятор кредитной карты">
+            <div class="seg" id="card-mode" role="group" aria-label="Как гасите карту">
+              <button type="button" data-value="full" aria-pressed="true">Без процентов</button>
+              <button type="button" data-value="parts" aria-pressed="false">Частями</button>
             </div>
             <div class="field">
-              <label for="loan-months">Осталось платежей</label>
-              <input id="loan-months" type="text" inputmode="numeric" value="120" aria-describedby="loan-months-hint" />
-              <div class="field-hint" id="loan-months-hint">В месяцах: 10 лет — это 120</div>
+              <label for="card-debt" id="card-debt-label">Сколько вернуть, ₽</label>
+              <input id="card-debt" type="text" inputmode="decimal" value="60 000" aria-describedby="card-debt-hint" />
+              <div class="field-hint" id="card-debt-hint">Сумма платежа без процентов — в приложении банка</div>
             </div>
+            <div class="field" id="card-date-field">
+              <label for="card-date">Льготный период заканчивается</label>
+              <input id="card-date" type="date" aria-describedby="card-date-hint" />
+              <div class="field-hint" id="card-date-hint">Дата — там же, рядом с суммой</div>
+            </div>
+            <div class="field" id="card-pay-field" hidden>
+              <label for="card-pay">Вношу в месяц, ₽</label>
+              <input id="card-pay" type="text" inputmode="decimal" value="5 000" aria-describedby="card-pay-hint" />
+              <div class="field-hint" id="card-pay-hint">Не меньше минимального платежа — он есть в приложении банка</div>
             </div>
             <div class="field">
-              <label for="loan-extra">Досрочный платёж, ₽</label>
-              <input id="loan-extra" type="text" inputmode="decimal" value="200 000" aria-describedby="loan-extra-hint" />
-              <div class="field-hint" id="loan-extra-hint">Разовый: внесёте сейчас, до ближайшего платежа</div>
-            </div>
-            <div class="field">
-              <label for="loan-monthly">Добавлять каждый месяц, ₽</label>
-              <input id="loan-monthly" type="text" inputmode="decimal" value="0" aria-describedby="loan-monthly-hint" />
-              <div class="field-hint" id="loan-monthly-hint">Необязательно: сколько готовы платить сверх графика</div>
+              <label for="card-rate">Ставка, % годовых</label>
+              <input id="card-rate" type="text" inputmode="decimal" value="50" data-decimal data-max="300" aria-describedby="card-rate-hint" />
+              <div class="field-hint" id="card-rate-hint">Есть в договоре или в приложении банка. Не больше 300&nbsp;%</div>
             </div>
             <div class="calc-foot">
               <span>Считается прямо в браузере — цифры никуда не отправляются.</span>
             </div>
           </form>
           <div class="tool-result" aria-live="polite">
-            <p class="tool-hint" id="loan-empty" hidden>Укажите остаток долга и сколько платежей осталось.</p>
-            <div class="tool-stack" id="loan-result">
+            <p class="tool-hint" id="card-empty" hidden>Укажите сумму долга.</p>
+            <div class="tool-stack" id="card-full-result">
               <div>
-                <h2>Ваш платёж сейчас</h2>
-                <div class="calc-value" id="loan-payment">—</div>
-                <div class="tool-sub">Переплата по процентам без досрочных платежей — <span id="loan-overpay">—</span></div>
+                <h2 id="card-day-title">Откладывайте в день</h2>
+                <div class="calc-value" id="card-day">—</div>
+                <div class="tool-sub" id="card-day-note">—</div>
               </div>
-              <p class="tool-verdict" id="loan-closed" hidden>Досрочный платёж закрывает кредит полностью. Экономия на процентах — <span id="loan-closed-save">—</span>.</p>
-              <div class="tool-stack" id="loan-compare">
-                <div class="compare">
-                  <article class="option" id="loan-opt-term">
-                    <h3>Сократить срок</h3>
-                    <div class="option-value" id="loan-term-save">—</div>
-                    <div class="option-sub">экономия на процентах</div>
-                    <dl>
-                      <div><dt>Срок</dt><dd id="loan-term-months">—</dd></div>
-                      <div><dt>Платёж</dt><dd id="loan-term-pay">—</dd></div>
-                      <div><dt>Проценты</dt><dd id="loan-term-interest">—</dd></div>
-                    </dl>
-                  </article>
-                  <article class="option" id="loan-opt-pay">
-                    <h3>Уменьшить платёж</h3>
-                    <div class="option-value" id="loan-pay-save">—</div>
-                    <div class="option-sub">экономия на процентах</div>
-                    <dl>
-                      <div><dt>Срок</dt><dd id="loan-pay-months">—</dd></div>
-                      <div><dt>Платёж</dt><dd id="loan-pay-pay">—</dd></div>
-                      <div><dt>Проценты</dt><dd id="loan-pay-interest">—</dd></div>
-                    </dl>
-                  </article>
-                </div>
-                <p class="tool-verdict" id="loan-verdict">—</p>
+              <p class="tool-verdict" id="card-full-verdict">—</p>
+            </div>
+            <div class="tool-stack" id="card-parts-result" hidden>
+              <div id="card-term-block">
+                <h2>Закроете карту за</h2>
+                <div class="calc-value" id="card-term">—</div>
+                <div class="tool-sub" id="card-term-note">—</div>
               </div>
+              <p class="tool-note" id="card-stuck" hidden></p>
+              <div class="compare" id="card-compare">
+                <article class="option">
+                  <h3 id="card-a-title">Добавить</h3>
+                  <div class="option-value" id="card-a-term">—</div>
+                  <div class="option-sub" id="card-a-faster">—</div>
+                  <dl>
+                    <div><dt>Платёж</dt><dd id="card-a-pay">—</dd></div>
+                    <div><dt>Переплата</dt><dd id="card-a-interest">—</dd></div>
+                    <div><dt>Экономия</dt><dd id="card-a-save">—</dd></div>
+                  </dl>
+                </article>
+                <article class="option">
+                  <h3 id="card-b-title">Добавить</h3>
+                  <div class="option-value" id="card-b-term">—</div>
+                  <div class="option-sub" id="card-b-faster">—</div>
+                  <dl>
+                    <div><dt>Платёж</dt><dd id="card-b-pay">—</dd></div>
+                    <div><dt>Переплата</dt><dd id="card-b-interest">—</dd></div>
+                    <div><dt>Экономия</dt><dd id="card-b-save">—</dd></div>
+                  </dl>
+                </article>
+              </div>
+              <p class="tool-verdict" id="card-parts-verdict">—</p>
             </div>
           </div>
         </div>
@@ -138,21 +141,32 @@
     <section class="section" aria-labelledby="how-title">
       <div class="container">
         <div class="prose">
-          <h2 id="how-title">Как считаем</h2>
-          <p>У большинства кредитов и ипотек <strong>аннуитетный платёж</strong> — одинаковый каждый месяц. В начале срока бо́льшая его часть уходит на проценты, потому что они начисляются на весь остаток долга. Досрочный платёж сразу уменьшает этот остаток — и все будущие проценты вместе с ним.</p>
-          <p class="formula">Платёж = остаток × i ÷ (1 − (1 + i)<sup>−n</sup>), где i — ставка ÷ 12, n — число оставшихся платежей</p>
-          <h2>Сократить срок или уменьшить платёж</h2>
+          <h2 id="how-title">Как работает льготный период</h2>
+          <p>Льготный, или беспроцентный, период — время, когда банк не берёт проценты за покупки по кредитной карте. Чтобы он сработал, до его окончания нужно вернуть потраченное <strong>целиком</strong>, а до тех пор каждый месяц вносить минимальный платёж.</p>
+          <p>Банки считают период по-разному:</p>
           <ul>
-            <li><strong>Сократить срок:</strong> платёж остаётся прежним, кредит закончится раньше. Экономия на процентах больше.</li>
-            <li><strong>Уменьшить платёж:</strong> срок прежний, платёж меньше. Экономии меньше, зато легче ежемесячному бюджету.</li>
+            <li><strong>По расчётным периодам.</strong> Месяц вы тратите, затем банк присылает выписку и даёт время вернуть сумму из неё — например, около 25 дней. Отсюда «до 55 дней»: покупка сразу после выписки получает почти два месяца, перед следующей — меньше одного.</li>
+            <li><strong>От первой покупки.</strong> Период — например, 60 или 100 дней — открывается первой покупкой, и все следующие покупки попадают в него же. Новый период начнётся, когда долг погашен полностью.</li>
           </ul>
-          <p>Если платёж посильный, обычно выгоднее сокращать срок. Уменьшать платёж есть смысл, когда важнее свободные деньги каждый месяц — например, чтобы собрать подушку безопасности.</p>
+          <p>Цифра в рекламе карты — это максимум: сколько дней получится на самом деле, зависит от даты покупки. Точную дату и сумму платежа без процентов банк показывает в своём приложении — возьмите их оттуда.</p>
+          <h2>Что такое минимальный платёж</h2>
+          <p>Минимальный платёж — небольшая часть долга, обычно несколько процентов, которую банк просит вносить каждый месяц. Он сохраняет льготный период и защищает от штрафа за просрочку, но проценты не отменяет: чтобы их не было, к концу льготного периода нужно вернуть всю сумму, которую показывает банк.</p>
+          <p>Сумму банк пересчитывает каждый месяц: долг уменьшается — уменьшается и минимальный платёж. Поэтому на одних минимальных платежах карта закрывается дольше, чем при постоянной сумме.</p>
+          <h2>Как считаем</h2>
+          <ul>
+            <li><strong>Без процентов:</strong> сумму делим на число дней до конца льготного периода и округляем вверх до рубля — к сроку наберётся вся сумма.</li>
+            <li><strong>Частями:</strong> каждый месяц проценты начисляются на остаток долга. Из платежа сначала вычитаются проценты, остальное уменьшает долг.</li>
+          </ul>
+          <p class="formula">Проценты за месяц = остаток долга × ставка ÷ 12</p>
           <h2>Что учесть</h2>
           <ul>
-            <li>Банк начисляет проценты по дням, поэтому его цифры могут немного отличаться от расчёта.</li>
-            <li>Калькулятор считает аннуитетные платежи. При дифференцированных платежах суммы будут другими.</li>
-            <li>Как подать заявление на досрочное погашение и за сколько дней предупредить банк, написано в договоре. Обычно это делается в приложении банка.</li>
+            <li>Банк считает проценты по дням, поэтому его цифры могут немного отличаться от расчёта.</li>
+            <li>Снятие наличных и переводы с кредитной карты часто не входят в льготный период: проценты на них идут с первого дня, и бывает комиссия. Это написано в тарифе карты.</li>
+            <li>Вносите деньги за день-два до срока: перевод из другого банка может идти дольше обычного.</li>
+            <li>Если пропустить минимальный платёж, льготный период обычно прекращается, а банк начисляет неустойку.</li>
+            <li>Расчёт «Частями» предполагает, что новых покупок по карте нет.</li>
           </ul>
+          <p>В приложении LossProof кредитная карта учитывается в «Можно тратить сегодня»: вы один раз отвечаете, как гасите карту — целиком или частями, — и число на день считается уже с учётом платежа к его дате.</p>
         </div>
       </div>
     </section>
@@ -164,10 +178,10 @@
           <p>Тоже бесплатные и без регистрации: всё считается прямо в браузере.</p>
         </div>
         <div class="soon-grid">
-          <a class="soon-card" href="/kalkulyator-kreditnoj-karty/">
-            <span class="kicker">Кредитка</span>
-            <h3>Кредитная карта без процентов</h3>
-            <p>Сколько откладывать до конца льготного периода или за сколько закроете частями.</p>
+          <a class="soon-card" href="/dosrochnoe-pogashenie/">
+            <span class="kicker">Кредит</span>
+            <h3>Досрочное погашение</h3>
+            <p>Сколько сэкономите на процентах и что выгоднее: сократить срок или платёж.</p>
             <span class="soon-tag is-open">Открыть</span>
           </a>
           <a class="soon-card" href="/skolko-mozhno-tratit/">
