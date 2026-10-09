@@ -35,11 +35,9 @@
     var now = new Date();
     var balance = sum;
     var pending = 0; // проценты без капитализации копятся и выплачиваются в конце срока
-    var interest = 0;
     var byYear = {};
     for (var i = 0; i < n; i++) {
       var inc = balance * (rate / 12);
-      interest += inc;
       var paidAt = new Date(now.getFullYear(), now.getMonth() + i + 1, 1);
       if (cap) {
         balance += inc;
@@ -56,22 +54,27 @@
     var deposited = sum + topup * (n - 1);
     var final = balance + (cap ? 0 : pending);
 
+    // На экране всё в целых рублях и складывается из округлённых сумм — чтобы цифры
+    // сходились. Налог и по закону считают в полных рублях (п. 6 ст. 52 НК РФ).
+    var interest = 0;
     var tax = 0;
     var taxRows = [];
     Object.keys(byYear)
       .sort()
       .forEach(function (y) {
-        var inc = byYear[y];
+        var inc = Math.round(byYear[y]);
         var lim = limitFor(Number(y));
-        var t = Math.max(0, inc - lim) * 0.13;
+        var t = Math.round(Math.max(0, inc - lim) * 0.13);
+        interest += inc;
         tax += t;
         taxRows.push([y + " год", "Проценты " + LP.rub(inc) + ", без налога до " + LP.rub(lim) + (Number(y) > 2026 ? " (оценка)" : "") + (t > 0 ? " → налог " + LP.rub(t) : " → налога нет")]);
       });
+    var shown = Math.round(deposited) + interest;
 
-    LP.set("dep-final", LP.rub(final));
+    LP.set("dep-final", LP.rub(shown));
     LP.set("dep-final-note", "Внесёте " + LP.rub(deposited) + ", проценты — " + LP.rub(interest) + " за " + LP.duration(n));
     LP.set("dep-tax", LP.rub(tax));
-    LP.set("dep-tax-note", tax > 0 ? "После налога останется " + LP.rub(final - tax) + ". Банк сам налог не удерживает — его пришлёт налоговая в следующем году" : "Проценты не больше необлагаемого лимита — если других вкладов нет");
+    LP.set("dep-tax-note", tax > 0 ? "После налога останется " + LP.rub(shown - tax) + ". Банк сам налог не удерживает — его пришлёт налоговая в следующем году" : "Проценты не больше необлагаемого лимита — если других вкладов нет");
 
     var list = document.getElementById("dep-schedule");
     list.textContent = "";

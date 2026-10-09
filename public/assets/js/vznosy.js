@@ -66,15 +66,19 @@
     // База для 1 %: УСН «Доходы» — доход; «Доходы минус расходы» — разница; патент — потенциальный доход по патенту.
     var base = regime === "usn15" ? income - expenses : regime === "patent" ? patent : income;
     var extra = Math.min(Y.extraMax, Math.max(0, (base - THRESHOLD) * 0.01));
-    var total = fixed + extra;
+    // На экране всё в целых рублях, а итог складывается из округлённых частей —
+    // чтобы суммы сходились. Точная сумма с копейками — в личном кабинете налоговой.
+    var fixedShown = Math.round(fixed);
+    var extraShown = Math.round(extra);
+    var total = fixedShown + extraShown;
 
     LP.set("vz-title", "Взносы за " + year + " год");
     LP.set("vz-total", LP.rub(total));
     LP.set("vz-month", "≈ " + LP.rub(total / 12) + " в месяц, если откладывать понемногу");
 
     var rows = [];
-    rows.push(["до " + due(year, 11, 28), "Фиксированные взносы: " + LP.rub(fixed) + (ys.share < 1 ? " (с " + ys.from + ", пропорционально)" : "")]);
-    if (extra > 0) rows.push(["до " + due(year + 1, 6, 1), "1 % с " + (regime === "usn15" ? "разницы доходов и расходов" : regime === "patent" ? "потенциального дохода по патенту" : "дохода") + " свыше 300 000 ₽: " + LP.rub(extra) + (extra >= Y.extraMax ? " — это максимум" : "")]);
+    rows.push(["до " + due(year, 11, 28), "Фиксированные взносы: " + LP.rub(fixedShown) + (ys.share < 1 ? " (с " + ys.from + ", пропорционально)" : "")]);
+    if (extra > 0) rows.push(["до " + due(year + 1, 6, 1), "1 % с " + (regime === "usn15" ? "разницы доходов и расходов" : regime === "patent" ? "потенциального дохода по патенту" : "дохода") + " свыше 300 000 ₽: " + LP.rub(extraShown) + (extra >= Y.extraMax ? " — это максимум" : "")]);
     else rows.push(["1 % с дохода", "Не нужен: " + (regime === "usn15" ? "разница доходов и расходов" : regime === "patent" ? "потенциальный доход по патенту" : "доход") + " не больше 300 000 ₽"]);
     var list = document.getElementById("vz-schedule");
     list.textContent = "";
@@ -91,7 +95,7 @@
 
     var verdict;
     if (regime === "usn6") {
-      var tax = income * 0.06;
+      var tax = Math.round(income * 0.06);
       verdict = "На УСН «Доходы» ИП без работников уменьшает налог на все взносы: " + LP.rub(tax) + " − " + LP.rub(total) + " = " + LP.rub(Math.max(0, tax - total)) + " налога за год.";
     } else if (regime === "usn15") {
       verdict = "На УСН «Доходы минус расходы» взносы входят в расходы и уменьшают базу для налога 15 %.";

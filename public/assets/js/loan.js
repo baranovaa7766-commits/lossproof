@@ -80,8 +80,10 @@
     var P2 = annuity(rest, r, N);
     var pay = simulate(rest, r, P2, M, "payment", N);
 
-    var saveTerm = base.interest - term.interest;
-    var savePay = base.interest - pay.interest;
+    // Из округлённых сумм: на экране проценты, платежи и экономия должны сходиться до рубля.
+    var saveTerm = Math.round(base.interest) - Math.round(term.interest);
+    var savePay = Math.round(base.interest) - Math.round(pay.interest);
+    var lessPay = Math.round(P0) - Math.round(P2);
 
     LP.set("loan-term-save", LP.rub(saveTerm));
     LP.set("loan-term-months", LP.duration(term.months) + (term.months < N ? " (на " + LP.duration(N - term.months) + " меньше)" : ""));
@@ -90,7 +92,7 @@
 
     LP.set("loan-pay-save", LP.rub(savePay));
     LP.set("loan-pay-months", LP.duration(pay.months));
-    LP.set("loan-pay-pay", LP.rub(P2) + (P2 < P0 ? " (на " + LP.rub(P0 - P2) + " меньше)" : ""));
+    LP.set("loan-pay-pay", LP.rub(P2) + (lessPay > 0 ? " (на " + LP.rub(lessPay) + " меньше)" : ""));
     LP.set("loan-pay-interest", LP.rub(pay.interest));
 
     var diff = saveTerm - savePay;
