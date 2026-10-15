@@ -1050,7 +1050,8 @@ a:hover {
   max-width: 640px;
 }
 
-.app-hero h1 {
+.app-hero h1,
+.app-hero h2 {
   font-size: 56px;
   line-height: 1.08;
   font-weight: 700;
@@ -1121,6 +1122,31 @@ a.soon-card:hover {
 .back-link svg {
   width: 16px;
   height: 16px;
+}
+
+/* Главная: ссылка на все калькуляторы под калькулятором числа на день */
+.more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 20px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.more-link svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.more-link:hover {
+  border-color: currentColor;
 }
 
 .tool-head {
@@ -1594,7 +1620,8 @@ a.soon-card:hover {
     gap: 20px;
   }
 
-  .app-hero h1 {
+  .app-hero h1,
+  .app-hero h2 {
     font-size: 34px;
     line-height: 1.1;
   }

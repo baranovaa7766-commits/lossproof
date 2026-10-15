@@ -59,7 +59,7 @@
             <span class="badge">Без регистрации</span>
           </div>
           <h1 id="page-title">Сколько можно тратить в день до зарплаты</h1>
-          <p class="lead">Остаток на карте, обязательные платежи и дни до зарплаты — и вы знаете свой лимит на сегодня.</p>
+          <p class="lead">Остаток на карте, обязательные платежи и день зарплаты — и вы знаете свой лимит на сегодня.</p>
         </div>
         <div class="tool-grid">
           <form class="calc" id="spend-form" autocomplete="off" aria-label="Калькулятор трат до зарплаты">
@@ -74,16 +74,16 @@
                 <div class="field-hint" id="spend-fixed-hint">Аренда, кредит, связь — всё, что спишется до зарплаты</div>
               </div>
               <div class="field">
-                <label for="spend-days">Дней до зарплаты</label>
-                <input id="spend-days" name="days" type="text" inputmode="numeric" value="12" aria-describedby="spend-days-hint" />
-                <div class="field-hint" id="spend-days-hint">Не больше 62</div>
+                <label for="spend-payday">Зарплата приходит</label>
+                <input id="spend-payday" name="payday" type="text" inputmode="numeric" value="25" maxlength="2" aria-describedby="spend-payday-hint" />
+                <div class="field-hint" id="spend-payday-hint">Число месяца, от 1 до 31</div>
               </div>
             </div>
             <div class="calc-result" aria-live="polite">
               <div class="calc-result-label">Можно тратить в день</div>
               <div id="spend-ok">
-                <div class="calc-value" id="spend-per-day">2&nbsp;708&nbsp;₽</div>
-                <div class="calc-explain" id="spend-explain">(42&nbsp;000&nbsp;₽ − 9&nbsp;500&nbsp;₽) ÷ 12&nbsp;дней</div>
+                <div class="calc-value" id="spend-per-day">—</div>
+                <div class="calc-explain" id="spend-explain">(остаток − платежи) ÷ дни до зарплаты</div>
               </div>
               <div id="spend-short" hidden>
                 <div class="calc-value calc-value-warn">Не хватает <span id="spend-gap">0&nbsp;₽</span></div>
@@ -114,6 +114,8 @@
           <h2 id="how-title">Как считаем</h2>
           <ul>
             <li><strong>Формула:</strong> (остаток на карте − обязательные платежи до зарплаты) ÷ дни до зарплаты.</li>
+            <li>Дни считаем от сегодня до дня зарплаты: сегодня входит, день зарплаты — нет. Если зарплата сегодня или уже была в этом месяце, считаем до следующей.</li>
+            <li>Если день выплаты выпадает на выходной или праздник, зарплату платят накануне, в последний рабочий день (статья 136 Трудового кодекса). Так и считаем.</li>
             <li>Результат округляем вниз до рубля, чтобы оставался небольшой запас.</li>
             <li>Если платежи больше остатка, калькулятор покажет, сколько не хватает.</li>
           </ul>
